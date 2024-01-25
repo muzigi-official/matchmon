@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import type { RootState } from '../../redux/store';
-import { logIn, logOut } from '../../redux/module/user';
-import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import type { RootState } from 'src/redux/store';
+import { logIn, logOut } from 'src/redux/module/user';
+import { useAppSelector, useAppDispatch } from 'src/redux/hooks';
 import { Button } from '@mui/material';
 
 export default function Main() {
