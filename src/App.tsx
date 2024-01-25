@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -13,6 +14,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <Router />
+          <ToastContainer />
         </BrowserRouter>
       </Provider>
     </>
