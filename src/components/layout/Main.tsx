@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import ButtonAppBar from './ButtonAppbar';
-import TemporaryDrawer from './TemporaryDrawer';
+import LeftDrawer from './LeftDrawer';
 import { Box } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export default function MainLayout({ children }: Props) {
+export default function MainLayout() {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <Box width={'100%'}>
       <ButtonAppBar onClickMenu={() => setOpen(true)} />
-      <TemporaryDrawer open={open} setOpen={setOpen} />
-      {children}
+      <LeftDrawer open={open} setOpen={setOpen} />
+      <Outlet />
     </Box>
   );
 }
