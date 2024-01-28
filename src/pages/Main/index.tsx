@@ -15,7 +15,6 @@ export default function Main() {
   const handleLogout = () => {
     dispatch(logOut());
   };
-
   return (
     <>
       {isSignIn ? (
