@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx,js,jsx}'",
-    "format": "prettier --write --cache ."
+    "format": "prettier --write --cache .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -28,6 +30,14 @@
     "redux": "^5.0.1"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.12",
+    "@storybook/addon-interactions": "^7.6.12",
+    "@storybook/addon-links": "^7.6.12",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/blocks": "^7.6.12",
+    "@storybook/react": "^7.6.12",
+    "@storybook/react-vite": "^7.6.12",
+    "@storybook/test": "^7.6.12",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.11.6",
     "@types/react": "^18.2.43",
@@ -43,8 +53,10 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-storybook": "^0.6.15",
     "prettier": "^3.2.4",
     "prettier-eslint": "^16.3.0",
+    "storybook": "^7.6.12",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-tsconfig-paths": "^4.3.1"
