@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 
 import { Stack, Box, Pagination } from '@mui/material';
-import BasicTable from 'src/components/table/BasicTable';
-import BasicSelect from 'src/components/select/BasicSelect';
-import ConfirmDialog from 'src/components/dialog/Confirm';
-import EditDialog from 'src/pageComponent/Player/EditDialog';
+import BasicTable from '@/components/table/BasicTable';
+import BasicSelect from '@/components/select/BasicSelect';
+import ConfirmDialog from '@/components/dialog/Confirm';
+import EditDialog from '@/pageComponent/Player/EditDialog';
 
-const headerSample = ['이름', '선출여부', '성별', '연령대', '프사', '대표팀'];
 const tableHeader = ['이름', '선출여부', '성별', '연령대', '대표팀'];
 
 const makeRow = (이름: string, 선출여부: string, 성별: string, 연령대: string, 프사: string, 대표팀: string) => {
