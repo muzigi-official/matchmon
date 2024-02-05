@@ -28,6 +28,9 @@ export const getDesignTokens = (mode: PaletteMode | undefined) =>
               primary: grey[900],
               secondary: grey[800],
             },
+            background: {
+              dark: grey[100],
+            },
           }
         : {
             primary: {
@@ -53,7 +56,7 @@ export const getDesignTokens = (mode: PaletteMode | undefined) =>
         fontFamily: 'Poppins, Arial, sans-serif',
       },
     },
-  } as Theme);
+  }) as Theme;
 
 export const getThemedComponents = (mode: PaletteMode | undefined) =>
   ({
@@ -137,4 +140,4 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
             },
           }),
     },
-  } as Theme);
+  }) as Theme;

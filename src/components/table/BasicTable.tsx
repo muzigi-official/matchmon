@@ -6,18 +6,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-interface Row {
-  [key: string]: string;
-}
+import { Button } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 interface Props {
   header: string[];
-  rows: Row[];
+  rows: PlayerData[];
+  onClickModify: (row: PlayerData) => void;
+  onClickDelete: (row: PlayerData) => void;
 }
 
 export default function BasicTable(props: Props) {
-  const { header, rows } = props;
+  const { header, rows, onClickModify, onClickDelete } = props;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -28,6 +28,7 @@ export default function BasicTable(props: Props) {
                 {headerName}
               </TableCell>
             ))}
+            <TableCell align='center'></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,6 +39,20 @@ export default function BasicTable(props: Props) {
                   {row[headerName]}
                 </TableCell>
               ))}
+              <TableCell align='center' width='200px'>
+                <Grid container spacing={2} display='flex' justifyItems={'center'}>
+                  <Grid>
+                    <Button size='small' onClick={() => onClickModify(row)} variant='outlined'>
+                      수정
+                    </Button>
+                  </Grid>
+                  <Grid>
+                    <Button size='small' onClick={() => onClickDelete(row)} variant='contained'>
+                      삭제
+                    </Button>
+                  </Grid>
+                </Grid>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
