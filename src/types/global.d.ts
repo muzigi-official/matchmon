@@ -4,3 +4,6 @@ declare interface YoutubeFormat {
   description: string;
   thumbnailUrl: string;
 }
+
+type Anchor = 'top' | 'left' | 'bottom' | 'right';
+type Gender = 'Male' | 'Female' | '혼성';
