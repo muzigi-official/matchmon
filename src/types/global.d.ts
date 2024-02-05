@@ -5,6 +5,9 @@ declare interface YoutubeFormat {
   thumbnailUrl: string;
 }
 
+type Anchor = 'top' | 'left' | 'bottom' | 'right';
+type Gender = 'Male' | 'Female' | '혼성';
+
 declare interface PlayerData {
   [key: string]: string;
   이름: string;

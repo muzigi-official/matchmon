@@ -4,13 +4,19 @@ import LeftDrawer from './LeftDrawer';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
+const styles = {
+  padding: '0 20px',
+};
+
 export default function MainLayout() {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <Box width={'100%'}>
       <ButtonAppBar onClickMenu={() => setOpen(true)} />
       <LeftDrawer open={open} setOpen={setOpen} />
-      <Outlet />
+      <main style={styles}>
+        <Outlet />
+      </main>
     </Box>
   );
 }

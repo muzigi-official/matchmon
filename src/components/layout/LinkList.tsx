@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { ListItemProps } from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -34,7 +33,7 @@ function ListItemLink(props: ListItemLinkProps) {
 
   return (
     <li>
-      <ListItemButton component={RouterLink as any} to={to} {...other}>
+      <ListItemButton component={RouterLink} to={to} {...other}>
         <ListItemText primary={primary} />
         {icon}
       </ListItemButton>
