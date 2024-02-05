@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
+      '@mui/styled-engine': '@mui/styled-engine-sc',
       src: '/src',
       components: '/src/components',
     },
