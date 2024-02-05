@@ -5,7 +5,7 @@ import MainLayout from 'src/components/layout/Main';
 
 const Main = lazy(() => import('../pages/Main'));
 const Competition = lazy(() => import('../pages/Competition'));
-const Team = lazy(() => import('../pages/Team'));
+const Team = lazy(() => import('../pages/Team/TeamPage'));
 const Player = lazy(() => import('../pages/Player'));
 const Ranking = lazy(() => import('../pages/Ranking'));
 const Bracket = lazy(() => import('../pages/Bracket'));
