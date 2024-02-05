@@ -19,6 +19,11 @@ const rows = [
   createData('먼데 FC', '', '인천', 'Female'),
   createData('FS 우르르', '', '안산', 'Female'),
 ];
+/* TODO:FIXME:
+  - 스타일 안 먹히는 문제 해결
+  - 페이지네이션 붙이기
+  - 필터 컴포넌트 생성
+*/
 
 export default function TeamPage() {
   return (
