@@ -5,25 +5,9 @@ import BasicTable from '@/components/table/BasicTable';
 import BasicSelect from '@/components/select/BasicSelect';
 import ConfirmDialog from '@/components/dialog/Confirm';
 import EditDialog from '@/pageComponent/Player/EditDialog';
+import { listPlayer, removePlayer, editPlayer } from '@/api/player';
 
-const tableHeader = ['이름', '선출여부', '성별', '연령대', '대표팀'];
-
-const makeRow = (이름: string, 선출여부: string, 성별: string, 연령대: string, 프사: string, 대표팀: string) => {
-  return { 이름, 선출여부, 성별, 연령대, 프사, 대표팀 };
-};
-const rowsSample = [
-  {
-    이름: 'nameA',
-    선출여부: 'X',
-    성별: 'M',
-    연령대: '20',
-    프사: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF1IwK6-SxM83UpFVY6WtUZxXx-phss_gAUfdKbkTfau6VWVkt',
-    대표팀: 'FC',
-  },
-  makeRow('nameB', 'O', 'F', '30', '', 'FC'),
-  makeRow('nameC', 'O', 'F', '30', '', 'FC'),
-  makeRow('nameD', 'O', 'F', '30', '', 'FC'),
-];
+const tableHeader = ['name', 'gender', 'birth'];
 
 const filterTitle = '나이';
 const filterItems = [
@@ -44,17 +28,21 @@ export default function Player() {
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<PlayerData | null>(null);
+  const [selectedRow, setSelectedRow] = useState<Player | null>(null);
+  const [players, setPlayer] = useState<Player[]>([]);
 
   useEffect(() => {
     getList(page);
   }, []);
 
   const getList = async (newPage: number) => {
-    console.log(newPage, pageSize, filterOption);
-    // Axios
-    setPage(newPage);
-    setPageCount(10);
+    // console.log(newPage, pageSize, filterOption);
+
+    const response = await listPlayer(newPage);
+    const { page, last_page } = response.meta;
+    setPlayer(response.data);
+    setPage(Number(page));
+    setPageCount(last_page);
   };
 
   const changeFilterOption = (key: string, value: string) => {
@@ -62,12 +50,13 @@ export default function Player() {
       return { ...prev, [key]: value };
     });
   };
+  const handleChangePlayer = async (editedPlayer: Player) => {
+    const { id, ...editData } = editedPlayer;
+    await editPlayer(id, editData);
+  };
 
-  const deleteRow = async (row: PlayerData) => {
-    console.log(row);
-    // Axios
-
-    // data reload
+  const deleteRow = async (row: Player) => {
+    await removePlayer(row.id);
     await getList(page);
   };
 
@@ -91,14 +80,13 @@ export default function Player() {
         <Stack>
           <BasicTable
             header={tableHeader}
-            rows={rowsSample}
-            onClickDelete={(row: PlayerData) => {
+            rows={players}
+            onClickDelete={(row: Player) => {
               setSelectedRow(row);
               setIsDialogOpen(true);
             }}
-            onClickModify={(row: PlayerData) => {
+            onClickModify={(row: Player) => {
               setSelectedRow(row);
-              // modify Dialog Open
               setIsEditDialogOpen(true);
             }}
           />
@@ -123,14 +111,16 @@ export default function Player() {
       />
       {!!selectedRow && (
         <EditDialog
+          key={selectedRow.id}
           player={selectedRow}
           open={isEditDialogOpen}
           onClose={() => {
             setIsEditDialogOpen(false);
           }}
-          onConfirm={() => {
-            // Axios
+          onConfirm={async (editedPlayer: Player) => {
+            await handleChangePlayer(editedPlayer);
             setIsEditDialogOpen(false);
+            await getList(1);
           }}
         />
       )}

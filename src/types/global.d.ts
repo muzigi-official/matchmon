@@ -17,3 +17,11 @@ declare interface PlayerData {
   프사: string;
   대표팀: string;
 }
+
+interface Player {
+  id: number;
+  name: string;
+  gender: string;
+  birth: string;
+  picture: string;
+}

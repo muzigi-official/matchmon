@@ -11,22 +11,26 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import AgeSelector from './AgeSelector';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
-  player: PlayerData;
+  player: Player;
   open: boolean;
   onClose: () => void;
-  onConfirm: (playerData: PlayerData) => void;
+  onConfirm: (player: Player) => void;
 }
 
 export default function EditDialog(props: Props) {
   const { player, open, onClose, onConfirm } = props;
-  const [modifiedPlayer, setModifiedPlayer] = useState<PlayerData>(player);
+  const [modifiedPlayer, setModifiedPlayer] = useState<Player>(player);
+  // const [value, setValue] = useState<Dayjs | null>(player.birth ? dayjs(player.birth) : null); //YYYY-MM-DD
 
   const handleChange = (key: string, value: string) => {
-    setModifiedPlayer((prev: PlayerData) => {
+    setModifiedPlayer((prev: Player) => {
       return { ...prev, [key]: value };
     });
   };
@@ -52,24 +56,29 @@ export default function EditDialog(props: Props) {
           </Grid>
           <Grid xs={4} sx={borderStyle}>
             <TextField
-              value={modifiedPlayer['이름']}
+              value={modifiedPlayer.name}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                handleChange('이름', event.target.value);
+                handleChange('name', event.target.value);
               }}
             />
           </Grid>
           <Grid xs={5} sx={borderStyle}>
             <Box alignItems={'center'} justifyContent={'center'} display={'flex'}>
-              <img src={modifiedPlayer['프사']} loading='lazy' width={60} height={60} />
+              <img src={modifiedPlayer.picture} loading='lazy' width={60} height={60} />
             </Box>
           </Grid>
           <Grid xs={12} sx={borderStyle}>
-            <AgeSelector
-              onChange={value => {
-                handleChange('연령대', value);
-              }}
-              defaultValue={modifiedPlayer['연령대']}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
+              <DatePicker
+                label='생일을 입력해주세요'
+                value={dayjs(player.birth)}
+                onChange={(value: Dayjs | null) => {
+                  if (value) {
+                    handleChange('birth', value.format('YYYY-MM-DD'));
+                  }
+                }}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid xs={3} display='flex' alignItems='center' sx={borderStyle}>
             <Typography sx={{ textAlign: 'center' }}>성별</Typography>
@@ -80,13 +89,13 @@ export default function EditDialog(props: Props) {
                 row
                 aria-labelledby='demo-row-radio-buttons-group-label'
                 name='row-radio-buttons-group'
-                value={modifiedPlayer['성별']}
+                value={modifiedPlayer.gender}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  handleChange('성별', event.target.value);
+                  handleChange('gender', event.target.value);
                 }}
               >
-                <FormControlLabel value='female' control={<Radio />} label='Female' />
-                <FormControlLabel value='male' control={<Radio />} label='Male' />
+                <FormControlLabel value='female' control={<Radio />} label='여성' />
+                <FormControlLabel value='male' control={<Radio />} label='남성' />
               </RadioGroup>
             </FormControl>
           </Grid>
@@ -94,7 +103,7 @@ export default function EditDialog(props: Props) {
             <Typography sx={{ textAlign: 'center' }}>선출여부</Typography>
           </Grid>
           <Grid xs={9} sx={borderStyle}>
-            <FormControl>
+            {/* <FormControl>
               <RadioGroup
                 row
                 aria-labelledby='demo-row-radio-buttons-group-label'
@@ -107,7 +116,7 @@ export default function EditDialog(props: Props) {
                 <FormControlLabel value='O' control={<Radio />} label='O' />
                 <FormControlLabel value='X' control={<Radio />} label='X' />
               </RadioGroup>
-            </FormControl>
+            </FormControl> */}
           </Grid>
           <Grid xs={12} sx={borderStyle}>
             플레이 스타일
@@ -115,8 +124,12 @@ export default function EditDialog(props: Props) {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>취소</Button>
-        <Button onClick={() => onConfirm(modifiedPlayer)}>수정</Button>
+        <Button variant='outlined' onClick={onClose}>
+          취소
+        </Button>
+        <Button variant='contained' onClick={() => onConfirm(modifiedPlayer)}>
+          수정
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -4,7 +4,8 @@ import cookies from 'js-cookie';
 import setupInterceptorsTo from './errorHandler';
 import { checkLogin } from './loginChecker';
 
-const SERVER_ADDRESS = process.env.REACT_APP_BACK_END_POINT;
+// const SERVER_ADDRESS = process.env.REACT_APP_BACK_END_POINT;
+const SERVER_ADDRESS = 'http://localhost:3000';
 
 const customAxios: AxiosInstance = axios.create({
   baseURL: `${SERVER_ADDRESS}`, // 기본 서버 주소 입력
