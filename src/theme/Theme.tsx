@@ -1,11 +1,33 @@
-import { grey, blue, common } from '@mui/material/colors';
+import { deepPurple, green, purple, lime, grey, common } from '@mui/material/colors';
 import { Theme } from '@mui/material/styles';
 const palette = {
   light: {
     primary: {
-      main: '#7060ff',
-      light: '#9e93ff',
-      dark: '#7060ff',
+      light: deepPurple[300],
+      main: deepPurple['A200'],
+      dark: deepPurple[900],
+    },
+    secondary: {
+      light: green[300],
+      main: green[500],
+      dark: green[900],
+    },
+    tableColor: {
+      border: 'rgb(46, 38, 61, 0.12)',
+      body: 'rgb(46, 38, 61, 0.7)',
+      head: 'rgb(46, 38, 61)',
+    },
+  },
+  dark: {
+    primary: {
+      light: purple[300],
+      main: purple[500],
+      dark: purple[900],
+    },
+    secondary: {
+      light: lime[300],
+      main: lime[500],
+      dark: lime[900],
     },
   },
 };
@@ -20,40 +42,39 @@ export const getDesignTokens = (mode: PaletteMode | undefined) =>
               main: palette.light.primary.main,
               light: palette.light.primary.light,
               dark: palette.light.primary.dark,
-              contrastText: '#fff',
+              contrastText: '#000',
             },
-
-            divider: palette.light.primary.dark,
-            text: {
-              primary: grey[900],
-              secondary: grey[800],
-            },
+            // divider: '#000',
             background: {
-              dark: grey[100],
+              default: grey[50], // background
+              paper: grey[50],
+            },
+            text: {
+              primary: grey[600],
+              secondary: '#000', // select form label
             },
           }
         : {
             primary: {
-              light: '#9e93ff',
-              main: '#757ce8',
-              dark: '#757ce8',
+              main: palette.dark.primary.main,
+              light: palette.dark.primary.light,
+              dark: palette.dark.primary.dark,
               contrastText: '#fff',
             },
-            divider: grey[700],
             background: {
-              default: grey[900],
+              default: grey[900], // background
               paper: grey[900],
             },
             text: {
-              primary: '#fff',
-              secondary: grey[500],
+              primary: grey[500],
+              secondary: grey[50],
             },
           }),
     },
     typography: {
-      fontFamily: ['Oswald', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'].join(','),
+      fontFamily: ['Montserrat', 'Noto Sans KR', 'Arial', 'sans-serif'].join(','),
       body1: {
-        fontFamily: 'Poppins, Arial, sans-serif',
+        fontFamily: 'Montserrat, Noto Sans KR, Arial, sans-serif',
       },
     },
   }) as Theme;
@@ -67,6 +88,14 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
               styleOverrides: {
                 colorPrimary: {
                   backgroundColor: grey[800],
+                  color: common.white,
+                },
+              },
+            },
+            MuiPaper: {
+              styleOverrides: {
+                root: {
+                  backgroundColor: 'inherit',
                 },
               },
             },
@@ -76,14 +105,8 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
             MuiButton: {
               styleOverrides: {
                 root: {
-                  borderRadius: 0,
                   color: common.white,
                   fontFamily: "Oswald, Roboto, 'Helvetica Neue', Arial, sans-serif",
-                  fontSize: 20,
-                  borderWidth: 2,
-                  '&:hover': {
-                    borderWidth: 2,
-                  },
                 },
               },
               variants: [
@@ -129,12 +152,23 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
                 },
               },
             },
+            MuiTableCell: {
+              styleOverrides: {
+                head: {
+                  color: palette.light.tableColor.head,
+                },
+                root: {
+                  color: palette.light.tableColor.body,
+                },
+              },
+            },
           }
         : {
             MuiAppBar: {
               styleOverrides: {
                 colorPrimary: {
-                  backgroundColor: blue[800],
+                  backgroundColor: deepPurple[800],
+                  color: common.white,
                 },
               },
             },
