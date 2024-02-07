@@ -6,7 +6,7 @@ declare interface YoutubeFormat {
 }
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
-type Gender = 'Male' | 'Female' | '혼성';
+type Gender = 'M' | 'F' | 'A';
 
 declare interface PlayerData {
   [key: string]: string;
