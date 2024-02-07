@@ -11,6 +11,7 @@
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
       "*": ["types/*.d.ts"],
     },
+    "types": ["@testing-library/jest-dom"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
