@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import './teamPage.scoped.css';
 import EditDialog from './EditDialog';
 import AddDialog from './AddDialog';
+import ConfirmDialog from '@/components/dialog/Confirm';
 
 const headerSample = [
   { name: 'name', withImage: 'emblem', type: 'text' },
@@ -132,6 +133,13 @@ const rows = [
   - 필터 컴포넌트 생성
 */
 
+const deleteRow = async (row: DialogData) => {
+  console.log(row);
+  // Axios
+
+  // data reload
+};
+
 export default function TeamPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
@@ -176,6 +184,18 @@ export default function TeamPage() {
         onConfirm={() => {
           // Axios
           setIsAddDialogOpen(false);
+        }}
+      />
+      <ConfirmDialog
+        title='삭제'
+        content='삭제하시겠습니까'
+        open={isDialogOpen}
+        onClose={() => {
+          setIsDialogOpen(false);
+        }}
+        onConfirm={() => {
+          if (selectedRow) deleteRow(selectedRow);
+          setIsDialogOpen(false);
         }}
       />
       {!!selectedRow && (

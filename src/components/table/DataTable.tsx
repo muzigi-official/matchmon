@@ -23,7 +23,7 @@ interface Props {
 }
 
 export default function DataTable(props: Props) {
-  const { header, rows, onClickModify } = props;
+  const { header, rows, onClickModify, onClickDelete } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -58,7 +58,7 @@ export default function DataTable(props: Props) {
                       <IconButton aria-label='moveDetailsPage' onClick={() => onClickModify(row)}>
                         <VisibilityIcon />
                       </IconButton>
-                      <IconButton aria-label='DeleteItem'>
+                      <IconButton aria-label='DeleteItem' onClick={() => onClickDelete(row)}>
                         <DeleteIcon />
                       </IconButton>
                     </S.DataTableTd>
@@ -73,6 +73,7 @@ export default function DataTable(props: Props) {
           ))}
         </S.DataTableTBody>
       </Table>
+      {/*  FIXME: pageNation 아예 안 먹힘.  */}
       <TablePagination
         className='border-bs'
         rowsPerPageOptions={[5, 10, 25]}
