@@ -4,13 +4,14 @@ import './App.css';
 import { ToastContainer } from 'react-toastify';
 
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import store from '@/redux/store';
 
 import { BrowserRouter } from 'react-router-dom';
-import Router from './router/Router';
+import Router from '@/router/Router';
 
 import { createTheme, ThemeProvider, responsiveFontSizes, Theme } from '@mui/material/styles';
-import { getDesignTokens, getThemedComponents } from './theme/Theme';
+import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
+import GlobalStyle from '@/styles/global-styles';
 
 function App() {
   const mode = 'light';
@@ -21,6 +22,7 @@ function App() {
     <>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <GlobalStyle />
           <BrowserRouter>
             <Router />
             <ToastContainer />
