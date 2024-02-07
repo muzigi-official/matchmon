@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -136,7 +137,7 @@ export default function EditDialog(props: Props) {
           <Button variant='contained' onClick={() => onConfirm(teamData)}>
             저장
           </Button>
-          <Button variant='outlined' onClick={onClose}>
+          <Button variant='outlined' sx={{ borderColor: grey[400], color: grey[400] }} onClick={onClose}>
             취소
           </Button>
         </DialogActions>

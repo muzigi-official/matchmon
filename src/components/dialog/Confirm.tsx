@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -7,6 +8,7 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { Box, Typography } from '@mui/material';
 
 import './confirm.scoped.css';
+//FIXME:: css scoped 안되는 문제가 있음
 
 interface Props {
   title: string;
@@ -40,7 +42,7 @@ export default function ConfirmDialog(props: Props) {
         <Button variant='contained' onClick={onConfirm} autoFocus>
           Yes
         </Button>
-        <Button variant='outlined' onClick={onClose}>
+        <Button variant='outlined' sx={{ borderColor: grey[400], color: grey[400] }} onClick={onClose}>
           Cancel
         </Button>
       </DialogActions>
