@@ -5,7 +5,7 @@ import DataTable from '@/components/table/DataTable';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
-import './teamPage.css';
+import './teamPage.scoped.css';
 import EditDialog from './EditDialog';
 import AddDialog from './AddDialog';
 
@@ -148,7 +148,9 @@ export default function TeamPage() {
         </div>
         <Paper className='page__content' variant='outlined' square={false}>
           <div className='actions'>
-            <Button variant='contained'>추가</Button>
+            <Button variant='contained' onClick={() => setIsAddDialogOpen(true)}>
+              추가
+            </Button>
           </div>
           <DataTable
             header={headerSample}
