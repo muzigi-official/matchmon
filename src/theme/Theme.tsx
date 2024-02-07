@@ -95,7 +95,7 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
             MuiPaper: {
               styleOverrides: {
                 root: {
-                  backgroundColor: 'inherit',
+                  backgroundColor: 'white',
                 },
               },
             },
