@@ -8,10 +8,6 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
 import * as S from './DataTable.style';
 
-interface Row {
-  [key: string]: string;
-}
-
 interface HeaderOptions {
   name: string;
   withImage?: string;
@@ -21,11 +17,13 @@ interface HeaderOptions {
 
 interface Props {
   header: HeaderOptions[];
-  rows: Row[];
+  rows: DialogData[];
+  onClickModify: (row: DialogData) => void;
+  onClickDelete: (row: DialogData) => void;
 }
 
 export default function DataTable(props: Props) {
-  const { header, rows } = props;
+  const { header, rows, onClickModify } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -57,10 +55,10 @@ export default function DataTable(props: Props) {
                 if (header.isAction) {
                   return (
                     <S.DataTableTd key={header.name + index}>
-                      <IconButton aria-label='lightMode'>
+                      <IconButton aria-label='moveDetailsPage' onClick={() => onClickModify(row)}>
                         <VisibilityIcon />
                       </IconButton>
-                      <IconButton aria-label='lightMode'>
+                      <IconButton aria-label='DeleteItem'>
                         <DeleteIcon />
                       </IconButton>
                     </S.DataTableTd>

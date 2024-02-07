@@ -19,8 +19,20 @@ const GlobalStyle = createGlobalStyle`
       border-width: 1px
     }
     
-    :is(.border-bs) {
+  :is(.border-bs) {
       border-block-start-width: 1px
+  }
+
+  :is(.inline-end-4) {
+    inset-inline-end: 1rem;
+  }
+
+  :is(.block-start-4) {
+    inset-block-start: 1rem;
+  }
+  
+  :is(.absolute) {
+    position: absolute;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -17,3 +17,18 @@ declare interface PlayerData {
   프사: string;
   대표팀: string;
 }
+
+declare interface DialogData {
+  [key: string]: string;
+  name: string;
+  emblem: string;
+  location: string;
+  gender: Gender;
+  teamType: string;
+  managerName: string;
+  phone: string;
+  email: string;
+  uniformTop: string;
+  uniformBottom: string;
+  uniformSocks: string;
+}

@@ -105,7 +105,6 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
             MuiButton: {
               styleOverrides: {
                 root: {
-                  color: common.white,
                   fontFamily: "Oswald, Roboto, 'Helvetica Neue', Arial, sans-serif",
                 },
               },
@@ -113,6 +112,7 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
                 {
                   props: { variant: 'contained' },
                   style: {
+                    color: common.white,
                     fontFamily: "Oswald, Roboto, 'Helvetica Neue', Arial, sans-serif",
                   },
                 },
@@ -135,20 +135,10 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
                 root: {},
               },
             },
-            MuiMenuItem: {
+            MuiFormLabel: {
               styleOverrides: {
                 root: {
-                  color: common.white,
-                  alignItems: 'stretch',
-                  fontFamily: "Oswald, Roboto, 'Helvetica Neue', Arial, sans-serif",
-                },
-              },
-            },
-            MuiAccordion: {
-              styleOverrides: {
-                root: {
-                  color: common.white,
-                  fontFamily: "Oswald, Roboto, 'Helvetica Neue', Arial, sans-serif",
+                  fontSize: '0.9375rem',
                 },
               },
             },
