@@ -39,7 +39,7 @@ export default function DataTable(props: Props) {
   return (
     <S.DataTableContainer>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-        <S.DataTableHeader>
+        <S.DataTableHeader className='select-none'>
           <TableRow>
             {header.map((header, index) => (
               <S.DataTableTh align='center' key={header.name + index}>
