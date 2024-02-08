@@ -6,7 +6,7 @@ declare interface YoutubeFormat {
 }
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
-type Gender = 'Male' | 'Female' | '혼성';
+type Gender = 'M' | 'F' | 'A';
 
 interface Player {
   id: number;
@@ -14,4 +14,19 @@ interface Player {
   gender: string;
   birth: string;
   picture: string;
+}
+
+declare interface DialogData {
+  [key: string]: string;
+  name: string;
+  emblem: string;
+  location: string;
+  gender: Gender;
+  teamType: string;
+  managerName: string;
+  phone: string;
+  email: string;
+  uniformTop: string;
+  uniformBottom: string;
+  uniformSocks: string;
 }
