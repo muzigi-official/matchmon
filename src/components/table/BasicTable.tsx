@@ -12,8 +12,8 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 interface Props {
   header: string[];
   rows: any[];
-  onClickModify: (row: any) => void;
-  onClickDelete: (row: any) => void;
+  onClickModify?: (row: any) => void;
+  onClickDelete?: (row: any) => void;
 }
 
 export default function BasicTable(props: Props) {
