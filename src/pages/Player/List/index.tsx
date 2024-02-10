@@ -4,7 +4,7 @@ import { Stack, Box, Pagination } from '@mui/material';
 import BasicTable from '@/components/table/BasicTable';
 import BasicSelect from '@/components/select/BasicSelect';
 import ConfirmDialog from '@/components/dialog/Confirm';
-import EditDialog from '@/pageComponent/Player/EditDialog';
+import EditDialog from '@/pageComponent/Player/List/EditDialog';
 import { listPlayer, removePlayer, editPlayer } from '@/api/player';
 
 const tableHeader = ['name', 'gender', 'birth'];

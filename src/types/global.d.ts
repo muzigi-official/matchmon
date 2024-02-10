@@ -9,7 +9,7 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
 type Gender = 'M' | 'F' | 'A';
 
 interface Player {
-  id: number;
+  id?: number;
   name: string;
   gender: string;
   birth: string;
@@ -29,4 +29,15 @@ declare interface DialogData {
   uniformTop: string;
   uniformBottom: string;
   uniformSocks: string;
+}
+
+interface Competition {
+  id?: number | string;
+  name: string;
+  address: string;
+  poster: string;
+  start_date: string;
+  end_date: string;
+  description: string;
+  organizer: string;
 }
