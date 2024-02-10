@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { merge } from 'ts-deepmerge';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
@@ -6,12 +6,14 @@ import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import store from '@/redux/store';
 
-import { BrowserRouter } from 'react-router-dom';
-import Router from '@/router/Router';
+import { RouterProvider } from 'react-router-dom';
+import router from '@/router';
 
 import { createTheme, ThemeProvider, responsiveFontSizes, Theme } from '@mui/material/styles';
 import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
 import GlobalStyle from '@/styles/global-styles';
+
+const renderLoader = () => <p>Loading</p>;
 
 function App() {
   const mode = 'light';
@@ -23,10 +25,10 @@ function App() {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <BrowserRouter>
-            <Router />
-            <ToastContainer />
-          </BrowserRouter>
+          <Suspense fallback={renderLoader()}>
+            <RouterProvider router={router} />
+          </Suspense>
+          <ToastContainer />
         </ThemeProvider>
       </Provider>
     </>
