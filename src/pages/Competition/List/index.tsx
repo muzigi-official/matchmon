@@ -1,6 +1,7 @@
 import CompetitionCard from '@/pageComponent/Competition/List/CompetitionCard';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { useNavigate } from 'react-router-dom';
 
 function createData(
   id: string,
@@ -58,10 +59,20 @@ const sampleCompetitionList: Competition[] = [
 ];
 
 export default function CompetitionList() {
+  let navigate = useNavigate();
+
   return (
     <Box display={'flex'}>
       {sampleCompetitionList.map((competition, index) => {
-        return <CompetitionCard key={`${competition.name}_${index}`} competition={competition} />;
+        return (
+          <CompetitionCard
+            key={`${competition.name}_${index}`}
+            competition={competition}
+            onClick={comp => {
+              navigate(`/competition/${comp.id}`);
+            }}
+          />
+        );
       })}
     </Box>
   );
