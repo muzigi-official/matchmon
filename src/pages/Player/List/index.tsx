@@ -4,7 +4,7 @@ import { Stack, Box, Pagination } from '@mui/material';
 import BasicTable from '@/components/table/BasicTable';
 import BasicSelect from '@/components/select/BasicSelect';
 import ConfirmDialog from '@/components/dialog/Confirm';
-import EditDialog from '@/pageComponent/Player/EditDialog';
+import EditDialog from '@/pageComponent/Player/List/EditDialog';
 import { listPlayer, removePlayer, editPlayer } from '@/api/player';
 
 const tableHeader = ['name', 'gender', 'birth'];
@@ -36,8 +36,6 @@ export default function PlayerList() {
   }, []);
 
   const getList = async (newPage: number) => {
-    // console.log(newPage, pageSize, filterOption);
-
     const response = await listPlayer(newPage);
     const { page, last_page } = response.meta;
     setPlayer(response.data);
@@ -52,11 +50,11 @@ export default function PlayerList() {
   };
   const handleChangePlayer = async (editedPlayer: Player) => {
     const { id, ...editData } = editedPlayer;
-    await editPlayer(id, editData);
+    if (id) await editPlayer(id, editData);
   };
 
   const deleteRow = async (row: Player) => {
-    await removePlayer(row.id);
+    if (row.id) await removePlayer(row.id);
     await getList(page);
   };
 

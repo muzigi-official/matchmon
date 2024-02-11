@@ -5,6 +5,7 @@ import { createBrowserRouter, createRoutesFromElements, Routes, Route, Navigate 
 import MainLayout from '@/components/layout/Main';
 
 const Main = lazy(() => import('../pages/Main'));
+const CompetitionList = lazy(() => import('../pages/Competition/List'));
 const Competition = lazy(() => import('../pages/Competition'));
 const Team = lazy(() => import('../pages/Team/TeamPage'));
 const Player = lazy(() => import('../pages/Player'));
@@ -17,7 +18,11 @@ const router = createBrowserRouter(
     <Route path='/' element={<MainLayout />}>
       <Route path='main' element={<Main />} />
       <Route path='team' element={<Team />} />
-      <Route path='competition' element={<Competition />} />
+
+      <Route path='competition'>
+        <Route path=':competitionId' element={<Competition />} />
+        <Route path='' element={<CompetitionList />} />
+      </Route>
 
       <Route path='player'>
         <Route path=':playerId' element={<Player />} />
