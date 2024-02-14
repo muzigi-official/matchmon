@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Avatar, Button } from '@mui/material';
 
 interface AppBarProps {
   open: boolean;
@@ -16,18 +14,16 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
   return (
     <S.AppBar position='fixed' color='inherit' open={open}>
       <S.Toolbar open={open}>
-        <IconButton
-          color='inherit'
+        <Avatar
+          src='logo.png'
           aria-label='open drawer'
           onClick={onClickMenu}
-          edge='start'
           sx={{
             marginRight: 5,
+            cursor: 'pointer',
             ...(open && { display: 'none' }),
           }}
-        >
-          <MenuIcon />
-        </IconButton>
+        />
         <Button variant='outlined' color='primary'>
           Login
         </Button>
