@@ -1,16 +1,16 @@
-import { deepPurple, green, purple, lime, grey, common } from '@mui/material/colors';
+import { grey, common } from '@mui/material/colors';
 import { Theme } from '@mui/material/styles';
 const palette = {
   light: {
     primary: {
-      light: deepPurple[300],
-      main: deepPurple['A200'],
-      dark: deepPurple[900],
+      light: '#4A46C3',
+      main: '#353196',
+      dark: '#201E5C',
     },
     secondary: {
-      light: green[300],
-      main: green[500],
-      dark: green[900],
+      light: '##0ABAFF',
+      main: '#0095CE',
+      dark: '##00587A',
     },
     tableColor: {
       border: 'rgb(46, 38, 61, 0.12)',
@@ -20,14 +20,14 @@ const palette = {
   },
   dark: {
     primary: {
-      light: purple[300],
-      main: purple[500],
-      dark: purple[900],
+      light: '#CAC2FF',
+      main: '#9584FF',
+      dark: '#6047FF',
     },
     secondary: {
-      light: lime[300],
-      main: lime[500],
-      dark: lime[900],
+      light: '##ADE8FF',
+      main: '#70D7FF',
+      dark: '##1FBFFF',
     },
   },
 };
@@ -84,14 +84,6 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
     components: {
       ...(mode === 'light'
         ? {
-            MuiAppBar: {
-              styleOverrides: {
-                colorPrimary: {
-                  backgroundColor: grey[800],
-                  color: common.white,
-                },
-              },
-            },
             MuiPaper: {
               styleOverrides: {
                 root: {
@@ -153,15 +145,6 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
               },
             },
           }
-        : {
-            MuiAppBar: {
-              styleOverrides: {
-                colorPrimary: {
-                  backgroundColor: deepPurple[800],
-                  color: common.white,
-                },
-              },
-            },
-          }),
+        : {}),
     },
   }) as Theme;
