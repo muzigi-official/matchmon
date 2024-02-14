@@ -30,7 +30,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
 export const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
+  backgroundColor: theme.palette.primary.dark,
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -86,5 +87,5 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'o
 }));
 
 export const MainContainer = styled(Box)`
-  /* padding: 0 20px; */
+  padding: 0 24px;
 `;

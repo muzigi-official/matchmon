@@ -5,7 +5,7 @@ const palette = {
     primary: {
       light: '#4A46C3',
       main: '#353196',
-      dark: '#201E5C',
+      dark: '#2A2948',
     },
     secondary: {
       light: '##0ABAFF',
@@ -53,13 +53,16 @@ export const getDesignTokens = (mode: PaletteMode | undefined) =>
               primary: grey[600],
               secondary: '#000', // select form label
             },
+            icon: {
+              primary: common.white,
+            },
           }
         : {
             primary: {
               main: palette.dark.primary.main,
               light: palette.dark.primary.light,
               dark: palette.dark.primary.dark,
-              contrastText: '#fff',
+              contrastText: common.white,
             },
             background: {
               default: grey[900], // background
@@ -84,6 +87,14 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
     components: {
       ...(mode === 'light'
         ? {
+            MuiDrawer: {
+              styleOverrides: {
+                paper: {
+                  backgroundColor: palette.light.primary.dark,
+                  color: common.white,
+                },
+              },
+            },
             MuiPaper: {
               styleOverrides: {
                 root: {
