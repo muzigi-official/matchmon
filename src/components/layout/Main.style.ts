@@ -1,6 +1,7 @@
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiToobar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 
@@ -32,9 +33,16 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   backgroundColor: theme.palette.primary.dark,
+  color: theme.palette.text.info,
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
+}));
+
+export const HomeLink = styled(Typography)(({ theme }) => ({
+  marginLeft: '18px',
+  color: theme.palette.text.info,
+  textDecoration: 'none',
 }));
 
 interface AppBarProps extends MuiAppBarProps {
@@ -65,6 +73,7 @@ export const Toolbar = styled(MuiToobar, {
   shouldForwardProp: prop => prop !== 'open',
 })<AppBarProps>(({ open }) => ({
   display: 'flex',
+  padding: '12px',
   justifyContent: 'space-between',
   ...(open && {
     justifyContent: 'flex-end',

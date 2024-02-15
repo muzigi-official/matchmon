@@ -1,5 +1,6 @@
 import { grey, common } from '@mui/material/colors';
 import { Theme } from '@mui/material/styles';
+
 const palette = {
   light: {
     primary: {
@@ -16,6 +17,10 @@ const palette = {
       border: 'rgb(46, 38, 61, 0.12)',
       body: 'rgb(46, 38, 61, 0.7)',
       head: 'rgb(46, 38, 61)',
+    },
+    textColor: {
+      basic: 'rgb(46, 38, 61)',
+      light: common.white,
     },
   },
   dark: {
@@ -50,8 +55,9 @@ export const getDesignTokens = (mode: PaletteMode | undefined) =>
               paper: grey[50],
             },
             text: {
-              primary: grey[600],
-              secondary: '#000', // select form label
+              primary: palette.light.textColor.basic,
+              secondary: grey[500], // select form label
+              info: palette.light.textColor.light,
             },
             icon: {
               primary: common.white,
@@ -62,7 +68,7 @@ export const getDesignTokens = (mode: PaletteMode | undefined) =>
               main: palette.dark.primary.main,
               light: palette.dark.primary.light,
               dark: palette.dark.primary.dark,
-              contrastText: common.white,
+              contrastText: palette.light.textColor.basic,
             },
             background: {
               default: grey[900], // background
@@ -87,14 +93,6 @@ export const getThemedComponents = (mode: PaletteMode | undefined) =>
     components: {
       ...(mode === 'light'
         ? {
-            MuiDrawer: {
-              styleOverrides: {
-                paper: {
-                  backgroundColor: palette.light.primary.dark,
-                  color: common.white,
-                },
-              },
-            },
             MuiPaper: {
               styleOverrides: {
                 root: {
