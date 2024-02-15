@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy } from 'react';
 
-import { createBrowserRouter, createRoutesFromElements, Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route, Navigate } from 'react-router-dom';
 
 import MainLayout from '@/components/layout/Main';
 

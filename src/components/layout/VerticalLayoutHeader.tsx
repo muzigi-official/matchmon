@@ -10,7 +10,6 @@ import * as S from './Main.style';
 
 export default function VerticalLayoutHeader(props: AppBarProps) {
   const { open, onClickMenu } = props;
-  console.log(open);
   return (
     <S.AppBar position='fixed' color='inherit' open={open}>
       <S.Toolbar open={open}>
