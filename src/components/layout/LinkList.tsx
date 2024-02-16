@@ -1,61 +1,86 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import List from '@mui/material/List';
 import { ListItemProps } from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Link as RouterLink } from 'react-router-dom';
-import Divider from '@mui/material/Divider';
-import { routeDataList } from 'src/assets/const/route';
-// Ref: https://mui.com/material-ui/react-breadcrumbs/#integration-with-react-router
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ShieldIcon from '@mui/icons-material/Shield';
+import PersonOutline from '@mui/icons-material/PersonOutline';
+import StadiumIcon from '@mui/icons-material/Stadium';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
+interface RouteData {
+  url: string;
+  name: string;
+  icon?: React.ReactElement;
+}
+
+export const routeDataList: RouteData[] = [
+  { url: '/team', name: '팀', icon: <ShieldIcon /> },
+  { url: '/competition', name: '대회', icon: <StadiumIcon /> },
+  { url: '/player', name: '선수', icon: <PersonOutline /> },
+  { url: '/ranking', name: '랭킹', icon: <EmojiEventsIcon /> },
+  { url: '/bracket', name: '대진표', icon: <CalendarMonthIcon /> },
+];
 
 interface ListItemLinkProps extends ListItemProps {
   to: string;
   open?: boolean;
+  primary: string;
+  icon?: React.ReactElement;
 }
 
 const breadcrumbNameMap: { [key: string]: string } = {};
 
-routeDataList.forEach(routeData => {
-  const { url, name } = routeData;
-  breadcrumbNameMap[url] = name;
-});
-
 function ListItemLink(props: ListItemLinkProps) {
-  const { to, open, ...other } = props;
-  const primary = breadcrumbNameMap[to];
-
-  let icon = null;
-  if (open != null) {
-    icon = open ? <ExpandLess /> : <ExpandMore />;
-  }
+  const { to, open, icon, primary, ...other } = props;
 
   return (
     <li>
-      <ListItemButton component={RouterLink} to={to} {...other}>
-        <ListItemText primary={primary} />
-        {icon}
+      <ListItemButton
+        sx={{
+          minHeight: 48,
+          justifyContent: open ? 'initial' : 'center',
+          px: 2.5,
+        }}
+        component={RouterLink}
+        to={to}
+        {...other}
+      >
+        {icon ? (
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            {icon}
+          </ListItemIcon>
+        ) : null}
+        <ListItemText color='primary' primary={primary} sx={{ opacity: open ? 1 : 0 }} />
       </ListItemButton>
     </li>
   );
 }
 
 interface Props {
+  open: boolean;
   onClick: () => void;
 }
 
 export default function LinkList(props: Props) {
-  const { onClick } = props;
+  const { open, onClick } = props;
   return (
     <List>
-      <ListItemLink to='/main' onClick={onClick} />
-      <ListItemLink to='/team' onClick={onClick} />
-      <ListItemLink to='/competition' onClick={onClick} />
-      <ListItemLink to='/player' onClick={onClick} />
-      <Divider />
-      <ListItemLink to='/ranking' onClick={onClick} />
-      <ListItemLink to='/bracket' onClick={onClick} />
+      {routeDataList.map(routeData => {
+        const { url, name, icon } = routeData;
+        breadcrumbNameMap[url] = name;
+        const primary = breadcrumbNameMap[url];
+        return <ListItemLink key={url} to={url} open={open} icon={icon} primary={primary} onClick={onClick} />;
+      })}
     </List>
   );
 }
