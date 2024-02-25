@@ -9,7 +9,8 @@ import store from '@/redux/store';
 import { RouterProvider } from 'react-router-dom';
 import router from '@/router';
 
-import { createTheme, ThemeProvider, responsiveFontSizes, Theme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
 import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
 import GlobalStyle from '@/styles/global-styles';
 
