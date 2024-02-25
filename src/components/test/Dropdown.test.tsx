@@ -12,7 +12,6 @@ describe('드랍다운 테스트', () => {
 
   it('드랍다운을 누르면 과일이 보임', () => {
     render(<Dropdown options={options} />);
-    // const buttonDropdown = screen.getByText('selectedValue');
     const buttonDropdown = screen.getByRole('button', { name: 'selectedValue' });
     fireEvent.click(buttonDropdown);
 
@@ -45,5 +44,3 @@ describe('드랍다운 테스트', () => {
     expect(screen.queryAllByText('사과')[0]).toBeVisible();
   });
 });
-
-// 기획

@@ -41,3 +41,24 @@ interface Competition {
   description: string;
   organizer: string;
 }
+
+class Coordinate {
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
+  add(coordinate: Coordinate) {
+    this.x += coordinate.x;
+    this.y += coordinate.y;
+    return this;
+  }
+  sub(coordinate: Coordinate) {
+    this.x -= coordinate.x;
+    this.y -= coordinate.y;
+    return this;
+  }
+}
