@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Layout from './Layout';
+import Layout, { makeNodeProps } from './Layout';
 
 const meta = {
   title: 'tournament/Layout',
@@ -17,6 +17,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    totalNodeCount: 16,
+    round: 8,
+    nodeInfoList: [
+      makeNodeProps(2, 1, '2024.02.24 10:00', '전북 풋살팀', '전남 풋살팀', 0, 0),
+      makeNodeProps(4, 1, '2024.02.22 10:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
+      makeNodeProps(4, 2, '2024.02.22 12:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
+      makeNodeProps(8, 1, '2024.02.20 10:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
+      makeNodeProps(8, 2, '2024.02.20 10:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
+      makeNodeProps(8, 3, '2024.02.20 12:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
+      makeNodeProps(8, 4, '2024.02.20 12:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
+    ],
   },
 };

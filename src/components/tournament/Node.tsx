@@ -2,17 +2,18 @@
 
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { number } from './Layout';
 
 // https://codesandbox.io/p/sandbox/tournament-bracket-po5u4?file=%2F
 
 export interface NodeInfo {
   round: number;
-  gameIndex: number;
-  date: string;
-  teamNameA: string;
-  teamNameB: string;
-  scoreA: string | number;
-  scoreB: string | number;
+  gameOrder: number;
+  date?: string;
+  teamNameA?: string;
+  teamNameB?: string;
+  scoreA?: string | number;
+  scoreB?: string | number;
 }
 
 interface NodeProps extends NodeInfo {
@@ -25,7 +26,7 @@ const width = 50;
 const height = 10;
 
 export default function Node(props: NodeProps) {
-  const { x, y, round, gameIndex, date, teamNameA, teamNameB, scoreA, scoreB } = props;
+  const { x, y, round, gameOrder, date = '', teamNameA = '', teamNameB = '', scoreA = '', scoreB = '' } = props;
 
   return (
     <Grid container position={'absolute'} top={y} left={x}>
@@ -43,7 +44,7 @@ export default function Node(props: NodeProps) {
       <Grid xs={12}>
         <Box width={width} display={'flex'} alignItems={'center'}>
           <Typography fontSize={fontSize} textAlign={'center'}>
-            {round}강 - {gameIndex}경기
+            {round}강 - {gameOrder}경기
           </Typography>
         </Box>
       </Grid>

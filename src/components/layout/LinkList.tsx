@@ -19,7 +19,7 @@ interface RouteData {
 
 export const routeDataList: RouteData[] = [
   { url: '/team', name: '팀', icon: <ShieldIcon /> },
-  { url: '/competition', name: '대회', icon: <StadiumIcon /> },
+  { url: '/competition/list', name: '대회', icon: <StadiumIcon /> },
   { url: '/player', name: '선수', icon: <PersonOutline /> },
   { url: '/ranking', name: '랭킹', icon: <EmojiEventsIcon /> },
   { url: '/bracket', name: '대진표', icon: <CalendarMonthIcon /> },

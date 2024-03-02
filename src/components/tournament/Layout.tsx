@@ -29,24 +29,23 @@ class Coordinate {
     return new Coordinate(x, y);
   }
 }
-type Round = 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1;
 
 interface Props {
-  round: Round;
+  round: number;
   nodeInfoList: NodeInfo[];
 }
-function makeNodeProps(
-  round: Round,
-  gameIndex: number,
+export function makeNodeProps(
+  round: number,
+  gameOrder: number,
   date: string,
   teamNameA: string,
   teamNameB: string,
   scoreA: string | number,
   scoreB: string | number,
 ) {
-  return { round, gameIndex, date, teamNameA, teamNameB, scoreA, scoreB };
+  return { round, gameOrder, date, teamNameA, teamNameB, scoreA, scoreB };
 }
-const logRound = (round: Round): number => {
+const logRound = (round: number): number => {
   if (round == 128) return 7;
   if (round == 64) return 6;
   if (round == 32) return 5;
@@ -56,26 +55,6 @@ const logRound = (round: Round): number => {
   if (round == 2) return 1;
   return 0;
 };
-const makeHalfRound = (round: Round): Round => {
-  if (round == 128) return 64;
-  if (round == 64) return 32;
-  if (round == 32) return 16;
-  if (round == 16) return 8;
-  if (round == 8) return 4;
-  if (round == 4) return 2;
-  if (round == 2) return 1;
-  return 1;
-};
-const makeDoubleRound = (round: Round): Round => {
-  if (round == 128) return 128;
-  if (round == 64) return 128;
-  if (round == 32) return 64;
-  if (round == 16) return 32;
-  if (round == 8) return 16;
-  if (round == 4) return 8;
-  if (round == 2) return 4;
-  return 2;
-};
 
 const baseWidth = new Coordinate(100, 0);
 const baseHeight = new Coordinate(0, 50);
@@ -83,15 +62,15 @@ const baseHeight = new Coordinate(0, 50);
 const intervalWidth = new Coordinate(75, 0);
 const intervalHeight = new Coordinate(0, 40);
 
-const makeRelativePosition = (round: Round): any => {
+const makeRelativePosition = (round: number): any => {
   const centerX = logRound(round);
 
   const relativePosition: any = { 2: {} };
 
   relativePosition[round] = {};
-  for (let i = 1; i <= makeHalfRound(round); i++) {
-    const halfRound = makeHalfRound(round);
-    const quarterRound = makeHalfRound(halfRound);
+  for (let i = 1; i <= round / 2; i++) {
+    const halfRound = round / 2;
+    const quarterRound = halfRound / 2;
     if (i <= quarterRound) {
       relativePosition[round][i] = [1, i];
     } else {
@@ -99,12 +78,12 @@ const makeRelativePosition = (round: Round): any => {
     }
   }
 
-  for (let roundNow: Round = makeHalfRound(round); roundNow >= 4; roundNow = makeHalfRound(roundNow)) {
+  for (let roundNow: number = round / 2; roundNow >= 4; roundNow = roundNow / 2) {
     relativePosition[roundNow] = {};
     for (let i = 1; i <= roundNow / 2; i++) {
-      const doulbeRound = makeDoubleRound(roundNow);
-      const halfRound = makeHalfRound(roundNow);
-      const quarterRound = makeHalfRound(halfRound);
+      const doulbeRound = roundNow * 2;
+      const halfRound = roundNow / 2;
+      const quarterRound = halfRound / 2;
       const a = relativePosition[doulbeRound][i * 2 - 1][1];
       const b = relativePosition[doulbeRound][i * 2][1];
       if (i <= quarterRound) {
@@ -114,6 +93,7 @@ const makeRelativePosition = (round: Round): any => {
       }
     }
   }
+  console.log(relativePosition, round);
   relativePosition[2][1] = [centerX, relativePosition[4][1][1] - 1];
 
   return relativePosition;
@@ -136,12 +116,13 @@ const sampleNodePropsList: NodeInfo[] = [
   makeNodeProps(16, 8, '2024.02.20 12:30', '전북 풋살팀', '전남 풋살팀', 0, 0),
 ];
 export default function TournamentLayout(props: Props) {
-  const { round = 16, nodeInfoList = sampleNodePropsList } = props;
+  const { round = 32, nodeInfoList = sampleNodePropsList } = props;
 
   const RelativePosition = makeRelativePosition(round);
 
-  const makeXY = (round: Round, gameIndex: number): Coordinate => {
-    const position = RelativePosition[round][gameIndex];
+  const makeXY = (round: number, gameOrder: number): Coordinate => {
+    console.log(round, gameOrder);
+    const position = RelativePosition[round][gameOrder];
     const x = position[0];
     const y = position[1];
 
@@ -149,21 +130,21 @@ export default function TournamentLayout(props: Props) {
   };
 
   const BoxWidth = baseWidth.add(intervalWidth.multiply((logRound(round) - 1) * 2 + 1)).x;
-  const BoxHeight = baseHeight.add(intervalHeight.multiply(makeHalfRound(makeHalfRound(round)))).y;
+  const BoxHeight = baseHeight.add(intervalHeight.multiply(round / 4)).y;
 
   return (
     <TransformWrapper initialScale={2} initialPositionX={0} initialPositionY={0}>
       <TransformComponent>
         <Box width={BoxWidth} height={BoxHeight} border={1}>
           {nodeInfoList.map((nodeProps, index) => {
-            const { round, gameIndex, date, teamNameA, teamNameB, scoreA, scoreB } = nodeProps;
-            const { x, y } = makeXY(round, gameIndex);
+            const { round, gameOrder, date, teamNameA, teamNameB, scoreA, scoreB } = nodeProps;
+            const { x, y } = makeXY(round, gameOrder);
             return (
               <Node
                 x={x}
                 y={y}
                 round={round}
-                gameIndex={gameIndex}
+                gameOrder={gameOrder}
                 date={date}
                 teamNameA={teamNameA}
                 teamNameB={teamNameB}

@@ -19,10 +19,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     date: '2015-02-24 12:30',
-    team1: '강북풋살팀',
-    team2: '강남풋살팀',
-    score1: 4,
-    score2: 2,
-    nodeName: '8강 4경기',
+    teamNameA: '강북풋살팀',
+    teamNameB: '강남풋살팀',
+    scoreA: 4,
+    scoreB: 2,
+    round: 8,
+    gameOrder: 4,
+    x: 100,
+    y: 100,
   },
 };
