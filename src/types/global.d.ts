@@ -42,6 +42,19 @@ interface Competition {
   organizer: string;
 }
 
+interface Tournaments {
+  [groupKey: string]: Tournament;
+}
+
+type Tournament = TournamentNode[];
+
+interface TournamentNode {
+  groupKey: string;
+  size: number; // 2, 4, 8, 16, 32, 64
+  round: number; // 2, 4, 8, 16, 32, 64
+  gameOrder: number; // 0~1, 0~3
+}
+
 class Coordinate {
   x: number;
   y: number;

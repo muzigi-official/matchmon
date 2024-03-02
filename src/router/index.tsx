@@ -21,7 +21,7 @@ const router = createBrowserRouter(
 
       <Route path='competition'>
         <Route path=':competitionId' element={<Competition />} />
-        <Route path='' element={<CompetitionList />} />
+        <Route path='list' element={<CompetitionList />} />
       </Route>
 
       <Route path='player'>

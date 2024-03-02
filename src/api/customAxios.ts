@@ -13,6 +13,7 @@ const customAxios: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     access_token: cookies.get('access_token'),
+    authorization: `Bearer ${cookies.get('access_token')}`,
   },
 });
 
