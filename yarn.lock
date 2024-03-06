@@ -2198,7 +2198,7 @@
   resolved "https://registry.npmjs.org/@storybook/addon-toolbars/-/addon-toolbars-7.6.17.tgz"
   integrity sha512-UMrchbUHiyWrh6WuGnpy34Jqzkx/63B+MSgb3CW7YsQaXz64kE0Rol0TNSznnB+mYXplcqH+ndI4r4kFsmgwDg==
 
-"@storybook/addon-viewport@7.6.17":
+"@storybook/addon-viewport@^7.6.17", "@storybook/addon-viewport@7.6.17":
   version "7.6.17"
   resolved "https://registry.npmjs.org/@storybook/addon-viewport/-/addon-viewport-7.6.17.tgz"
   integrity sha512-sA0QCcf4QAMixWvn8uvRYPfkKCSl6JajJaAspoPqXSxHEpK7uwOlpg3kqFU5XJJPXD0X957M+ONgNvBzYqSpEw==
