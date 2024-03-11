@@ -75,3 +75,11 @@ class Coordinate {
     return this;
   }
 }
+
+interface Team {
+  name: string;
+  location: string;
+  emblem: string;
+  gender: string;
+  isActive: boolean;
+}

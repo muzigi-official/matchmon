@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import DataTable from '@/components/table/DataTable';
 import Button from '@mui/material/Button';
@@ -9,6 +8,10 @@ import './teamPage.scoped.css';
 import EditDialog from './EditDialog';
 import AddDialog from './AddDialog';
 import ConfirmDialog from '@/components/dialog/Confirm';
+import { listTeam } from '@/api/team';
+import BasicTable from '@/components/table/BasicTable';
+import { Box } from '@mui/system';
+import { Pagination, Stack } from '@mui/material';
 
 const headerSample = [
   { name: 'name', withImage: 'emblem', type: 'text' },
@@ -140,11 +143,30 @@ const deleteRow = async (row: DialogData) => {
   // data reload
 };
 
+const header = ['name', 'gender', 'location', 'emblem'];
+
 export default function TeamPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<DialogData | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  const [temaData, setTeamData] = useState<Team[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [pageTotal, setPageCount] = useState<number>(10);
+
+  useEffect(() => {
+    getTeams(1);
+  }, []);
+
+  const getTeams = async (newPage: number) => {
+    const response = await listTeam(newPage);
+    const { page, last_page } = response.meta;
+    setTeamData(response.data);
+    setPage(Number(page));
+    setPageCount(last_page);
+  };
+
   return (
     <>
       <div className='page__container'>
@@ -174,6 +196,29 @@ export default function TeamPage() {
               setIsDialogOpen(true);
             }}
           />
+        </Paper>
+        <Paper className='page__content' variant='outlined' square={false}>
+          <Stack>
+            <BasicTable
+              header={header}
+              rows={temaData}
+              onClickModify={(row: DialogData) => {
+                setSelectedRow(row);
+                //FIXME: page 이동으로 바껴야 함.
+                // modify Dialog Open
+                setIsEditDialogOpen(true);
+              }}
+              onClickDelete={(row: DialogData) => {
+                setSelectedRow(row);
+                setIsDialogOpen(true);
+              }}
+            />
+          </Stack>
+          <Stack>
+            <Box display='flex' padding={'24px'} justifyContent={'center'} alignContent={'center'}>
+              <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getTeams(newPage)} color='primary' />
+            </Box>
+          </Stack>
         </Paper>
       </div>
       <AddDialog
