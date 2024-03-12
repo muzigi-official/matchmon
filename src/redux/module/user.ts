@@ -23,7 +23,6 @@ const userSlice = createSlice({
   reducers: {
     logOut(state) {
       state.isSignIn = false;
-      cookies.remove('clientId');
       cookies.remove('access_token');
     },
     logIn(state, { payload }: PayloadAction<string>) {
