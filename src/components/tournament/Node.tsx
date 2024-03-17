@@ -2,7 +2,6 @@
 
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { number } from './Layout';
 
 // https://codesandbox.io/p/sandbox/tournament-bracket-po5u4?file=%2F
 
@@ -58,8 +57,8 @@ interface PropsBlock {
   isWin: boolean;
 }
 function TeamScoreBlock({ teamName, score, isWin = false }: PropsBlock) {
-  const backgroundColor = isWin ? '#888' : '#222';
-  const backgroundColorScore = 'black';
+  const backgroundColor = isWin ? '#E6D3FF' : '#C6B3CF';
+  const backgroundColorScore = '#E6D3FF';
   const fontColor = isWin ? 'white' : 'grey';
 
   return (
