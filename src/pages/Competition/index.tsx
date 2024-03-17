@@ -83,6 +83,15 @@ export default function Competition() {
           )}
           토큰: {token && token.substring(0, 10)}
         </Grid>
+        <Grid xs={12}>
+          <Button onClick={() => {}} variant='outlined'>
+            참가 신청
+          </Button>
+          <Button onClick={() => {}} variant='outlined'>
+            참가 신청 목록 불러오기
+          </Button>
+          <h2>참가 허락/거절 프로세스</h2>
+        </Grid>
 
         <Grid xs={3}>
           <FormControl fullWidth>
