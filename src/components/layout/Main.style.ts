@@ -96,5 +96,5 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'o
 }));
 
 export const MainContainer = styled(Box)`
-  padding: 0 24px;
+  padding: 0 18px;
 `;
