@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import Button from '@mui/material/Button';
-import './MainButton.scoped.scss';
+import './MyButton.scoped.scss';
 
 type ButtonProps = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type ButtonProps = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-export default function MainButton({ children, variant, onClick }: ButtonProps) {
+export default function MyButton({ children, variant, onClick }: ButtonProps) {
   return (
     <Button
       className='button'
