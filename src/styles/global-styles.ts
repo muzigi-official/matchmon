@@ -69,6 +69,26 @@ const GlobalStyle = createGlobalStyle`
     border-style: solid;
     border-color: var(--border-color, currentColor)
   }
+
+  // dialog
+  .dialog-header {
+  padding: 64px 64px 24px;
+}
+.dialog-header .header-title {
+  font-size: 24px;
+  padding: 0;
+}
+.dialog-header .header-body {
+  font-size: 15px;
+}
+.dialog-content {
+  padding: 2px 64px 24px;
+}
+
+.dialog-footer {
+  padding: 0 64px 64px;
+  justify-content: center;
+}
 `;
 
 export default GlobalStyle;
