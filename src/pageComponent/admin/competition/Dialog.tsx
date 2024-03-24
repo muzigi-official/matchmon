@@ -9,7 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 interface IFormInput {
   name: string;
@@ -17,7 +17,7 @@ interface IFormInput {
   phoneNumber: string;
   startDatetime: Date;
   endDatetime: Date;
-  sponser: string;
+  hostCompany: string;
 }
 
 interface Props {
@@ -30,9 +30,14 @@ export default function AddDialog(props: Props) {
   const {
     register,
     formState: { errors },
+    control,
     handleSubmit,
   } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+    console.log('submit');
+    console.log(data);
+  };
 
   const { open, onClose } = props;
 
@@ -85,38 +90,75 @@ export default function AddDialog(props: Props) {
           <Grid container spacing={{ xs: 2 }}>
             <Grid xs={12} sm={12}>
               <label>대회 시작 날짜</label>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']}>
-                  <DateTimePicker
-                    slotProps={{
-                      textField: {
-                        size: 'small',
-                        ...register('startDatetime', { required: '시작 날짜는 필수값입니다.' }),
-                      },
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+              <Controller
+                name='startDatetime'
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: '대회 시작 날짜는 필수값 입니다.',
+                  },
+                }}
+                render={({ field: { value, onChange, ref } }) => (
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DateTimePicker']}>
+                      <DateTimePicker
+                        value={value || ''}
+                        inputRef={ref}
+                        onChange={onChange}
+                        onAccept={onChange}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                          },
+                        }}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                )}
+              />
               {errors.startDatetime?.type === 'required' && (
                 <p className='error' role='alert'>
                   {errors.startDatetime.message}
                 </p>
               )}
             </Grid>
+
             <Grid xs={12} sm={12}>
               <label>대회 종료 날짜</label>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']}>
-                  <DateTimePicker
-                    slotProps={{
-                      textField: {
-                        size: 'small',
-                        ...register('endDatetime', { required: '종료 날짜는 필수값입니다.' }),
-                      },
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+              <Controller
+                name='endDatetime'
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: '대회 종료 날짜는 필수값 입니다.',
+                  },
+                }}
+                render={({ field: { value, onChange, ref } }) => (
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DateTimePicker']}>
+                      <DateTimePicker
+                        value={value || ''}
+                        inputRef={ref}
+                        onChange={onChange}
+                        onAccept={onChange}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            ...register('endDatetime', { required: '종료 날짜는 필수값입니다.' }),
+                          },
+                        }}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                )}
+              />
+              {errors.endDatetime?.type === 'required' && (
+                <p className='error' role='alert'>
+                  {errors.endDatetime.message}
+                </p>
+              )}
             </Grid>
             <Grid xs={12} sm={6}>
               <label>관리자 연락처</label>
@@ -132,38 +174,9 @@ export default function AddDialog(props: Props) {
             </Grid>
             <Grid xs={12} sm={6}>
               <label>대회 주관사</label>
-              <input {...register('sponser')} />
+              <input {...register('hostCompany')} />
             </Grid>
           </Grid>
-          {/* 
-          <Grid container spacing={{ xs: 2 }}>
-            <Grid xs={12} sm={12}>
-              <TextField required variant='outlined' fullWidth size='small' autoComplete='off' label='대회이름' />
-            </Grid>
-            <Grid xs={12} sm={12}>
-              <TextField required variant='outlined' fullWidth size='small' autoComplete='off' label='장소(주소)' />
-            </Grid>
-            <Grid xs={12} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']}>
-                  <DateTimePicker label='대회 시작 날짜' slotProps={{ textField: { size: 'small' } }} />
-                </DemoContainer>
-              </LocalizationProvider>
-            </Grid>
-            <Grid xs={12} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']}>
-                  <DateTimePicker label='대회 종료 날짜' slotProps={{ textField: { size: 'small' } }} />
-                </DemoContainer>
-              </LocalizationProvider>
-            </Grid>
-            <Grid xs={12} sm={6}>
-              <TextField required variant='outlined' fullWidth size='small' autoComplete='off' label='관리자 연락처' />
-            </Grid>
-            <Grid xs={12} sm={6}>
-              <TextField required variant='outlined' fullWidth size='small' autoComplete='off' label='대회 주관사' />
-            </Grid>
-          </Grid> */}
         </div>
         <div className='dialog-footer'>
           <Button type='submit' variant='contained'>
