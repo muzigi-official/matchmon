@@ -16,7 +16,7 @@ import FormControl from '@mui/material/FormControl';
 import BasicSelect from '@/components/select/BasicSelect';
 
 import { LOCATION_INFO, TEAM_TYPE_INFO } from '@/constant/DefaultSetting';
-import './editDialog.scoped.css';
+// import './editDialog.module.css';
 
 interface Props {
   data: DialogData;
