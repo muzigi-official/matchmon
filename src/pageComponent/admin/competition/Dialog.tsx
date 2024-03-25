@@ -8,16 +8,19 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import dayjs from 'dayjs';
+import { addCompetition } from '@/api/competition';
 
 interface IFormInput {
   name: string;
   address: string;
   phoneNumber: string;
-  startDatetime: Date;
-  endDatetime: Date;
-  hostCompany: string;
+  startDate: Date;
+  endDate: Date;
+  organizer: string;
 }
 
 interface Props {
@@ -25,22 +28,29 @@ interface Props {
   onClose: () => void;
   // onConfirm: (playerData: DialogData) => void;
 }
+// TODO:
+// 1. rules test code 붙이기 - 코드에도 붙이기
+// 2. api 연동하기
+// 3. test code 짜는 법 doc 작성하기
 
 export default function AddDialog(props: Props) {
   const {
     register,
+    watch,
     formState: { errors },
     control,
     handleSubmit,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = data => {
-    console.log('submit');
-    console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = async data => {
+    await addCompetition(data);
   };
 
   const { open, onClose } = props;
 
+  // rules 정리
+  // 필수값: 대회이름, 대회 장소, 대회 날짜(시작, 종료), 관리자 연락처
+  // 대회 날짜: 종료날짜가 시작날짜보다 더 먼저일 수 없다. 둘이 같을 순 있다.
   return (
     <Dialog
       open={open}
@@ -91,7 +101,7 @@ export default function AddDialog(props: Props) {
             <Grid xs={12} sm={12}>
               <label>대회 시작 날짜</label>
               <Controller
-                name='startDatetime'
+                name='startDate'
                 control={control}
                 rules={{
                   required: {
@@ -103,6 +113,7 @@ export default function AddDialog(props: Props) {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DateTimePicker']}>
                       <DateTimePicker
+                        disablePast
                         value={value || ''}
                         inputRef={ref}
                         onChange={onChange}
@@ -117,9 +128,9 @@ export default function AddDialog(props: Props) {
                   </LocalizationProvider>
                 )}
               />
-              {errors.startDatetime?.type === 'required' && (
+              {errors.startDate?.type === 'required' && (
                 <p className='error' role='alert'>
-                  {errors.startDatetime.message}
+                  {errors.startDate.message}
                 </p>
               )}
             </Grid>
@@ -127,7 +138,7 @@ export default function AddDialog(props: Props) {
             <Grid xs={12} sm={12}>
               <label>대회 종료 날짜</label>
               <Controller
-                name='endDatetime'
+                name='endDate'
                 control={control}
                 rules={{
                   required: {
@@ -138,15 +149,21 @@ export default function AddDialog(props: Props) {
                 render={({ field: { value, onChange, ref } }) => (
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DateTimePicker']}>
-                      <DateTimePicker
+                      <DatePicker
+                        disablePast
                         value={value || ''}
                         inputRef={ref}
                         onChange={onChange}
                         onAccept={onChange}
+                        shouldDisableDate={day => {
+                          return dayjs(dayjs(day).format(`YYYY-MM-DD`)).isBefore(
+                            dayjs(watch('startDate')).subtract(1, 'day'),
+                          );
+                        }}
                         slotProps={{
                           textField: {
                             size: 'small',
-                            ...register('endDatetime', { required: '종료 날짜는 필수값입니다.' }),
+                            ...register('endDate', { required: '종료 날짜는 필수값입니다.' }),
                           },
                         }}
                       />
@@ -154,12 +171,13 @@ export default function AddDialog(props: Props) {
                   </LocalizationProvider>
                 )}
               />
-              {errors.endDatetime?.type === 'required' && (
+              {errors.endDate?.type === 'required' && (
                 <p className='error' role='alert'>
-                  {errors.endDatetime.message}
+                  {errors.endDate.message}
                 </p>
               )}
             </Grid>
+            {/* TODO: 당일 경기일 경우 체크박스 표시 두기 */}
             <Grid xs={12} sm={6}>
               <label>관리자 연락처</label>
               <input
@@ -174,7 +192,7 @@ export default function AddDialog(props: Props) {
             </Grid>
             <Grid xs={12} sm={6}>
               <label>대회 주관사</label>
-              <input {...register('hostCompany')} />
+              <input {...register('organizer')} />
             </Grid>
           </Grid>
         </div>
