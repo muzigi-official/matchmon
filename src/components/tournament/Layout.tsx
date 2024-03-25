@@ -98,14 +98,13 @@ const makeRelativePosition = (round: number): any => {
     }
   }
 
-  relativePosition[2][1] = [centerX, relativePosition[4][1][1] - 1];
+  relativePosition[2][1] = [centerX, relativePosition[4][1][1] - 0.5];
 
   return relativePosition;
 };
 
 export default function TournamentLayout(props: Props) {
   const { round = 32, nodeInfoList } = props;
-
   const RelativePosition = makeRelativePosition(round);
 
   const makeXY = (round: number, gameOrder: number): Coordinate => {

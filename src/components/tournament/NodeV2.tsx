@@ -50,8 +50,8 @@ export default function NodeV2(props: NodeProps) {
     <Paper
       sx={{
         p: 2,
-        maxWidth: `${width}px`,
-        maxHeight: `${height}px`,
+        width: `${width}px`,
+        height: `${height}px`,
         backgroundColor: 'white',
         position: 'absolute',
         top: y,

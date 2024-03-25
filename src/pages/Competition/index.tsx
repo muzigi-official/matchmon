@@ -123,7 +123,7 @@ export default function Competition() {
         </Grid>
         {Object.keys(tournaments).map(key => {
           const tournament = tournaments[key];
-          const maxRound = tournament[0].size;
+          const maxRound = tournament[0].size / 2;
           return (
             <Grid xs={12} key={key}>
               <TournamentLayout round={maxRound} nodeInfoList={tournament}></TournamentLayout>
