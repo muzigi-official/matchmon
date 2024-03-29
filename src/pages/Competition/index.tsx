@@ -1,39 +1,22 @@
-import { signIn } from '@/api/auth';
 import { createTournament, getTournamentList } from '@/api/tournament';
 import TournamentLayout from '@/components/tournament/Layout';
-import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { logIn, logOut } from '@/redux/module/user';
-import { RootState } from '@/redux/store';
+
 import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as _ from 'lodash';
 
 export default function Competition() {
-  const dispatch = useAppDispatch();
-  const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
   const { competitionId } = useParams();
 
   const [round, setRound] = useState<string>('8');
-  const [token, setToken] = useState<string>('');
 
   const [tournaments, setTournaments] = useState<Tournaments>({});
 
   useEffect(() => {
     handleGetTournaments();
   }, []);
-
-  const handleSignIn = async () => {
-    const data = await signIn({ username: 'soccerCoach2', password: '1q2w3e' });
-    dispatch(logIn(data.access_token));
-    setToken(data.access_token);
-  };
-
-  const handleSignOut = () => {
-    dispatch(logOut());
-    setToken('');
-  };
 
   const handleChange = (event: SelectChangeEvent) => {
     setRound(event.target.value as string);
@@ -61,28 +44,6 @@ export default function Competition() {
     <>
       <h1>Competition: {competitionId}</h1>
       <Grid container>
-        <Grid xs={12}>
-          {isSignIn ? (
-            <Button
-              onClick={() => {
-                handleSignOut();
-              }}
-              variant='outlined'
-            >
-              SignOut
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                handleSignIn();
-              }}
-              variant='outlined'
-            >
-              SignIn
-            </Button>
-          )}
-          토큰: {token && token.substring(0, 10)}
-        </Grid>
         <Grid xs={12}>
           <Button onClick={() => {}} variant='outlined'>
             참가 신청
