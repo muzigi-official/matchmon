@@ -69,6 +69,99 @@ const GlobalStyle = createGlobalStyle`
     border-style: solid;
     border-color: var(--border-color, currentColor)
   }
+
+  // dialog
+  .dialog-header {
+    padding: 64px 32px 24px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  .dialog-header .header-title {
+    font-size: 24px;
+    padding: 0;
+  }
+  .dialog-header .header-body {
+    font-size: 0.75rem;
+  }
+  .dialog-content {
+    padding: 2px 114px 12px;
+  }
+
+  .dialog-content .dialog-close-button {
+    position: absolute;
+    inset-block-start: 1rem;
+    inset-inline-end: 1rem;
+  }
+
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    padding: 0 32px 64px;
+
+    button + button {
+      margin: 0px 11px;
+    }
+
+    button:last-child {
+      border-color: var(--border-color);
+      color: var(--border-color);
+    }
+  }
+
+  // input
+  input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #dddddd;
+    padding: 10px 15px;
+    margin-bottom: 4px;
+    font-size: 14px;
+
+  }
+
+  label {
+    line-height: 2;
+    text-align: left;
+    display: block;
+    margin-top: 4px;
+    color: black;
+    font-size: 12px;
+    font-weight: 200;
+  }
+
+  button[type="submit"]:active,
+  input[type="button"]:active,
+  input[type="submit"]:active {
+    transition: 0.3s all;
+    transform: translateY(3px);
+    border: 1px solid transparent;
+    opacity: 0.8;
+  }
+
+  input:disabled {
+    opacity: 0.4;
+  }
+
+  input[type="button"]:hover {
+    transition: 0.3s all;
+  }
+
+  button[type="submit"],
+  input[type="button"],
+  input[type="submit"] {
+    -webkit-appearance: none;
+  }
+  
+  p.error {
+    color: red;
+    margin-top: 2px;
+    margin-bottom: 0;
+    font-size: .75rem
+  }
+
 `;
 
 export default GlobalStyle;
