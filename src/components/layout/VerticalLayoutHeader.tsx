@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { RootState } from '@/redux/store';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
@@ -19,6 +20,7 @@ import * as S from './Main.style';
 export default function VerticalLayoutHeader(props: AppBarProps) {
   const dispatch = useAppDispatch();
   const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
+  const navigate = useNavigate();
   const { open, onClickMenu } = props;
   const [token, setToken] = useState<string>('');
   const [competitions, setCompetitions] = useState<SelectProperty[]>([{ name: '대회를 선택해주세요', value: 0 }]);
@@ -50,6 +52,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
 
   const changeFilterOption = (value: string) => {
     console.log('change', value);
+    navigate(`/admin/competition/${value}`);
   };
 
   return (
