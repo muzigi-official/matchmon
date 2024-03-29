@@ -14,6 +14,7 @@ const Ranking = lazy(() => import('../pages/Ranking'));
 const Bracket = lazy(() => import('../pages/Bracket'));
 
 const AdminCompetition = lazy(() => import('../pages/admin/competition'));
+const AdminHome = lazy(() => import('../pages/admin/Home'));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
       <Route index element={<Main />} />
 
       <Route path='admin'>
+        <Route path='' element={<AdminHome />} />
         <Route path='competition' element={<AdminCompetition />} />
       </Route>
     </Route>,
