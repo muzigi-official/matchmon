@@ -1,6 +1,7 @@
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiToobar from '@mui/material/Toolbar';
+import { Avatar } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -95,6 +96,21 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'o
   }),
 }));
 
+export const MuiAvatar = styled(Avatar)`
+  margin: 12px 20px 12px 8px;
+`;
+
 export const MainContainer = styled(Box)`
   padding: 0 18px;
+  margin-top: 16px;
+`;
+
+export const ToolbarStart = styled('div')`
+  display: flex;
+  margin: 0;
+  width: 30%;
+`;
+export const ToolbarEnd = styled('div')`
+  display: flex;
+  align-items: center;
 `;
