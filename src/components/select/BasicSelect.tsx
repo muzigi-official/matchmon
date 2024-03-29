@@ -6,7 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface Props {
   title: string;
-  items: { value: string | number; name: string }[];
+  items: SelectProperty[];
   onSelect: (selectedValue: string) => void;
   defaultValue?: string | undefined;
 }
@@ -21,7 +21,7 @@ export default function BasicSelect(props: Props) {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel>{title}</InputLabel>
       <Select value={selectedValue} label={title} onChange={handleChange}>
         {items.map(item => {

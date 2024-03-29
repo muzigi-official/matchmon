@@ -83,3 +83,8 @@ interface Team {
   gender: string;
   isActive: boolean;
 }
+
+interface SelectProperty {
+  value: string | number | undefined;
+  name: string;
+}
