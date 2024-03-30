@@ -2,10 +2,6 @@ import customAxios from '@/api/customAxios';
 
 type DefaultReturn = string;
 
-interface GetCompetitionResponse {
-  competition: Competition;
-}
-
 interface ListCompetitionResponse {
   data: Competition[];
   meta: {
@@ -37,8 +33,6 @@ export async function addCompetition(data: CreateCompetitionDto) {
 }
 
 export async function getCompetition(competitionId: number | string) {
-  const params = { competitionId };
-  const response = await customAxios.get<GetCompetitionResponse>('/competitions/get/', { params });
-  console.log(response);
+  const response = await customAxios.get<Competition>(`/competitions/get/${competitionId}`);
   return response.data;
 }
