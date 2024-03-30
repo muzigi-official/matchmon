@@ -31,3 +31,8 @@ export async function addCompetition(data: CreateCompetitionDto) {
   const response = await customAxios.post<DefaultReturn>('/competitions/create', parseData);
   return response.data;
 }
+
+export async function getCompetition(competitionId: number | string) {
+  const response = await customAxios.get<Competition>(`/competitions/get/${competitionId}`);
+  return response.data;
+}

@@ -1,7 +1,7 @@
 import CompetitionCard from '@/pageComponent/Competition/List/CompetitionCard';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { listCompetition } from '@/api/competition';
 
 function createData(
@@ -150,7 +150,7 @@ const sampleCompetitionList: Competition[] = [
 ];
 
 export default function CompetitionList() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [page, setPage] = useState<number>(0);
   const [pageTotal, setPageCount] = useState<number>(10);
@@ -162,13 +162,13 @@ export default function CompetitionList() {
     return page < pageTotal;
   }, [page, pageTotal]);
 
-  const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  const callback = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) getNextPage();
     });
   };
 
-  let options = {
+  const options = {
     rootMargin: '0px',
     threshold: 1.0,
   };

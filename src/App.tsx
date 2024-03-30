@@ -1,18 +1,18 @@
 import React, { useMemo, Suspense } from 'react';
-import { merge } from 'ts-deepmerge';
-import './App.css';
-import { ToastContainer } from 'react-toastify';
-
-import { Provider } from 'react-redux';
-import store from '@/redux/store';
-
 import { RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import { merge } from 'ts-deepmerge';
+
+import store from '@/redux/store';
 import router from '@/router';
 
+import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
 import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
-import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
+
 import GlobalStyle from '@/styles/global-styles';
+import './App.css';
 
 const renderLoader = () => <p>Loading</p>;
 

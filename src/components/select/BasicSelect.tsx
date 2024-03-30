@@ -6,13 +6,14 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface Props {
   title: string;
-  items: { value: string | number; name: string }[];
+  size?: 'small' | 'medium';
+  items: SelectProperty[];
   onSelect: (selectedValue: string) => void;
   defaultValue?: string | undefined;
 }
 
 export default function BasicSelect(props: Props) {
-  const { title, items, defaultValue = '', onSelect } = props;
+  const { title, items, defaultValue = '', onSelect, size = 'medium' } = props;
   const [selectedValue, setSelectedValue] = React.useState(defaultValue);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -21,7 +22,7 @@ export default function BasicSelect(props: Props) {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl sx={{ m: 1, minWidth: 180 }} size={size}>
       <InputLabel>{title}</InputLabel>
       <Select value={selectedValue} label={title} onChange={handleChange}>
         {items.map(item => {
