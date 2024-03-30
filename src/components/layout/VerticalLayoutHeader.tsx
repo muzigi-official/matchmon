@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { RootState } from '@/redux/store';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
@@ -18,12 +18,15 @@ interface AppBarProps {
 import * as S from './Main.style';
 
 export default function VerticalLayoutHeader(props: AppBarProps) {
+  const { competitionId } = useParams();
+
+  console.log(competitionId);
   const dispatch = useAppDispatch();
   const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
   const navigate = useNavigate();
   const { open, onClickMenu } = props;
   const [token, setToken] = useState<string>('');
-  const [competitions, setCompetitions] = useState<SelectProperty[]>([{ name: '대회를 선택해주세요', value: 0 }]);
+  const [competitions, setCompetitions] = useState<SelectProperty[]>([]);
   const handleSignIn = async () => {
     const data = await signIn({ username: 'soccerCoach', password: '1q2w3e' });
     dispatch(logIn(data.access_token));
@@ -52,7 +55,9 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
 
   const changeFilterOption = (value: string) => {
     console.log('change', value);
-    navigate(`/admin/competition/${value}`);
+    if (Number(value) !== 0 && value !== competitionId) {
+      navigate(`/admin/competition/${value}`);
+    }
   };
 
   return (
@@ -71,15 +76,19 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
               ...(open && { display: 'none' }),
             }}
           />
-
-          <BasicSelect
-            title='대회를 선택해주세요'
-            size='small'
-            items={competitions}
-            onSelect={value => {
-              changeFilterOption(value);
-            }}
-          ></BasicSelect>
+          {competitions.length > 0 ? (
+            <BasicSelect
+              title='대회를 선택해주세요'
+              size='small'
+              defaultValue={competitionId}
+              items={competitions}
+              onSelect={value => {
+                changeFilterOption(value);
+              }}
+            />
+          ) : (
+            ''
+          )}
         </S.ToolbarStart>
         <S.ToolbarEnd>
           토큰: {token && token.substring(0, 10)}
