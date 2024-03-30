@@ -19,8 +19,7 @@ import * as S from './Main.style';
 
 export default function VerticalLayoutHeader(props: AppBarProps) {
   const { competitionId } = useParams();
-
-  console.log(competitionId);
+  // FIXME: 콘솔이 두번씩 찍힌다. 총 4개(원래 한개 더 찍히는 거 말고 한번 더 찍힘)
   const dispatch = useAppDispatch();
   const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
   const navigate = useNavigate();
@@ -54,7 +53,6 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
   };
 
   const changeFilterOption = (value: string) => {
-    console.log('change', value);
     if (Number(value) !== 0 && value !== competitionId) {
       navigate(`/admin/competition/${value}`);
     }
