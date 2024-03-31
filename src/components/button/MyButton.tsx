@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import Button from '@mui/material/Button';
-import './MyButton.scoped.scss';
 
 type ButtonProps = {
   children: ReactNode;

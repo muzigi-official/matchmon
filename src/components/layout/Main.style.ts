@@ -74,7 +74,7 @@ export const Toolbar = styled(MuiToobar, {
   shouldForwardProp: prop => prop !== 'open',
 })<AppBarProps>(({ open }) => ({
   display: 'flex',
-  padding: '12px',
+  padding: 0,
   justifyContent: 'space-between',
   ...(open && {
     justifyContent: 'flex-end',
@@ -97,7 +97,7 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'o
 }));
 
 export const MuiAvatar = styled(Avatar)`
-  margin: 12px 20px 12px 8px;
+  margin: 17px;
 `;
 
 export const MainContainer = styled(Box)`
@@ -108,8 +108,10 @@ export const ToolbarStart = styled('div')`
   display: flex;
   margin: 0;
   width: 30%;
+  gap: 10px;
 `;
 export const ToolbarEnd = styled('div')`
   display: flex;
   align-items: center;
+  margin-right: 18px;
 `;

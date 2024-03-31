@@ -1,8 +1,9 @@
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+import * as S from './BasicSelect.style';
 
 interface Props {
   title: string;
@@ -22,7 +23,7 @@ export default function BasicSelect(props: Props) {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 180 }} size={size}>
+    <S.FormsGroup sx={{ m: 1, minWidth: 180 }} size={size}>
       <InputLabel>{title}</InputLabel>
       <Select value={selectedValue} label={title} onChange={handleChange}>
         {items.map(item => {
@@ -33,6 +34,6 @@ export default function BasicSelect(props: Props) {
           );
         })}
       </Select>
-    </FormControl>
+    </S.FormsGroup>
   );
 }
