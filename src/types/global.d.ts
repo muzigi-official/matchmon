@@ -1,8 +1,7 @@
-declare interface YoutubeFormat {
+interface RouteData {
   url: string;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
+  name: string;
+  icon?: React.ReactElement;
 }
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';

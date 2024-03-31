@@ -5,25 +5,6 @@ import { ListItemProps } from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ShieldIcon from '@mui/icons-material/Shield';
-import PersonOutline from '@mui/icons-material/PersonOutline';
-import StadiumIcon from '@mui/icons-material/Stadium';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-
-interface RouteData {
-  url: string;
-  name: string;
-  icon?: React.ReactElement;
-}
-
-export const routeDataList: RouteData[] = [
-  { url: '/team', name: '팀', icon: <ShieldIcon /> },
-  { url: '/competition/list', name: '대회', icon: <StadiumIcon /> },
-  { url: '/player', name: '선수', icon: <PersonOutline /> },
-  { url: '/ranking', name: '랭킹', icon: <EmojiEventsIcon /> },
-  { url: '/bracket', name: '대진표', icon: <CalendarMonthIcon /> },
-];
 
 interface ListItemLinkProps extends ListItemProps {
   to: string;
@@ -68,14 +49,14 @@ function ListItemLink(props: ListItemLinkProps) {
 
 interface Props {
   open: boolean;
+  list: RouteData[];
   onClick: () => void;
 }
 
-export default function LinkList(props: Props) {
-  const { open, onClick } = props;
+export default function LinkList({ open, onClick, list }: Props) {
   return (
     <List>
-      {routeDataList.map(routeData => {
+      {list.map(routeData => {
         const { url, name, icon } = routeData;
         breadcrumbNameMap[url] = name;
         const primary = breadcrumbNameMap[url];

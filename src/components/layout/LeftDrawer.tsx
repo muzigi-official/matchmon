@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
+import { authByRoute } from '@/router/path';
+
 interface Props {
   open: boolean;
   setOpen: (newOpen: boolean) => void;
@@ -35,7 +37,9 @@ export default function LeftDrawer(props: Props) {
           </IconButton>
         </S.DrawerHeader>
         <Divider />
-        <LinkList open={open} onClick={() => setOpen(false)} />
+        <LinkList open={open} list={authByRoute.NU} onClick={() => setOpen(false)} />
+        <Divider />
+        <LinkList open={open} list={authByRoute.CA} onClick={() => setOpen(false)} />
       </S.Drawer>
     </>
   );
