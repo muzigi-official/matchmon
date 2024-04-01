@@ -12,7 +12,6 @@ import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
 
 import GlobalStyle from '@/styles/global-styles';
-import './App.css';
 
 const renderLoader = () => <p>Loading</p>;
 

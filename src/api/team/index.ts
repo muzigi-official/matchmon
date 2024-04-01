@@ -24,7 +24,7 @@ interface GetTeamResponse {
 
 export async function addTeam(data: CreateTeamDto) {
   const response = await customAxios.post<DefaultReturn>('/teams/create', data);
-  return response.data;
+  return response;
 }
 
 export async function editTeam(id: number, data: CreateTeamDto) {

@@ -6,6 +6,11 @@ import Typography from '@mui/material/Typography';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+  onClickMenu: () => void;
+}
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -46,11 +51,6 @@ export const HomeLink = styled(Typography)(({ theme }) => ({
   textDecoration: 'none',
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-  onClickMenu: () => void;
-}
-
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -74,7 +74,7 @@ export const Toolbar = styled(MuiToobar, {
   shouldForwardProp: prop => prop !== 'open',
 })<AppBarProps>(({ open }) => ({
   display: 'flex',
-  padding: '12px',
+  padding: 0,
   justifyContent: 'space-between',
   ...(open && {
     justifyContent: 'flex-end',
@@ -97,7 +97,7 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'o
 }));
 
 export const MuiAvatar = styled(Avatar)`
-  margin: 12px 20px 12px 8px;
+  margin: 17px;
 `;
 
 export const MainContainer = styled(Box)`
@@ -108,8 +108,10 @@ export const ToolbarStart = styled('div')`
   display: flex;
   margin: 0;
   width: 30%;
+  gap: 10px;
 `;
 export const ToolbarEnd = styled('div')`
   display: flex;
   align-items: center;
+  margin-right: 18px;
 `;

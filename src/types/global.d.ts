@@ -1,8 +1,7 @@
-declare interface YoutubeFormat {
+interface RouteData {
   url: string;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
+  name: string;
+  icon?: React.ReactElement;
 }
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -16,22 +15,8 @@ interface Player {
   picture: string;
 }
 
-declare interface DialogData {
-  [key: string]: string;
-  name: string;
-  emblem: string;
-  location: string;
-  gender: Gender;
-  teamType: string;
-  managerName: string;
-  phone: string;
-  email: string;
-  uniformTop: string;
-  uniformBottom: string;
-  uniformSocks: string;
-}
-
 interface Competition {
+  [x: string]: any;
   id?: number | string;
   name: string;
   address: string;
@@ -77,6 +62,7 @@ class Coordinate {
 }
 
 interface Team {
+  id: number;
   name: string;
   location: string;
   emblem: string;

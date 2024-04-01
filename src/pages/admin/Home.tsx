@@ -5,7 +5,7 @@ export default function AdminHome() {
   return (
     <div className='container'>
       <h2>admin home TODO</h2>
-      <p>1. login 붙이기</p>
+      <p>대회 없을 시 대회 선택하라고 해주기</p>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { RootState } from '@/redux/store';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { logIn, logOut } from '@/redux/module/user';
+import { setCompetition } from '@/redux/module/competition';
 import { signIn } from '@/api/auth';
-import { Button } from '@mui/material';
 import BasicSelect from '@/components/select/BasicSelect';
 
 import { listCompetition } from '@/api/competition';
@@ -17,15 +17,18 @@ interface AppBarProps {
 
 import * as S from './Main.style';
 
+import MyButton from '../button/MyButton';
+
 export default function VerticalLayoutHeader(props: AppBarProps) {
-  const { competitionId } = useParams();
   // FIXME: 콘솔이 두번씩 찍힌다. 총 4개(원래 한개 더 찍히는 거 말고 한번 더 찍힘)
   const dispatch = useAppDispatch();
   const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
+  const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
   const navigate = useNavigate();
   const { open, onClickMenu } = props;
   const [token, setToken] = useState<string>('');
   const [competitions, setCompetitions] = useState<SelectProperty[]>([]);
+
   const handleSignIn = async () => {
     const data = await signIn({ username: 'soccerCoach', password: '1q2w3e' });
     dispatch(logIn(data.access_token));
@@ -53,7 +56,8 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
   };
 
   const changeFilterOption = (value: string) => {
-    if (Number(value) !== 0 && value !== competitionId) {
+    dispatch(setCompetition(value));
+    if (Number(value) !== 0 && value !== selectedCompetition) {
       navigate(`/admin/competition/${value}`);
     }
   };
@@ -78,7 +82,8 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
             <BasicSelect
               title='대회를 선택해주세요'
               size='small'
-              defaultValue={competitionId}
+              margin={1}
+              defaultValue={selectedCompetition}
               items={competitions}
               onSelect={value => {
                 changeFilterOption(value);
@@ -91,25 +96,23 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
         <S.ToolbarEnd>
           토큰: {token && token.substring(0, 10)}
           {isSignIn ? (
-            <Button
+            <MyButton
               variant='outlined'
-              color='primary'
               onClick={() => {
                 handleSignOut();
               }}
             >
               LogOut
-            </Button>
+            </MyButton>
           ) : (
-            <Button
+            <MyButton
               variant='outlined'
-              color='primary'
               onClick={() => {
                 handleSignIn();
               }}
             >
               Login
-            </Button>
+            </MyButton>
           )}
         </S.ToolbarEnd>
       </S.Toolbar>
