@@ -82,6 +82,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
             <BasicSelect
               title='대회를 선택해주세요'
               size='small'
+              margin={1}
               defaultValue={selectedCompetition}
               items={competitions}
               onSelect={value => {
