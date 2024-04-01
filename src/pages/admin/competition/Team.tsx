@@ -9,7 +9,7 @@ import DataTable from '@/components/table/DataTable';
 
 import * as S from './Container.style';
 
-const headerSample = [
+const joinTeamHeader = [
   { headerName: '팀이름', property: 'name', withImage: 'emblem', type: 'text' },
   { headerName: '신청상태', property: 'participateState', type: 'text' },
   { headerName: '조', property: 'group', type: 'text' },
@@ -76,7 +76,7 @@ export default function ParticipateTeams() {
         </div>
       </S.Top>
       <S.Content>
-        <DataTable header={headerSample} rows={rows} onClickRow={movePage} onClickDelete={deleteTeam} />
+        <DataTable header={joinTeamHeader} rows={rows} onClickRow={movePage} onClickDelete={deleteTeam} />
       </S.Content>
       <div>dialog 열어줘 {isDialogOpen}</div>
     </S.Container>
