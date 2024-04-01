@@ -55,7 +55,9 @@ const GlobalStyle = createGlobalStyle`
     vertical-align:baseline;
   }
   article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
-  body {line-height:1}
+  #root {width: 100%;}
+  html { font-size: 100%; }
+  body {line-height:1; width: 100%; height: 100%; font-size: 1.6rem;}
   ol, ul {list-style:none}
   blockquote, q {quotes:none}
   blockquote:after, blockquote:before, q:after, q:before {content:"";content:none}

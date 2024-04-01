@@ -1,11 +1,11 @@
 import React from 'react';
 
-import '../index.scoped.css';
+import * as S from './Container.style';
 
 export default function CompetitionSetting() {
   return (
-    <div className='container'>
+    <S.Container className='container'>
       <h3>대회 설정</h3>
-    </div>
+    </S.Container>
   );
 }
