@@ -6,7 +6,6 @@ import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { logIn, logOut } from '@/redux/module/user';
 import { setCompetition } from '@/redux/module/competition';
 import { signIn } from '@/api/auth';
-import { Button } from '@mui/material';
 import BasicSelect from '@/components/select/BasicSelect';
 
 import { listCompetition } from '@/api/competition';
@@ -17,6 +16,8 @@ interface AppBarProps {
 }
 
 import * as S from './Main.style';
+
+import MyButton from '../button/MyButton';
 
 export default function VerticalLayoutHeader(props: AppBarProps) {
   // FIXME: 콘솔이 두번씩 찍힌다. 총 4개(원래 한개 더 찍히는 거 말고 한번 더 찍힘)
@@ -94,25 +95,23 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
         <S.ToolbarEnd>
           토큰: {token && token.substring(0, 10)}
           {isSignIn ? (
-            <Button
+            <MyButton
               variant='outlined'
-              color='primary'
               onClick={() => {
                 handleSignOut();
               }}
             >
               LogOut
-            </Button>
+            </MyButton>
           ) : (
-            <Button
+            <MyButton
               variant='outlined'
-              color='primary'
               onClick={() => {
                 handleSignIn();
               }}
             >
               Login
-            </Button>
+            </MyButton>
           )}
         </S.ToolbarEnd>
       </S.Toolbar>

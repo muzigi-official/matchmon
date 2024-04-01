@@ -6,6 +6,11 @@ import Typography from '@mui/material/Typography';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+  onClickMenu: () => void;
+}
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -45,11 +50,6 @@ export const HomeLink = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.info,
   textDecoration: 'none',
 }));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-  onClickMenu: () => void;
-}
 
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
