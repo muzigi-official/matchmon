@@ -6,8 +6,8 @@ import { Pagination, Stack } from '@mui/material';
 import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
 import MyButton from '@/components/button/MyButton';
-import EditDialog from './EditDialog';
 import AddDialog from '@/pageComponent/team/AddDialog';
+import EditDialog from './EditDialog';
 
 import * as S from './Container.style';
 
@@ -18,17 +18,9 @@ const teamHeader = [
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
-interface Team {
-  id: number;
-  name: string;
-  gender: string;
-  location: string;
-}
-
 export default function TeamPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
-
   const [selectedRow, setSelectedRow] = useState<Team | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -36,23 +28,24 @@ export default function TeamPage() {
   const [page, setPage] = useState<number>(1);
   const [pageTotal, setPageCount] = useState<number>(10);
 
+  // TODO: 팀 추가 성공이 닫히면 자연스럽게 새로고침 하고 싶음.
   useEffect(() => {
-    getTeams(1);
-  }, []);
+    if (!isAddDialogOpen) {
+      getTeams(page);
+    }
+  }, [isAddDialogOpen]);
 
   const getTeams = async (newPage: number) => {
     const response = await listTeam(newPage);
-    const { page, last_page } = response.meta;
+    const { last_page } = response.meta;
     setTeamData(response.data);
-    setPage(Number(page));
+    setPage(Number(newPage));
     setPageCount(last_page);
   };
 
   const openModifyDialog = (row: Team) => {
-    console.log('click modify');
+    console.log('click modify', row);
     setSelectedRow(row);
-    //FIXME: page 이동으로 바껴야 함.
-    // modify Dialog Open
     setIsEditDialogOpen(true);
   };
 
@@ -66,13 +59,13 @@ export default function TeamPage() {
     <>
       <S.Container>
         <S.Top>
-          <h4> Team </h4>
+          <h4> Admin: 모든 팀 </h4>
           <MyButton variant='contained' onClick={() => setIsAddDialogOpen(true)}>
             팀 추가
           </MyButton>
         </S.Top>
-        <S.Filter className='page__filter'>
-          <p> 필터 영역 </p>
+        <S.Filter>
+          <p> 필터 영역 추후 개발 </p>
         </S.Filter>
         <S.Content>
           <Stack>
