@@ -72,45 +72,6 @@ const GlobalStyle = createGlobalStyle`
     border-color: var(--border-color, currentColor)
   }
 
-  // dialog
-  .dialog-header {
-    padding: 64px 32px 24px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
-  .dialog-header .header-title {
-    font-size: 24px;
-    padding: 0;
-  }
-  .dialog-header .header-body {
-    font-size: 0.75rem;
-  }
-  .dialog-content {
-    padding: 2px 114px 12px;
-  }
-
-  .dialog-content .dialog-close-button {
-    position: absolute;
-    inset-block-start: 1rem;
-    inset-inline-end: 1rem;
-  }
-
-  .dialog-footer {
-    display: flex;
-    justify-content: center;
-    padding: 0 32px 64px;
-
-    button + button {
-      margin: 0px 11px;
-    }
-
-    button:last-child {
-      border-color: var(--border-color);
-      color: var(--border-color);
-    }
-  }
-
   // input
   input {
     display: block;
