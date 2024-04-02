@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { listPlayer, removePlayer, addPlayer, editPlayer } from '@/api/player';
+import { listTeam } from '@/api/team';
 
 import { Pagination } from '@mui/material';
 import DataTable from '@/components/table/DataTable';
@@ -12,9 +13,8 @@ import * as S from '@/pages/Container.style';
 
 const tableHeader = [
   { headerName: '이름', property: 'nickName', withImage: 'pictrue', type: 'text' },
-  // { headerName: '성별', property: 'gender', withImage: 'pictrue', type: 'text' },
-  // { headerName: '등번호', property: 'uniformNumber', type: 'text' },
-  // { headerName: '팀 ID', property: 'teamId', type: 'text' },
+  { headerName: '등번호', property: 'uniformNumber', type: 'text' },
+  { headerName: '팀 ID', property: 'teamId', type: 'text' },
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
@@ -27,9 +27,14 @@ export default function PlayerList() {
   const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<Player | null>(null);
   const [players, setPlayer] = useState<Player[]>([]);
+  const [options, setOptions] = useState<SelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
   useEffect(() => {
     getList(page);
+  }, []);
+
+  useEffect(() => {
+    getTeams(page);
   }, []);
 
   const getList = async (newPage: number) => {
@@ -38,6 +43,22 @@ export default function PlayerList() {
     setPlayer(response.data);
     setPage(Number(page));
     setPageCount(last_page);
+  };
+
+  const getTeams = async (newPage: number) => {
+    console.log('한번만 아니니??');
+    // FIXME: 중복되는 문제
+    const response = await listTeam(newPage);
+    const selectOptions = response.data.map(team => {
+      return {
+        value: team.id,
+        text: team.name,
+      };
+    });
+    setOptions(prevState => {
+      console.log('prevState', prevState);
+      return [...prevState, ...selectOptions];
+    });
   };
 
   const onClickAddButton = () => {
@@ -58,12 +79,17 @@ export default function PlayerList() {
 
   const handleAddPlayer = async (formData: Player) => {
     console.log('Confirm add player', formData);
-    // await addPlayer(formData);
+    const { statusText, status } = await addPlayer({ ...formData, uniformNumber: 0, teamId: Number(formData.teamId) });
+    console.log(status);
+    if (statusText === 'Created') {
+      alert('선수 등록 성공');
+      setIsDialogOpen(false);
+    }
   };
 
   const handleChangePlayer = async (formData: Player) => {
     console.log('Confirm edit player', formData);
-    const { id, ...editForm } = formData;
+    // const { id, ...editForm } = formData;
     // if (id) await editPlayer(id, editForm);
   };
 
@@ -100,12 +126,6 @@ export default function PlayerList() {
           <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getList(newPage)} color='primary' />
         </S.FooterContainer>
       </S.Container>
-      {/* <AddDialog
-        open={isAddDialogOpen}
-        onClose={() => {
-          setIsAddDialogOpen(false);
-        }}
-      /> */}
       <ConfirmDialog
         title='삭제'
         content='삭제하시겠습니까'
@@ -121,6 +141,7 @@ export default function PlayerList() {
       <PlayerDialog
         key={selectedRow && selectedRow.id}
         player={selectedRow}
+        teams={options}
         open={isFormDialogOpen}
         onClose={() => {
           setIsFormDialogOpen(false);

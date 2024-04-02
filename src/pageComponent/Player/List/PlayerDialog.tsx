@@ -6,6 +6,8 @@ import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
 
+import InputSelect from '@/components/select/InputSelect';
+
 import {
   DialogHeader,
   DialogHeaderTitle,
@@ -17,17 +19,20 @@ import {
 
 interface IFormInput {
   nickName: string;
+  uniformNumber: number;
   picture?: string;
+  teamId?: number | string;
 }
 
 interface Props {
   player?: Player | null;
+  teams: SelectProperty[];
   open: boolean;
   onClose: () => void;
   onConfirm: (player: IFormInput) => void;
 }
 
-export default function PlayerDialog({ player, open, onClose, onConfirm }: Props) {
+export default function PlayerDialog({ player, teams, open, onClose, onConfirm }: Props) {
   const {
     register,
     reset,
@@ -41,6 +46,8 @@ export default function PlayerDialog({ player, open, onClose, onConfirm }: Props
     reset({
       nickName: player ? player.nickName : '',
       picture: player ? player.picture : '',
+      // FIXME: teamId selected 안됨ㅠ
+      teamId: player ? player.teamId : '',
     });
   }, []);
 
@@ -66,15 +73,23 @@ export default function PlayerDialog({ player, open, onClose, onConfirm }: Props
             <Grid xs={12} sm={12}>
               <label>이름</label>
               <input
-                {...register('nickName', { required: true })}
+                {...register('nickName', { required: '선수 이름은 필수값입니다.' })}
                 autoComplete='off'
                 aria-invalid={errors.nickName ? 'true' : 'false'}
               />
               {errors.nickName?.type === 'required' && (
                 <p className='error' role='alert'>
-                  선수 이름은 필수 값 입니다.
+                  {errors.nickName.message}
                 </p>
               )}
+            </Grid>
+            <Grid xs={12} sm={12}>
+              <InputSelect
+                label='팀'
+                register={register('teamId', { required: '팀은 필수값입니다.' })}
+                options={teams}
+                errors={errors}
+              />
             </Grid>
           </Grid>
         </DialogContent>

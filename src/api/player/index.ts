@@ -3,10 +3,10 @@ import customAxios from '@/api/customAxios';
 type DefaultReturn = string;
 
 interface CreatePlayerDto {
-  name: string;
-  gender: string;
-  birth: string;
-  picture: string;
+  nickName: string;
+  picture?: string;
+  uniformNumber?: number;
+  teamId: number;
 }
 
 interface ListPlayerResponse {
@@ -24,7 +24,7 @@ interface GetPlayerResponse {
 
 export async function addPlayer(data: CreatePlayerDto) {
   const response = await customAxios.post<DefaultReturn>('/players/create', data);
-  return response.data;
+  return response;
 }
 
 export async function editPlayer(id: number, data: CreatePlayerDto) {

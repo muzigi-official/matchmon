@@ -9,10 +9,10 @@ type Gender = 'M' | 'F' | 'A';
 
 interface Player {
   id?: number;
-  name: string;
-  gender: string;
-  birth: string;
-  picture: string;
+  nickName: string;
+  picture?: string;
+  uniformNumber?: number;
+  teamId?: number;
 }
 
 interface Competition {
@@ -72,5 +72,5 @@ interface Team {
 
 interface SelectProperty {
   value: string | number | undefined;
-  name: string;
+  text: string;
 }
