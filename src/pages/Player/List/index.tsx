@@ -1,33 +1,30 @@
 import { useState, useEffect } from 'react';
 
-import { Stack, Box, Pagination } from '@mui/material';
-import BasicTable from '@/components/table/BasicTable';
-import BasicSelect from '@/components/select/BasicSelect';
+import { listPlayer, removePlayer, addPlayer, editPlayer } from '@/api/player';
+
+import { Pagination } from '@mui/material';
+import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
-import EditDialog from '@/pageComponent/Player/List/EditDialog';
-import { listPlayer, removePlayer, editPlayer } from '@/api/player';
+import PlayerDialog from '@/pageComponent/Player/List/PlayerDialog';
+import MyButton from '@/components/button/MyButton';
 
-const tableHeader = ['name', 'gender', 'birth'];
+import * as S from '@/pages/Container.style';
 
-const filterTitle = '나이';
-const filterItems = [
-  { value: '0', name: '10세 미만' },
-  { value: '10', name: '10대' },
-  { value: '20', name: '20대' },
-  { value: '30', name: '30대' },
-  { value: '40', name: '40대' },
-  { value: '50', name: '50대' },
-  { value: '60', name: '60세 이상' },
+const tableHeader = [
+  { headerName: '이름', property: 'nickName', withImage: 'pictrue', type: 'text' },
+  // { headerName: '성별', property: 'gender', withImage: 'pictrue', type: 'text' },
+  // { headerName: '등번호', property: 'uniformNumber', type: 'text' },
+  // { headerName: '팀 ID', property: 'teamId', type: 'text' },
+  { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
 export default function PlayerList() {
   const pageSize = 10;
   const [page, setPage] = useState<number>(1);
-  const [pageTotal, setPageCount] = useState<number>(10);
-  const [filterOption, setFilterOption] = useState({ age: '10' });
+  const [pageTotal, setPageCount] = useState<number>(pageSize);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+  const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<Player | null>(null);
   const [players, setPlayer] = useState<Player[]>([]);
 
@@ -43,14 +40,31 @@ export default function PlayerList() {
     setPageCount(last_page);
   };
 
-  const changeFilterOption = (key: string, value: string) => {
-    setFilterOption(prev => {
-      return { ...prev, [key]: value };
-    });
+  const onClickAddButton = () => {
+    setSelectedRow(null);
+    setIsFormDialogOpen(true);
   };
-  const handleChangePlayer = async (editedPlayer: Player) => {
-    const { id, ...editData } = editedPlayer;
-    if (id) await editPlayer(id, editData);
+
+  const onSubmitHandler = async (formData: Player) => {
+    console.log(formData);
+    if (selectedRow === null) {
+      handleAddPlayer(formData);
+    } else {
+      await handleChangePlayer(formData);
+    }
+    setIsFormDialogOpen(false);
+    await getList(1);
+  };
+
+  const handleAddPlayer = async (formData: Player) => {
+    console.log('Confirm add player', formData);
+    // await addPlayer(formData);
+  };
+
+  const handleChangePlayer = async (formData: Player) => {
+    console.log('Confirm edit player', formData);
+    const { id, ...editForm } = formData;
+    // if (id) await editPlayer(id, editForm);
   };
 
   const deleteRow = async (row: Player) => {
@@ -60,23 +74,16 @@ export default function PlayerList() {
 
   return (
     <>
-      <Box alignContent='center' paddingX='15px'>
-        <Stack>
-          <h1>Player</h1>
-        </Stack>
-        <Stack>
-          <Box display='flex' padding={'24px'} justifyContent={'start'} alignContent={'center'}>
-            <BasicSelect
-              title={filterTitle}
-              items={filterItems}
-              onSelect={value => {
-                changeFilterOption('age', value);
-              }}
-            ></BasicSelect>
-          </Box>
-        </Stack>
-        <Stack>
-          <BasicTable
+      <S.Container>
+        <S.Top>
+          <h4> Admin: 모든 선수 </h4>
+          <MyButton variant='contained' onClick={onClickAddButton}>
+            팀 추가
+          </MyButton>
+        </S.Top>
+        <S.Filter>Filter Options 나중에 넣기</S.Filter>
+        <S.Content>
+          <DataTable
             header={tableHeader}
             rows={players}
             onClickDelete={(row: Player) => {
@@ -85,16 +92,20 @@ export default function PlayerList() {
             }}
             onClickModify={(row: Player) => {
               setSelectedRow(row);
-              setIsEditDialogOpen(true);
+              setIsFormDialogOpen(true);
             }}
           />
-        </Stack>
-        <Stack>
-          <Box display='flex' padding={'24px'} justifyContent={'center'} alignContent={'center'}>
-            <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getList(newPage)} color='primary' />
-          </Box>
-        </Stack>
-      </Box>
+        </S.Content>
+        <S.FooterContainer>
+          <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getList(newPage)} color='primary' />
+        </S.FooterContainer>
+      </S.Container>
+      {/* <AddDialog
+        open={isAddDialogOpen}
+        onClose={() => {
+          setIsAddDialogOpen(false);
+        }}
+      /> */}
       <ConfirmDialog
         title='삭제'
         content='삭제하시겠습니까'
@@ -107,21 +118,16 @@ export default function PlayerList() {
           setIsDialogOpen(false);
         }}
       />
-      {!!selectedRow && (
-        <EditDialog
-          key={selectedRow.id}
-          player={selectedRow}
-          open={isEditDialogOpen}
-          onClose={() => {
-            setIsEditDialogOpen(false);
-          }}
-          onConfirm={async (editedPlayer: Player) => {
-            await handleChangePlayer(editedPlayer);
-            setIsEditDialogOpen(false);
-            await getList(1);
-          }}
-        />
-      )}
+      <PlayerDialog
+        key={selectedRow && selectedRow.id}
+        player={selectedRow}
+        open={isFormDialogOpen}
+        onClose={() => {
+          setIsFormDialogOpen(false);
+        }}
+        onConfirm={onSubmitHandler}
+      />
+      {!!selectedRow && ''}
     </>
   );
 }
