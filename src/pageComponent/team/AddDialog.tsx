@@ -2,7 +2,6 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import { IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
 import Radio from '@mui/material/Radio';
@@ -12,6 +11,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import BasicSelect from '@/components/select/BasicSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
 import { addTeam } from '@/api/team';
+
+import * as S from '@/components/dialog/Dialog.style';
 
 interface IFormInput {
   name: string;
@@ -61,19 +62,17 @@ export default function AddDialog({ open, onClose }: Props) {
         },
       }}
     >
-      <div id='dialog-title' className='dialog-header'>
-        <Typography variant='h4' className='header-title'>
+      <S.DialogHeader id='dialog-title'>
+        <S.DialogHeaderTitle variant='h4'>
           팀 생성
-          <Typography variant='body1' className='header-body'>
-            팀의 상세정보를 입력하세요.
-          </Typography>
-        </Typography>
-      </div>
+          <S.DialogHeaderBody variant='body1'>팀의 상세정보를 입력하세요.</S.DialogHeaderBody>
+        </S.DialogHeaderTitle>
+      </S.DialogHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='dialog-content'>
-          <IconButton onClick={onClose} className='dialog-close-button'>
+        <S.DialogContent>
+          <S.DialogCloseButton onClick={onClose} className='dialog-close-button'>
             <CloseIcon />
-          </IconButton>
+          </S.DialogCloseButton>
           <label>팀 이름</label>
           <input
             {...register('name', { required: true })}
@@ -144,15 +143,15 @@ export default function AddDialog({ open, onClose }: Props) {
               )}
             </Grid>
           </Grid>
-        </div>
-        <div className='dialog-footer'>
+        </S.DialogContent>
+        <S.DialogFooter>
           <Button type='submit' variant='contained'>
             저장
           </Button>
           <Button variant='outlined' onClick={onClose}>
             취소
           </Button>
-        </div>
+        </S.DialogFooter>
       </form>
     </Dialog>
   );
