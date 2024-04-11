@@ -93,6 +93,13 @@ interface Team {
   isActive: boolean;
 }
 
+interface TeamFormInput {
+  name: string;
+  gender: string;
+  location: string;
+  emblem: string;
+}
+
 interface SelectProperty {
   value: string | number | undefined;
   text: string;
