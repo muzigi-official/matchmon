@@ -35,7 +35,7 @@ export default function ConfirmDialog(props: Props) {
           </Box>
         </Box>
       </S.DialogContent>
-      <S.DialogFooter className='dialog-footer'>
+      <S.DialogFooter>
         <Button variant='contained' onClick={onConfirm} autoFocus>
           Yes
         </Button>

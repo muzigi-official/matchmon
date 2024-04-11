@@ -20,5 +20,15 @@ export const DialogContent = styled('div')`
 
 export const DialogFooter = styled('div')`
   padding: 0 64px 64px;
+  display: flex;
   justify-content: center;
+
+  button + button {
+    margin: 0px 11px;
+  }
+
+  button:last-child {
+    border-color: var(--border-color);
+    color: var(--border-color);
+  }
 `;
