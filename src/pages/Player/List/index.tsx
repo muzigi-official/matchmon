@@ -34,7 +34,7 @@ export default function PlayerList() {
   }, []);
 
   useEffect(() => {
-    getTeams(page);
+    getTeams(page, 100);
   }, []);
 
   const getList = async (newPage: number) => {
@@ -56,8 +56,9 @@ export default function PlayerList() {
     setPageCount(last_page);
   };
 
-  const getTeams = async (newPage: number) => {
-    const response = await listTeam(newPage);
+  const getTeams = async (newPage: number, itemPerPage: number) => {
+    const response = await listTeam(newPage, itemPerPage);
+    console.log(response);
     const selectOptions = response.data.map(team => {
       return {
         value: team.id,
