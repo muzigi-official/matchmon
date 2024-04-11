@@ -14,7 +14,7 @@ import * as S from '@/pages/Container.style';
 const tableHeader = [
   { headerName: '이름', property: 'nickName', withImage: 'pictrue', type: 'text' },
   { headerName: '등번호', property: 'uniformNumber', type: 'text' },
-  { headerName: '팀 ID', property: 'teamId', type: 'text' },
+  { headerName: '팀 이름', property: 'teamName', type: 'text' },
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
@@ -25,8 +25,8 @@ export default function PlayerList() {
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<Player | null>(null);
-  const [players, setPlayer] = useState<Player[]>([]);
+  const [selectedRow, setSelectedRow] = useState<ParsePlayer | null>(null);
+  const [players, setPlayer] = useState<ParsePlayer[]>([]);
   const [options, setOptions] = useState<SelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
   useEffect(() => {
@@ -40,14 +40,23 @@ export default function PlayerList() {
   const getList = async (newPage: number) => {
     const response = await listPlayer(newPage);
     const { page, last_page } = response.meta;
-    setPlayer(response.data);
+    const parsePlayer = response.data.map(player => {
+      return {
+        id: player.id ? player.id : 0,
+        uniformNumber: player.uniformNumber ? player.uniformNumber : 0,
+        role: player.role,
+        nickName: player.nickName,
+        picture: player.picture,
+        teamName: player.team ? player.team.name : '',
+        teamId: player.team ? player.team.id : '',
+      };
+    });
+    setPlayer(parsePlayer);
     setPage(Number(page));
     setPageCount(last_page);
   };
 
   const getTeams = async (newPage: number) => {
-    console.log('한번만 아니니??');
-    // FIXME: 중복되는 문제
     const response = await listTeam(newPage);
     const selectOptions = response.data.map(team => {
       return {
@@ -55,10 +64,7 @@ export default function PlayerList() {
         text: team.name,
       };
     });
-    setOptions(prevState => {
-      console.log('prevState', prevState);
-      return [...prevState, ...selectOptions];
-    });
+    setOptions(selectOptions);
   };
 
   const onClickAddButton = () => {
@@ -66,8 +72,7 @@ export default function PlayerList() {
     setIsFormDialogOpen(true);
   };
 
-  const onSubmitHandler = async (formData: Player) => {
-    console.log(formData);
+  const onSubmitHandler = async (formData: playerFormInput) => {
     if (selectedRow === null) {
       handleAddPlayer(formData);
     } else {
@@ -77,25 +82,41 @@ export default function PlayerList() {
     await getList(1);
   };
 
-  const handleAddPlayer = async (formData: Player) => {
-    console.log('Confirm add player', formData);
-    const { statusText, status } = await addPlayer({ ...formData, uniformNumber: 0, teamId: Number(formData.teamId) });
-    console.log(status);
+  const handleAddPlayer = async (formData: playerFormInput) => {
+    const { uniformNumber, teamId } = formData;
+    const { statusText } = await addPlayer({
+      ...formData,
+      uniformNumber: uniformNumber ? Number(uniformNumber) : 0,
+      teamId: Number(teamId),
+    });
     if (statusText === 'Created') {
       alert('선수 등록 성공');
       setIsDialogOpen(false);
     }
   };
 
-  const handleChangePlayer = async (formData: Player) => {
-    console.log('Confirm edit player', formData);
-    // const { id, ...editForm } = formData;
-    // if (id) await editPlayer(id, editForm);
+  const handleChangePlayer = async (formData: playerFormInput) => {
+    const { id, nickName, picture } = formData;
+    if (id) {
+      const { statusText } = await editPlayer(id, {
+        nickName: nickName,
+        role: formData.role ? formData.role : 0,
+        picture: picture,
+        uniformNumber: formData.uniformNumber ? Number(formData.uniformNumber) : 0,
+      });
+
+      if (statusText === 'OK') {
+        alert('선수 수정 성공');
+        setIsDialogOpen(false);
+      }
+    }
   };
 
   const deleteRow = async (row: Player) => {
-    if (row.id) await removePlayer(row.id);
-    await getList(page);
+    if (row.id) {
+      const response = await removePlayer(row.id);
+      console.log(response);
+    }
   };
 
   return (
@@ -104,7 +125,7 @@ export default function PlayerList() {
         <S.Top>
           <h4> Admin: 모든 선수 </h4>
           <MyButton variant='contained' onClick={onClickAddButton}>
-            팀 추가
+            선수 추가
           </MyButton>
         </S.Top>
         <S.Filter>Filter Options 나중에 넣기</S.Filter>
@@ -112,11 +133,11 @@ export default function PlayerList() {
           <DataTable
             header={tableHeader}
             rows={players}
-            onClickDelete={(row: Player) => {
+            onClickDelete={(row: ParsePlayer) => {
               setSelectedRow(row);
               setIsDialogOpen(true);
             }}
-            onClickModify={(row: Player) => {
+            onClickModify={(row: ParsePlayer) => {
               setSelectedRow(row);
               setIsFormDialogOpen(true);
             }}

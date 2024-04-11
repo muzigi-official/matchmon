@@ -17,19 +17,12 @@ import {
   DialogFooter,
 } from '@/components/dialog/Dialog.style';
 
-interface IFormInput {
-  nickName: string;
-  uniformNumber: number;
-  picture?: string;
-  teamId?: number | string;
-}
-
 interface Props {
-  player?: Player | null;
+  player?: ParsePlayer | null;
   teams: SelectProperty[];
   open: boolean;
   onClose: () => void;
-  onConfirm: (player: IFormInput) => void;
+  onConfirm: (player: playerFormInput) => void;
 }
 
 export default function PlayerDialog({ player, teams, open, onClose, onConfirm }: Props) {
@@ -38,20 +31,22 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInput>();
+  } = useForm<playerFormInput>();
 
   const dialogType = player !== null ? '수정' : '생성';
 
   useEffect(() => {
     reset({
+      id: player ? player.id : 0,
       nickName: player ? player.nickName : '',
+      uniformNumber: player ? player.uniformNumber : 0,
       picture: player ? player.picture : '',
-      // FIXME: teamId selected 안됨ㅠ
+      role: player ? player.role : 0,
       teamId: player ? player.teamId : '',
     });
   }, []);
 
-  const onSubmit: SubmitHandler<IFormInput> = async formData => {
+  const onSubmit: SubmitHandler<playerFormInput> = async formData => {
     onConfirm(formData);
   };
 
@@ -89,6 +84,15 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
                 register={register('teamId', { required: '팀은 필수값입니다.' })}
                 options={teams}
                 errors={errors}
+                disabled={player !== null}
+              />
+            </Grid>
+            <Grid xs={12} sm={12}>
+              <label>등번호</label>
+              <input
+                {...register('uniformNumber')}
+                autoComplete='off'
+                aria-invalid={errors.uniformNumber ? 'true' : 'false'}
               />
             </Grid>
           </Grid>

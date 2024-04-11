@@ -12,7 +12,21 @@ interface Player {
   nickName: string;
   picture?: string;
   uniformNumber?: number;
-  teamId?: number;
+  role: number;
+  team?: {
+    id: number;
+    name: string;
+  };
+}
+
+interface ParsePlayer {
+  id: number;
+  nickName: string;
+  picture?: string;
+  uniformNumber: number;
+  role: number;
+  teamId: number | string;
+  teamName: string;
 }
 
 interface Competition {
@@ -38,6 +52,15 @@ interface TournamentNode {
   size: number; // 2, 4, 8, 16, 32, 64
   round: number; // 2, 4, 8, 16, 32, 64
   gameOrder: number; // 0~1, 0~3
+}
+
+interface playerFormInput {
+  id?: number;
+  nickName: string;
+  uniformNumber?: number | null;
+  role?: number;
+  picture?: string;
+  teamId?: number | string;
 }
 
 class Coordinate {
