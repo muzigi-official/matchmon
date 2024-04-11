@@ -161,7 +161,6 @@ export default function PlayerList() {
         }}
       />
       <PlayerDialog
-        key={selectedRow && selectedRow.id}
         player={selectedRow}
         teams={options}
         open={isFormDialogOpen}
@@ -170,7 +169,6 @@ export default function PlayerList() {
         }}
         onConfirm={onSubmitHandler}
       />
-      {!!selectedRow && ''}
     </>
   );
 }
