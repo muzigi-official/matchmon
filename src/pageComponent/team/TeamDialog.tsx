@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import Button from '@mui/material/Button';
@@ -8,46 +9,43 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import BasicSelect from '@/components/select/BasicSelect';
+import InputSelect from '@/components/select/InputSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
-import { addTeam } from '@/api/team';
 
 import * as S from '@/components/dialog/Dialog.style';
 
-interface IFormInput {
-  name: string;
-  gender: string;
-  location: string;
-}
-
 interface Props {
+  team?: Team | null;
   open: boolean;
   onClose: () => void;
+  onConfirm: (team: TeamFormInput) => void;
 }
 
 const selectLocation = LOCATION_INFO;
 
-export default function AddDialog({ open, onClose }: Props) {
+export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
+  console.log('team', team);
   const {
     register,
     formState: { errors },
     reset,
     control,
     handleSubmit,
-  } = useForm<IFormInput>();
+  } = useForm<TeamFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = async data => {
-    const body = {
-      ...data,
-      emblem: '',
-    };
-    const { statusText } = await addTeam(body);
+  useEffect(() => {
+    reset({
+      name: team ? team.name : '',
+      gender: team ? team.gender : '',
+      location: team ? team.location : '',
+      emblem: team ? team.emblem : '',
+    });
+  }, [team]);
 
-    if (statusText === 'Created') {
-      alert('팀 추가 성공');
-      onClose();
-    }
-    reset({ name: '', location: '', gender: '' });
+  const dialogType = team !== null ? '수정' : '생성';
+
+  const onSubmit: SubmitHandler<TeamFormInput> = async formData => {
+    onConfirm(formData);
   };
 
   return (
@@ -64,7 +62,7 @@ export default function AddDialog({ open, onClose }: Props) {
     >
       <S.DialogHeader id='dialog-title'>
         <S.DialogHeaderTitle variant='h4'>
-          팀 생성
+          {`팀 ${dialogType}`}
           <S.DialogHeaderBody variant='body1'>팀의 상세정보를 입력하세요.</S.DialogHeaderBody>
         </S.DialogHeaderTitle>
       </S.DialogHeader>
@@ -117,24 +115,11 @@ export default function AddDialog({ open, onClose }: Props) {
               )}
             </Grid>
             <Grid xs={12} sm={12}>
-              <label>지역</label>
-              <Controller
-                name='location'
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: '지역 값은 필수값 입니다.',
-                  },
-                }}
-                render={({ field: { onChange } }) => (
-                  <BasicSelect
-                    title={selectLocation.title}
-                    items={selectLocation.items}
-                    size='small'
-                    onSelect={onChange}
-                  ></BasicSelect>
-                )}
+              <InputSelect
+                label='지역'
+                register={register('location', { required: '지역값은 필수값입니다.' })}
+                options={selectLocation.items}
+                errors={errors}
               />
               {errors.location?.type === 'required' && (
                 <p className='error' role='alert'>
