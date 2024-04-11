@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
-import TablePagination from '@mui/material/TablePagination';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -23,32 +22,19 @@ interface HeaderOptions {
 interface Props<T> {
   header: HeaderOptions[];
   rows: T[];
-  pageNations?: boolean;
   onClickRow?: (row: T) => void;
   onClickModify?: (row: T) => void;
   onClickDelete: (row: T) => void;
 }
 
-export default function DataTable<T>({ header, rows, pageNations = false, onClickModify, onClickDelete }: Props<T>) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
+export default function DataTable<T>({ header, rows, onClickModify, onClickDelete }: Props<T>) {
   return (
     <S.DataTableContainer>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
         <S.DataTableHeader className='select-none'>
           <TableRow>
             {header.map((header, index: number) => (
-              <S.DataTableTh align='center' key={header.headerName + index}>
+              <S.DataTableTh align='center' key={header.property + index}>
                 <span>{header.headerName}</span>
               </S.DataTableTh>
             ))}
@@ -87,21 +73,6 @@ export default function DataTable<T>({ header, rows, pageNations = false, onClic
           ))}
         </S.DataTableTBody>
       </Table>
-      {/*  FIXME: pageNation 아예 안 먹힘.  */}
-      {pageNations ? (
-        <TablePagination
-          className='border-bs'
-          rowsPerPageOptions={[5, 10, 25]}
-          component='div'
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      ) : (
-        ''
-      )}
     </S.DataTableContainer>
   );
 }

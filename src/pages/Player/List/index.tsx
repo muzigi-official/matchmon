@@ -1,100 +1,153 @@
 import { useState, useEffect } from 'react';
 
-import { Stack, Box, Pagination } from '@mui/material';
-import BasicTable from '@/components/table/BasicTable';
-import BasicSelect from '@/components/select/BasicSelect';
+import { listPlayer, removePlayer, addPlayer, editPlayer } from '@/api/player';
+import { listTeam } from '@/api/team';
+
+import { Pagination } from '@mui/material';
+import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
-import EditDialog from '@/pageComponent/Player/List/EditDialog';
-import { listPlayer, removePlayer, editPlayer } from '@/api/player';
+import PlayerDialog from '@/pageComponent/Player/List/PlayerDialog';
+import MyButton from '@/components/button/MyButton';
 
-const tableHeader = ['name', 'gender', 'birth'];
+import * as S from '@/pages/Container.style';
 
-const filterTitle = '나이';
-const filterItems = [
-  { value: '0', name: '10세 미만' },
-  { value: '10', name: '10대' },
-  { value: '20', name: '20대' },
-  { value: '30', name: '30대' },
-  { value: '40', name: '40대' },
-  { value: '50', name: '50대' },
-  { value: '60', name: '60세 이상' },
+const tableHeader = [
+  { headerName: '이름', property: 'nickName', withImage: 'pictrue', type: 'text' },
+  { headerName: '등번호', property: 'uniformNumber', type: 'text' },
+  { headerName: '팀 이름', property: 'teamName', type: 'text' },
+  { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
 export default function PlayerList() {
   const pageSize = 10;
   const [page, setPage] = useState<number>(1);
-  const [pageTotal, setPageCount] = useState<number>(10);
-  const [filterOption, setFilterOption] = useState({ age: '10' });
+  const [pageTotal, setPageCount] = useState<number>(pageSize);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<Player | null>(null);
-  const [players, setPlayer] = useState<Player[]>([]);
+  const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
+  const [selectedRow, setSelectedRow] = useState<ParsePlayer | null>(null);
+  const [players, setPlayer] = useState<ParsePlayer[]>([]);
+  const [options, setOptions] = useState<SelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
   useEffect(() => {
     getList(page);
   }, []);
 
+  useEffect(() => {
+    getTeams(page, 100);
+  }, []);
+
   const getList = async (newPage: number) => {
     const response = await listPlayer(newPage);
     const { page, last_page } = response.meta;
-    setPlayer(response.data);
+    const parsePlayer = response.data.map(player => {
+      return {
+        id: player.id ? player.id : 0,
+        uniformNumber: player.uniformNumber ? player.uniformNumber : 0,
+        role: player.role,
+        nickName: player.nickName,
+        picture: player.picture,
+        teamName: player.team ? player.team.name : '',
+        teamId: player.team ? player.team.id : '',
+      };
+    });
+    setPlayer(parsePlayer);
     setPage(Number(page));
     setPageCount(last_page);
   };
 
-  const changeFilterOption = (key: string, value: string) => {
-    setFilterOption(prev => {
-      return { ...prev, [key]: value };
+  const getTeams = async (newPage: number, itemPerPage: number) => {
+    const response = await listTeam(newPage, itemPerPage);
+    console.log(response);
+    const selectOptions = response.data.map(team => {
+      return {
+        value: team.id,
+        text: team.name,
+      };
     });
+    setOptions(selectOptions);
   };
-  const handleChangePlayer = async (editedPlayer: Player) => {
-    const { id, ...editData } = editedPlayer;
-    if (id) await editPlayer(id, editData);
+
+  const onClickAddButton = () => {
+    setSelectedRow(null);
+    setIsFormDialogOpen(true);
+  };
+
+  const onSubmitHandler = async (formData: playerFormInput) => {
+    if (selectedRow === null) {
+      handleAddPlayer(formData);
+    } else {
+      await handleChangePlayer(formData);
+    }
+    setIsFormDialogOpen(false);
+    await getList(1);
+  };
+
+  const handleAddPlayer = async (formData: playerFormInput) => {
+    const { uniformNumber, teamId } = formData;
+    const { statusText } = await addPlayer({
+      ...formData,
+      uniformNumber: uniformNumber ? Number(uniformNumber) : 0,
+      teamId: Number(teamId),
+    });
+    if (statusText === 'Created') {
+      alert('선수 등록 성공');
+      setIsDialogOpen(false);
+    }
+  };
+
+  const handleChangePlayer = async (formData: playerFormInput) => {
+    const { id, nickName, picture } = formData;
+    if (id) {
+      const { statusText } = await editPlayer(id, {
+        nickName: nickName,
+        role: formData.role ? formData.role : 0,
+        picture: picture,
+        uniformNumber: formData.uniformNumber ? Number(formData.uniformNumber) : 0,
+      });
+
+      if (statusText === 'OK') {
+        alert('선수 수정 성공');
+        setIsDialogOpen(false);
+      }
+    }
   };
 
   const deleteRow = async (row: Player) => {
-    if (row.id) await removePlayer(row.id);
-    await getList(page);
+    if (row.id) {
+      const response = await removePlayer(row.id);
+      console.log(response);
+    }
   };
 
   return (
     <>
-      <Box alignContent='center' paddingX='15px'>
-        <Stack>
-          <h1>Player</h1>
-        </Stack>
-        <Stack>
-          <Box display='flex' padding={'24px'} justifyContent={'start'} alignContent={'center'}>
-            <BasicSelect
-              title={filterTitle}
-              items={filterItems}
-              onSelect={value => {
-                changeFilterOption('age', value);
-              }}
-            ></BasicSelect>
-          </Box>
-        </Stack>
-        <Stack>
-          <BasicTable
+      <S.Container>
+        <S.Top>
+          <h4> Admin: 모든 선수 </h4>
+          <MyButton variant='contained' onClick={onClickAddButton}>
+            선수 추가
+          </MyButton>
+        </S.Top>
+        <S.Filter>Filter Options 나중에 넣기</S.Filter>
+        <S.Content>
+          <DataTable
             header={tableHeader}
             rows={players}
-            onClickDelete={(row: Player) => {
+            onClickDelete={(row: ParsePlayer) => {
               setSelectedRow(row);
               setIsDialogOpen(true);
             }}
-            onClickModify={(row: Player) => {
+            onClickModify={(row: ParsePlayer) => {
               setSelectedRow(row);
-              setIsEditDialogOpen(true);
+              setIsFormDialogOpen(true);
             }}
           />
-        </Stack>
-        <Stack>
-          <Box display='flex' padding={'24px'} justifyContent={'center'} alignContent={'center'}>
-            <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getList(newPage)} color='primary' />
-          </Box>
-        </Stack>
-      </Box>
+        </S.Content>
+        <S.FooterContainer>
+          <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getList(newPage)} color='primary' />
+        </S.FooterContainer>
+      </S.Container>
       <ConfirmDialog
         title='삭제'
         content='삭제하시겠습니까'
@@ -107,21 +160,17 @@ export default function PlayerList() {
           setIsDialogOpen(false);
         }}
       />
-      {!!selectedRow && (
-        <EditDialog
-          key={selectedRow.id}
-          player={selectedRow}
-          open={isEditDialogOpen}
-          onClose={() => {
-            setIsEditDialogOpen(false);
-          }}
-          onConfirm={async (editedPlayer: Player) => {
-            await handleChangePlayer(editedPlayer);
-            setIsEditDialogOpen(false);
-            await getList(1);
-          }}
-        />
-      )}
+      <PlayerDialog
+        key={selectedRow && selectedRow.id}
+        player={selectedRow}
+        teams={options}
+        open={isFormDialogOpen}
+        onClose={() => {
+          setIsFormDialogOpen(false);
+        }}
+        onConfirm={onSubmitHandler}
+      />
+      {!!selectedRow && ''}
     </>
   );
 }

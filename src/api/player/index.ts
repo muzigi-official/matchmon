@@ -3,10 +3,17 @@ import customAxios from '@/api/customAxios';
 type DefaultReturn = string;
 
 interface CreatePlayerDto {
-  name: string;
-  gender: string;
-  birth: string;
-  picture: string;
+  nickName: string;
+  picture?: string;
+  uniformNumber?: number;
+  teamId: number;
+}
+
+interface UpdatePlayerDto {
+  nickName: string;
+  picture?: string;
+  uniformNumber?: number;
+  role: number;
 }
 
 interface ListPlayerResponse {
@@ -24,12 +31,12 @@ interface GetPlayerResponse {
 
 export async function addPlayer(data: CreatePlayerDto) {
   const response = await customAxios.post<DefaultReturn>('/players/create', data);
-  return response.data;
+  return response;
 }
 
-export async function editPlayer(id: number, data: CreatePlayerDto) {
+export async function editPlayer(id: number, data: UpdatePlayerDto) {
   const response = await customAxios.patch<DefaultReturn>(`/players/${id}`, data);
-  return response.data;
+  return response;
 }
 export async function getPlayer(id: number | string) {
   const params = { id };
@@ -43,6 +50,6 @@ export async function listPlayer(page: number) {
 }
 
 export async function removePlayer(id: number) {
-  const response = await customAxios.delete<ListPlayerResponse>(`/players/remove, ${id}`);
-  return response.data;
+  const response = await customAxios.delete<ListPlayerResponse>(`/players/delete, ${id}`);
+  return response;
 }

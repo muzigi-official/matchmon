@@ -36,8 +36,8 @@ export async function getTeam(id: number | string) {
   const response = await customAxios.get<GetTeamResponse>('/teams/get', { params });
   return response.data;
 }
-export async function listTeam(page: number) {
-  const params = { page };
+export async function listTeam(page: number, itemPerPage: number) {
+  const params = { page, itemPerPage };
   const response = await customAxios.get<ListTeamResponse>('/teams/list', { params });
   return response.data;
 }
