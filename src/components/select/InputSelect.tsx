@@ -8,19 +8,20 @@ interface Props {
   options: SelectProperty[];
   register: UseFormRegisterReturn;
   errors: FieldErrors | undefined;
+  disabled?: boolean;
 }
 
-export default function InputSelect({ label, register, errors, options }: Props) {
+export default function InputSelect({ label, register, errors, options, disabled }: Props) {
   const { name } = register;
 
-  const handleScroll = () => {
-    console.log('scroll 중');
-  };
+  // const handleScroll = () => {
+  //   console.log('scroll 중');
+  // };
 
   return (
     <>
       <FormLabel>{label}</FormLabel>
-      <FormSelect {...register}>
+      <FormSelect {...register} disabled={disabled}>
         {/* // FIXME: select에 무한 스크롤 시킬 수 있는지 */}
         {options.map((option, index) => (
           <SelectOption key={`${index}_${option.text}`} value={option.value}>

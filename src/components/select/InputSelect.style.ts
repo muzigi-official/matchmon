@@ -13,6 +13,15 @@ export const FormSelect = styled('select')`
   padding: 10px 16px 10px 4px;
   margin-bottom: 4px;
   font-size: 14px;
+
+  -webkit-appearance: none; /* for chrome */
+  -moz-appearance: none; /*for firefox*/
+  appearance: none;
+  background: url('select-arrow2.png') no-repeat right 0.75rem center;
+
+  select::-ms-expand {
+    display: none; /*for IE10,11*/
+  }
 `;
 
 export const SelectOption = styled('option')`
