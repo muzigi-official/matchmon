@@ -6,6 +6,14 @@ export const Card = styled('div')`
   margin: 12px;
   width: 280px;
   min-height: 220px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  &:hover {
+    box-shadow:
+      rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    cursor: pointer;
+  }
 `;
 
 export const CardActionArea = styled('div')`
@@ -18,7 +26,7 @@ export const CardActionArea = styled('div')`
 
 export const CardTop = styled('div')`
   position: absolute;
-  top: 8px;
+  top: 12px;
   left: 8px;
   background-color: #ffd07b;
   border-radius: 16px;
@@ -55,6 +63,7 @@ export const CardFooter = styled('div')`
   justify-content: space-around;
   align-items: center;
   width: 100%;
+  padding: 12px;
 `;
 
 export const FooterItem = styled('div')`

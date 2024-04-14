@@ -13,9 +13,10 @@ import { FooterItem, CardFooter, CardContent, FabButton, CardActionArea, CardMed
 interface Props {
   competition: Competition;
   onClick: (competition: Competition) => void;
+  onClickApply: (id: number) => void;
 }
 //TODO: 날짜가 지난 대회는 참가신청 못하고 위에 스타일로 종료된 대회임을 알려준다.
-export default function CompetitionCard({ competition, onClick }: Props) {
+export default function CompetitionCard({ competition, onClick, onClickApply }: Props) {
   const [imageError, setImageError] = useState(false);
   const onErrorImg = () => {
     setImageError(true);
@@ -25,9 +26,9 @@ export default function CompetitionCard({ competition, onClick }: Props) {
   const duration = diffDate(competition.startDate, now);
 
   const clickAddButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log('click');
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+    onClickApply(Number(competition.id));
   };
 
   return (

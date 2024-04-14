@@ -20,6 +20,11 @@ interface CreateCompetitionDto {
   organizer: string;
 }
 
+interface ApplyCompetitionDto {
+  competitionId: number;
+  teamId: number | string;
+}
+
 export async function listCompetition(page: number) {
   const params = { page };
   const response = await customAxios.get<ListCompetitionResponse>('/competitions/list', { params });
@@ -34,5 +39,10 @@ export async function addCompetition(data: CreateCompetitionDto) {
 
 export async function getCompetition(competitionId: number | string) {
   const response = await customAxios.get<Competition>(`/competitions/get/${competitionId}`);
+  return response.data;
+}
+
+export async function applyCompetition(data: ApplyCompetitionDto) {
+  const response = await customAxios.post<DefaultReturn>('/competitions/apply', data);
   return response.data;
 }
