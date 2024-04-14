@@ -1,14 +1,16 @@
 import { styled } from '@mui/material/styles';
+import Fab from '@mui/material/Fab';
 
 export const Card = styled('div')`
   padding: 12px 0;
   margin: 12px;
-  width: 300px;
+  width: 280px;
   min-height: 220px;
 `;
 
 export const CardActionArea = styled('div')`
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -25,7 +27,7 @@ export const CardTop = styled('div')`
 
 export const CardMedia = styled('div')`
   position: relative;
-  background-color: #524e7f;
+  background-color: #468f6b;
   width: 100%;
   height: 120px;
   display: flex;
@@ -33,8 +35,31 @@ export const CardMedia = styled('div')`
   align-items: center;
 `;
 
+export const CardContent = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 12px;
+  padding: 16px 0;
+`;
+
+export const FabButton = styled(Fab)`
+  position: absolute;
+  bottom: -24px;
+  right: 24px;
+`;
+
 export const CardFooter = styled('div')`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+`;
+
+export const FooterItem = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
