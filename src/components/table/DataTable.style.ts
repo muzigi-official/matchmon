@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
-import { TableBody } from '@mui/material';
+import { TableBody, TableRow } from '@mui/material';
 
 export const DataTableContainer = styled(TableContainer)`
   margin: 0;
@@ -65,6 +65,13 @@ export const DataTableTBody = styled(TableBody)`
     padding-block: 0.5rem;
     padding-inline: 1rem 1.25rem;
     text-align: center;
+  }
+`;
+
+export const Row = styled(TableRow)`
+  &:hover {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    cursor: pointer;
   }
 `;
 

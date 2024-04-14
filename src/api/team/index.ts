@@ -26,10 +26,6 @@ interface ListTeamResponse {
   };
 }
 
-interface GetTeamResponse {
-  player: Team;
-}
-
 export async function addTeam(data: CreateTeamDto) {
   const response = await customAxios.post<DefaultReturn>('/teams/create', data);
   return response;
@@ -40,10 +36,10 @@ export async function editTeam(data: UpdateTeamDto) {
   return response.data;
 }
 export async function getTeam(id: number | string) {
-  const params = { id };
-  const response = await customAxios.get<GetTeamResponse>('/teams/get', { params });
+  const response = await customAxios.get<Team>(`/teams/get/${id}`);
   return response.data;
 }
+
 export async function listTeam(page: number, itemPerPage: number) {
   const params = { page, itemPerPage };
   const response = await customAxios.get<ListTeamResponse>('/teams/list', { params });
