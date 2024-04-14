@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { UseFormRegisterReturn, FieldErrors } from 'react-hook-form';
 
 import { FormLabel, FormSelect, SelectOption } from './InputSelect.style';

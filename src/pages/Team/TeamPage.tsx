@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-
-import { listTeam } from '@/api/team';
+import { useEffect, useState } from 'react';
 
 import { Pagination, Stack } from '@mui/material';
 import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
 import MyButton from '@/components/button/MyButton';
-import AddDialog from '@/pageComponent/team/AddDialog';
-import EditDialog from './EditDialog';
+import TeamDialog from '@/pageComponent/team/TeamDialog';
+
+import { listTeam, addTeam, editTeam } from '@/api/team';
 
 import * as S from './Container.style';
 
@@ -19,40 +18,71 @@ const teamHeader = [
 ];
 
 export default function TeamPage() {
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
+  const [isTeamDialogOpen, setIsTeamDialogOpen] = useState<boolean>(false);
+  const [isComfirmOpen, setIsComfirmOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<Team | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
-  const [temaData, setTeamData] = useState<Team[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [page, setPage] = useState<number>(1);
   const [pageTotal, setPageCount] = useState<number>(10);
 
   // TODO: 팀 추가 성공이 닫히면 자연스럽게 새로고침 하고 싶음.
   useEffect(() => {
-    if (!isAddDialogOpen) {
-      getTeams(page);
-    }
-  }, [isAddDialogOpen]);
+    getTeams(page);
+  }, []);
 
   const getTeams = async (newPage: number) => {
-    const response = await listTeam(newPage);
+    const response = await listTeam(newPage, 10);
     const { last_page } = response.meta;
-    setTeamData(response.data);
+    setTeams(response.data);
     setPage(Number(newPage));
     setPageCount(last_page);
   };
 
-  const openModifyDialog = (row: Team) => {
-    console.log('click modify', row);
+  const onClickAddButton = () => {
+    setSelectedRow(null);
+    setIsTeamDialogOpen(true);
+  };
+
+  const onSubmitHandler = async (formData: TeamFormInput) => {
+    if (selectedRow === null) {
+      handleAddTeam(formData);
+    } else {
+      await handleUpdateTeam(formData);
+    }
+    setIsTeamDialogOpen(false);
+  };
+
+  const handleAddTeam = async (formData: TeamFormInput) => {
+    const { statusText } = await addTeam(formData);
+
+    if (statusText === 'Created') {
+      alert('팀 추가 성공');
+      setIsTeamDialogOpen(false);
+      getTeams(page);
+    }
+  };
+
+  const handleUpdateTeam = async (formData: TeamFormInput) => {
+    if (selectedRow) {
+      const response = await editTeam({ ...formData, teamId: selectedRow.id });
+      if (response) {
+        alert('팀 수정 성공');
+        setIsTeamDialogOpen(false);
+        getTeams(page);
+      }
+    }
+  };
+
+  const clickModify = (row: Team) => {
+    console.log('click modify button', row);
     setSelectedRow(row);
-    setIsEditDialogOpen(true);
+    setIsTeamDialogOpen(true);
   };
 
   const openDeleteConfirm = (row: Team) => {
-    console.log('click delete button');
+    console.log('click delete button', row);
     setSelectedRow(row);
-    setIsDialogOpen(true);
+    setIsComfirmOpen(true);
   };
 
   return (
@@ -60,7 +90,7 @@ export default function TeamPage() {
       <S.Container>
         <S.Top>
           <h4> Admin: 모든 팀 </h4>
-          <MyButton variant='contained' onClick={() => setIsAddDialogOpen(true)}>
+          <MyButton variant='contained' onClick={onClickAddButton}>
             팀 추가
           </MyButton>
         </S.Top>
@@ -71,9 +101,9 @@ export default function TeamPage() {
           <Stack>
             <DataTable
               header={teamHeader}
-              rows={temaData}
-              onClickModify={openModifyDialog}
-              onClickDelete={openDeleteConfirm}
+              rows={teams}
+              onClickModify={(row: Team) => clickModify(row)}
+              onClickDelete={(row: Team) => openDeleteConfirm(row)}
             />
           </Stack>
           <Stack>
@@ -83,36 +113,25 @@ export default function TeamPage() {
           </Stack>
         </S.Content>
       </S.Container>
-      <AddDialog
-        open={isAddDialogOpen}
+      <TeamDialog
+        team={selectedRow}
+        open={isTeamDialogOpen}
+        onConfirm={onSubmitHandler}
         onClose={() => {
-          setIsAddDialogOpen(false);
+          setIsTeamDialogOpen(false);
         }}
       />
       <ConfirmDialog
         title='삭제'
         content='삭제하시겠습니까'
-        open={isDialogOpen}
+        open={isComfirmOpen}
         onClose={() => {
-          setIsDialogOpen(false);
+          setIsComfirmOpen(false);
         }}
         onConfirm={() => {
-          setIsDialogOpen(false);
+          setIsComfirmOpen(false);
         }}
       />
-      {!!selectedRow && (
-        <EditDialog
-          open={isEditDialogOpen}
-          data={selectedRow}
-          onClose={() => {
-            setIsEditDialogOpen(false);
-          }}
-          onConfirm={() => {
-            // Axios
-            setIsEditDialogOpen(false);
-          }}
-        />
-      )}
     </>
   );
 }

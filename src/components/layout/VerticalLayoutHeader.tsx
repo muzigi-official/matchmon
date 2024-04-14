@@ -39,7 +39,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
     const response = await listCompetition(1);
     const parsing = response.data.map(competition => {
       return {
-        name: competition.name,
+        text: competition.name,
         value: competition.id,
       };
     });
@@ -68,7 +68,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
       <S.Toolbar open={open}>
         <S.ToolbarStart>
           <S.MuiAvatar
-            src='matchmon-logo.png'
+            src='/matchmon-logo.png'
             aria-label='main-logo-icon'
             onClick={onClickMenu}
             sx={{

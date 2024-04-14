@@ -26,7 +26,7 @@ export default function LeftDrawer(props: Props) {
         <S.DrawerHeader>
           <Box>
             <Link sx={{ display: 'flex', textDecoration: 'none' }} href='/main'>
-              <img src='matchmon-logo.png' alt='home-logo-image' loading='lazy' width={30} height={30} />
+              <img src='/matchmon-logo.png' alt='home-logo-image' loading='lazy' width={30} height={30} />
               <S.HomeLink sx={{ marginLeft: '18px', color: 'white' }} variant='h5'>
                 Matchmon
               </S.HomeLink>

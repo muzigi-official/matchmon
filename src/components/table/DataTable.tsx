@@ -27,7 +27,7 @@ interface Props<T> {
   onClickDelete: (row: T) => void;
 }
 
-export default function DataTable<T>({ header, rows, onClickModify, onClickDelete }: Props<T>) {
+export default function DataTable<T>({ header, rows, onClickRow, onClickModify, onClickDelete }: Props<T>) {
   return (
     <S.DataTableContainer>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -42,7 +42,11 @@ export default function DataTable<T>({ header, rows, onClickModify, onClickDelet
         </S.DataTableHeader>
         <S.DataTableTBody>
           {rows.map((row, index: number) => (
-            <TableRow key={`${index}_row`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <S.Row
+              key={`${index}_row`}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              onClick={() => onClickRow && onClickRow(row)}
+            >
               {header.map((header: HeaderOptions, index: number) => {
                 if (header.isAction) {
                   return (
@@ -69,7 +73,7 @@ export default function DataTable<T>({ header, rows, onClickModify, onClickDelet
                   return <S.DataTableTd key={`td_${index}`}>{(row as HeaderKey)[header.property]}</S.DataTableTd>;
                 }
               })}
-            </TableRow>
+            </S.Row>
           ))}
         </S.DataTableTBody>
       </Table>

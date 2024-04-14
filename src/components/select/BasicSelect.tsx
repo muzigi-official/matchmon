@@ -30,7 +30,7 @@ export default function BasicSelect(props: Props) {
         {items.map(item => {
           return (
             <MenuItem value={item.value} key={item.value}>
-              {item.name}
+              {item.text}
             </MenuItem>
           );
         })}

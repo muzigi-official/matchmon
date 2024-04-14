@@ -24,3 +24,9 @@ export async function getParticipateTeams(competitionId: number | string) {
   const response = await customAxios.get<ListJoinTeamCompResponse[]>(`/joinTeamComp/list`, { params });
   return response.data;
 }
+
+export async function getParticipateTeamInPlayers(joinTeamCompId: number | string) {
+  const params = { joinTeamCompId };
+  const response = await customAxios.get<Player[]>(`/joinTeamComp/players`, { params });
+  return response.data;
+}

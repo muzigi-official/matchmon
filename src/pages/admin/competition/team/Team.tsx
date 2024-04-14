@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RootState } from '@/redux/store';
 import { useAppSelector } from '@/redux/hooks';
 
@@ -7,7 +8,7 @@ import { getParticipateTeams } from '@/api/joinTeamComp';
 import MyButton from '@/components/button/MyButton';
 import DataTable from '@/components/table/DataTable';
 
-import * as S from './Container.style';
+import * as S from '../Container.style';
 
 const joinTeamHeader = [
   { headerName: '팀이름', property: 'name', withImage: 'emblem', type: 'text' },
@@ -25,6 +26,7 @@ interface joinCompTeam {
 }
 
 export default function ParticipateTeams() {
+  const navigate = useNavigate();
   const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [rows, setRows] = useState<joinCompTeam[]>([]);
@@ -58,8 +60,8 @@ export default function ParticipateTeams() {
     console.log('delete');
   };
 
-  const movePage = () => {
-    console.log('move');
+  const movePage = (row: joinCompTeam) => {
+    navigate(`/admin/competition/participateTeams/${row.teamId}`);
   };
 
   return (
@@ -76,7 +78,14 @@ export default function ParticipateTeams() {
         </div>
       </S.Top>
       <S.Content>
-        <DataTable header={joinTeamHeader} rows={rows} onClickRow={movePage} onClickDelete={deleteTeam} />
+        <DataTable
+          header={joinTeamHeader}
+          rows={rows}
+          onClickRow={(row: joinCompTeam) => {
+            movePage(row);
+          }}
+          onClickDelete={deleteTeam}
+        />
       </S.Content>
       <div>dialog 열어줘 {isDialogOpen}</div>
     </S.Container>
