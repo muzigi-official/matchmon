@@ -104,3 +104,7 @@ interface SelectProperty {
   value: string | number | undefined;
   text: string;
 }
+
+interface ApplyFormInput {
+  teamId: number | string;
+}
