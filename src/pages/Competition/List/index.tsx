@@ -49,7 +49,6 @@ export default function CompetitionList() {
     setIsFetching(true);
     const response = await listCompetition(newPage);
     const { page, last_page } = response.meta;
-    console.log(response.data);
     setCompetitions(response.data);
     setPage(Number(page));
     setPageCount(last_page);
@@ -57,7 +56,7 @@ export default function CompetitionList() {
   };
 
   return (
-    <Box display={'flex'} sx={{ flexWrap: 'wrap' }}>
+    <Box display={'flex'} sx={{ flexWrap: 'wrap', justifyContent: 'center' }}>
       {competitions.map((competition, index) => {
         return (
           <CompetitionCard
