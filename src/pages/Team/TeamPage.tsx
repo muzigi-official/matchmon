@@ -141,19 +141,6 @@ export default function TeamPage() {
           setIsComfirmOpen(false);
         }}
       />
-      {/* {!!selectedRow && (
-        <EditDialog
-          open={isEditDialogOpen}
-          data={selectedRow}
-          onClose={() => {
-            setIsEditDialogOpen(false);
-          }}
-          onConfirm={() => {
-            // Axios
-            setIsEditDialogOpen(false);
-          }}
-        />
-      )} */}
     </>
   );
 }
