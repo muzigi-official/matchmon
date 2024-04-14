@@ -15,8 +15,8 @@ const Bracket = lazy(() => import('../pages/Bracket'));
 
 const AdminHome = lazy(() => import('../pages/admin/Home'));
 const AdminCompetition = lazy(() => import('../pages/admin/competition'));
-const ParticipateTeams = lazy(() => import('../pages/admin/competition/Team'));
-const ParticipateTeamDetails = lazy(() => import('../pages/admin/competition/TeamDetails'));
+const ParticipateTeams = lazy(() => import('../pages/admin/competition/team/Team'));
+const ParticipateTeamDetails = lazy(() => import('../pages/admin/competition/team/TeamDetails'));
 // const AdminCompetitionDetails = lazy(() => import('../pages/admin/competition/Details'));
 
 const router = createBrowserRouter(
