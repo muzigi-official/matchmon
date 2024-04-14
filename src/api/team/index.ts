@@ -14,6 +14,7 @@ interface UpdateTeamDto {
   location: string;
   emblem: string;
   gender: string;
+  teamId: number;
 }
 
 interface ListTeamResponse {
@@ -34,8 +35,8 @@ export async function addTeam(data: CreateTeamDto) {
   return response;
 }
 
-export async function editTeam(id: number, data: UpdateTeamDto) {
-  const response = await customAxios.patch<DefaultReturn>(`/teams/${id}`, data);
+export async function editTeam(data: UpdateTeamDto) {
+  const response = await customAxios.patch<DefaultReturn>(`/teams/update${data.teamId}`, data);
   return response.data;
 }
 export async function getTeam(id: number | string) {

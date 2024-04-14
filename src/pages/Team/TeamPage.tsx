@@ -32,7 +32,6 @@ export default function TeamPage() {
 
   const getTeams = async (newPage: number) => {
     const response = await listTeam(newPage, 10);
-    console.log(response);
     const { last_page } = response.meta;
     setTeams(response.data);
     setPage(Number(newPage));
@@ -54,32 +53,24 @@ export default function TeamPage() {
   };
 
   const handleAddTeam = async (formData: TeamFormInput) => {
-    console.log('add', formData);
     const { statusText } = await addTeam(formData);
 
     if (statusText === 'Created') {
       alert('팀 추가 성공');
       setIsTeamDialogOpen(false);
+      getTeams(page);
     }
   };
 
   const handleUpdateTeam = async (formData: TeamFormInput) => {
-    console.log('update', formData);
     if (selectedRow) {
-      const response = await editTeam(selectedRow.id, formData);
-      console.log('response', response);
+      const response = await editTeam({ ...formData, teamId: selectedRow.id });
+      if (response) {
+        alert('팀 수정 성공');
+        setIsTeamDialogOpen(false);
+        getTeams(page);
+      }
     }
-
-    // const { id, nickName, picture } = formData;
-    // if (id) {
-    //
-    //   console.log('response', response);
-
-    // if (statusText === 'OK') {
-    //   alert('팀 수정 성공');
-    //   setIsDialogOpen(false);
-    // }
-    // }
   };
 
   const clickModify = (row: Team) => {

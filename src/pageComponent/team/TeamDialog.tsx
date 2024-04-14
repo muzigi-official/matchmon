@@ -24,7 +24,6 @@ interface Props {
 const selectLocation = LOCATION_INFO;
 
 export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
-  console.log('team', team);
   const {
     register,
     formState: { errors },
