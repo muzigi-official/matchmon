@@ -13,6 +13,7 @@ interface Player {
   picture?: string;
   uniformNumber?: number;
   role: number;
+  isAttend?: boolean;
   team?: {
     id: number;
     name: string;
@@ -91,6 +92,7 @@ interface Team {
   emblem: string;
   gender: string;
   isActive: boolean;
+  players?: Player[];
 }
 
 interface TeamFormInput {
