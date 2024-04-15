@@ -42,7 +42,7 @@ const router = createBrowserRouter(
           {/* <Route path=':competitionId' element={<AdminCompetitionDetails />} /> */}
           <Route path='participateTeams'>
             <Route index element={<ParticipateTeams />} />
-            <Route path=':teamId' element={<ParticipateTeamDetails />} />
+            <Route path=':joinCompId' element={<ParticipateTeamDetails />} />
           </Route>
           {/* <Route path='setting' element={<AdminCompetitionDetails />} /> */}
         </Route>

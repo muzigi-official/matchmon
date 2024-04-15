@@ -61,7 +61,7 @@ export default function ParticipateTeams() {
   };
 
   const movePage = (row: joinCompTeam) => {
-    navigate(`/admin/competition/participateTeams/${row.teamId}`);
+    navigate(`/admin/competition/participateTeams/${row.joinCompId}`);
   };
 
   return (
