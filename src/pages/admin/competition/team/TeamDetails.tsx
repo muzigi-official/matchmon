@@ -76,7 +76,10 @@ export default function ParticipateTeamsDetails() {
     <>
       <S.Container>
         <S.Top>
-          <h5>참가팀 &gt; {team?.name} </h5>
+          <h5>
+            참가팀 &gt;
+            <span>{team?.name}</span>
+          </h5>
         </S.Top>
         <S.Content>
           <S.Header>
