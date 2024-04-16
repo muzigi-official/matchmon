@@ -28,7 +28,7 @@ interface joinCompTeam {
 export default function ParticipateTeams() {
   const navigate = useNavigate();
   const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
-  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  // const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [rows, setRows] = useState<joinCompTeam[]>([]);
 
   useEffect(() => {
@@ -61,20 +61,29 @@ export default function ParticipateTeams() {
   };
 
   const movePage = (row: joinCompTeam) => {
-    navigate(`/admin/competition/participateTeams/${row.teamId}`);
+    navigate(`/admin/competition/participateTeams/${row.joinCompId}`);
   };
 
   return (
     <S.Container>
       <S.Top>
-        <div>{selectedCompetition ? <h3>참가팀</h3> : <p>대회를 선택하세요.</p>}</div>
+        <div>
+          {selectedCompetition ? (
+            <h3>
+              <span>참가팀</span>
+              <span> : {rows.length}팀</span>
+            </h3>
+          ) : (
+            <p>대회를 선택하세요.</p>
+          )}
+        </div>
         <div>
           <MyButton variant='contained' onClick={splitGroup}>
             조짜기
           </MyButton>
-          <MyButton variant='contained' onClick={() => setDialogOpen(true)}>
+          {/* <MyButton variant='contained' onClick={() => setDialogOpen(true)}>
             팀 추가
-          </MyButton>
+          </MyButton> */}
         </div>
       </S.Top>
       <S.Content>
@@ -87,7 +96,6 @@ export default function ParticipateTeams() {
           onClickDelete={deleteTeam}
         />
       </S.Content>
-      <div>dialog 열어줘 {isDialogOpen}</div>
     </S.Container>
   );
 }

@@ -34,7 +34,7 @@ export default function PlayerList() {
   }, []);
 
   useEffect(() => {
-    getTeams(page, 100);
+    getTeams(page);
   }, []);
 
   const getList = async (newPage: number) => {
@@ -46,7 +46,7 @@ export default function PlayerList() {
         uniformNumber: player.uniformNumber ? player.uniformNumber : 0,
         role: player.role,
         nickName: player.nickName,
-        picture: player.picture,
+        picture: player.picture ? player.picture : '',
         teamName: player.team ? player.team.name : '',
         teamId: player.team ? player.team.id : '',
       };
@@ -56,9 +56,8 @@ export default function PlayerList() {
     setPageCount(last_page);
   };
 
-  const getTeams = async (newPage: number, itemPerPage: number) => {
-    const response = await listTeam(newPage, itemPerPage);
-    console.log(response);
+  const getTeams = async (newPage: number) => {
+    const response = await listTeam(newPage, 100);
     const selectOptions = response.data.map(team => {
       return {
         value: team.id,
@@ -93,6 +92,7 @@ export default function PlayerList() {
     if (statusText === 'Created') {
       alert('선수 등록 성공');
       setIsDialogOpen(false);
+      setSelectedRow(null);
     }
   };
 
@@ -109,6 +109,7 @@ export default function PlayerList() {
       if (statusText === 'OK') {
         alert('선수 수정 성공');
         setIsDialogOpen(false);
+        setSelectedRow(null);
       }
     }
   };

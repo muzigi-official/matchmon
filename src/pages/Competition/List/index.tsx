@@ -69,7 +69,6 @@ export default function CompetitionList() {
 
   const getTeams = async (newPage: number, itemPerPage: number) => {
     const response = await listTeam(newPage, itemPerPage);
-    console.log(response);
     const selectOptions = response.data.map(team => {
       return {
         value: team.id,

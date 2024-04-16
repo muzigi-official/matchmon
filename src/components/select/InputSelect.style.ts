@@ -17,7 +17,7 @@ export const FormSelect = styled('select')`
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
-  background: url('select-arrow2.png') no-repeat right 0.75rem center;
+  background: url('/select-arrow2.png') no-repeat right 0.75rem center;
 
   select::-ms-expand {
     display: none; /*for IE10,11*/

@@ -41,3 +41,16 @@ export const TEAM_TYPE_INFO = {
     { value: '성인부', text: '성인부' },
   ],
 };
+
+export const COLOR_SET = [
+  '#cddc39',
+  '#ffc107',
+  '#ffeb3b',
+  '#8bc34a',
+  '#81d4fa',
+  '#7c4dff',
+  '#4dd0e1',
+  '#f48fb1',
+  '#ef5350',
+  '#8d6e63',
+];

@@ -44,7 +44,7 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
       role: player ? player.role : 0,
       teamId: player ? player.teamId : '',
     });
-  }, []);
+  }, [open, player]);
 
   const onSubmit: SubmitHandler<playerFormInput> = async formData => {
     onConfirm(formData);

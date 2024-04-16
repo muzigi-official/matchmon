@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     --mui-palette-primary-main: #1976d2;
     --mui-palette-primary-light: #42a5f5;
     --mui-palette-primary-dark: #1565c0;
-    --mui-palette-primary-contrastText: rgb(46, 38, 61);
+    --mui-palette-primary-contrast-text: rgb(46, 38, 61);
     /* ...other variables */
   
     --border-color: rgb(46, 38, 61, 0.12);

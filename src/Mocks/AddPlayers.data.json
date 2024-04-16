@@ -1,0 +1,142 @@
+[
+  {
+      "id": 2,
+      "nickName": "뺑",
+      "uniformNumber": 20,
+      "picture": null,
+      "role": 2,
+      "createdAt": "2024-03-30T14:13:43.295Z",
+      "isActive": true,
+      "isAttend": true
+  },
+  {
+      "id": 15,
+      "nickName": "웅",
+      "uniformNumber": 10,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-02T15:43:41.155Z",
+      "isActive": true,
+      "isAttend": true
+  },
+  {
+      "id": 16,
+      "nickName": "춘",
+      "uniformNumber": 11,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-11T13:26:05.617Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 19,
+      "nickName": "파이리",
+      "uniformNumber": 8,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:07:37.482Z",
+      "isActive": true,
+      "isAttend": true
+  },
+  {
+      "id": 20,
+      "nickName": "꿍",
+      "uniformNumber": 23,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:07:48.179Z",
+      "isActive": true,
+      "isAttend": true
+  },
+  {
+      "id": 21,
+      "nickName": "둥블리",
+      "uniformNumber": 22,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:07:53.481Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 22,
+      "nickName": "구",
+      "uniformNumber": 30,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:07:59.603Z",
+      "isActive": true,
+      "isAttend": true
+  },
+  {
+      "id": 23,
+      "nickName": "선하은",
+      "uniformNumber": 0,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:08:08.372Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 24,
+      "nickName": "이유림",
+      "uniformNumber": 0,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:08:18.350Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 25,
+      "nickName": "박소연",
+      "uniformNumber": 0,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:08:23.356Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 26,
+      "nickName": "\b코지",
+      "uniformNumber": 4,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:08:32.735Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 27,
+      "nickName": "민지",
+      "uniformNumber": 0,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:08:39.396Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 28,
+      "nickName": "뇽",
+      "uniformNumber": 0,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:10:49.297Z",
+      "isActive": true,
+      "isAttend": false
+  },
+  {
+      "id": 29,
+      "nickName": "기린",
+      "uniformNumber": 0,
+      "picture": "",
+      "role": 0,
+      "createdAt": "2024-04-15T12:14:41.501Z",
+      "isActive": true,
+      "isAttend": false
+  }
+]

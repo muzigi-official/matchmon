@@ -10,9 +10,10 @@ type Gender = 'M' | 'F' | 'A';
 interface Player {
   id?: number;
   nickName: string;
-  picture?: string;
+  picture?: string | null;
   uniformNumber?: number;
   role: number;
+  isAttend?: boolean;
   team?: {
     id: number;
     name: string;
@@ -91,6 +92,7 @@ interface Team {
   emblem: string;
   gender: string;
   isActive: boolean;
+  players?: Player[];
 }
 
 interface TeamFormInput {
