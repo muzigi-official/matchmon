@@ -9,12 +9,12 @@ interface ListJoinTeamCompResponse {
   participateState: string;
 }
 
-interface AddJoinTeamDto {
+interface ToggleJoinTeamDto {
   joinTeamCompId: number;
   playerId: number;
 }
 
-export async function addJoinTeam(data: AddJoinTeamDto) {
+export async function addJoinTeam(data: ToggleJoinTeamDto) {
   const response = await customAxios.patch<DefaultReturn>('/joinTeamComp/addPlayers', data);
   return response.data;
 }
@@ -37,9 +37,7 @@ export async function getParticipateTeamInPlayers(joinTeamCompId: number | strin
   return response.data;
 }
 
-export async function removeJoinTeam(joinTeamCompId: number, playerId: number) {
-  const params = { joinTeamCompId, playerId };
-
-  const response = await customAxios.patch<DefaultReturn>('/joinTeamComp/removePlayer', params);
+export async function removeJoinTeam(data: ToggleJoinTeamDto) {
+  const response = await customAxios.patch<DefaultReturn>('/joinTeamComp/removePlayer', data);
   return response.data;
 }

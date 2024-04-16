@@ -21,13 +21,12 @@ interface Props {
 }
 
 export default function AddParticipatingPlayer({ open, players, onClose, onClick }: Props) {
-  console.log('allPlayers', players);
   const [list, setList] = useState<Player[]>(players);
   const [selectedCount, setSelectedCount] = useState<number>(list.filter(player => player.isAttend).length);
 
   useEffect(() => {
     setList(players);
-    setSelectedCount(list.filter(player => player.isAttend).length);
+    setSelectedCount(players.filter(player => player.isAttend).length);
   }, [players]);
 
   return (
@@ -43,15 +42,15 @@ export default function AddParticipatingPlayer({ open, players, onClose, onClick
         <DialogCloseButton onClick={onClose}>
           <CloseIcon />
         </DialogCloseButton>
-        <div>
+        <S.Top>
           <b>{selectedCount}</b>명 선택함
-        </div>
+        </S.Top>
         <S.List>
           {players.map(player => {
             return (
               <S.ListItem key={player.id} isAttend={player.isAttend} onClick={() => onClick(player)}>
                 <span>{player.nickName}</span>
-                <span>{player.uniformNumber ? player.uniformNumber : ''}</span>
+                <span>{player.uniformNumber ? ` (${player.uniformNumber})` : ''}</span>
               </S.ListItem>
             );
           })}

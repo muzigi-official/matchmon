@@ -21,7 +21,6 @@ export default function ParticipateTeamsDetails() {
   }, []);
 
   const attendingPlayers = useMemo(() => {
-    console.log('????', participatePlayers);
     return allPlayers.map((player: Player) => {
       const isAttend = participatePlayers.some(participatePlayer => {
         return participatePlayer.id === player.id;
@@ -53,10 +52,11 @@ export default function ParticipateTeamsDetails() {
   const clickHandler = async (player: Player) => {
     if (player.id) {
       if (player.isAttend) {
-        // remove
-        console.log('remove', player.nickName);
-        const response = await removeJoinTeam(Number(joinCompId), player.id);
-        console.log('res', response);
+        const response = await removeJoinTeam({ joinTeamCompId: Number(joinCompId), playerId: player.id });
+        if (response) {
+          const updatedItems = participatePlayers.filter(item => item.nickName !== player.nickName);
+          setParticipatePlayers(updatedItems);
+        }
       } else {
         const response = await addJoinTeam({ joinTeamCompId: Number(joinCompId), playerId: player.id });
         if (response) {
