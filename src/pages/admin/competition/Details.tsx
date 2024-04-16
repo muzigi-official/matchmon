@@ -13,7 +13,6 @@ export default function AdminCompetitionDetails() {
   const getDetails = async () => {
     if (competitionId) {
       const response = await getCompetition(competitionId);
-      console.log(response);
       setCompetition(response);
     }
   };

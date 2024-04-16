@@ -74,13 +74,11 @@ export default function TeamPage() {
   };
 
   const clickModify = (row: Team) => {
-    console.log('click modify button', row);
     setSelectedRow(row);
     setIsTeamDialogOpen(true);
   };
 
   const openDeleteConfirm = (row: Team) => {
-    console.log('click delete button', row);
     setSelectedRow(row);
     setIsComfirmOpen(true);
   };
