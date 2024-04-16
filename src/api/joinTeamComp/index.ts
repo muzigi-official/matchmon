@@ -36,3 +36,10 @@ export async function getParticipateTeamInPlayers(joinTeamCompId: number | strin
   const response = await customAxios.get<Team>(`/joinTeamComp/relatedTeam`, { params });
   return response.data;
 }
+
+export async function removeJoinTeam(joinTeamCompId: number, playerId: number) {
+  const params = { joinTeamCompId, playerId };
+
+  const response = await customAxios.patch<DefaultReturn>('/joinTeamComp/removePlayer', params);
+  return response.data;
+}

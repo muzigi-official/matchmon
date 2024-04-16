@@ -8,6 +8,7 @@ import {
   DialogHeaderBody,
   DialogContent,
   DialogCloseButton,
+  DialogFooter,
 } from '@/components/dialog/Dialog.style';
 
 import * as S from './AddParticipatingDialog.style';
@@ -16,15 +17,18 @@ interface Props {
   open: boolean;
   players: Player[];
   onClose: () => void;
-  onConfirm?: (formData: ApplyFormInput) => void;
+  onClick: (player: Player) => void;
 }
 
-export default function AddParticipatingPlayer({ open, players, onClose }: Props) {
-  const [selectedCount, setSelectedCount] = useState<number>(players.filter(player => player.isAttend).length);
+export default function AddParticipatingPlayer({ open, players, onClose, onClick }: Props) {
+  console.log('allPlayers', players);
+  const [list, setList] = useState<Player[]>(players);
+  const [selectedCount, setSelectedCount] = useState<number>(list.filter(player => player.isAttend).length);
+
   useEffect(() => {
-    console.log('open', open);
-    console.log('players', players);
-  }, [open]);
+    setList(players);
+    setSelectedCount(list.filter(player => player.isAttend).length);
+  }, [players]);
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby='dialog-apply' aria-describedby='dialog-apply-description'>
@@ -40,18 +44,20 @@ export default function AddParticipatingPlayer({ open, players, onClose }: Props
           <CloseIcon />
         </DialogCloseButton>
         <div>
-          <h5>{selectedCount}</h5>
+          <b>{selectedCount}</b>명 선택함
         </div>
         <S.List>
           {players.map(player => {
             return (
-              <S.ListItem key={player.id} isAttend={player.isAttend}>
-                {player.nickName}
+              <S.ListItem key={player.id} isAttend={player.isAttend} onClick={() => onClick(player)}>
+                <span>{player.nickName}</span>
+                <span>{player.uniformNumber ? player.uniformNumber : ''}</span>
               </S.ListItem>
             );
           })}
         </S.List>
       </DialogContent>
+      <DialogFooter />
     </Dialog>
   );
 }

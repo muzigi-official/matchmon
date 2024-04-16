@@ -10,7 +10,7 @@ type Gender = 'M' | 'F' | 'A';
 interface Player {
   id?: number;
   nickName: string;
-  picture?: string;
+  picture?: string | null;
   uniformNumber?: number;
   role: number;
   isAttend?: boolean;
