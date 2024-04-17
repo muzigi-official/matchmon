@@ -1,4 +1,4 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from '../Container.style';
 import BasicSelect from '@/components/select/BasicSelect';
@@ -31,6 +31,7 @@ interface HeaderProperty {
 }
 
 export default function AdminMatchReport() {
+  const navigate = useNavigate();
   const rows = [
     { order: 1, dateTime: '10:00 ~ 10:15', teams: '눈누난나A vs 눈누난나B', result: 'Home 승', gameState: '완료' },
     { order: 2, dateTime: '10:20 ~ 10:35', teams: '양구시청 vs 장도리 FC', result: '무', gameState: '미입력' },
@@ -45,6 +46,7 @@ export default function AdminMatchReport() {
 
   const hadleClickRow = (row: HeaderProperty) => {
     console.log('click', row);
+    navigate(`/admin/matchReport/${row.order}`);
   };
 
   return (
