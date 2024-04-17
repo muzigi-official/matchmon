@@ -13,7 +13,7 @@ import PersonOutline from '@mui/icons-material/PersonOutline';
 import StadiumIcon from '@mui/icons-material/Stadium';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-// import ScoreboardIcon from '@mui/icons-material/Scoreboard';
+import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 // import BarChartIcon from '@mui/icons-material/BarChart';
 // import SettingsIcon from '@mui/icons-material/Settings';
 
@@ -28,7 +28,7 @@ export const authByRoute = {
   CA: [
     { url: '/admin/competition/participateTeams', name: '참가 팀', icon: <ShieldIcon /> },
     // { url: '/admin/competition/bracket', name: '대진표', icon: <EmojiEventsIcon /> },
-    // { url: '/matchReport', name: '경기기록', icon: <ScoreboardIcon /> },
+    { url: '/admin/matchReport', name: '경기기록', icon: <ScoreboardIcon /> },
     // { url: '/ranking', name: '랭킹', icon: <BarChartIcon /> },
     // { url: '/admin/competition/setting', name: '설정', icon: <SettingsIcon /> },
   ],

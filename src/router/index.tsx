@@ -15,6 +15,7 @@ const Bracket = lazy(() => import('../pages/Bracket'));
 
 const AdminHome = lazy(() => import('../pages/admin/Home'));
 const AdminCompetition = lazy(() => import('../pages/admin/competition'));
+const AdminMatchReport = lazy(() => import('../pages/admin/matchReport'));
 const ParticipateTeams = lazy(() => import('../pages/admin/competition/team/Team'));
 const ParticipateTeamDetails = lazy(() => import('../pages/admin/competition/team/TeamDetails'));
 // const AdminCompetitionDetails = lazy(() => import('../pages/admin/competition/Details'));
@@ -44,7 +45,9 @@ const router = createBrowserRouter(
             <Route index element={<ParticipateTeams />} />
             <Route path=':joinCompId' element={<ParticipateTeamDetails />} />
           </Route>
-          {/* <Route path='setting' element={<AdminCompetitionDetails />} /> */}
+        </Route>
+        <Route path='matchReport'>
+          <Route index element={<AdminMatchReport />} />
         </Route>
       </Route>
 
