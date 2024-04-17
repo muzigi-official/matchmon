@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as S from './Container.style';
+import * as S from '../Container.style';
 
 export default function CompetitionSetting() {
   return (

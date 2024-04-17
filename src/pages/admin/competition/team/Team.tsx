@@ -8,7 +8,7 @@ import { getParticipateTeams } from '@/api/joinTeamComp';
 import MyButton from '@/components/button/MyButton';
 import DataTable from '@/components/table/DataTable';
 
-import * as S from '../Container.style';
+import * as S from '../../Container.style';
 
 const joinTeamHeader = [
   { headerName: '팀이름', property: 'name', withImage: 'emblem', type: 'text' },

@@ -3,7 +3,7 @@ import MyButton from '@/components/button/MyButton';
 
 import AddDialog from '@/pageComponent/admin/competition/Dialog';
 
-import * as S from './Container.style';
+import * as S from '../Container.style';
 
 export default function AdminCompetition() {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
