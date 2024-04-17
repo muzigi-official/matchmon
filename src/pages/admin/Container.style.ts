@@ -15,4 +15,11 @@ export const Top = styled('section')`
 
 export const Content = styled('section')`
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const ContentTop = styled('div')`
+  display: flex;
+  gap: 8px;
 `;

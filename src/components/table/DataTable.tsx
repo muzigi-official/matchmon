@@ -24,7 +24,7 @@ interface Props<T> {
   rows: T[];
   onClickRow?: (row: T) => void;
   onClickModify?: (row: T) => void;
-  onClickDelete: (row: T) => void;
+  onClickDelete?: (row: T) => void;
 }
 
 export default function DataTable<T>({ header, rows, onClickRow, onClickModify, onClickDelete }: Props<T>) {
@@ -69,7 +69,7 @@ export default function DataTable<T>({ header, rows, onClickRow, onClickModify, 
                   );
                 }
 
-                if (header.type === 'text' && row !== null) {
+                if (header.type !== 'button' && row !== null) {
                   return <S.DataTableTd key={`td_${index}`}>{(row as HeaderKey)[header.property]}</S.DataTableTd>;
                 }
               })}
