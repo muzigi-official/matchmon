@@ -110,3 +110,9 @@ interface SelectProperty {
 interface ApplyFormInput {
   teamId: number | string;
 }
+
+interface WorkingTimeData {
+  order: number;
+  startTime: string;
+  endTime: string;
+}

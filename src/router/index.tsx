@@ -17,6 +17,7 @@ const AdminHome = lazy(() => import('../pages/admin/Home'));
 const AdminCompetition = lazy(() => import('../pages/admin/competition'));
 const ParticipateTeams = lazy(() => import('../pages/admin/competition/team/Team'));
 const ParticipateTeamDetails = lazy(() => import('../pages/admin/competition/team/TeamDetails'));
+const TestPage = lazy(() => import('../componentTest/page/WorkingHours'));
 // const AdminCompetitionDetails = lazy(() => import('../pages/admin/competition/Details'));
 
 const router = createBrowserRouter(
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='ranking' element={<Ranking />} />
+      <Route path='test' element={<TestPage />} />
       <Route path='bracket' element={<Bracket />} />
       <Route path='*' element={<Navigate to='/main' replace />} />
       <Route index element={<Main />} />

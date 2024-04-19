@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+
+.title { 
+  min-width: 100px;
+  text-align: left;
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+hr {
+  border: solid 0.5px #d8d8d8
+}
