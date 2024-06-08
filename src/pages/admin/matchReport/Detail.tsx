@@ -1,6 +1,6 @@
 import BasicSelect from '@/components/select/BasicSelect';
 
-import * as S from '../Container.style';
+import * as S from './Container.style';
 
 const matchSelect = [
   { value: '1', text: '1경기 10:00 ~ 10:15 눈누난나A vs 눈누난나B' },
@@ -34,10 +34,11 @@ export default function AdminMatchDetail() {
         <h3>경기 기록</h3>
       </S.Top>
       <S.Content>
-        <S.ContentTop>
+        <S.Header>
           <h5>2024.04.20</h5>
           <h5>B 구장</h5>
-        </S.ContentTop>
+        </S.Header>
+        <S.List>{}</S.List>
         <BasicSelect title='경기' items={matchSelect} size='small' onSelect={handleSelect}></BasicSelect>
       </S.Content>
     </S.Container>
