@@ -5,6 +5,7 @@ type ButtonProps = {
   children: ReactNode;
   type?: 'button' | 'submit' | 'reset';
   variant?: TButtonVariant;
+  color?: string;
   selected?: boolean;
   disabled?: boolean;
   onClick?: () => void;
@@ -13,13 +14,14 @@ type ButtonProps = {
 export default function Button({
   children,
   type = 'button',
-  disabled,
   variant = 'contained',
+  color,
+  disabled,
   selected,
   onClick,
 }: ButtonProps) {
   return (
-    <StyledButton type={type} disabled={disabled} variant={variant} selected={selected} onClick={onClick}>
+    <StyledButton type={type} disabled={disabled} variant={variant} color={color} selected={selected} onClick={onClick}>
       {children}
     </StyledButton>
   );

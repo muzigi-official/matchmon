@@ -1,33 +1,29 @@
 import styled, { css } from 'styled-components';
 import { colors } from '@/styles/colors';
 import { typography } from '@/styles/typography';
+import { darkenColor, getBrightness } from '@/utils/color.ts';
 
 const buttonStyles = {
-  contained: css`
-    background-color: ${colors.primary};
-    color: ${colors.whiteText};
+  contained: css<{ color?: string }>`
+    background-color: ${({ color }) => color || colors.primary};
+    color: ${({ color }) => (getBrightness(color || colors.primary) > 128 ? colors.darkText : colors.whiteText)};
   `,
-  outlined: css`
+  outlined: css<{ color?: string }>`
     background-color: inherit;
-    border: 1px solid ${colors.primary};
-    color: ${colors.primary};
+    border: 1px solid ${({ color }) => color || colors.primary};
+    color: ${({ color }) => color || colors.primary};
   `,
-  text: css`
+  text: css<{ color?: string }>`
     background-color: inherit;
     border: none;
-    color: ${colors.primary};
+    color: ${({ color }) => color || colors.primary};
   `,
 };
 
-const darkenColor = (color: string, amount: number) => {
-  const [r, g, b] = color.match(/\w\w/g)!.map(c => parseInt(c, 16));
-  return `rgb(${Math.max(0, r - amount)}, ${Math.max(0, g - amount)}, ${Math.max(0, b - amount)})`;
-};
+type ButtonVariant = 'text' | 'contained' | 'outlined';
 
-type TButtonVariant = 'text' | 'contained' | 'outlined';
-
-export const StyledButton = styled.button<{ variant: TButtonVariant; selected?: boolean }>`
-  border-radius: 4px;
+export const StyledButton = styled.button<{ variant: ButtonVariant; selected?: boolean; color?: string }>`
+  border-radius: 8px;
   padding: 0.5em 0.8em;
   font-size: ${typography.body.fontSize};
   font-weight: ${typography.body.fontWeight};
@@ -43,20 +39,16 @@ export const StyledButton = styled.button<{ variant: TButtonVariant; selected?: 
   }
 
   &:hover:not(:disabled) {
-    background-color: ${({ variant }) =>
-      variant === 'contained'
-        ? darkenColor(colors.primary, 20)
-        : variant === 'outlined'
-          ? 'rgba(0, 0, 0, 0.1)'
-          : 'rgba(0, 0, 0, 0.1)'};
-    border-color: ${({ variant }) => variant === 'outlined' && darkenColor(colors.primary, 20)};
-    color: ${({ variant }) => (variant === 'contained' ? colors.whiteText : colors.primary)};
+    background-color: ${({ variant, color }) =>
+      variant === 'contained' ? darkenColor(color || colors.primary, 20) : 'rgba(0, 0, 0, 0.1)'};
+    border-color: ${({ variant, color }) => variant === 'outlined' && darkenColor(color || colors.primary, 20)};
+    color: ${({ variant, color }) => variant !== 'contained' && (color || colors.primary)};
   }
 
   ${({ selected }) =>
     selected &&
     css`
-      background-color: ${darkenColor(colors.primary, 40)};
+      background-color: ${colors.primary};
       color: ${colors.whiteText};
     `}
 `;
