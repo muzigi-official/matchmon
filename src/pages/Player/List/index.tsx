@@ -7,7 +7,7 @@ import { Pagination } from '@mui/material';
 import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
 import PlayerDialog from '@/pageComponent/Player/List/PlayerDialog';
-import MyButton from '@/components/button/MyButton';
+import Button from '@/components/common/Button';
 
 import * as S from '@/pages/Container.style';
 
@@ -126,9 +126,9 @@ export default function PlayerList() {
       <S.Container>
         <S.Top>
           <h4> Admin: 모든 선수 </h4>
-          <MyButton variant='contained' onClick={onClickAddButton}>
+          <Button variant='contained' onClick={onClickAddButton}>
             선수 추가
-          </MyButton>
+          </Button>
         </S.Top>
         <S.Filter>Filter Options 나중에 넣기</S.Filter>
         <S.Content>

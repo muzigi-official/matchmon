@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Pagination, Stack } from '@mui/material';
 import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
-import MyButton from '@/components/button/MyButton';
+import Button from '@/components/common/Button';
 import TeamDialog from '@/pageComponent/team/TeamDialog';
 
 import { listTeam, addTeam, editTeam } from '@/api/team';
@@ -88,9 +88,9 @@ export default function TeamPage() {
       <S.Container>
         <S.Top>
           <h4> Admin: 모든 팀 </h4>
-          <MyButton variant='contained' onClick={onClickAddButton}>
+          <Button variant='contained' onClick={onClickAddButton}>
             팀 추가
-          </MyButton>
+          </Button>
         </S.Top>
         <S.Filter>
           <p> 필터 영역 추후 개발 </p>

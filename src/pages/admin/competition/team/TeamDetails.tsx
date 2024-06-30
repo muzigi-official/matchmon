@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { addJoinTeam, getParticipatPlayers, getParticipateTeamInPlayers, removeJoinTeam } from '@/api/joinTeamComp';
-import MyButton from '@/components/button/MyButton';
+import Button from '@/components/common/Button';
 import AddParticipatingDialog from '@/pageComponent/admin/competition/team/AddParticipatingDialog';
 import AddIcon from '@mui/icons-material/Add';
 import * as S from './Container.style';
@@ -100,9 +100,9 @@ export default function ParticipateTeamsDetails() {
               );
             })}
             <S.ListItem>
-              <MyButton variant='text' onClick={clickAddPlayer}>
+              <Button variant='text' onClick={clickAddPlayer}>
                 <AddIcon />
-              </MyButton>
+              </Button>
             </S.ListItem>
           </S.List>
         </S.Content>

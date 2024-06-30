@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import Button from '@/components/common/Button';
 import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
