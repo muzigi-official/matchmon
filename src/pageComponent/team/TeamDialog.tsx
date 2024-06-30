@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import Button from '@mui/material/Button';
+import Button from '@/components/common/Button';
 import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -132,7 +132,7 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
           <Button type='submit' variant='contained'>
             저장
           </Button>
-          <Button variant='outlined' onClick={onClose}>
+          <Button variant='outlined' color='cancel' onClick={onClose}>
             취소
           </Button>
         </S.DialogFooter>

@@ -17,10 +17,9 @@ interface AppBarProps {
 
 import * as S from './Main.style';
 
-import MyButton from '../button/MyButton';
+import Button from '@/components/common/Button';
 
 export default function VerticalLayoutHeader(props: AppBarProps) {
-  // FIXME: 콘솔이 두번씩 찍힌다. 총 4개(원래 한개 더 찍히는 거 말고 한번 더 찍힘)
   const dispatch = useAppDispatch();
   const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
   const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
@@ -30,7 +29,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
   const [competitions, setCompetitions] = useState<SelectProperty[]>([]);
 
   const handleSignIn = async () => {
-    const data = await signIn({ username: 'soccerCoach', password: '1q2w3e' });
+    const data = await signIn({ username: 'soccerCoach2', password: '1q2w3e' });
     dispatch(logIn(data.access_token));
     setToken(data.access_token);
   };
@@ -96,23 +95,23 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
         <S.ToolbarEnd>
           토큰: {token && token.substring(0, 10)}
           {isSignIn ? (
-            <MyButton
+            <Button
               variant='outlined'
               onClick={() => {
                 handleSignOut();
               }}
             >
               LogOut
-            </MyButton>
+            </Button>
           ) : (
-            <MyButton
+            <Button
               variant='outlined'
               onClick={() => {
                 handleSignIn();
               }}
             >
               Login
-            </MyButton>
+            </Button>
           )}
         </S.ToolbarEnd>
       </S.Toolbar>

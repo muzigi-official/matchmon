@@ -4,8 +4,9 @@ interface RouteData {
   icon?: React.ReactElement;
 }
 
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
-type Gender = 'M' | 'F' | 'A';
+type TAnchor = 'top' | 'left' | 'bottom' | 'right';
+type TGender = 'M' | 'F' | 'A';
+type TButtonVariant = 'text' | 'contained' | 'outlined';
 
 interface Player {
   id?: number;

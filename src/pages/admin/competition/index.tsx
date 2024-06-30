@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MyButton from '@/components/button/MyButton';
+import Button from '@/components/common/Button';
 
 import AddDialog from '@/pageComponent/admin/competition/Dialog';
 
@@ -10,9 +10,9 @@ export default function AdminCompetition() {
   return (
     <S.Container>
       {/* 조건: 팀 선택을 하지 않았을 경우 대회 생성 버튼이 보인다. */}
-      <MyButton variant='contained' onClick={() => setDialogOpen(true)}>
+      <Button variant='contained' onClick={() => setDialogOpen(true)}>
         대회 생성
-      </MyButton>
+      </Button>
       <AddDialog
         open={isDialogOpen}
         onClose={() => {

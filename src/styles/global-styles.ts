@@ -1,20 +1,26 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
+import { colors } from './colors';
+import { typography } from './typography';
 
 const GlobalStyle = createGlobalStyle`
   ${normalize},
   :root {
     /* ...example */
-    --mui-palette-primary-main: #1976d2;
-    --mui-palette-primary-light: #42a5f5;
-    --mui-palette-primary-dark: #1565c0;
-    --mui-palette-primary-contrast-text: rgb(46, 38, 61);
+    --mui-palette-primary-main: ${colors.primary};
+    --mui-palette-primary-contrast-text: ${colors.text};
     /* ...other variables */
   
-    --border-color: rgb(46, 38, 61, 0.12);
+    --border-color:  ${colors.border};
   }
   
 
+  body {
+    font-family: ${typography.fontFamily};
+    color: ${colors.text};
+    background-color: ${colors.background};
+  }
+  
   :is(.border) {
       border-width: 1px
     }

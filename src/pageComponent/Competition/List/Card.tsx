@@ -6,7 +6,7 @@ import RoomIcon from '@mui/icons-material/Room';
 import CallIcon from '@mui/icons-material/Call';
 import AddIcon from '@mui/icons-material/Add';
 
-import { diffDate } from '@/util/date';
+import { diffDate } from '@/utils/date';
 
 import { FooterItem, CardFooter, CardContent, FabButton, CardActionArea, CardMedia, CardTop, Card } from './Card.style';
 

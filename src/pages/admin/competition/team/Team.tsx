@@ -5,7 +5,7 @@ import { useAppSelector } from '@/redux/hooks';
 
 import { getParticipateTeams } from '@/api/joinTeamComp';
 
-import MyButton from '@/components/button/MyButton';
+import Button from '@/components/common/Button';
 import DataTable from '@/components/table/DataTable';
 
 import * as S from '../Container.style';
@@ -78,12 +78,12 @@ export default function ParticipateTeams() {
           )}
         </div>
         <div>
-          <MyButton variant='contained' onClick={splitGroup}>
+          <Button variant='contained' onClick={splitGroup}>
             조짜기
-          </MyButton>
-          {/* <MyButton variant='contained' onClick={() => setDialogOpen(true)}>
+          </Button>
+          {/* <Button variant='contained' onClick={() => setDialogOpen(true)}>
             팀 추가
-          </MyButton> */}
+          </Button> */}
         </div>
       </S.Top>
       <S.Content>
