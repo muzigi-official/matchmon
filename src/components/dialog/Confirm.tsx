@@ -1,5 +1,4 @@
-import { grey } from '@mui/material/colors';
-import Button from '@mui/material/Button';
+import Button from '@/components/common/Button';
 import Dialog from '@mui/material/Dialog';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { Box, Typography } from '@mui/material';
@@ -38,7 +37,7 @@ export default function ConfirmDialog(props: Props) {
         <Button variant='contained' onClick={onConfirm} autoFocus>
           Yes
         </Button>
-        <Button variant='outlined' sx={{ borderColor: grey[400], color: grey[400] }} onClick={onClose}>
+        <Button variant='outlined' color='cancel' onClick={onClose}>
           Cancel
         </Button>
       </S.DialogFooter>

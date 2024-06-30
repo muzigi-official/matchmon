@@ -132,7 +132,7 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
           <Button type='submit' variant='contained'>
             저장
           </Button>
-          <Button variant='outlined' onClick={onClose}>
+          <Button variant='outlined' color='cancel' onClick={onClose}>
             취소
           </Button>
         </S.DialogFooter>

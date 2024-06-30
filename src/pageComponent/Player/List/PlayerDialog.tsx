@@ -101,7 +101,7 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
           <Button type='submit' variant='contained'>
             저장
           </Button>
-          <Button variant='outlined' onClick={onClose}>
+          <Button variant='outlined' color='cancel' onClick={onClose}>
             취소
           </Button>
         </DialogFooter>
