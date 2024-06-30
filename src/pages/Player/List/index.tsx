@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { listPlayer, removePlayer, addPlayer, editPlayer } from '@/api/player';
 import { listTeam } from '@/api/team';
 
-import { Pagination } from '@mui/material';
+import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
 import PlayerDialog from '@/pageComponent/Player/List/PlayerDialog';
@@ -146,7 +146,7 @@ export default function PlayerList() {
           />
         </S.Content>
         <S.FooterContainer>
-          <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getList(newPage)} color='primary' />
+          <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => getList(newPage)} />
         </S.FooterContainer>
       </S.Container>
       <ConfirmDialog

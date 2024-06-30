@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Pagination, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
+import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/table/DataTable';
 import ConfirmDialog from '@/components/dialog/Confirm';
 import Button from '@/components/common/Button';
@@ -106,7 +107,7 @@ export default function TeamPage() {
           </Stack>
           <Stack>
             <S.FooterContainer>
-              <Pagination page={page} count={pageTotal} onChange={(_, newPage) => getTeams(newPage)} color='primary' />
+              <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => getTeams(newPage)} />
             </S.FooterContainer>
           </Stack>
         </S.Content>
