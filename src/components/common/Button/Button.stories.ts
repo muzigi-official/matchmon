@@ -21,8 +21,14 @@ const meta = {
     variant: {
       control: 'radio',
       options: ['contained', 'outlined', 'text'],
-      description: '버튼의 스타일을 결정해 주는 값',
+      description: '버튼의 스타일을 설정해 주는 값',
       defaultValue: 'contained',
+    },
+    color: {
+      control: 'color',
+      description:
+        '버튼의 색을 설정해 주는 값, 커스텀 컬러 지정으로 primary, danger, cancel 값을 사용할 수 있다. type: string | primary | danger | cancel',
+      defaultValue: 'primary',
     },
     selected: {
       control: 'boolean',
@@ -41,24 +47,27 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const defaultButton: Story = {
+export const DefaultButton: Story = {
   args: {
     children: 'Button',
     variant: 'contained',
+    color: 'primary',
     disabled: false,
   },
 };
 
-export const outlinedButton: Story = {
+export const OutlinedButton: Story = {
   args: {
     children: 'outlined Button',
+    color: 'primary',
     variant: 'outlined',
   },
 };
 
-export const textButton: Story = {
+export const TextButton: Story = {
   args: {
     children: 'Text',
     variant: 'text',
+    color: 'primary',
   },
 };

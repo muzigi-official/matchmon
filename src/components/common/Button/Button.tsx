@@ -8,6 +8,7 @@ type ButtonProps = {
   color?: string;
   selected?: boolean;
   disabled?: boolean;
+  autoFocus?: boolean;
   onClick?: () => void;
 };
 
@@ -18,10 +19,19 @@ export default function Button({
   color,
   disabled,
   selected,
+  autoFocus = false,
   onClick,
 }: ButtonProps) {
   return (
-    <StyledButton type={type} disabled={disabled} variant={variant} color={color} selected={selected} onClick={onClick}>
+    <StyledButton
+      type={type}
+      disabled={disabled}
+      variant={variant}
+      color={color}
+      selected={selected}
+      autoFocus={autoFocus}
+      onClick={onClick}
+    >
       {children}
     </StyledButton>
   );

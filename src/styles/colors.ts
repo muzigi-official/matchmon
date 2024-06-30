@@ -8,4 +8,5 @@ export const colors = {
   whiteText: '#FFFFFF',
   border: '#CCCCCC',
   danger: '#D32F2F',
+  cancel: '#bdbdbd',
 };
