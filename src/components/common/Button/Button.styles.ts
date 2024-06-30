@@ -57,5 +57,6 @@ export const StyledButton = styled.button<{ variant: TButtonVariant; selected?: 
     selected &&
     css`
       background-color: ${darkenColor(colors.primary, 40)};
+      color: ${colors.whiteText};
     `}
 `;
