@@ -49,7 +49,7 @@ function ListItemLink(props: ListItemLinkProps) {
 
 interface Props {
   open: boolean;
-  list: RouteData[];
+  list: IRouteData[];
   onClick: () => void;
 }
 

@@ -4,8 +4,8 @@ type DefaultReturn = string;
 
 interface ListJoinTeamCompResponse {
   id: number;
-  competition: Competition;
-  team: Team;
+  competition: ICompetition;
+  team: ITeam;
   participateState: string;
 }
 
@@ -27,13 +27,13 @@ export async function getParticipateTeams(competitionId: number | string) {
 
 export async function getParticipatPlayers(joinTeamCompId: number | string) {
   const params = { joinTeamCompId };
-  const response = await customAxios.get<Player[]>(`/joinTeamComp/players`, { params });
+  const response = await customAxios.get<IPlayer[]>(`/joinTeamComp/players`, { params });
   return response.data;
 }
 
 export async function getParticipateTeamInPlayers(joinTeamCompId: number | string) {
   const params = { joinTeamCompId };
-  const response = await customAxios.get<Team>(`/joinTeamComp/relatedTeam`, { params });
+  const response = await customAxios.get<ITeam>(`/joinTeamComp/relatedTeam`, { params });
   return response.data;
 }
 

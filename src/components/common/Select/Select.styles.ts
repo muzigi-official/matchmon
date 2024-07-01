@@ -7,7 +7,7 @@ export const SelectContainer = styled.div`
   font-size: 12px;
 `;
 
-export const SelectButton = styled.div<{ isOpen: boolean }>`
+export const SelectButton = styled.div<{ isOpen: boolean; disabled?: boolean }>`
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -17,6 +17,13 @@ export const SelectButton = styled.div<{ isOpen: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  `}
 
   span {
     display: inline-block;

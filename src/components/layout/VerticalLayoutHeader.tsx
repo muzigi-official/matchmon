@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { logIn, logOut } from '@/redux/module/user';
 import { setCompetition } from '@/redux/module/competition';
 import { signIn } from '@/api/auth';
-import BasicSelect from '@/components/select/BasicSelect';
+import CustomSelect from '@/components/common/Select/CustomSelect';
 
 import { listCompetition } from '@/api/competition';
 
@@ -26,7 +26,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
   const navigate = useNavigate();
   const { open, onClickMenu } = props;
   const [token, setToken] = useState<string>('');
-  const [competitions, setCompetitions] = useState<SelectProperty[]>([]);
+  const [competitions, setCompetitions] = useState<ISelectProperty[]>([]);
 
   const handleSignIn = async () => {
     const data = await signIn({ username: 'soccerCoach2', password: '1q2w3e' });
@@ -78,12 +78,10 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
             }}
           />
           {competitions.length > 0 ? (
-            <BasicSelect
-              title='대회를 선택해주세요'
-              size='small'
-              margin={1}
+            <CustomSelect
+              label='대회를 선택해주세요'
               defaultValue={selectedCompetition}
-              items={competitions}
+              options={competitions}
               onSelect={value => {
                 changeFilterOption(value);
               }}

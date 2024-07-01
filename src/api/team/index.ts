@@ -18,7 +18,7 @@ interface UpdateTeamDto {
 }
 
 interface ListTeamResponse {
-  data: Team[];
+  data: ITeam[];
   meta: {
     total: number;
     page: number;
@@ -36,7 +36,7 @@ export async function editTeam(data: UpdateTeamDto) {
   return response.data;
 }
 export async function getTeam(id: number | string) {
-  const response = await customAxios.get<Team>(`/teams/get/${id}`);
+  const response = await customAxios.get<ITeam>(`/teams/get/${id}`);
   return response.data;
 }
 

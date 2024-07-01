@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 export default function Competition() {
   const { competitionId } = useParams();
   const [round, setRound] = useState<string>('8');
-  const [tournaments, setTournaments] = useState<Tournaments>({});
+  const [tournaments, setTournaments] = useState<ITournaments>({});
 
   useEffect(() => {
     handleGetTournaments();

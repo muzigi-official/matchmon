@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import InputSelect from '@/components/select/InputSelect';
+import FormSelect from '@/components/common/Select/FormSelect';
 
 import {
   DialogHeader,
@@ -20,10 +20,10 @@ import {
 
 interface Props {
   open: boolean;
-  team?: Team | null;
-  teams: SelectProperty[];
+  team?: ITeam | null;
+  teams: ISelectProperty[];
   onClose: () => void;
-  onConfirm: (formData: ApplyFormInput) => void;
+  onConfirm: (formData: IApplyFormInput) => void;
 }
 
 export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: Props) {
@@ -32,7 +32,7 @@ export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: P
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<ApplyFormInput>();
+  } = useForm<IApplyFormInput>();
 
   useEffect(() => {
     reset({
@@ -40,7 +40,7 @@ export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: P
     });
   }, [open]);
 
-  const onSubmit: SubmitHandler<ApplyFormInput> = async formData => {
+  const onSubmit: SubmitHandler<IApplyFormInput> = async formData => {
     onConfirm(formData);
   };
 
@@ -60,7 +60,7 @@ export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: P
           </DialogCloseButton>
           <Grid container spacing={{ xs: 2 }}>
             <Grid xs={12} sm={12}>
-              <InputSelect
+              <FormSelect
                 label='팀'
                 register={register('teamId', { required: '팀은 필수값입니다.' })}
                 options={teams}

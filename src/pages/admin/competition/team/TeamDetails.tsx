@@ -9,9 +9,9 @@ import * as S from './Container.style';
 
 export default function ParticipateTeamsDetails() {
   const { joinCompId } = useParams();
-  const [participatePlayers, setParticipatePlayers] = useState<Player[]>([]);
-  const [allPlayers, setAllPlayers] = useState<Player[]>([]);
-  const [team, setTeam] = useState<Team | null>(null);
+  const [participatePlayers, setParticipatePlayers] = useState<IPlayer[]>([]);
+  const [allPlayers, setAllPlayers] = useState<IPlayer[]>([]);
+  const [team, setTeam] = useState<ITeam | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function ParticipateTeamsDetails() {
   }, []);
 
   const attendingPlayers = useMemo(() => {
-    return allPlayers.map((player: Player) => {
+    return allPlayers.map((player: IPlayer) => {
       const isAttend = participatePlayers.some(participatePlayer => {
         return participatePlayer.id === player.id;
       });
@@ -49,7 +49,7 @@ export default function ParticipateTeamsDetails() {
     }
   };
 
-  const clickHandler = async (player: Player) => {
+  const clickHandler = async (player: IPlayer) => {
     if (player.id) {
       if (player.isAttend) {
         const response = await removeJoinTeam({ joinTeamCompId: Number(joinCompId), playerId: player.id });

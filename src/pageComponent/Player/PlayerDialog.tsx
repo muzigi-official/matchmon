@@ -18,11 +18,11 @@ import {
 } from '@/components/common/dialog/Dialog.style';
 
 interface Props {
-  player?: ParsePlayer | null;
-  teams: SelectProperty[];
+  player?: IParsePlayer | null;
+  teams: ISelectProperty[];
   open: boolean;
   onClose: () => void;
-  onConfirm: (player: playerFormInput) => void;
+  onConfirm: (player: IPlayerFormInput) => void;
 }
 
 export default function PlayerDialog({ player, teams, open, onClose, onConfirm }: Props) {
@@ -31,7 +31,7 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<playerFormInput>();
+  } = useForm<IPlayerFormInput>();
 
   const dialogType = player !== null ? '수정' : '생성';
 
@@ -46,7 +46,7 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
     });
   }, [open, player]);
 
-  const onSubmit: SubmitHandler<playerFormInput> = async formData => {
+  const onSubmit: SubmitHandler<IPlayerFormInput> = async formData => {
     onConfirm(formData);
   };
 

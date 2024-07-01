@@ -11,8 +11,8 @@ import { diffDate } from '@/utils/date';
 import { FooterItem, CardFooter, CardContent, FabButton, CardActionArea, CardMedia, CardTop, Card } from './Card.style';
 
 interface Props {
-  competition: Competition;
-  onClick: (competition: Competition) => void;
+  competition: ICompetition;
+  onClick: (competition: ICompetition) => void;
   onClickApply: (id: number) => void;
 }
 //TODO: 날짜가 지난 대회는 참가신청 못하고 위에 스타일로 종료된 대회임을 알려준다.

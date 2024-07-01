@@ -14,10 +14,10 @@ export default function CompetitionList() {
   const [page, setPage] = useState<number>(0);
   const [pageTotal, setPageCount] = useState<number>(10);
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [competitions, setCompetitions] = useState<Competition[]>([]);
+  const [competitions, setCompetitions] = useState<ICompetition[]>([]);
   const [competitionId, setCompetitionId] = useState<number>(0);
   const [isApplyDialog, setIsApplyDialog] = useState<boolean>(false);
-  const [teams, setTeams] = useState<SelectProperty[]>([{ value: '', text: '팀 선택' }]);
+  const [teams, setTeams] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -83,7 +83,7 @@ export default function CompetitionList() {
     setIsApplyDialog(true);
   };
 
-  const onSubmitHandler = async (formData: ApplyFormInput) => {
+  const onSubmitHandler = async (formData: IApplyFormInput) => {
     const body = {
       ...formData,
       competitionId,

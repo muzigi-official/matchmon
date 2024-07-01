@@ -9,16 +9,16 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import InputSelect from '@/components/select/InputSelect';
+// import InputSelect from '@/components/select/InputSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
 
 import * as S from '@/components/common/dialog/Dialog.style';
 
 interface Props {
-  team?: Team | null;
+  team?: ITeam | null;
   open: boolean;
   onClose: () => void;
-  onConfirm: (team: TeamFormInput) => void;
+  onConfirm: (team: ITeamFormInput) => void;
 }
 
 const selectLocation = LOCATION_INFO;
@@ -30,7 +30,7 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
     reset,
     control,
     handleSubmit,
-  } = useForm<TeamFormInput>();
+  } = useForm<ITeamFormInput>();
 
   useEffect(() => {
     reset({
@@ -43,7 +43,7 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
 
   const dialogType = team !== null ? '수정' : '생성';
 
-  const onSubmit: SubmitHandler<TeamFormInput> = async formData => {
+  const onSubmit: SubmitHandler<ITeamFormInput> = async formData => {
     onConfirm(formData);
   };
 
