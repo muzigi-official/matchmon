@@ -60,7 +60,6 @@ const preview: Preview = {
         ...customViewports,
         ...INITIAL_VIEWPORTS,
       },
-      // defaultViewport: "GalaxyNote20Ultra",
     },
   },
 };
