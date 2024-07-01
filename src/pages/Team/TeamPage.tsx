@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Stack } from '@mui/material';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/table/DataTable';
-import ConfirmDialog from '@/components/dialog/Confirm';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
 import Button from '@/components/common/Button';
 import TeamDialog from '@/pageComponent/team/TeamDialog';
 

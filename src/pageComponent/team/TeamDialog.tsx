@@ -12,7 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import InputSelect from '@/components/select/InputSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
 
-import * as S from '@/components/dialog/Dialog.style';
+import * as S from '@/components/common/dialog/Dialog.style';
 
 interface Props {
   team?: Team | null;

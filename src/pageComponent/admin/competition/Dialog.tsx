@@ -12,7 +12,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { addCompetition } from '@/api/competition';
 
-import * as S from '@/components/dialog/Dialog.style';
+import * as S from '@/components/common/dialog/Dialog.style';
 
 interface IFormInput {
   name: string;

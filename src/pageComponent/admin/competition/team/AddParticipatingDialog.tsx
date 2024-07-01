@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogCloseButton,
   DialogFooter,
-} from '@/components/dialog/Dialog.style';
+} from '@/components/common/dialog/Dialog.style';
 
 import * as S from './AddParticipatingDialog.style';
 

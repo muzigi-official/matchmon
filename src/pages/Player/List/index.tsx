@@ -5,7 +5,7 @@ import { listTeam } from '@/api/team';
 
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/table/DataTable';
-import ConfirmDialog from '@/components/dialog/Confirm';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
 import PlayerDialog from '@/pageComponent/Player/List/PlayerDialog';
 import Button from '@/components/common/Button';
 
