@@ -1,67 +1,60 @@
-import { useState, useRef } from 'react';
-import { Control, useController, FieldValues, Path, PathValue } from 'react-hook-form';
+import { useState, useRef, useEffect, forwardRef } from 'react';
 import { SelectContainer, SelectButton, SelectMenu, SelectOption } from './Select.styles';
 
-interface FormSelectProps<T extends FieldValues> {
+interface FormSelectProps {
   options: ISelectProperty[];
   label: string;
-  name: Path<T>;
-  control: Control<T>;
-  defaultValue?: PathValue<T, Path<T>>;
-  rules?: object;
+  name: string;
+  value: string | number | undefined;
+  onChange: (value: string | number | undefined) => void;
+  onBlur: () => void;
+  defaultValue?: string;
   disabled?: boolean;
+  error?: string;
 }
 
-const FormSelect = <T extends FieldValues>({
-  options,
-  label,
-  name,
-  control,
-  defaultValue,
-  rules,
-  disabled,
-}: FormSelectProps<T>) => {
-  const {
-    field,
-    fieldState: { error },
-  } = useController({
-    name,
-    control,
-    defaultValue: (defaultValue as PathValue<T, Path<T>>) || '',
-    rules,
-  });
+const FormSelect = forwardRef<HTMLDivElement, FormSelectProps>(
+  ({ options, label, name, value, onChange, onBlur, defaultValue = label, disabled, error }, ref) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [selectedText, setSelectedText] = useState<string>(defaultValue);
+    const menuRef = useRef<HTMLUListElement>(null);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const menuRef = useRef<HTMLUListElement>(null);
+    useEffect(() => {
+      const selectedOption = options.find(option => option.value === value);
+      setSelectedText(selectedOption ? selectedOption.text : label);
+    }, [value, options, label]);
 
-  const handleToggle = () => {
-    if (!disabled) {
-      setIsOpen(!isOpen);
-    }
-  };
+    const handleToggle = () => {
+      if (!disabled) {
+        setIsOpen(!isOpen);
+      }
+    };
 
-  const handleOptionClick = (option: ISelectProperty) => {
-    field.onChange(option.value);
-    setIsOpen(false);
-  };
+    const handleOptionClick = (option: ISelectProperty) => {
+      onChange(option.value);
+      setIsOpen(false);
+    };
 
-  return (
-    <SelectContainer>
-      <SelectButton onClick={handleToggle} isOpen={isOpen} disabled={disabled}>
-        {field.value || label}
-        <span>&#9662;</span>
-      </SelectButton>
-      <SelectMenu ref={menuRef} open={isOpen}>
-        {options.map((option, index) => (
-          <SelectOption key={index} onClick={() => handleOptionClick(option)}>
-            {option.text}
-          </SelectOption>
-        ))}
-      </SelectMenu>
-      <input type='hidden' name={name} value={field.value} ref={field.ref} />
-      {error && <p style={{ color: 'red' }}>{error.message}</p>}
-    </SelectContainer>
-  );
-};
+    return (
+      <SelectContainer ref={ref}>
+        <SelectButton onClick={handleToggle} open={isOpen} disabled={disabled}>
+          {selectedText}
+          <span>&#9662;</span>
+        </SelectButton>
+        <SelectMenu ref={menuRef} open={isOpen}>
+          {options.map((option, index) => (
+            <SelectOption key={index} onClick={() => handleOptionClick(option)}>
+              {option.text}
+            </SelectOption>
+          ))}
+        </SelectMenu>
+        <input type='hidden' name={name} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </SelectContainer>
+    );
+  },
+);
+
+FormSelect.displayName = 'FormSelect';
 
 export default FormSelect;

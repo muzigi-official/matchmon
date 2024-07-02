@@ -27,7 +27,7 @@ const CustomSelect = ({ options, label, defaultValue, onSelect }: CustomSelectPr
 
   return (
     <SelectContainer>
-      <SelectButton onClick={handleToggle} isOpen={isOpen}>
+      <SelectButton onClick={handleToggle} open={isOpen}>
         {selectedValue || label}
         <span>&#9662;</span>
       </SelectButton>

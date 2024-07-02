@@ -7,7 +7,7 @@ export const SelectContainer = styled.div`
   font-size: 12px;
 `;
 
-export const SelectButton = styled.div<{ isOpen: boolean; disabled?: boolean }>`
+export const SelectButton = styled.div<{ open: boolean; disabled?: boolean }>`
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -29,7 +29,7 @@ export const SelectButton = styled.div<{ isOpen: boolean; disabled?: boolean }>`
     display: inline-block;
     margin-left: 8px;
     transition: transform 0.3s ease;
-    transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+    transform: ${({ open }) => (open ? 'rotate(180deg)' : 'rotate(0deg)')};
   }
 `;
 
