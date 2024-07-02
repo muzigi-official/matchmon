@@ -9,7 +9,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-// import InputSelect from '@/components/select/InputSelect';
+import FormSelect from '@/components/common/Select/FormSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
 
 import * as S from '@/components/common/dialog/Dialog.style';
@@ -39,7 +39,7 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
       location: team ? team.location : '',
       emblem: team ? team.emblem : '',
     });
-  }, [team]);
+  }, [team, open]);
 
   const dialogType = team !== null ? '수정' : '생성';
 
@@ -90,7 +90,7 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
                 rules={{
                   required: {
                     value: true,
-                    message: '팀 성별 값은 필수값 입니다.',
+                    message: '성별 값은 필수값 입니다.',
                   },
                 }}
                 defaultValue=''
@@ -114,17 +114,15 @@ export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
               )}
             </Grid>
             <Grid xs={12} sm={12}>
-              <InputSelect
-                label='지역'
-                register={register('location', { required: '지역값은 필수값입니다.' })}
-                options={selectLocation.items}
-                errors={errors}
+              <Controller
+                name='location'
+                control={control}
+                defaultValue=''
+                rules={{ required: '필수값입니다.' }}
+                render={({ field, fieldState: { error } }) => (
+                  <FormSelect {...field} options={selectLocation.items} label='지역' error={error?.message} />
+                )}
               />
-              {errors.location?.type === 'required' && (
-                <p className='error' role='alert'>
-                  {errors.location.message}
-                </p>
-              )}
             </Grid>
           </Grid>
         </S.DialogContent>
