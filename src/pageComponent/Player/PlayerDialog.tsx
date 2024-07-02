@@ -49,7 +49,6 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
   }, [open, player]);
 
   const onSubmit: SubmitHandler<IPlayerFormInput> = async formData => {
-    console.log(formData);
     onConfirm(formData);
   };
 
