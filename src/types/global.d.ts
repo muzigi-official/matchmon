@@ -104,6 +104,15 @@ declare global {
     emblem: string;
   }
 
+  interface ICompetitionFormInput {
+    name: string;
+    address: string;
+    phoneNumber: string;
+    startDate: Date;
+    endDate: Date;
+    organizer: string;
+  }
+
   interface ISelectProperty {
     value: string | number | undefined;
     text: string;

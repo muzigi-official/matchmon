@@ -1,52 +1,50 @@
+import { useEffect } from 'react';
+import dayjs from 'dayjs';
+
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+
 import Button from '@/components/common/Button';
 import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import dayjs from 'dayjs';
-import { addCompetition } from '@/api/competition';
+import DateRangePicker from '@/components/common/DateTimePicker/range/DateRangePicker';
 
 import * as S from '@/components/common/dialog/Dialog.style';
-
-interface IFormInput {
-  name: string;
-  address: string;
-  phoneNumber: string;
-  startDate: Date;
-  endDate: Date;
-  organizer: string;
-}
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  // onConfirm: (playerData: DialogData) => void;
+  onConfirm: (competition: ICompetitionFormInput) => void;
 }
 
-export default function AddDialog(props: Props) {
+export default function AddDialog({ open, onClose, onConfirm }: Props) {
   const {
     register,
+    reset,
     watch,
     formState: { errors },
     control,
     handleSubmit,
-  } = useForm<IFormInput>();
+    setValue,
+  } = useForm<ICompetitionFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = async data => {
-    await addCompetition(data);
+  const onSubmit: SubmitHandler<ICompetitionFormInput> = async formData => {
+    await onConfirm(formData);
   };
 
-  const { open, onClose } = props;
+  useEffect(() => {
+    const now = dayjs().toDate(); // 오늘 날짜를 기본값으로 설정
+    reset({
+      name: '',
+      address: '',
+      phoneNumber: '',
+      startDate: now,
+      endDate: now,
+      organizer: '',
+    });
+  }, [open, reset]);
 
-  // rules 정리
-  // 필수값: 대회이름, 대회 장소, 대회 날짜(시작, 종료), 관리자 연락처
-  // 대회 날짜: 종료날짜가 시작날짜보다 더 먼저일 수 없다. 둘이 같을 순 있다.
   return (
     <Dialog
       open={open}
@@ -93,33 +91,25 @@ export default function AddDialog(props: Props) {
           )}
           <Grid container spacing={{ xs: 2 }}>
             <Grid xs={12} sm={12}>
-              <label>대회 시작 날짜</label>
+              <label>대회 날짜</label>
               <Controller
                 name='startDate'
                 control={control}
                 rules={{
                   required: {
                     value: true,
-                    message: '대회 시작 날짜는 필수값 입니다.',
+                    message: '대회 날짜는 필수값입니다.',
                   },
                 }}
-                render={({ field: { value, onChange, ref } }) => (
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DateTimePicker']}>
-                      <DateTimePicker
-                        disablePast
-                        value={value || ''}
-                        inputRef={ref}
-                        onChange={onChange}
-                        onAccept={onChange}
-                        slotProps={{
-                          textField: {
-                            size: 'small',
-                          },
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
+                render={({ field }) => (
+                  <DateRangePicker
+                    startValue={field.value} // 전달된 value를 사용
+                    endValue={watch('endDate')} // endDate의 값을 watch로 가져옴
+                    onChange={(startDate: Date, endDate: Date) => {
+                      setValue('startDate', startDate);
+                      setValue('endDate', endDate);
+                    }}
+                  />
                 )}
               />
               {errors.startDate?.type === 'required' && (
@@ -128,50 +118,6 @@ export default function AddDialog(props: Props) {
                 </p>
               )}
             </Grid>
-
-            <Grid xs={12} sm={12}>
-              <label>대회 종료 날짜</label>
-              <Controller
-                name='endDate'
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: '대회 종료 날짜는 필수값 입니다.',
-                  },
-                }}
-                render={({ field: { value, onChange, ref } }) => (
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DateTimePicker']}>
-                      <DatePicker
-                        disablePast
-                        value={value || ''}
-                        inputRef={ref}
-                        onChange={onChange}
-                        onAccept={onChange}
-                        shouldDisableDate={day => {
-                          return dayjs(dayjs(day).format(`YYYY-MM-DD`)).isBefore(
-                            dayjs(watch('startDate')).subtract(1, 'day'),
-                          );
-                        }}
-                        slotProps={{
-                          textField: {
-                            size: 'small',
-                            ...register('endDate', { required: '종료 날짜는 필수값입니다.' }),
-                          },
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                )}
-              />
-              {errors.endDate?.type === 'required' && (
-                <p className='error' role='alert'>
-                  {errors.endDate.message}
-                </p>
-              )}
-            </Grid>
-            {/* TODO: 당일 경기일 경우 체크박스 표시 두기 */}
             <Grid xs={12} sm={6}>
               <label>관리자 연락처</label>
               <input

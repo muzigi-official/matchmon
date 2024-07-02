@@ -34,7 +34,7 @@ export async function listCompetition(page: number) {
 export async function addCompetition(data: CreateCompetitionDto) {
   const parseData = { ...data, poster: '', description: '' };
   const response = await customAxios.post<DefaultReturn>('/competitions/create', parseData);
-  return response.data;
+  return response;
 }
 
 export async function getCompetition(competitionId: number | string) {
