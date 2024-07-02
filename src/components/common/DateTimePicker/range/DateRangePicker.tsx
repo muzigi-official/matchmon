@@ -1,36 +1,44 @@
 import { useState } from 'react';
-import { Container, DateInput, Label, Separator, SubContainer } from '../styles';
+import dayjs from 'dayjs';
+
+import { Container, DateInput, Label, Separator, PickerGroup, PickerContainer } from '../styles';
 import { handleDateChange } from '../util';
 
 interface IDateRangePickerProps {
+  startValue: Date | null;
+  endValue: Date | null;
   onChange: (startDate: Date, endDate: Date) => void;
 }
 
-const DateRangePicker = ({ onChange }: IDateRangePickerProps) => {
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+const DateRangePicker = ({ startValue, endValue, onChange }: IDateRangePickerProps) => {
+  const [startDate, setStartDate] = useState<string>(startValue ? dayjs(startValue).format('YYYY-MM-DD') : '');
+  const [endDate, setEndDate] = useState<string>(endValue ? dayjs(endValue).format('YYYY-MM-DD') : '');
 
   return (
     <Container>
-      <SubContainer>
+      <PickerGroup>
         <Label>Start Date</Label>
-        <DateInput
-          type='date'
-          value={startDate}
-          onChange={handleDateChange(setStartDate, onChange, startDate, endDate, true)}
-          max={endDate}
-        />
-      </SubContainer>
+        <PickerContainer>
+          <DateInput
+            type='date'
+            value={startDate}
+            onChange={handleDateChange(setStartDate, onChange, startDate, endDate, true)}
+            max={endDate}
+          />
+        </PickerContainer>
+      </PickerGroup>
       <Separator>~</Separator>
-      <SubContainer>
+      <PickerGroup>
         <Label>End Date</Label>
-        <DateInput
-          type='date'
-          value={endDate}
-          onChange={handleDateChange(setEndDate, onChange, startDate, endDate, false)}
-          min={startDate}
-        />
-      </SubContainer>
+        <PickerContainer>
+          <DateInput
+            type='date'
+            value={endDate}
+            onChange={handleDateChange(setEndDate, onChange, startDate, endDate, false)}
+            min={startDate}
+          />
+        </PickerContainer>
+      </PickerGroup>
     </Container>
   );
 };

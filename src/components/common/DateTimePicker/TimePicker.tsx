@@ -3,7 +3,7 @@ import { TimeInput, Label } from './styles';
 
 interface ITimePickerProps {
   onChange: (time: string) => void;
-  label: string;
+  label?: string;
   min?: string;
 }
 

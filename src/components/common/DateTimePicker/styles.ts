@@ -3,13 +3,22 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 2px;
   align-items: center;
 `;
 
-export const SubContainer = styled.div`
+export const PickerGroup = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+`;
+
+export const PickerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
 `;
 
 export const DateInput = styled.input`
@@ -24,6 +33,7 @@ export const TimeInput = styled.input`
 
 export const Label = styled.label`
   display: block;
+  color: #666666;
 `;
 
 export const Separator = styled.span`

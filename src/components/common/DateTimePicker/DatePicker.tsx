@@ -3,7 +3,7 @@ import { DateInput, Label } from './styles';
 
 interface IDatePickerProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  label: string;
+  label?: string;
   min?: string;
   max?: string;
 }

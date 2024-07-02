@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, TimeInput, Label, Separator, SubContainer } from '../styles';
+import { Container, TimeInput, Label, Separator, PickerContainer } from '../styles';
 import { handleTimeChange } from '../util';
 
 interface ITimeRangePickerProps {
@@ -14,24 +14,24 @@ const TimeRangePicker = ({ onChange }: ITimeRangePickerProps) => {
 
   return (
     <Container>
-      <SubContainer>
-        <Label>Start Time</Label>
+      <Label>Start Time</Label>
+      <PickerContainer>
         <TimeInput
           type='time'
           value={startTime}
           onChange={handleTimeChange(setStartTime, onChange, startTime, endTime, startDate, endDate, true)}
         />
-      </SubContainer>
+      </PickerContainer>
       <Separator>~</Separator>
-      <SubContainer>
-        <Label>End Time</Label>
+      <Label>End Time</Label>
+      <PickerContainer>
         <TimeInput
           type='time'
           value={endTime}
           onChange={handleTimeChange(setEndTime, onChange, startTime, endTime, startDate, endDate, false)}
           min={startTime}
         />
-      </SubContainer>
+      </PickerContainer>
     </Container>
   );
 };

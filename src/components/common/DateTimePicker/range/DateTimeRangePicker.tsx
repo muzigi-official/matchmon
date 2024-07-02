@@ -1,18 +1,22 @@
-// src/components/common/DateTimePicker/DateTimeRangePicker.tsx
 import { useState, ChangeEvent } from 'react';
-import { Container, SubContainer, Label, Separator } from '../styles';
+
+import dayjs from 'dayjs';
+
 import DatePicker from '../DatePicker';
 import TimePicker from '../TimePicker';
+import { Container, PickerGroup, PickerContainer, Label, Separator } from '../styles';
 
 interface IDateTimeRangePickerProps {
+  startValue: Date | null;
+  endValue: Date | null;
   onChange: (startDateTime: Date, endDateTime: Date) => void;
 }
 
-const DateTimeRangePicker = ({ onChange }: IDateTimeRangePickerProps) => {
-  const [startDate, setStartDate] = useState<string>('');
-  const [startTime, setStartTime] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
-  const [endTime, setEndTime] = useState<string>('');
+const DateTimeRangePicker = ({ startValue, endValue, onChange }: IDateTimeRangePickerProps) => {
+  const [startDate, setStartDate] = useState<string>(startValue ? dayjs(startValue).format('YYYY-MM-DD') : '');
+  const [startTime, setStartTime] = useState<string>(startValue ? dayjs(startValue).format('HH:mm') : '');
+  const [endDate, setEndDate] = useState<string>(endValue ? dayjs(endValue).format('YYYY-MM-DD') : '');
+  const [endTime, setEndTime] = useState<string>(endValue ? dayjs(endValue).format('HH:mm') : '');
 
   const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
@@ -46,17 +50,21 @@ const DateTimeRangePicker = ({ onChange }: IDateTimeRangePickerProps) => {
 
   return (
     <Container>
-      <SubContainer>
-        <Label>Start Date</Label>
-        <DatePicker onChange={handleStartDateChange} label='Start Date' max={endDate} />
-        <TimePicker onChange={handleStartTimeChange} label='Start Time' />
-      </SubContainer>
+      <PickerGroup>
+        <Label>Start DateTime</Label>
+        <PickerContainer>
+          <DatePicker onChange={handleStartDateChange} max={endDate} />
+          <TimePicker onChange={handleStartTimeChange} />
+        </PickerContainer>
+      </PickerGroup>
       <Separator>~</Separator>
-      <SubContainer>
-        <Label>End Date</Label>
-        <DatePicker onChange={handleEndDateChange} label='End Date' min={startDate} />
-        <TimePicker onChange={handleEndTimeChange} label='End Time' min={startTime} />
-      </SubContainer>
+      <PickerGroup>
+        <Label>End DateTime</Label>
+        <PickerContainer>
+          <DatePicker onChange={handleEndDateChange} min={startDate} />
+          <TimePicker onChange={handleEndTimeChange} min={startTime} />
+        </PickerContainer>
+      </PickerGroup>
     </Container>
   );
 };
