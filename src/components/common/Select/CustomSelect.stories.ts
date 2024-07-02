@@ -28,7 +28,13 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultSelect: Story = {
   args: {
-    options: ['사과', '오렌지', '포도', '수박'],
+    options: [
+      { text: '사과', value: '사과' },
+      { text: '오렌지', value: '오렌지' },
+      { text: '포도', value: '포도' },
+      { text: '수박', value: '수박' },
+    ],
+    defaultValue: '사과',
     label: '과일',
     onSelect: () => {},
   },
