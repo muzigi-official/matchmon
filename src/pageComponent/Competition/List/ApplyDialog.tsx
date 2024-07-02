@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-
-import Button from '@/components/common/Button';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
 
+import Button from '@/components/common/Button';
 import FormSelect from '@/components/common/Select/FormSelect';
 
 import {
@@ -27,12 +26,7 @@ interface Props {
 }
 
 export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: Props) {
-  const {
-    register,
-    reset,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<IApplyFormInput>();
+  const { reset, control, handleSubmit } = useForm<IApplyFormInput>();
 
   useEffect(() => {
     reset({
@@ -60,12 +54,20 @@ export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: P
           </DialogCloseButton>
           <Grid container spacing={{ xs: 2 }}>
             <Grid xs={12} sm={12}>
-              <FormSelect
-                label='팀'
-                register={register('teamId', { required: '팀은 필수값입니다.' })}
-                options={teams}
-                errors={errors}
-                disabled={team !== undefined}
+              <Controller
+                name='teamId'
+                control={control}
+                defaultValue=''
+                rules={{ required: '팀은 필수값입니다.' }}
+                render={({ field, fieldState: { error } }) => (
+                  <FormSelect
+                    {...field}
+                    options={teams}
+                    disabled={team !== undefined}
+                    label='팀'
+                    error={error?.message}
+                  />
+                )}
               />
             </Grid>
           </Grid>
