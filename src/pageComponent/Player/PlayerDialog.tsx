@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import InputSelect from '@/components/select/InputSelect';
+import FormSelect from '@/components/common/Select/FormSelect';
 
 import {
   DialogHeader,
@@ -15,25 +15,27 @@ import {
   DialogContent,
   DialogCloseButton,
   DialogFooter,
-} from '@/components/dialog/Dialog.style';
+} from '@/components/common/dialog/Dialog.style';
 
 interface Props {
-  player?: ParsePlayer | null;
-  teams: SelectProperty[];
+  player?: IParsePlayer | null;
+  teams: ISelectProperty[];
   open: boolean;
   onClose: () => void;
-  onConfirm: (player: playerFormInput) => void;
+  onConfirm: (player: IPlayerFormInput) => void;
 }
 
 export default function PlayerDialog({ player, teams, open, onClose, onConfirm }: Props) {
   const {
     register,
     reset,
+    control,
     formState: { errors },
     handleSubmit,
-  } = useForm<playerFormInput>();
+  } = useForm<IPlayerFormInput>();
 
   const dialogType = player !== null ? '수정' : '생성';
+  const isDisabled = dialogType === '수정';
 
   useEffect(() => {
     reset({
@@ -46,7 +48,7 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
     });
   }, [open, player]);
 
-  const onSubmit: SubmitHandler<playerFormInput> = async formData => {
+  const onSubmit: SubmitHandler<IPlayerFormInput> = async formData => {
     onConfirm(formData);
   };
 
@@ -79,12 +81,14 @@ export default function PlayerDialog({ player, teams, open, onClose, onConfirm }
               )}
             </Grid>
             <Grid xs={12} sm={12}>
-              <InputSelect
-                label='팀'
-                register={register('teamId', { required: '팀은 필수값입니다.' })}
-                options={teams}
-                errors={errors}
-                disabled={player !== null}
+              <Controller
+                name='teamId'
+                control={control}
+                defaultValue=''
+                rules={{ required: '필수값입니다.' }}
+                render={({ field, fieldState: { error } }) => (
+                  <FormSelect {...field} options={teams} disabled={isDisabled} label='팀' error={error?.message} />
+                )}
               />
             </Grid>
             <Grid xs={12} sm={12}>

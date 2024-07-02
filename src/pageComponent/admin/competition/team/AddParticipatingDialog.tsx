@@ -9,19 +9,19 @@ import {
   DialogContent,
   DialogCloseButton,
   DialogFooter,
-} from '@/components/dialog/Dialog.style';
+} from '@/components/common/dialog/Dialog.style';
 
 import * as S from './AddParticipatingDialog.style';
 
 interface Props {
   open: boolean;
-  players: Player[];
+  players: IPlayer[];
   onClose: () => void;
-  onClick: (player: Player) => void;
+  onClick: (player: IPlayer) => void;
 }
 
 export default function AddParticipatingPlayer({ open, players, onClose, onClick }: Props) {
-  const [list, setList] = useState<Player[]>(players);
+  const [list, setList] = useState<IPlayer[]>(players);
   const [selectedCount, setSelectedCount] = useState<number>(list.filter(player => player.isAttend).length);
 
   useEffect(() => {

@@ -5,8 +5,8 @@ import { listTeam } from '@/api/team';
 
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/table/DataTable';
-import ConfirmDialog from '@/components/dialog/Confirm';
-import PlayerDialog from '@/pageComponent/Player/List/PlayerDialog';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
+import PlayerDialog from '@/pageComponent/Player/PlayerDialog';
 import Button from '@/components/common/Button';
 
 import * as S from '@/pages/Container.style';
@@ -25,9 +25,9 @@ export default function PlayerList() {
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<ParsePlayer | null>(null);
-  const [players, setPlayer] = useState<ParsePlayer[]>([]);
-  const [options, setOptions] = useState<SelectProperty[]>([{ value: '', text: '팀 선택' }]);
+  const [selectedRow, setSelectedRow] = useState<IParsePlayer | null>(null);
+  const [players, setPlayer] = useState<IParsePlayer[]>([]);
+  const [options, setOptions] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
   useEffect(() => {
     getList(page);
@@ -40,7 +40,7 @@ export default function PlayerList() {
   const getList = async (newPage: number) => {
     const response = await listPlayer(newPage);
     const { page, last_page } = response.meta;
-    const parsePlayer = response.data.map(player => {
+    const IParsePlayer = response.data.map(player => {
       return {
         id: player.id ? player.id : 0,
         uniformNumber: player.uniformNumber ? player.uniformNumber : 0,
@@ -51,7 +51,7 @@ export default function PlayerList() {
         teamId: player.team ? player.team.id : '',
       };
     });
-    setPlayer(parsePlayer);
+    setPlayer(IParsePlayer);
     setPage(Number(page));
     setPageCount(last_page);
   };
@@ -72,7 +72,7 @@ export default function PlayerList() {
     setIsFormDialogOpen(true);
   };
 
-  const onSubmitHandler = async (formData: playerFormInput) => {
+  const onSubmitHandler = async (formData: IPlayerFormInput) => {
     if (selectedRow === null) {
       handleAddPlayer(formData);
     } else {
@@ -82,7 +82,7 @@ export default function PlayerList() {
     await getList(1);
   };
 
-  const handleAddPlayer = async (formData: playerFormInput) => {
+  const handleAddPlayer = async (formData: IPlayerFormInput) => {
     const { uniformNumber, teamId } = formData;
     const { statusText } = await addPlayer({
       ...formData,
@@ -96,7 +96,7 @@ export default function PlayerList() {
     }
   };
 
-  const handleChangePlayer = async (formData: playerFormInput) => {
+  const handleChangePlayer = async (formData: IPlayerFormInput) => {
     const { id, nickName, picture } = formData;
     if (id) {
       const { statusText } = await editPlayer(id, {
@@ -114,7 +114,7 @@ export default function PlayerList() {
     }
   };
 
-  const deleteRow = async (row: Player) => {
+  const deleteRow = async (row: IPlayer) => {
     if (row.id) {
       const response = await removePlayer(row.id);
       console.log(response);
@@ -135,11 +135,11 @@ export default function PlayerList() {
           <DataTable
             header={tableHeader}
             rows={players}
-            onClickDelete={(row: ParsePlayer) => {
+            onClickDelete={(row: IParsePlayer) => {
               setSelectedRow(row);
               setIsDialogOpen(true);
             }}
-            onClickModify={(row: ParsePlayer) => {
+            onClickModify={(row: IParsePlayer) => {
               setSelectedRow(row);
               setIsFormDialogOpen(true);
             }}

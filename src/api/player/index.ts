@@ -17,7 +17,7 @@ interface UpdatePlayerDto {
 }
 
 interface ListPlayerResponse {
-  data: Player[];
+  data: IPlayer[];
   meta: {
     total: number;
     page: number;
@@ -26,7 +26,7 @@ interface ListPlayerResponse {
 }
 
 interface GetPlayerResponse {
-  player: Player;
+  player: IPlayer;
 }
 
 export async function addPlayer(data: CreatePlayerDto) {

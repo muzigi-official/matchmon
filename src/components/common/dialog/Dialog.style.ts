@@ -19,7 +19,7 @@ export const DialogHeaderBody = styled(Typography)`
 `;
 
 export const DialogContent = styled('div')`
-  padding: 2px 114px 12px;
+  padding: 2px 24px 18px;
 `;
 
 export const DialogCloseButton = styled(IconButton)`

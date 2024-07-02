@@ -109,6 +109,7 @@ export const ToolbarStart = styled('div')`
   margin: 0;
   width: 30%;
   gap: 10px;
+  align-items: center;
 `;
 export const ToolbarEnd = styled('div')`
   display: flex;

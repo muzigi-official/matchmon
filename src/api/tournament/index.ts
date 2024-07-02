@@ -1,22 +1,22 @@
 import customAxios from '@/api/customAxios';
 
-type DefaultReturn = string;
+type TDefaultReturn = string;
 
-interface CreateTournamentDto {
+interface ICreateTournamentDto {
   competitionId: string;
   numberOfTeam: string;
 }
-interface GetTournamentListResponse extends Competition {
-  tournaments: TournamentNode[];
+interface IGetTournamentListResponse extends ICompetition {
+  tournaments: ITournamentNode[];
 }
 
-export async function createTournament(data: CreateTournamentDto) {
-  const response = await customAxios.post<DefaultReturn>('/tournaments/create', data);
+export async function createTournament(data: ICreateTournamentDto) {
+  const response = await customAxios.post<TDefaultReturn>('/tournaments/create', data);
   return response.data;
 }
 
 export async function getTournamentList(competitionId: number | string) {
   const params = { competitionId };
-  const response = await customAxios.get<GetTournamentListResponse>('/tournaments/list', { params });
+  const response = await customAxios.get<IGetTournamentListResponse>('/tournaments/list', { params });
   return response.data;
 }

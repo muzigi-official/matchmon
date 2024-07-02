@@ -4,7 +4,7 @@ export default function Bracket() {
   return (
     <>
       <h1>Bracket</h1>
-      <TournamentLayout />
+      <TournamentLayout round={0} nodeInfoList={[]} />
     </>
   );
 }

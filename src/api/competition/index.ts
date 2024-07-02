@@ -3,7 +3,7 @@ import customAxios from '@/api/customAxios';
 type DefaultReturn = string;
 
 interface ListCompetitionResponse {
-  data: Competition[];
+  data: ICompetition[];
   meta: {
     total: number;
     page: number;
@@ -34,11 +34,11 @@ export async function listCompetition(page: number) {
 export async function addCompetition(data: CreateCompetitionDto) {
   const parseData = { ...data, poster: '', description: '' };
   const response = await customAxios.post<DefaultReturn>('/competitions/create', parseData);
-  return response.data;
+  return response;
 }
 
 export async function getCompetition(competitionId: number | string) {
-  const response = await customAxios.get<Competition>(`/competitions/get/${competitionId}`);
+  const response = await customAxios.get<ICompetition>(`/competitions/get/${competitionId}`);
   return response.data;
 }
 

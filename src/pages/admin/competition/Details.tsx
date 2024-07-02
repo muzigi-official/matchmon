@@ -4,7 +4,7 @@ import { getCompetition } from '@/api/competition';
 
 export default function AdminCompetitionDetails() {
   const { competitionId } = useParams();
-  const [competition, setCompetition] = useState<Competition | null>(null);
+  const [competition, setCompetition] = useState<ICompetition | null>(null);
 
   useEffect(() => {
     getDetails();

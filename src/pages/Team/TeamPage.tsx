@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Stack } from '@mui/material';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/table/DataTable';
-import ConfirmDialog from '@/components/dialog/Confirm';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
 import Button from '@/components/common/Button';
 import TeamDialog from '@/pageComponent/team/TeamDialog';
 
@@ -21,8 +21,8 @@ const teamHeader = [
 export default function TeamPage() {
   const [isTeamDialogOpen, setIsTeamDialogOpen] = useState<boolean>(false);
   const [isComfirmOpen, setIsComfirmOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<Team | null>(null);
-  const [teams, setTeams] = useState<Team[]>([]);
+  const [selectedRow, setSelectedRow] = useState<ITeam | null>(null);
+  const [teams, setTeams] = useState<ITeam[]>([]);
   const [page, setPage] = useState<number>(1);
   const [pageTotal, setPageCount] = useState<number>(10);
 
@@ -44,7 +44,7 @@ export default function TeamPage() {
     setIsTeamDialogOpen(true);
   };
 
-  const onSubmitHandler = async (formData: TeamFormInput) => {
+  const onSubmitHandler = async (formData: ITeamFormInput) => {
     if (selectedRow === null) {
       handleAddTeam(formData);
     } else {
@@ -53,7 +53,7 @@ export default function TeamPage() {
     setIsTeamDialogOpen(false);
   };
 
-  const handleAddTeam = async (formData: TeamFormInput) => {
+  const handleAddTeam = async (formData: ITeamFormInput) => {
     const { statusText } = await addTeam(formData);
 
     if (statusText === 'Created') {
@@ -63,7 +63,7 @@ export default function TeamPage() {
     }
   };
 
-  const handleUpdateTeam = async (formData: TeamFormInput) => {
+  const handleUpdateTeam = async (formData: ITeamFormInput) => {
     if (selectedRow) {
       const response = await editTeam({ ...formData, teamId: selectedRow.id });
       if (response) {
@@ -74,12 +74,12 @@ export default function TeamPage() {
     }
   };
 
-  const clickModify = (row: Team) => {
+  const clickModify = (row: ITeam) => {
     setSelectedRow(row);
     setIsTeamDialogOpen(true);
   };
 
-  const openDeleteConfirm = (row: Team) => {
+  const openDeleteConfirm = (row: ITeam) => {
     setSelectedRow(row);
     setIsComfirmOpen(true);
   };
@@ -101,8 +101,8 @@ export default function TeamPage() {
             <DataTable
               header={teamHeader}
               rows={teams}
-              onClickModify={(row: Team) => clickModify(row)}
-              onClickDelete={(row: Team) => openDeleteConfirm(row)}
+              onClickModify={(row: ITeam) => clickModify(row)}
+              onClickDelete={(row: ITeam) => openDeleteConfirm(row)}
             />
           </Stack>
           <Stack>
