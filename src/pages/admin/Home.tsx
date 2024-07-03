@@ -1,4 +1,3 @@
-import React from 'react';
 import './index.scoped.css';
 
 export default function AdminHome() {

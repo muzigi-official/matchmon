@@ -89,7 +89,6 @@ export default function CompetitionList() {
       competitionId,
     };
     const response = await applyCompetition(body);
-    console.log('apply', response);
     if (response === '등록 성공') {
       setIsApplyDialog(false);
     }
