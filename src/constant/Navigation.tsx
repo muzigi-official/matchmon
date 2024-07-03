@@ -5,6 +5,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 
 export const adminNavItems = [
   { name: '대회', path: '/admin/competitions', icon: <StadiumIcon /> },
@@ -14,16 +15,17 @@ export const adminNavItems = [
 ];
 
 export const competitionUserNavItems = [
-  { name: '내 대회', path: '/competition/my-competitions', icon: <StadiumIcon /> },
-  { name: '참가한 팀', path: '/competition/teams', icon: <ShieldIcon /> },
-  { name: '팀 선수 목록', path: '/competition/team-players', icon: <PersonOutline /> },
-  { name: '조편성', path: '/competition/groups' },
-  { name: '시간표', path: '/competition/schedule', icon: <CalendarMonthIcon /> },
+  { name: '내 대회', path: '/competition/participateTeams', icon: <StadiumIcon /> },
+  // { name: '참가한 팀', path: '/competition/participateTeams', icon: <ShieldIcon /> },
+  // { name: '팀 선수 목록', path: '/competition/teams/players', icon: <PersonOutline /> },
+  { name: '시간표', path: '/competition/baracket', icon: <CalendarMonthIcon /> },
   { name: '경기 결과', path: '/competition/results', icon: <ScoreboardIcon /> },
-  { name: '랭킹', path: '/competition/ranking', icon: <EmojiEventsIcon /> },
+  { name: '랭킹', path: '/competition/rank', icon: <EmojiEventsIcon /> },
 ];
 
 export const userNavItems = [
-  { name: '참가한 대회', path: '/user/my-competitions', icon: <StadiumIcon /> },
-  { name: '팀 페이지', path: '/user/team-page', icon: <ShieldIcon /> },
+  { name: '전체 대회', path: '/competitions', icon: <StadiumIcon /> },
+  { name: '대진표', path: '/bracket', icon: <LanOutlinedIcon /> },
+  { name: '결과', path: '/results', icon: <ScoreboardIcon /> },
+  { name: '팀 페이지', path: '/team', icon: <ShieldIcon /> },
 ];

@@ -9,7 +9,7 @@ import ConfirmDialog from '@/components/common/dialog/Confirm';
 import PlayerDialog from '@/pageComponent/Player/PlayerDialog';
 import Button from '@/components/common/Button';
 
-import * as S from '@/pages/Container.style';
+import * as S from './Container.style';
 
 const tableHeader = [
   { headerName: '이름', property: 'nickName', withImage: 'pictrue', type: 'text' },
