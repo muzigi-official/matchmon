@@ -1,24 +1,38 @@
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import LinkList from './LinkList';
 import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-
-import { authByRoute } from '@/router/path';
-
-interface Props {
-  open: boolean;
-  setOpen: (newOpen: boolean) => void;
-}
-
+import LinkList from './LinkList';
 import * as S from './Main.style';
 
-export default function LeftDrawer(props: Props) {
+import { adminNavItems, competitionUserNavItems, userNavItems } from '@/constant/Navigation';
+
+interface IProps {
+  open: boolean;
+  setOpen: (newOpen: boolean) => void;
+  role: TUserRole;
+}
+
+const LeftDrawer = ({ open, setOpen, role }: IProps) => {
   const theme = useTheme();
-  const { open, setOpen } = props;
+
+  let navItems: INavItem[] = [];
+  switch (role) {
+    case 'admin':
+      navItems = adminNavItems;
+      break;
+    case 'competitionUser':
+      navItems = competitionUserNavItems;
+      break;
+    case 'user':
+      navItems = userNavItems;
+      break;
+    default:
+      navItems = [];
+  }
 
   return (
     <>
@@ -37,10 +51,10 @@ export default function LeftDrawer(props: Props) {
           </IconButton>
         </S.DrawerHeader>
         <Divider />
-        <LinkList open={open} list={authByRoute.NU} onClick={() => setOpen(false)} />
-        <Divider />
-        <LinkList open={open} list={authByRoute.CA} onClick={() => setOpen(false)} />
+        <LinkList open={open} list={navItems} onClick={() => setOpen(false)} />
       </S.Drawer>
     </>
   );
-}
+};
+
+export default LeftDrawer;

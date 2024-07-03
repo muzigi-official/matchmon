@@ -29,7 +29,7 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
   const [competitions, setCompetitions] = useState<ISelectProperty[]>([]);
 
   const handleSignIn = async () => {
-    const data = await signIn({ username: 'soccerCoach2', password: '1q2w3e' });
+    const data = await signIn({ username: 'adminDev', password: '1q2w3e' });
     dispatch(logIn(data.access_token));
     setToken(data.access_token);
   };
