@@ -14,7 +14,7 @@ export default function MainLayout() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <VerticalLayoutHeader open={open} onClickMenu={() => setOpen(true)} />
+      <VerticalLayoutHeader open={open} userRole={userRole} onClickMenu={() => setOpen(true)} />
       <LeftDrawer open={open} setOpen={setOpen} role={userRole} />
       <S.MainContainer component='main' sx={{ flexGrow: 1 }}>
         <S.DrawerHeader />
