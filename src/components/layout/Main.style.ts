@@ -115,4 +115,5 @@ export const ToolbarEnd = styled('div')`
   display: flex;
   align-items: center;
   margin-right: 18px;
+  column-gap: 8px;
 `;
