@@ -26,7 +26,7 @@ const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
 
 const Login = lazy(() => import('@/pages/login'));
 
-const userRole = 'user'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
+const userRole = 'competitionUser'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
 
 const routes: RouteObject[] = [
   {
