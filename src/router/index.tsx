@@ -2,33 +2,40 @@ import { lazy } from 'react';
 import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
 import MainLayout from '@/components/layout/Main';
 import PrivateRoute from './PrivateRoute';
+import ProtectedLayout from './ProtectedLayout'; // 새로 추가된 컴포넌트 임포트
 
-const Main = lazy(() => import('../pages/Main'));
-const Competition = lazy(() => import('../pages/user/Competition'));
-const CompetitionList = lazy(() => import('../pages/user/Competition/List'));
-const Result = lazy(() => import('../pages/user/Competition/Result'));
-const Bracket = lazy(() => import('../pages/user/Bracket'));
-const Team = lazy(() => import('../pages/user/team'));
+const Main = lazy(() => import('@/pages/Main'));
+const Competition = lazy(() => import('@/pages/user/Competition'));
+const CompetitionList = lazy(() => import('@/pages/user/Competition/List'));
+const Result = lazy(() => import('@/pages/user/Competition/Result'));
+const Bracket = lazy(() => import('@/pages/user/Bracket'));
+const Team = lazy(() => import('@/pages/user/team'));
 
-const AdminHome = lazy(() => import('../pages/admin/Home'));
-const AdminUsers = lazy(() => import('../pages/admin/users'));
-const AdminCompetition = lazy(() => import('../pages/admin/competition'));
-const AdminTeams = lazy(() => import('../pages/admin/teams/TeamPage'));
-const AdminPlayers = lazy(() => import('../pages/admin/players'));
+const AdminHome = lazy(() => import('@/pages/admin/Home'));
+const AdminUsers = lazy(() => import('@/pages/admin/users'));
+const AdminCompetition = lazy(() => import('@/pages/admin/competition'));
+const AdminTeams = lazy(() => import('@/pages/admin/teams/TeamPage'));
+const AdminPlayers = lazy(() => import('@/pages/admin/players'));
 
-const CompetitionUserHome = lazy(() => import('../pages/competitionUser/Home'));
-const ParticipateTeams = lazy(() => import('../pages/competitionUser/competition'));
-const ParticipateTeamDetails = lazy(() => import('../pages/competitionUser/competition/Details'));
-const CompetitionBracket = lazy(() => import('../pages/competitionUser/bracket'));
-const CompetitionMatchReport = lazy(() => import('../pages/competitionUser/matchReport'));
-const CompetitionRank = lazy(() => import('../pages/competitionUser/rank'));
+const CompetitionUserHome = lazy(() => import('@/pages/competitionUser/Home'));
+const ParticipateTeams = lazy(() => import('@/pages/competitionUser/competition'));
+const ParticipateTeamDetails = lazy(() => import('@/pages/competitionUser/competition/Details'));
+const CompetitionBracket = lazy(() => import('@/pages/competitionUser/bracket'));
+const CompetitionMatchReport = lazy(() => import('@/pages/competitionUser/matchReport'));
+const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
+
+const Login = lazy(() => import('@/pages/login'));
 
 const userRole = 'competitionUser'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
 
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <MainLayout />,
+    element: (
+      <ProtectedLayout>
+        <MainLayout />
+      </ProtectedLayout>
+    ),
     children: [
       { path: 'main', element: <Main /> },
       { path: 'team', element: <Team /> },
@@ -100,6 +107,7 @@ const routes: RouteObject[] = [
       { index: true, element: <Main /> },
     ],
   },
+  { path: '/login', element: <Login /> }, // 로그인 페이지 추가
 ];
 
 const router = createBrowserRouter(routes);
