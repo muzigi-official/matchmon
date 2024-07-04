@@ -12,9 +12,9 @@ interface PrivateRouteProps {
 
 const PrivateRoute = ({ component: Component, roles, userRole }: PrivateRouteProps) => {
   const location = useLocation();
-  const token = useUserStore(state => state.token);
+  const isSignIn = useUserStore(state => state.isSignIn);
 
-  if (!token) {
+  if (!isSignIn) {
     return <Navigate to='/login' state={{ from: location }} replace />;
   }
 
