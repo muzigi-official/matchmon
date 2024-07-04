@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { listCompetition } from '@/api/competition';
+import CustomSelect from '@/components/common/Select/CustomSelect';
 import { RootState } from '@/redux/store';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { logIn, logOut } from '@/redux/module/user';
 import { setCompetition } from '@/redux/module/competition';
-import { signIn } from '@/api/auth';
-import CustomSelect from '@/components/common/Select/CustomSelect';
-
-import { listCompetition } from '@/api/competition';
+import useUserStore from '@/store/useUserStore';
 
 interface AppBarProps {
   open: boolean;
@@ -22,17 +20,11 @@ import Button from '@/components/common/Button';
 
 export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: AppBarProps) {
   const dispatch = useAppDispatch();
-  const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
+  const isSignIn = useUserStore(state => state.isSignIn);
+  const { logOut } = useUserStore();
   const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
   const navigate = useNavigate();
-  const [token, setToken] = useState<string>('');
   const [competitions, setCompetitions] = useState<ISelectProperty[]>([]);
-
-  const handleSignIn = async () => {
-    const data = await signIn({ username: 'adminDev', password: '1q2w3e' });
-    dispatch(logIn(data.access_token));
-    setToken(data.access_token);
-  };
 
   const getList = async () => {
     const response = await listCompetition(1);
@@ -50,8 +42,7 @@ export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: Ap
   }, []);
 
   const handleSignOut = () => {
-    dispatch(logOut());
-    setToken('');
+    logOut();
   };
 
   const changeFilterOption = (value: string) => {
@@ -62,7 +53,6 @@ export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: Ap
   };
 
   return (
-    // TODO: TOKEN localStorage로 옮기든지 하기
     <S.AppBar position='fixed' color='inherit' open={open}>
       <S.Toolbar open={open}>
         <S.ToolbarStart>
@@ -92,7 +82,6 @@ export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: Ap
         </S.ToolbarStart>
         <S.ToolbarEnd>
           <span>{userRole}</span>
-          <span>토큰: {token && token.substring(0, 10)}</span>
           {isSignIn ? (
             <Button
               variant='outlined'
@@ -103,14 +92,7 @@ export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: Ap
               LogOut
             </Button>
           ) : (
-            <Button
-              variant='outlined'
-              onClick={() => {
-                handleSignIn();
-              }}
-            >
-              Login
-            </Button>
+            ''
           )}
         </S.ToolbarEnd>
       </S.Toolbar>
