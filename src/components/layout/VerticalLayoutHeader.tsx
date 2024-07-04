@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import { listCompetition } from '@/api/competition';
 import CustomSelect from '@/components/common/Select/CustomSelect';
-import { RootState } from '@/redux/store';
-import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { setCompetition } from '@/redux/module/competition';
 import useUserStore from '@/store/useUserStore';
+import useCompetitionStore from '@/store/useCompetitionStore';
 
 interface AppBarProps {
   open: boolean;
@@ -19,11 +17,10 @@ import * as S from './Main.style';
 import Button from '@/components/common/Button';
 
 export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: AppBarProps) {
-  const dispatch = useAppDispatch();
   const isSignIn = useUserStore(state => state.isSignIn);
   const { logOut } = useUserStore();
-  const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
-  const navigate = useNavigate();
+  const { selectedCompetition, setCompetition } = useCompetitionStore();
+  // const navigate = useNavigate();
   const [competitions, setCompetitions] = useState<ISelectProperty[]>([]);
 
   const getList = async () => {
@@ -45,11 +42,11 @@ export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: Ap
     logOut();
   };
 
-  const changeFilterOption = (value: string) => {
-    dispatch(setCompetition(value));
-    if (Number(value) !== 0 && value !== selectedCompetition) {
-      navigate(`/admin/competition/${value}`);
-    }
+  const changeFilterOption = (value: string | number | undefined) => {
+    setCompetition(Number(value));
+    // if (Number(value) !== 0 && value !== selectedCompetition) {
+    //   navigate(`/admin/competition/${value}`);
+    // }
   };
 
   return (
