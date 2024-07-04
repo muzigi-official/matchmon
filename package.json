@@ -43,7 +43,8 @@
     "styled-components": "^6.1.8",
     "styled-normalize": "^8.1.0",
     "styled-reset": "^4.5.2",
-    "ts-deepmerge": "^7.0.0"
+    "ts-deepmerge": "^7.0.0",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.17",
