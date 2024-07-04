@@ -20,9 +20,12 @@ const buttonStyles = {
   `,
 };
 
-type TButtonVariant = 'text' | 'contained' | 'outlined';
-
-export const StyledButton = styled.button<{ variant: TButtonVariant; selected?: boolean; color?: string }>`
+export const StyledButton = styled.button<{
+  variant: TButtonVariant;
+  selected?: boolean;
+  color?: string;
+  block?: boolean;
+}>`
   border-radius: 4px;
   padding: 0.5em 0.8em;
   font-size: ${typography.body.fontSize};
@@ -32,6 +35,14 @@ export const StyledButton = styled.button<{ variant: TButtonVariant; selected?: 
   transition: background-color 0.25s;
 
   ${({ variant }) => buttonStyles[variant]}
+
+  ${({ block }) =>
+    block &&
+    css`
+      display: block;
+      width: 100%;
+    `}
+
 
   &:disabled {
     cursor: not-allowed;

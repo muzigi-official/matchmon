@@ -9,6 +9,7 @@ type ButtonProps = {
   selected?: boolean;
   disabled?: boolean;
   autoFocus?: boolean;
+  block?: boolean;
   onClick?: () => void;
 };
 
@@ -17,6 +18,7 @@ export default function Button({
   type = 'button',
   variant = 'contained',
   color,
+  block,
   disabled,
   selected,
   autoFocus = false,
@@ -28,6 +30,7 @@ export default function Button({
       disabled={disabled}
       variant={variant}
       color={color}
+      block={block}
       selected={selected}
       autoFocus={autoFocus}
       onClick={onClick}
