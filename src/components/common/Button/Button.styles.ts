@@ -3,28 +3,31 @@ import { colors } from '@/styles/colors';
 import { typography } from '@/styles/typography';
 import { darkenColor, getBrightness, getCustomColor } from '@/utils/color.ts';
 
+// props를 DOM에 직접 전달하지 않도록 해야 되기 때문에 transient props를 사용.
+// Transient props는 $ 접두사를 사용하여 props가 DOM 요소에 전달되지 않도록 한다.
+
 const buttonStyles = {
-  contained: css<{ color?: string }>`
-    background-color: ${({ color }) => getCustomColor(color)};
-    color: ${({ color }) => (getBrightness(getCustomColor(color)) > 128 ? colors.darkText : colors.whiteText)};
+  contained: css<{ $color?: string }>`
+    background-color: ${({ $color }) => getCustomColor($color)};
+    color: ${({ $color }) => (getBrightness(getCustomColor($color)) > 128 ? colors.darkText : colors.whiteText)};
   `,
-  outlined: css<{ color?: string }>`
+  outlined: css<{ $color?: string }>`
     background-color: inherit;
-    border: 1px solid ${({ color }) => getCustomColor(color)};
-    color: ${({ color }) => getCustomColor(color)};
+    border: 1px solid ${({ $color }) => getCustomColor($color)};
+    color: ${({ $color }) => getCustomColor($color)};
   `,
-  text: css<{ color?: string }>`
+  text: css<{ $color?: string }>`
     background-color: inherit;
     border: none;
-    color: ${({ color }) => getCustomColor(color)};
+    color: ${({ $color }) => getCustomColor($color)};
   `,
 };
 
 export const StyledButton = styled.button<{
-  variant: TButtonVariant;
-  selected?: boolean;
-  color?: string;
-  block?: boolean;
+  $variant: TButtonVariant;
+  $selected?: boolean;
+  $color?: string;
+  $block?: boolean;
 }>`
   border-radius: 4px;
   padding: 0.5em 0.8em;
@@ -34,15 +37,14 @@ export const StyledButton = styled.button<{
   cursor: pointer;
   transition: background-color 0.25s;
 
-  ${({ variant }) => buttonStyles[variant]}
+  ${({ $variant }) => buttonStyles[$variant]}
 
-  ${({ block }) =>
-    block &&
+  ${({ $block }) =>
+    $block &&
     css`
       display: block;
       width: 100%;
     `}
-
 
   &:disabled {
     cursor: not-allowed;
@@ -50,14 +52,14 @@ export const StyledButton = styled.button<{
   }
 
   &:hover:not(:disabled) {
-    background-color: ${({ variant, color }) =>
-      variant === 'contained' ? darkenColor(getCustomColor(color), 20) : 'rgba(0, 0, 0, 0.1)'};
-    border-color: ${({ variant, color }) => variant === 'outlined' && darkenColor(getCustomColor(color), 20)};
-    color: ${({ variant, color }) => variant !== 'contained' && getCustomColor(color)};
+    background-color: ${({ $variant, $color }) =>
+      $variant === 'contained' ? darkenColor(getCustomColor($color), 20) : 'rgba(0, 0, 0, 0.1)'};
+    border-color: ${({ $variant, $color }) => $variant === 'outlined' && darkenColor(getCustomColor($color), 20)};
+    color: ${({ $variant, $color }) => $variant !== 'contained' && getCustomColor($color)};
   }
 
-  ${({ selected }) =>
-    selected &&
+  ${({ $selected }) =>
+    $selected &&
     css`
       background-color: ${colors.primary};
       color: ${colors.whiteText};
