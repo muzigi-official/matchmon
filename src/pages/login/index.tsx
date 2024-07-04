@@ -6,7 +6,7 @@ import { TextField, IconButton, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { login } from '@/auth/AuthService';
+import { signIn } from '@/auth/AuthService';
 import useUserStore from '@/store/useUserStore';
 import Button from '@/components/common/Button';
 import { idValidation, passwordValidation } from '@/utils/validataion';
@@ -20,7 +20,7 @@ interface ILoginForm {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { fetchUserInfo } = useUserStore();
+  const { logIn } = useUserStore();
   const navigate = useNavigate();
 
   const {
@@ -31,8 +31,8 @@ const Login = () => {
 
   const onSubmit = async (data: ILoginForm) => {
     try {
-      await login(data.id, data.password);
-      await fetchUserInfo();
+      const token = await signIn({ username: data.id, password: data.password });
+      logIn(token);
       navigate('/main'); // 로그인 후 리다이렉션
     } catch (error) {
       console.error(error);
@@ -51,7 +51,7 @@ const Login = () => {
           {...register('id', idValidation)}
           error={!!errors.id}
           helperText={errors.id?.message}
-          margin='normal'
+          autoComplete='email'
         />
         <TextField
           fullWidth
@@ -61,7 +61,7 @@ const Login = () => {
           {...register('password', passwordValidation)}
           error={!!errors.password}
           helperText={errors.password?.message}
-          margin='normal'
+          autoComplete='current-password'
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>
