@@ -1,57 +1,107 @@
 import { lazy } from 'react';
-
-import { createBrowserRouter, createRoutesFromElements, Route, Navigate } from 'react-router-dom';
-
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
 import MainLayout from '@/components/layout/Main';
+import PrivateRoute from './PrivateRoute';
 
 const Main = lazy(() => import('../pages/Main'));
-const CompetitionList = lazy(() => import('../pages/Competition/List'));
-const Competition = lazy(() => import('../pages/Competition'));
-const Team = lazy(() => import('../pages/Team/TeamPage'));
-const PlayerList = lazy(() => import('../pages/Player/List'));
-const Ranking = lazy(() => import('../pages/Ranking'));
-const Bracket = lazy(() => import('../pages/Bracket'));
+const Competition = lazy(() => import('../pages/user/Competition'));
+const CompetitionList = lazy(() => import('../pages/user/Competition/List'));
+const Result = lazy(() => import('../pages/user/Competition/Result'));
+const Bracket = lazy(() => import('../pages/user/Bracket'));
+const Team = lazy(() => import('../pages/user/team'));
 
 const AdminHome = lazy(() => import('../pages/admin/Home'));
+const AdminUsers = lazy(() => import('../pages/admin/users'));
 const AdminCompetition = lazy(() => import('../pages/admin/competition'));
-const ParticipateTeams = lazy(() => import('../pages/admin/competition/team/Team'));
-const ParticipateTeamDetails = lazy(() => import('../pages/admin/competition/team/TeamDetails'));
-// const AdminCompetitionDetails = lazy(() => import('../pages/admin/competition/Details'));
+const AdminTeams = lazy(() => import('../pages/admin/teams/TeamPage'));
+const AdminPlayers = lazy(() => import('../pages/admin/players'));
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path='/' element={<MainLayout />}>
-      <Route path='main' element={<Main />} />
-      <Route path='team' element={<Team />} />
+const CompetitionUserHome = lazy(() => import('../pages/competitionUser/Home'));
+const ParticipateTeams = lazy(() => import('../pages/competitionUser/competition'));
+const ParticipateTeamDetails = lazy(() => import('../pages/competitionUser/competition/Details'));
+const CompetitionBracket = lazy(() => import('../pages/competitionUser/bracket'));
+const CompetitionMatchReport = lazy(() => import('../pages/competitionUser/matchReport'));
+const CompetitionRank = lazy(() => import('../pages/competitionUser/rank'));
 
-      <Route path='competition'>
-        <Route path=':competitionId' element={<Competition />} />
-        <Route path='list' element={<CompetitionList />} />
-      </Route>
+const userRole = 'competitionUser'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
 
-      <Route path='player'>
-        <Route path='' element={<PlayerList />} />
-      </Route>
+const routes: RouteObject[] = [
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      { path: 'main', element: <Main /> },
+      { path: 'team', element: <Team /> },
+      { path: 'results', element: <Result /> },
+      { path: 'bracket', element: <Bracket /> },
+      {
+        path: 'competitions',
+        children: [
+          { path: '', element: <CompetitionList /> },
+          { path: ':competitionId', element: <Competition /> },
+        ],
+      },
+      {
+        path: 'admin',
+        children: [
+          { index: true, element: <PrivateRoute component={AdminHome} roles={['admin']} userRole={userRole} /> },
+          {
+            path: 'competitions',
+            element: <PrivateRoute component={AdminCompetition} roles={['admin']} userRole={userRole} />,
+          },
+          {
+            path: 'users',
+            element: <PrivateRoute component={AdminUsers} roles={['admin']} userRole={userRole} />,
+          },
+          {
+            path: 'players',
+            element: <PrivateRoute component={AdminPlayers} roles={['admin']} userRole={userRole} />,
+          },
+          {
+            path: 'teams',
+            element: <PrivateRoute component={AdminTeams} roles={['admin']} userRole={userRole} />,
+          },
+        ],
+      },
+      {
+        path: 'competition',
+        children: [
+          {
+            index: true,
+            element: <PrivateRoute component={CompetitionUserHome} roles={['competitionUser']} userRole={userRole} />,
+          },
+          {
+            path: 'participateTeams',
+            element: <PrivateRoute component={ParticipateTeams} roles={['competitionUser']} userRole={userRole} />,
+          },
+          {
+            path: 'participateTeams/:joinCompId',
+            element: (
+              <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} userRole={userRole} />
+            ),
+          },
+          {
+            path: 'baracket',
+            element: <PrivateRoute component={CompetitionBracket} roles={['competitionUser']} userRole={userRole} />,
+          },
+          {
+            path: 'results',
+            element: (
+              <PrivateRoute component={CompetitionMatchReport} roles={['competitionUser']} userRole={userRole} />
+            ),
+          },
+          {
+            path: 'rank',
+            element: <PrivateRoute component={CompetitionRank} roles={['competitionUser']} userRole={userRole} />,
+          },
+        ],
+      },
+      { path: '*', element: <Navigate to='/main' replace /> },
+      { index: true, element: <Main /> },
+    ],
+  },
+];
 
-      <Route path='admin'>
-        <Route index element={<AdminHome />} />
-        <Route path='competition'>
-          <Route index element={<AdminCompetition />} />
-          {/* <Route path=':competitionId' element={<AdminCompetitionDetails />} /> */}
-          <Route path='participateTeams'>
-            <Route index element={<ParticipateTeams />} />
-            <Route path=':joinCompId' element={<ParticipateTeamDetails />} />
-          </Route>
-          {/* <Route path='setting' element={<AdminCompetitionDetails />} /> */}
-        </Route>
-      </Route>
-
-      <Route path='ranking' element={<Ranking />} />
-      <Route path='bracket' element={<Bracket />} />
-      <Route path='*' element={<Navigate to='/main' replace />} />
-      <Route index element={<Main />} />
-    </Route>,
-  ),
-);
+const router = createBrowserRouter(routes);
 
 export default router;

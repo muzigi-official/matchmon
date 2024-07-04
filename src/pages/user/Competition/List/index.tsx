@@ -104,7 +104,7 @@ export default function CompetitionList() {
               competition={competition}
               onClickApply={clickApplyButton}
               onClick={comp => {
-                navigate(`/competition/${comp.id}`);
+                navigate(`/competitions/${comp.id}`);
               }}
             />
           );

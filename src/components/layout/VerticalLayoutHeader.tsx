@@ -12,6 +12,7 @@ import { listCompetition } from '@/api/competition';
 
 interface AppBarProps {
   open: boolean;
+  userRole: string;
   onClickMenu: () => void;
 }
 
@@ -19,17 +20,16 @@ import * as S from './Main.style';
 
 import Button from '@/components/common/Button';
 
-export default function VerticalLayoutHeader(props: AppBarProps) {
+export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: AppBarProps) {
   const dispatch = useAppDispatch();
   const isSignIn = useAppSelector((state: RootState) => state.user.isSignIn);
   const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
   const navigate = useNavigate();
-  const { open, onClickMenu } = props;
   const [token, setToken] = useState<string>('');
   const [competitions, setCompetitions] = useState<ISelectProperty[]>([]);
 
   const handleSignIn = async () => {
-    const data = await signIn({ username: 'soccerCoach2', password: '1q2w3e' });
+    const data = await signIn({ username: 'adminDev', password: '1q2w3e' });
     dispatch(logIn(data.access_token));
     setToken(data.access_token);
   };
@@ -91,7 +91,8 @@ export default function VerticalLayoutHeader(props: AppBarProps) {
           )}
         </S.ToolbarStart>
         <S.ToolbarEnd>
-          토큰: {token && token.substring(0, 10)}
+          <span>{userRole}</span>
+          <span>토큰: {token && token.substring(0, 10)}</span>
           {isSignIn ? (
             <Button
               variant='outlined'
