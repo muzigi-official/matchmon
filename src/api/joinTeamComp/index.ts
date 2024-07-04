@@ -1,27 +1,25 @@
 import customAxios from '@/api/customAxios';
 
-type DefaultReturn = string;
-
-interface ListJoinTeamCompResponse {
+interface IListJoinTeamCompResponse {
   id: number;
   competition: ICompetition;
   team: ITeam;
   participateState: string;
 }
 
-interface ToggleJoinTeamDto {
+interface IToggleJoinTeamDto {
   joinTeamCompId: number;
   playerId: number;
 }
 
-export async function addJoinTeam(data: ToggleJoinTeamDto) {
-  const response = await customAxios.patch<DefaultReturn>('/joinTeamComp/addPlayers', data);
+export async function addJoinTeam(data: IToggleJoinTeamDto) {
+  const response = await customAxios.patch<TDefaultReturn>('/joinTeamComp/addPlayers', data);
   return response.data;
 }
 
 export async function getParticipateTeams(competitionId: number | string) {
   const params = { competitionId };
-  const response = await customAxios.get<ListJoinTeamCompResponse[]>(`/joinTeamComp/list`, { params });
+  const response = await customAxios.get<IListJoinTeamCompResponse[]>(`/joinTeamComp/list`, { params });
   return response.data;
 }
 
@@ -37,7 +35,7 @@ export async function getParticipateTeamInPlayers(joinTeamCompId: number | strin
   return response.data;
 }
 
-export async function removeJoinTeam(data: ToggleJoinTeamDto) {
-  const response = await customAxios.patch<DefaultReturn>('/joinTeamComp/removePlayer', data);
+export async function removeJoinTeam(data: IToggleJoinTeamDto) {
+  const response = await customAxios.patch<TDefaultReturn>('/joinTeamComp/removePlayer', data);
   return response.data;
 }

@@ -8,7 +8,7 @@ interface ISignInDto {
 interface ISignUpDto {
   username: string;
   password: string;
-  // 이름, 성별, 이메일, 전화번호, 권한 등등
+  //TODO: 이름, 성별, 이메일, 전화번호, 권한 등등
 }
 
 interface ISignInReturn {

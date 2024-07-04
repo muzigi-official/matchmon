@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
 import MainLayout from '@/components/layout/Main';
 import PrivateRoute from './PrivateRoute';
-import ProtectedLayout from './ProtectedLayout'; // 새로 추가된 컴포넌트 임포트
+import ProtectedLayout from './ProtectedLayout';
 
 const Main = lazy(() => import('@/pages/Main'));
 const Competition = lazy(() => import('@/pages/user/Competition'));
@@ -26,7 +26,8 @@ const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
 
 const Login = lazy(() => import('@/pages/login'));
 
-const userRole = 'competitionUser'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
+// FIXME:실제 로그인된 사용자의 역할로 설정해야 합니다.
+const userRole = 'competitionUser';
 
 const routes: RouteObject[] = [
   {
@@ -113,7 +114,7 @@ const routes: RouteObject[] = [
       { index: true, element: <Main /> },
     ],
   },
-  { path: '/login', element: <Login /> }, // 로그인 페이지 추가
+  { path: '/login', element: <Login /> },
 ];
 
 const router = createBrowserRouter(routes);
