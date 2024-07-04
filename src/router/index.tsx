@@ -18,15 +18,15 @@ const AdminTeams = lazy(() => import('@/pages/admin/teams/TeamPage'));
 const AdminPlayers = lazy(() => import('@/pages/admin/players'));
 
 const CompetitionUserHome = lazy(() => import('@/pages/competitionUser/Home'));
-const ParticipateTeams = lazy(() => import('@/pages/competitionUser/competition'));
-const ParticipateTeamDetails = lazy(() => import('@/pages/competitionUser/competition/Details'));
+const MyCompetitionList = lazy(() => import('@/pages/competitionUser/competition/List'));
+const ParticipateTeamDetails = lazy(() => import('@/pages/competitionUser/competition/ParticipateTeams'));
 const CompetitionBracket = lazy(() => import('@/pages/competitionUser/bracket'));
 const CompetitionMatchReport = lazy(() => import('@/pages/competitionUser/matchReport'));
 const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
 
 const Login = lazy(() => import('@/pages/login'));
 
-const userRole = 'competitionUser'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
+const userRole = 'user'; // 이 값은 실제 로그인된 사용자의 역할로 대체되어야 합니다.
 
 const routes: RouteObject[] = [
   {
@@ -78,8 +78,14 @@ const routes: RouteObject[] = [
             element: <PrivateRoute component={CompetitionUserHome} roles={['competitionUser']} userRole={userRole} />,
           },
           {
+            path: 'list',
+            element: <PrivateRoute component={MyCompetitionList} roles={['competitionUser']} userRole={userRole} />,
+          },
+          {
             path: 'participateTeams',
-            element: <PrivateRoute component={ParticipateTeams} roles={['competitionUser']} userRole={userRole} />,
+            element: (
+              <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} userRole={userRole} />
+            ),
           },
           {
             path: 'participateTeams/:joinCompId',
