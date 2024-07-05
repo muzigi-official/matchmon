@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { addCompetition } from '@/api/competition';
 import Button from '@/components/common/Button';
-import AddDialog from '@/pageComponent/admin/competition/Dialog';
+import AddDialog from '@/components/admin/competition/AddDialog';
 
 import * as S from './Container.style';
 

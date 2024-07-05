@@ -16,6 +16,19 @@ export const Top = styled('section')`
 export const Content = styled('section')`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const Left = styled('div')`
+  background-color: tomato;
+`;
+
+export const Right = styled('div')`
+  background-color: powderblue;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
 `;
