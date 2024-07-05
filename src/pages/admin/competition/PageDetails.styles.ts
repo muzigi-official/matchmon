@@ -38,6 +38,7 @@ export const Content = styled.section`
   justify-content: space-between;
   align-items: flex-start;
   gap: 18px;
+  height: 100vh;
 
   ${mediaQuery.mobile} {
     flex-direction: column;
@@ -58,6 +59,7 @@ export const Left = styled.div`
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 70vh;
 
   ${mediaQuery.mobile} {
     flex: none;
@@ -75,6 +77,7 @@ export const Right = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 70vh;
 
   ${mediaQuery.mobile} {
     flex: none;
@@ -148,5 +151,5 @@ export const ButtonContainer = styled.div`
 
 export const PanelAction = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;

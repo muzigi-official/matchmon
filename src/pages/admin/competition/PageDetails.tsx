@@ -35,6 +35,7 @@ export default function AdminCompetitionDetail() {
   const [isApplyDialog, setIsApplyDialog] = useState<boolean>(false);
 
   const [teams, setTeams] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
+  const [joinedTeamIds, setJoinedTeamIds] = useState<number[]>([]); // 참여한 팀 ID 목록
 
   const getDetails = async () => {
     if (compId) {
@@ -61,17 +62,23 @@ export default function AdminCompetitionDetail() {
         };
       });
       setRows(parseTeams);
+      const joinedIds = response.map(item => item.team.id);
+      console.log(joinedIds);
+      setJoinedTeamIds(joinedIds); // 참여한 팀 ID 목록 설정
     }
   };
 
   const getAllTeams = async () => {
     const response = await listTeam(1, 100);
-    const selectOptions = response.data.map(team => {
-      return {
-        value: team.id,
-        text: team.name,
-      };
-    });
+    console.log(joinedTeamIds);
+    const selectOptions = response.data
+      .filter(team => !joinedTeamIds.includes(team.id)) // 참여한 팀 필터링
+      .map(team => {
+        return {
+          value: team.id,
+          text: team.name,
+        };
+      });
     setTeams(selectOptions);
   };
 
@@ -92,14 +99,24 @@ export default function AdminCompetitionDetail() {
     const response = await applyCompetition(body);
     if (response === '등록 성공') {
       setIsApplyDialog(false);
+      getJoinTeams();
     }
   };
 
   useEffect(() => {
-    getDetails();
-    getJoinTeams();
-    getAllTeams();
-  }, []);
+    const fetchData = async () => {
+      await getDetails();
+      await getJoinTeams();
+    };
+
+    fetchData();
+  }, [compId]);
+
+  useEffect(() => {
+    if (joinedTeamIds.length > 0) {
+      getAllTeams(); // 참여한 팀 ID가 설정된 후 팀 목록 불러오기
+    }
+  }, [joinedTeamIds]);
 
   return (
     <S.Container>
@@ -116,6 +133,7 @@ export default function AdminCompetitionDetail() {
         </S.Left>
         <S.Right>
           <S.PanelAction>
+            <div>{`${joinedTeamIds.length}팀 참여`}</div>
             <Button onClick={() => clickApplyButton(Number(compId))}>참가 신청</Button>
           </S.PanelAction>
           <DataTable header={joinTeamHeader} rows={rows} />
