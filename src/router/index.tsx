@@ -14,7 +14,7 @@ const Team = lazy(() => import('@/pages/user/team'));
 const AdminHome = lazy(() => import('@/pages/admin/Home'));
 const AdminUsers = lazy(() => import('@/pages/admin/users'));
 const AdminCompetition = lazy(() => import('@/components/admin/competition'));
-const AdminCompetitionDetail = lazy(() => import('@/components/admin/competition/Details'));
+const AdminCompetitionDetail = lazy(() => import('@/components/admin/competition/PageDetails'));
 const AdminTeams = lazy(() => import('@/pages/admin/teams/TeamPage'));
 const AdminPlayers = lazy(() => import('@/pages/admin/players'));
 
