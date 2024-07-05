@@ -23,7 +23,7 @@ interface Props<T> {
   rows: T[];
   onClickRow?: (row: T) => void;
   onClickModify?: (row: T) => void;
-  onClickDelete: (row: T) => void;
+  onClickDelete?: (row: T) => void;
 }
 
 export default function DataTable<T>({ header, rows, onClickRow, onClickModify, onClickDelete }: Props<T>) {
