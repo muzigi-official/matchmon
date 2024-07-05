@@ -6,7 +6,7 @@ import { addCompetition, listCompetition } from '@/api/competition';
 import Button from '@/components/common/Button';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
-import AddDialog from '@/components/admin/competition/AddDialog';
+import AddDialog from '@/components/admin/competition/dialog/AddCompetition';
 
 import * as S from './Index.style';
 

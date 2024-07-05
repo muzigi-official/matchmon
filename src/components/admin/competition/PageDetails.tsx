@@ -5,7 +5,7 @@ import { getParticipateTeams } from '@/api/joinTeamComp';
 import { getCompetition } from '@/api/competition';
 import DataTable from '@/components/mui/table/DataTable';
 
-import * as S from './Details.styles';
+import * as S from './PageDetails.styles';
 
 interface joinCompTeam {
   joinCompId: number;
