@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import useUserStore from '@/store/useUserStore';
+import { isTokenExpired } from '@/utils/token';
 
 interface ResponseData {
   data?: string;
@@ -8,6 +9,7 @@ interface ResponseData {
 
 function handleError(serverError: ResponseData) {
   const { logOut } = useUserStore();
+  console.log(serverError);
   if (serverError?.data) {
     if (serverError?.data == '토큰 만료') {
       logOut();
@@ -24,6 +26,17 @@ function handleError(serverError: ResponseData) {
 }
 
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    if (isTokenExpired(token)) {
+      const { logOut } = useUserStore.getState();
+      logOut();
+      toast.error('토큰이 만료되었습니다. 다시 로그인 해주세요.');
+      window.location.href = '/login';
+      throw new AxiosError('Token expired');
+    }
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 };
 
