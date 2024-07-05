@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import { getParticipateTeams } from '@/api/joinTeamComp';
 import { getCompetition } from '@/api/competition';
+import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
+import { getCompetitionStatus } from '@/utils/date';
 
 import * as S from './PageDetails.styles';
 
@@ -27,11 +30,17 @@ export default function AdminCompetitionDetail() {
   const [rows, setRows] = useState<joinCompTeam[]>([]);
   const [competition, setCompetition] = useState<ICompetition | null>(null);
 
+  const status = getCompetitionStatus(competition?.startDate, competition?.endDate);
+
   const getDetails = async () => {
     if (compId) {
       const response = await getCompetition(compId);
       console.log(response);
-      setCompetition(response);
+      setCompetition({
+        ...response,
+        startDate: dayjs(response.startDate).format('YYYY/MM/DD'),
+        endDate: dayjs(response.endDate).format('YYYY/MM/DD'),
+      });
     }
   };
 
@@ -52,6 +61,10 @@ export default function AdminCompetitionDetail() {
     }
   };
 
+  const modify = () => {
+    console.log('open modify dialog');
+  };
+
   useEffect(() => {
     getDetails();
     getJoinTeams();
@@ -60,20 +73,53 @@ export default function AdminCompetitionDetail() {
   return (
     <S.Container>
       <S.Top>
-        <h3>
-          <span>선택된 대회: {compId}</span>
-          <span>참가팀</span>
-          {/* <span> : 팀</span> */}
-        </h3>
+        <S.Title>
+          <a href='/admin/competitions'>전체대회</a>
+          <span>/</span>
+          <span>{competition?.name}</span>
+        </S.Title>
       </S.Top>
       <S.Content>
-        <S.Left>
-          <h1>{competition?.name}</h1>
-          {/* <p>{competition ? competition : null}</p> */}
-        </S.Left>
-        <S.Right>
+        <S.LeftPanel>
+          {competition ? (
+            <>
+              <S.NameContainer>
+                <S.Name>{competition.name}</S.Name>
+                <S.StatusBadge status={status}>{status}</S.StatusBadge>
+              </S.NameContainer>
+              <S.Info>
+                {competition.startDate === competition.endDate
+                  ? `${competition.startDate}`
+                  : `${competition.startDate} ~ ${competition.endDate}`}
+              </S.Info>
+              <S.Info>{competition.address}</S.Info>
+
+              <S.Details>
+                <S.DetailTitle>Details</S.DetailTitle>
+                <S.DetailItem>
+                  <span>담당자:</span> 관리자
+                </S.DetailItem>
+                <S.DetailItem>
+                  <span>주최사:</span> {competition.organizer}
+                </S.DetailItem>
+                <S.DetailItem>
+                  <span>Contact:</span> {competition.phoneNumber}
+                </S.DetailItem>
+              </S.Details>
+
+              <S.ButtonContainer>
+                <Button color='primary' onClick={modify}>
+                  Edit
+                </Button>
+              </S.ButtonContainer>
+            </>
+          ) : (
+            ''
+          )}
+        </S.LeftPanel>
+        <S.RightPanel>
           <DataTable header={joinTeamHeader} rows={rows} />
-        </S.Right>
+        </S.RightPanel>
       </S.Content>
     </S.Container>
   );
