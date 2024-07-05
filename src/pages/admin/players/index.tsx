@@ -4,7 +4,7 @@ import { listPlayer, removePlayer, addPlayer, editPlayer } from '@/api/player';
 import { listTeam } from '@/api/team';
 
 import Pagination from '@/components/common/Pagination';
-import DataTable from '@/components/table/DataTable';
+import DataTable from '@/components/mui/table/DataTable';
 import ConfirmDialog from '@/components/common/dialog/Confirm';
 import PlayerDialog from '@/pageComponent/Player/PlayerDialog';
 import Button from '@/components/common/Button';
@@ -18,11 +18,11 @@ const tableHeader = [
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
+const pageSize = 10;
+
 export default function PlayerList() {
-  const pageSize = 10;
   const [page, setPage] = useState<number>(1);
   const [pageTotal, setPageCount] = useState<number>(pageSize);
-
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<IParsePlayer | null>(null);

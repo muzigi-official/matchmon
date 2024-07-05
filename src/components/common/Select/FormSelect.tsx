@@ -19,11 +19,6 @@ const FormSelect = forwardRef<HTMLDivElement, FormSelectProps>(
     const [selectedText, setSelectedText] = useState<string>(defaultValue);
     const menuRef = useRef<HTMLUListElement>(null);
 
-    useEffect(() => {
-      const selectedOption = options.find(option => option.value === value);
-      setSelectedText(selectedOption ? selectedOption.text : label);
-    }, [value, options, label]);
-
     const handleToggle = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
@@ -34,6 +29,11 @@ const FormSelect = forwardRef<HTMLDivElement, FormSelectProps>(
       onChange(option.value);
       setIsOpen(false);
     };
+
+    useEffect(() => {
+      const selectedOption = options.find(option => option.value === value);
+      setSelectedText(selectedOption ? selectedOption.text : label);
+    }, [value, options, label]);
 
     return (
       <SelectContainer ref={ref}>

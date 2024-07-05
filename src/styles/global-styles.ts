@@ -12,34 +12,20 @@ const GlobalStyle = createGlobalStyle`
     /* ...other variables */
   
     --border-color:  ${colors.border};
+    --vh: 1vh;
+    --gnb-width: 64px;
   }
-  
 
+  html { font-size: 100%; }
   body {
     font-family: ${typography.fontFamily};
+    font-size: 16px;
     color: ${colors.darkText};
     background-color: ${colors.background};
+    width: 100%;
+    height: calc(var(--vh, 1vh) * 100);
   }
   
-  :is(.border) {
-      border-width: 1px
-    }
-    
-  :is(.border-bs) {
-      border-block-start-width: 1px
-  }
-
-  :is(.inline-end-4) {
-    inset-inline-end: 1rem;
-  }
-
-  :is(.block-start-4) {
-    inset-block-start: 1rem;
-  }
-  
-  :is(.absolute) {
-    position: absolute;
-  }
   :is(.select-none) {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -61,9 +47,7 @@ const GlobalStyle = createGlobalStyle`
     vertical-align:baseline;
   }
   article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
-  #root {width: 100%;}
-  html { font-size: 100%; }
-  body {line-height:1; width: 100%; height: 100%; font-size: 1.6rem;}
+  
   ol, ul {list-style:none}
   blockquote, q {quotes:none}
   blockquote:after, blockquote:before, q:after, q:before {content:"";content:none}
@@ -122,13 +106,6 @@ const GlobalStyle = createGlobalStyle`
   input[type="button"],
   input[type="submit"] {
     -webkit-appearance: none;
-  }
-  
-  p.error {
-    color: red;
-    margin-top: 2px;
-    margin-bottom: 0;
-    font-size: .75rem
   }
 
 `;

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
@@ -24,7 +23,7 @@ interface Props<T> {
   rows: T[];
   onClickRow?: (row: T) => void;
   onClickModify?: (row: T) => void;
-  onClickDelete: (row: T) => void;
+  onClickDelete?: (row: T) => void;
 }
 
 export default function DataTable<T>({ header, rows, onClickRow, onClickModify, onClickDelete }: Props<T>) {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Stack } from '@mui/material';
 import Pagination from '@/components/common/Pagination';
-import DataTable from '@/components/table/DataTable';
+import DataTable from '@/components/mui/table/DataTable';
 import ConfirmDialog from '@/components/common/dialog/Confirm';
 import Button from '@/components/common/Button';
 import TeamDialog from '@/pageComponent/team/TeamDialog';
@@ -18,24 +18,25 @@ const teamHeader = [
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
+const PAGE_SIZE = 10;
+
 export default function TeamPage() {
   const [isTeamDialogOpen, setIsTeamDialogOpen] = useState<boolean>(false);
   const [isComfirmOpen, setIsComfirmOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<ITeam | null>(null);
   const [teams, setTeams] = useState<ITeam[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [pageTotal, setPageCount] = useState<number>(10);
+  const [pageTotal, setPageCount] = useState<number>(PAGE_SIZE);
 
-  // TODO: 팀 추가 성공이 닫히면 자연스럽게 새로고침 하고 싶음.
   useEffect(() => {
     getTeams(page);
   }, []);
 
   const getTeams = async (newPage: number) => {
-    const response = await listTeam(newPage, 10);
-    const { last_page } = response.meta;
+    const response = await listTeam(newPage, PAGE_SIZE);
+    const { page, last_page } = response.meta;
     setTeams(response.data);
-    setPage(Number(newPage));
+    setPage(Number(page));
     setPageCount(last_page);
   };
 

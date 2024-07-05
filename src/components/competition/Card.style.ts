@@ -1,7 +1,7 @@
-import { styled } from '@mui/material/styles';
+import { styled } from 'styled-components';
 import Fab from '@mui/material/Fab';
 
-export const Card = styled('div')`
+export const Card = styled.div`
   padding: 12px 0;
   margin: 12px;
   width: 280px;
@@ -16,7 +16,7 @@ export const Card = styled('div')`
   }
 `;
 
-export const CardActionArea = styled('div')`
+export const CardActionArea = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -24,7 +24,7 @@ export const CardActionArea = styled('div')`
   align-items: center;
 `;
 
-export const CardTop = styled('div')`
+export const CardTop = styled.div`
   position: absolute;
   top: 12px;
   left: 8px;
@@ -33,7 +33,7 @@ export const CardTop = styled('div')`
   padding: 4px 12px;
 `;
 
-export const CardMedia = styled('div')`
+export const CardMedia = styled.div`
   position: relative;
   background-color: #468f6b;
   width: 100%;
@@ -43,7 +43,7 @@ export const CardMedia = styled('div')`
   align-items: center;
 `;
 
-export const CardContent = styled('div')`
+export const CardContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,7 +58,7 @@ export const FabButton = styled(Fab)`
   right: 24px;
 `;
 
-export const CardFooter = styled('div')`
+export const CardFooter = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -66,7 +66,7 @@ export const CardFooter = styled('div')`
   padding: 12px;
 `;
 
-export const FooterItem = styled('div')`
+export const FooterItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

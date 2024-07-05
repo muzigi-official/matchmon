@@ -14,7 +14,6 @@ import * as S from './Main.style';
 export default function MainLayout() {
   const [open, setOpen] = useState<boolean>(false);
   const { user } = useUserStore();
-  console.log(user);
 
   return (
     <Box sx={{ display: 'flex' }}>

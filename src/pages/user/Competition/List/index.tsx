@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CompetitionCard from '@/pageComponent/Competition/List/Card';
-import ApplyDialog from '@/pageComponent/Competition/List/ApplyDialog';
+import CompetitionCard from '@/components/competition/Card';
+import ApplyDialog from '@/components/competition/ApplyDialog';
 import { Box } from '@mui/material';
 
 import { applyCompetition, listCompetition } from '@/api/competition';

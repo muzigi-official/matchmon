@@ -102,6 +102,9 @@ export const MuiAvatar = styled(Avatar)`
 
 export const MainContainer = styled(Box)`
   padding: 0 18px;
+  margin: 0;
+  width: calc(100% - var(--gnb-width));
+  height: calc(var(--vh, 1vh) * 100);
 `;
 
 export const ToolbarStart = styled('div')`

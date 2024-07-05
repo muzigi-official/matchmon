@@ -1,8 +1,8 @@
-import { styled } from '@mui/material/styles';
+import { styled } from 'styled-components';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-export const DialogHeader = styled('div')`
+export const DialogHeader = styled.div`
   padding: 64px 32px 24px;
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@ export const DialogHeaderBody = styled(Typography)`
   font-size: 0.75rem;
 `;
 
-export const DialogContent = styled('div')`
+export const DialogContent = styled.div`
   padding: 2px 24px 18px;
 `;
 
@@ -28,7 +28,7 @@ export const DialogCloseButton = styled(IconButton)`
   inset-inline-end: 1rem;
 `;
 
-export const DialogFooter = styled('div')`
+export const DialogFooter = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 32px 64px;

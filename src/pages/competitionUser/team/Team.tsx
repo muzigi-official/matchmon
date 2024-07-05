@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { getParticipateTeams } from '@/api/joinTeamComp';
 import Button from '@/components/common/Button';
-import DataTable from '@/components/table/DataTable';
+import DataTable from '@/components/mui/table/DataTable';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import * as S from './Container.style';
+import * as S from './Team.style';
 
 const joinTeamHeader = [
   { headerName: '팀이름', property: 'name', withImage: 'emblem', type: 'text' },
@@ -59,7 +59,7 @@ export default function ParticipateTeams() {
   };
 
   const movePage = (row: joinCompTeam) => {
-    navigate(`/admin/competition/participateTeams/${row.joinCompId}`);
+    navigate(`/competition/participateTeams/${row.joinCompId}`);
   };
 
   return (
