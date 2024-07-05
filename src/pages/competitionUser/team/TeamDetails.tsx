@@ -5,7 +5,7 @@ import { addJoinTeam, getParticipatPlayers, getParticipateTeamInPlayers, removeJ
 import Button from '@/components/common/Button';
 import AddParticipatingDialog from '@/pageComponent/admin/competition/team/AddParticipatingDialog';
 import AddIcon from '@mui/icons-material/Add';
-import * as S from './Container.style';
+import * as S from './TeamDetails.style';
 
 export default function ParticipateTeamsDetails() {
   const { joinCompId } = useParams();

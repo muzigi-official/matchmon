@@ -19,7 +19,8 @@ const AdminPlayers = lazy(() => import('@/pages/admin/players'));
 
 const CompetitionUserHome = lazy(() => import('@/pages/competitionUser/Home'));
 const MyCompetitionList = lazy(() => import('@/pages/competitionUser/competition/List'));
-const ParticipateTeamDetails = lazy(() => import('@/pages/competitionUser/competition/ParticipateTeams'));
+const ParticipateTeams = lazy(() => import('@/pages/competitionUser/team/Team'));
+const ParticipateTeamDetails = lazy(() => import('@/pages/competitionUser/team/TeamDetails'));
 const CompetitionBracket = lazy(() => import('@/pages/competitionUser/bracket'));
 const CompetitionMatchReport = lazy(() => import('@/pages/competitionUser/matchReport'));
 const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
@@ -81,7 +82,7 @@ const routes: RouteObject[] = [
           },
           {
             path: 'participateTeams',
-            element: <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} />,
+            element: <PrivateRoute component={ParticipateTeams} roles={['competitionUser']} />,
           },
           {
             path: 'participateTeams/:joinCompId',
