@@ -8,7 +8,8 @@ import useCompetitionStore from '@/store/useCompetitionStore';
 
 interface AppBarProps {
   open: boolean;
-  userRole: string;
+  userRole: TUserRole;
+  userName: string;
   onClickMenu: () => void;
 }
 
@@ -16,7 +17,7 @@ import * as S from './Main.style';
 
 import Button from '@/components/common/Button';
 
-export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: AppBarProps) {
+export default function VerticalLayoutHeader({ open, userRole, userName, onClickMenu }: AppBarProps) {
   const isSignIn = useUserStore(state => state.isSignIn);
   const { logOut } = useUserStore();
   const { selectedCompetition, setCompetition } = useCompetitionStore();
@@ -78,7 +79,7 @@ export default function VerticalLayoutHeader({ open, userRole, onClickMenu }: Ap
           )}
         </S.ToolbarStart>
         <S.ToolbarEnd>
-          <span>{userRole}</span>
+          <span>{userRole}</span> | <span>{userName}</span>
           {isSignIn ? (
             <Button
               variant='outlined'
