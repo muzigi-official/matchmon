@@ -1,25 +1,50 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import { getMe } from '@/auth/AuthService';
 
-interface UserState {
+interface IUser {
+  auth: 1;
+  exp: number;
+  iat: number;
+  userId: number;
+  username: string;
+}
+
+interface IUserState {
   isSignIn: boolean;
   logIn: (token: string) => void;
   logOut: () => void;
+  user: IUser | null;
+  setUser: () => void;
 }
 
-const useUserStore = create<UserState>()(
+const useUserStore = create<IUserState>()(
   devtools(
     persist(
       set => ({
         isSignIn: !!localStorage.getItem('access_token'),
+        user: null,
         logIn: (token: string) => {
-          console.log('access_token', token);
           localStorage.setItem('access_token', token);
           set({ isSignIn: true });
         },
         logOut: () => {
           localStorage.removeItem('access_token');
           set({ isSignIn: false });
+        },
+        setUser: async () => {
+          const token = localStorage.getItem('access_token');
+          if (token) {
+            try {
+              const response = await getMe();
+              set({ user: response });
+            } catch (error) {
+              console.error('Failed to fetch user profile:', error);
+              // Handle token invalidation, logout, etc.
+              set({ isSignIn: false, user: null });
+              localStorage.removeItem('access_token');
+            }
+          }
         },
       }),
       {

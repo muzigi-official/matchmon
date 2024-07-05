@@ -20,7 +20,7 @@ interface ILoginForm {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { logIn } = useUserStore();
+  const { logIn, setUser } = useUserStore();
   const navigate = useNavigate();
 
   const {
@@ -33,6 +33,7 @@ const Login = () => {
     try {
       const token = await signIn({ username: data.id, password: data.password });
       logIn(token);
+      await setUser();
       navigate('/main'); // 로그인 후 리다이렉션
     } catch (error) {
       console.error(error);

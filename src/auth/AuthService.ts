@@ -24,3 +24,8 @@ export async function signUp(data: ISignUpDto) {
   const response = await customAxios.post<TDefaultReturn>('/auth/signUp', data);
   return response.data;
 }
+
+export async function getMe() {
+  const response = await customAxios.get('/auth/profile');
+  return response.data;
+}
