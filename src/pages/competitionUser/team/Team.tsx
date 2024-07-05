@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '@/redux/store';
-import { useAppSelector } from '@/redux/hooks';
 
 import { getParticipateTeams } from '@/api/joinTeamComp';
-
 import Button from '@/components/common/Button';
 import DataTable from '@/components/table/DataTable';
+import useCompetitionStore from '@/store/useCompetitionStore';
 
 import * as S from './Container.style';
 
@@ -27,7 +25,7 @@ interface joinCompTeam {
 
 export default function ParticipateTeams() {
   const navigate = useNavigate();
-  const selectedCompetition = useAppSelector((state: RootState) => state.competition.selectedCompetition);
+  const { selectedCompetition } = useCompetitionStore();
   // const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [rows, setRows] = useState<joinCompTeam[]>([]);
 

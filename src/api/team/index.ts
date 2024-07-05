@@ -1,15 +1,13 @@
 import customAxios from '@/api/customAxios';
 
-type DefaultReturn = string;
-
-interface CreateTeamDto {
+interface ICreateTeamDto {
   name: string;
   location: string;
   emblem: string;
   gender: string;
 }
 
-interface UpdateTeamDto {
+interface IUpdateTeamDto {
   name: string;
   location: string;
   emblem: string;
@@ -17,7 +15,7 @@ interface UpdateTeamDto {
   teamId: number;
 }
 
-interface ListTeamResponse {
+interface IListTeamResponse {
   data: ITeam[];
   meta: {
     total: number;
@@ -26,13 +24,13 @@ interface ListTeamResponse {
   };
 }
 
-export async function addTeam(data: CreateTeamDto) {
-  const response = await customAxios.post<DefaultReturn>('/teams/create', data);
+export async function addTeam(data: ICreateTeamDto) {
+  const response = await customAxios.post<TDefaultReturn>('/teams/create', data);
   return response;
 }
 
-export async function editTeam(data: UpdateTeamDto) {
-  const response = await customAxios.patch<DefaultReturn>(`/teams/update${data.teamId}`, data);
+export async function editTeam(data: IUpdateTeamDto) {
+  const response = await customAxios.patch<TDefaultReturn>(`/teams/update${data.teamId}`, data);
   return response.data;
 }
 export async function getTeam(id: number | string) {
@@ -42,11 +40,11 @@ export async function getTeam(id: number | string) {
 
 export async function listTeam(page: number, itemPerPage: number) {
   const params = { page, itemPerPage };
-  const response = await customAxios.get<ListTeamResponse>('/teams/list', { params });
+  const response = await customAxios.get<IListTeamResponse>('/teams/list', { params });
   return response.data;
 }
 
 export async function removeTeam(id: number) {
-  const response = await customAxios.delete<ListTeamResponse>(`/teams/remove, ${id}`);
+  const response = await customAxios.delete<IListTeamResponse>(`/teams/remove, ${id}`);
   return response.data;
 }

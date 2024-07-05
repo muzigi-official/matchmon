@@ -13,7 +13,7 @@ import { adminNavItems, competitionUserNavItems, userNavItems } from '@/constant
 interface IProps {
   open: boolean;
   setOpen: (newOpen: boolean) => void;
-  role: TUserRole;
+  role?: TUserRole;
 }
 
 const LeftDrawer = ({ open, setOpen, role }: IProps) => {

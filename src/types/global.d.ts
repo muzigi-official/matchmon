@@ -3,6 +3,7 @@ declare global {
   type TGender = 'M' | 'F' | 'A';
   type TButtonVariant = 'text' | 'contained' | 'outlined';
   type TUserRole = 'admin' | 'competitionUser' | 'user';
+  type TDefaultReturn = string;
 
   interface INavItem {
     path: string;

@@ -1,6 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import cookies from 'js-cookie';
-
 import setupInterceptorsTo from './errorHandler';
 import { checkLogin } from './loginChecker';
 
@@ -12,8 +10,6 @@ const customAxios: AxiosInstance = axios.create({
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json',
-    access_token: cookies.get('access_token'),
-    authorization: `Bearer ${cookies.get('access_token')}`,
   },
 });
 

@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
   :root {
     /* ...example */
     --mui-palette-primary-main: ${colors.primary};
-    --mui-palette-primary-contrast-text: ${colors.text};
+    --mui-palette-primary-contrast-text: ${colors.darkText};
     /* ...other variables */
   
     --border-color:  ${colors.border};
@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: ${typography.fontFamily};
-    color: ${colors.text};
+    color: ${colors.darkText};
     background-color: ${colors.background};
   }
   

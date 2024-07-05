@@ -4,12 +4,15 @@ import { SelectContainer, SelectButton, SelectMenu, SelectOption } from './Selec
 interface CustomSelectProps {
   options: ISelectProperty[];
   label: string;
-  defaultValue: string | undefined;
-  onSelect?: (option: string) => void;
+  defaultValue: string | number | undefined;
+  onSelect?: (option: string | number | undefined) => void;
 }
 
 const CustomSelect = ({ options, label, defaultValue, onSelect }: CustomSelectProps) => {
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(defaultValue || '');
+  const [selectedText, setSelectedText] = useState<string | number>(() => {
+    const defaultOption = options.find(option => option.value === defaultValue);
+    return defaultOption ? defaultOption.text : '';
+  });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -18,10 +21,10 @@ const CustomSelect = ({ options, label, defaultValue, onSelect }: CustomSelectPr
   };
 
   const handleOptionClick = (option: ISelectProperty) => {
-    setSelectedValue(option.text);
+    setSelectedText(option.text);
     setIsOpen(false);
     if (onSelect) {
-      onSelect(option.text);
+      onSelect(option.value);
     }
   };
 
@@ -46,7 +49,7 @@ const CustomSelect = ({ options, label, defaultValue, onSelect }: CustomSelectPr
   return (
     <SelectContainer ref={containerRef}>
       <SelectButton onClick={handleToggle} open={isOpen}>
-        {selectedValue || label}
+        {selectedText || label}
         <span>&#9662;</span>
       </SelectButton>
       {isOpen && (

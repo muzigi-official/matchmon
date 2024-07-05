@@ -1,8 +1,6 @@
 import customAxios from '@/api/customAxios';
 
-type DefaultReturn = string;
-
-interface ListCompetitionResponse {
+interface IListCompetitionResponse {
   data: ICompetition[];
   meta: {
     total: number;
@@ -11,7 +9,7 @@ interface ListCompetitionResponse {
   };
 }
 
-interface CreateCompetitionDto {
+interface ICreateCompetitionDto {
   name: string;
   address: string;
   phoneNumber: string;
@@ -20,20 +18,20 @@ interface CreateCompetitionDto {
   organizer: string;
 }
 
-interface ApplyCompetitionDto {
+interface IApplyCompetitionDto {
   competitionId: number;
   teamId: number | string;
 }
 
 export async function listCompetition(page: number) {
   const params = { page };
-  const response = await customAxios.get<ListCompetitionResponse>('/competitions/list', { params });
+  const response = await customAxios.get<IListCompetitionResponse>('/competitions/list', { params });
   return response.data;
 }
 
-export async function addCompetition(data: CreateCompetitionDto) {
+export async function addCompetition(data: ICreateCompetitionDto) {
   const parseData = { ...data, poster: '', description: '' };
-  const response = await customAxios.post<DefaultReturn>('/competitions/create', parseData);
+  const response = await customAxios.post<TDefaultReturn>('/competitions/create', parseData);
   return response;
 }
 
@@ -42,7 +40,7 @@ export async function getCompetition(competitionId: number | string) {
   return response.data;
 }
 
-export async function applyCompetition(data: ApplyCompetitionDto) {
-  const response = await customAxios.post<DefaultReturn>('/competitions/apply', data);
+export async function applyCompetition(data: IApplyCompetitionDto) {
+  const response = await customAxios.post<TDefaultReturn>('/competitions/apply', data);
   return response.data;
 }

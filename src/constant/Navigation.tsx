@@ -15,8 +15,8 @@ export const adminNavItems = [
 ];
 
 export const competitionUserNavItems = [
-  { name: '내 대회', path: '/competition/participateTeams', icon: <StadiumIcon /> },
-  // { name: '참가한 팀', path: '/competition/participateTeams', icon: <ShieldIcon /> },
+  { name: '내 대회', path: '/competition/list', icon: <StadiumIcon /> },
+  { name: '참가한 팀', path: '/competition/participateTeams', icon: <ShieldIcon /> },
   // { name: '팀 선수 목록', path: '/competition/teams/players', icon: <PersonOutline /> },
   { name: '시간표', path: '/competition/baracket', icon: <CalendarMonthIcon /> },
   { name: '경기 결과', path: '/competition/results', icon: <ScoreboardIcon /> },
