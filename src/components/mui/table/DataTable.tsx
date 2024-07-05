@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
