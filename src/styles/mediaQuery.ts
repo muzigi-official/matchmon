@@ -10,4 +10,5 @@ export const mediaQuery = {
   desktop: `@media only screen and (max-width: ${size.desktop})`,
   tabletUp: `@media only screen and (min-width: ${size.tablet})`,
   tabletDown: `@media only screen and (max-width: ${parseInt(size.tablet) - 1}px)`,
+  mobileDown: `@media only screen and (max-width: ${parseInt(size.mobile) - 1}px)`,
 };

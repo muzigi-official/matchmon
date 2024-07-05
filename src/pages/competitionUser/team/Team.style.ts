@@ -1,6 +1,6 @@
-import { styled } from '@mui/material/styles';
+import { styled } from 'styled-components';
 
-export const Container = styled('div')`
+export const Container = styled.div`
   padding: 12px 0;
   display: flex;
   flex-direction: column;
@@ -23,21 +23,21 @@ export const Content = styled('section')`
   border-radius: 16px;
 `;
 
-export const Header = styled('div')`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 12px 12px 0;
 `;
 
-export const List = styled('ul')`
+export const List = styled.ul`
   li:last-child {
     justify-content: center;
     background-color: inherit;
   }
 `;
 
-export const ListItem = styled('li')`
+export const ListItem = styled.li`
   display: flex;
   align-items: center;
   background-color: white;

@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
+import { getCompetition, applyCompetition } from '@/api/competition';
 import { getParticipateTeams } from '@/api/joinTeamComp';
-import { getCompetition } from '@/api/competition';
+import { listTeam } from '@/api/team';
 import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
-import { getCompetitionStatus } from '@/utils/date';
 
 import * as S from './PageDetails.styles';
+import ApplyDialog from '@/components/competition/ApplyDialog';
+import LeftPanel from './LeftPanel';
 
 interface joinCompTeam {
   joinCompId: number;
@@ -29,13 +31,14 @@ export default function AdminCompetitionDetail() {
   const { compId } = useParams();
   const [rows, setRows] = useState<joinCompTeam[]>([]);
   const [competition, setCompetition] = useState<ICompetition | null>(null);
+  const [competitionId, setCompetitionId] = useState<number>(0);
+  const [isApplyDialog, setIsApplyDialog] = useState<boolean>(false);
 
-  const status = getCompetitionStatus(competition?.startDate, competition?.endDate);
+  const [teams, setTeams] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
   const getDetails = async () => {
     if (compId) {
       const response = await getCompetition(compId);
-      console.log(response);
       setCompetition({
         ...response,
         startDate: dayjs(response.startDate).format('YYYY/MM/DD'),
@@ -61,13 +64,41 @@ export default function AdminCompetitionDetail() {
     }
   };
 
+  const getAllTeams = async () => {
+    const response = await listTeam(1, 100);
+    const selectOptions = response.data.map(team => {
+      return {
+        value: team.id,
+        text: team.name,
+      };
+    });
+    setTeams(selectOptions);
+  };
+
   const modify = () => {
     console.log('open modify dialog');
+  };
+
+  const clickApplyButton = (id: number) => {
+    setCompetitionId(id);
+    setIsApplyDialog(true);
+  };
+
+  const onSubmitHandler = async (formData: IApplyFormInput) => {
+    const body = {
+      ...formData,
+      competitionId,
+    };
+    const response = await applyCompetition(body);
+    if (response === '등록 성공') {
+      setIsApplyDialog(false);
+    }
   };
 
   useEffect(() => {
     getDetails();
     getJoinTeams();
+    getAllTeams();
   }, []);
 
   return (
@@ -80,47 +111,24 @@ export default function AdminCompetitionDetail() {
         </S.Title>
       </S.Top>
       <S.Content>
-        <S.LeftPanel>
-          {competition ? (
-            <>
-              <S.NameContainer>
-                <S.Name>{competition.name}</S.Name>
-                <S.StatusBadge status={status}>{status}</S.StatusBadge>
-              </S.NameContainer>
-              <S.Info>
-                {competition.startDate === competition.endDate
-                  ? `${competition.startDate}`
-                  : `${competition.startDate} ~ ${competition.endDate}`}
-              </S.Info>
-              <S.Info>{competition.address}</S.Info>
-
-              <S.Details>
-                <S.DetailTitle>Details</S.DetailTitle>
-                <S.DetailItem>
-                  <span>담당자:</span> 관리자
-                </S.DetailItem>
-                <S.DetailItem>
-                  <span>주최사:</span> {competition.organizer}
-                </S.DetailItem>
-                <S.DetailItem>
-                  <span>Contact:</span> {competition.phoneNumber}
-                </S.DetailItem>
-              </S.Details>
-
-              <S.ButtonContainer>
-                <Button color='primary' onClick={modify}>
-                  Edit
-                </Button>
-              </S.ButtonContainer>
-            </>
-          ) : (
-            ''
-          )}
-        </S.LeftPanel>
-        <S.RightPanel>
+        <S.Left>
+          <LeftPanel info={competition} onClick={modify}></LeftPanel>
+        </S.Left>
+        <S.Right>
+          <S.PanelAction>
+            <Button onClick={() => clickApplyButton(Number(compId))}>참가 신청</Button>
+          </S.PanelAction>
           <DataTable header={joinTeamHeader} rows={rows} />
-        </S.RightPanel>
+        </S.Right>
       </S.Content>
+      <ApplyDialog
+        teams={teams}
+        open={isApplyDialog}
+        onClose={() => {
+          setIsApplyDialog(false);
+        }}
+        onConfirm={onSubmitHandler}
+      />
     </S.Container>
   );
 }

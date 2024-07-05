@@ -1,10 +1,11 @@
-import { styled } from '@mui/material/styles';
+import { styled } from 'styled-components';
+import { containerMixin } from '@/styles/mixins';
 
-export const Container = styled('div')`
-  padding: 12px 0;
+export const Container = styled.div`
+  ${containerMixin}
 `;
 
-export const Top = styled('section')`
+export const Top = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,7 +14,7 @@ export const Top = styled('section')`
   }
 `;
 
-export const Content = styled('section')`
+export const Content = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,11 +22,11 @@ export const Content = styled('section')`
   gap: 12px;
 `;
 
-export const Left = styled('div')`
+export const Left = styled.div`
   background-color: tomato;
 `;
 
-export const Right = styled('div')`
+export const Right = styled.div`
   background-color: powderblue;
   display: flex;
   flex-direction: column;
