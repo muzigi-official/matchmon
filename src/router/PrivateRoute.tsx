@@ -5,21 +5,18 @@ import useUserStore from '../store/useUserStore';
 interface PrivateRouteProps {
   component: ComponentType;
   roles: string[];
-  userRole: string;
-  path?: string;
-  exact?: boolean;
 }
 
-const PrivateRoute = ({ component: Component, roles, userRole }: PrivateRouteProps) => {
+const PrivateRoute = ({ component: Component, roles, ...rest }: PrivateRouteProps) => {
   const location = useLocation();
-  const isSignIn = useUserStore(state => state.isSignIn);
+  const { user, isSignIn } = useUserStore();
 
   if (!isSignIn) {
     return <Navigate to='/login' state={{ from: location }} replace />;
   }
 
-  if (!roles.includes(userRole)) {
-    return <Navigate to='/unauthorized' replace />;
+  if (user && roles.includes(user.role)) {
+    return <Component {...rest} />;
   }
 
   return <Component />;

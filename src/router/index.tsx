@@ -26,9 +26,6 @@ const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
 
 const Login = lazy(() => import('@/pages/login'));
 
-// FIXME:실제 로그인된 사용자의 역할로 설정해야 합니다.
-const userRole = 'competitionUser';
-
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -52,22 +49,22 @@ const routes: RouteObject[] = [
       {
         path: 'admin',
         children: [
-          { index: true, element: <PrivateRoute component={AdminHome} roles={['admin']} userRole={userRole} /> },
+          { index: true, element: <PrivateRoute component={AdminHome} roles={['admin']} /> },
           {
             path: 'competitions',
-            element: <PrivateRoute component={AdminCompetition} roles={['admin']} userRole={userRole} />,
+            element: <PrivateRoute component={AdminCompetition} roles={['admin']} />,
           },
           {
             path: 'users',
-            element: <PrivateRoute component={AdminUsers} roles={['admin']} userRole={userRole} />,
+            element: <PrivateRoute component={AdminUsers} roles={['admin']} />,
           },
           {
             path: 'players',
-            element: <PrivateRoute component={AdminPlayers} roles={['admin']} userRole={userRole} />,
+            element: <PrivateRoute component={AdminPlayers} roles={['admin']} />,
           },
           {
             path: 'teams',
-            element: <PrivateRoute component={AdminTeams} roles={['admin']} userRole={userRole} />,
+            element: <PrivateRoute component={AdminTeams} roles={['admin']} />,
           },
         ],
       },
@@ -76,37 +73,31 @@ const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            element: <PrivateRoute component={CompetitionUserHome} roles={['competitionUser']} userRole={userRole} />,
+            element: <PrivateRoute component={CompetitionUserHome} roles={['competitionUser']} />,
           },
           {
             path: 'list',
-            element: <PrivateRoute component={MyCompetitionList} roles={['competitionUser']} userRole={userRole} />,
+            element: <PrivateRoute component={MyCompetitionList} roles={['competitionUser']} />,
           },
           {
             path: 'participateTeams',
-            element: (
-              <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} userRole={userRole} />
-            ),
+            element: <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} />,
           },
           {
             path: 'participateTeams/:joinCompId',
-            element: (
-              <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} userRole={userRole} />
-            ),
+            element: <PrivateRoute component={ParticipateTeamDetails} roles={['competitionUser']} />,
           },
           {
             path: 'baracket',
-            element: <PrivateRoute component={CompetitionBracket} roles={['competitionUser']} userRole={userRole} />,
+            element: <PrivateRoute component={CompetitionBracket} roles={['competitionUser']} />,
           },
           {
             path: 'results',
-            element: (
-              <PrivateRoute component={CompetitionMatchReport} roles={['competitionUser']} userRole={userRole} />
-            ),
+            element: <PrivateRoute component={CompetitionMatchReport} roles={['competitionUser']} />,
           },
           {
             path: 'rank',
-            element: <PrivateRoute component={CompetitionRank} roles={['competitionUser']} userRole={userRole} />,
+            element: <PrivateRoute component={CompetitionRank} roles={['competitionUser']} />,
           },
         ],
       },
