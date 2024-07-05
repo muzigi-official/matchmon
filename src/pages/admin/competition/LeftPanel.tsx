@@ -34,7 +34,7 @@ const LeftPanel = ({ info, onClick }: IPanelProps) => {
     <>
       <NameContainer>
         <Name>{competition.name}</Name>
-        <StatusBadge status={status}>{status}</StatusBadge>
+        <StatusBadge $status={status}>{status}</StatusBadge>
       </NameContainer>
       <Info>
         {competition.startDate === competition.endDate

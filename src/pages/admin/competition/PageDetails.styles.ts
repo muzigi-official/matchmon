@@ -2,6 +2,10 @@ import { styled } from 'styled-components';
 import { mediaQuery } from '@/styles/mediaQuery';
 import { containerMixin } from '@/styles/mixins';
 
+interface StatusBadgeProps {
+  $status: string;
+}
+
 export const Container = styled.div`
   ${containerMixin};
 `;
@@ -91,18 +95,18 @@ export const Name = styled.h3`
   font-weight: 700;
 `;
 
-export const StatusBadge = styled.span<{ status: string }>`
+export const StatusBadge = styled.span<StatusBadgeProps>`
   display: inline-block;
   padding: 5px 10px;
   border-radius: 12px;
-  background-color: ${({ status }) => {
-    if (status === '대회예정') return '#feffe0';
-    if (status === '진행중') return '#e8f9e9';
+  background-color: ${({ $status }) => {
+    if ($status === '대회예정') return '#feffe0';
+    if ($status === '진행중') return '#e8f9e9';
     return '#ffebee';
   }};
-  color: ${({ status }) => {
-    if (status === '대회예정') return '#ffd000';
-    if (status === '진행중') return '#4caf50';
+  color: ${({ $status }) => {
+    if ($status === '대회예정') return '#ffd000';
+    if ($status === '진행중') return '#4caf50';
     return '#d32f2f';
   }};
   font-size: 12px;
