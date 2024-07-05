@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     color: ${colors.darkText};
     background-color: ${colors.background};
+    width: 100%;
     height: calc(var(--vh, 1vh) * 100);
   }
   
