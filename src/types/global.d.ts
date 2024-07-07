@@ -46,6 +46,15 @@ declare global {
     organizer: string;
   }
 
+  interface IJoinCompTeam {
+    joinCompId: number;
+    name: string;
+    teamId: number;
+    participateState: string;
+    group: string;
+    emblem?: string;
+  }
+
   interface ITournaments {
     [groupKey: string]: TTournament;
   }
