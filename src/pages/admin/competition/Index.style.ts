@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
-import { containerMixin } from '@/styles/mixins';
+import { containerFlexCol } from '@/styles/mixins';
 
 export const Container = styled.div`
-  ${containerMixin}
+  ${containerFlexCol}
 `;
 
 export const Top = styled.section`
