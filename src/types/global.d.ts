@@ -104,7 +104,7 @@ declare global {
     location: string;
     emblem: string;
     gender: string;
-    isActive: boolean;
+    isActive?: boolean;
     players?: IPlayer[];
   }
 
