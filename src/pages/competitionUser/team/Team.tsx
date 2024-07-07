@@ -6,7 +6,7 @@ import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import * as S from './Team.style';
+import * as S from './Team.styles';
 
 const joinTeamHeader = [
   { headerName: '팀이름', property: 'name', withImage: 'emblem', type: 'text' },
