@@ -9,9 +9,9 @@ interface IPrps {
 export default function TeamList({ teams }: IPrps) {
   return (
     <List>
-      {teams.map((team, index) => {
+      {teams.map(team => {
         return (
-          <ListItem key={team.joinCompId} color={COLOR_SET[index % COLOR_SET.length]}>
+          <ListItem key={team.joinCompId} color={COLOR_SET[team.teamId % COLOR_SET.length]}>
             <span>
               {team.emblem ? (
                 <Emblem>

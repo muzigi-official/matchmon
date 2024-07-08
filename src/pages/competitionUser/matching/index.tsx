@@ -87,8 +87,8 @@ export default function MatchingPage() {
       <S.Content>
         <S.LeftPanel>
           <S.Header>
-            <h5>참가 명단</h5>
-            <h5>{teams.length} 명</h5>
+            <h5>참석 팀</h5>
+            <h5>{teams.length} 팀</h5>
           </S.Header>
           <TeamList teams={teams} />
         </S.LeftPanel>
