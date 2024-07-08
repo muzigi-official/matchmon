@@ -1,6 +1,7 @@
-import { COLOR_SET } from '@/constant/DefaultSetting';
+import ListTeamItem from '@/components/team/ListItem';
 
-import { List, ListItem, Emblem, EmptyEmblem } from './ParticipateTeamList.styles';
+import React from 'react';
+import { List } from './ParticipateTeamList.styles';
 
 interface IPrps {
   teams: IJoinCompTeam[];
@@ -11,18 +12,9 @@ export default function TeamList({ teams }: IPrps) {
     <List>
       {teams.map(team => {
         return (
-          <ListItem key={team.joinCompId} color={COLOR_SET[team.teamId % COLOR_SET.length]}>
-            <span>
-              {team.emblem ? (
-                <Emblem>
-                  <img src={team.emblem} alt={team.name} />
-                </Emblem>
-              ) : (
-                <EmptyEmblem src='/empty_emblem.png' alt='No Emblem' />
-              )}
-            </span>
-            <span>{team.name}</span>
-          </ListItem>
+          <React.Fragment key={team.joinCompId}>
+            <ListTeamItem id={team.joinCompId} name={team.name} emblem={team.emblem} />
+          </React.Fragment>
         );
       })}
     </List>

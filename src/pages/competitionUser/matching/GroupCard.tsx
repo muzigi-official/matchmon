@@ -1,4 +1,6 @@
+import ListTeamItem from '@/components/team/ListItem';
 import * as S from './GroupCard.styles';
+import React from 'react';
 
 interface IGroupCardProps {
   name?: string;
@@ -10,8 +12,8 @@ interface IGroupCardProps {
 const GroupCard = ({ name, teams = [], isAddButton, onAddTeam }: IGroupCardProps) => {
   if (isAddButton) {
     return (
-      <S.GroupIconContainer onClick={onAddTeam}>
-        <S.AddTeamButton>
+      <S.GroupIconContainer>
+        <S.AddTeamButton onClick={onAddTeam}>
           <S.AddIcon>+</S.AddIcon>
         </S.AddTeamButton>
       </S.GroupIconContainer>
@@ -26,12 +28,9 @@ const GroupCard = ({ name, teams = [], isAddButton, onAddTeam }: IGroupCardProps
       </S.GroupHeader>
       <S.GroupTeams>
         {teams.map(team => (
-          <S.Team key={team.id} color=''>
-            <span>
-              <S.Emblem src={team.emblem} alt={team.name} />
-            </span>
-            <span>{team.name}</span>
-          </S.Team>
+          <React.Fragment key={team.id}>
+            <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} />
+          </React.Fragment>
         ))}
       </S.GroupTeams>
     </S.GroupCardContainer>
