@@ -25,6 +25,12 @@ export const ListItem = styled.li<{ color: string }>`
     justify-content: center;
     align-items: center;
   }
+
+  span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+  }
 `;
 
 export const Emblem = styled.img`
