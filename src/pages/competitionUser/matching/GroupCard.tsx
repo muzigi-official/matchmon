@@ -10,11 +10,11 @@ interface IGroupCardProps {
 const GroupCard = ({ name, teams = [], isAddButton, onAddTeam }: IGroupCardProps) => {
   if (isAddButton) {
     return (
-      <S.GroupCardContainer onClick={onAddTeam}>
+      <S.GroupIconContainer onClick={onAddTeam}>
         <S.AddTeamButton>
           <S.AddIcon>+</S.AddIcon>
         </S.AddTeamButton>
-      </S.GroupCardContainer>
+      </S.GroupIconContainer>
     );
   }
 

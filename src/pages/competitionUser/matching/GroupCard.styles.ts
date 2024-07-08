@@ -5,36 +5,54 @@ import { flexPowerCenter } from '@/styles/mixins';
 export const GroupCardContainer = styled.div`
   background-color: #f5f5f5;
   border-radius: 8px;
-  padding: 16px;
-  width: 33%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 16px 12px;
+  width: 30%;
+  max-height: 280px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  gap: 16px;
+`;
+
+export const GroupIconContainer = styled.div`
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  width: 30%;
+  max-height: 280px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const GroupHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  font-weight: 600;
 `;
 
-export const GroupTeams = styled.div`
+export const GroupTeams = styled.ul`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
 `;
 
-export const Team = styled.div`
+export const Team = styled.li`
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  gap: 8px;
+  background-color: ${colors.whiteText};
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.8125rem;
 
   span:first-child {
-    width: 36px;
-    height: 36px;
-    background-color: grey;
+    width: 30px;
+    height: 30px;
+    background-color: #bdbdbd;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -71,6 +89,11 @@ export const AddIcon = styled.div`
 
 export const RemoveButton = styled.div`
   font-size: 24px;
-  color: #f44336;
+  color: white;
+  background-color: #ff9493;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  ${flexPowerCenter}
   cursor: pointer;
 `;
