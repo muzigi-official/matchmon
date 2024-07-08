@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from '@/components/common/dialog/Dialog.style';
 
-import * as S from './AddAttendTeam.style';
+import * as S from './AddParticipatingPlayer.styles';
 
 interface Props {
   open: boolean;
