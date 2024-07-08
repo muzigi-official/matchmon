@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
+import AddIcon from '@mui/icons-material/Add';
+
 import { addJoinTeam, getParticipatPlayers, getParticipateTeamInPlayers, removeJoinTeam } from '@/api/joinTeamComp';
 import Button from '@/components/common/Button';
-import AddParticipatingDialog from '@/pages/admin/competition/dialog/AddAttendTeam';
-import AddIcon from '@mui/icons-material/Add';
+import AddParticipatingPlayer from '@/pages/admin/competition/dialog/AddParticipatingPlayer';
 import * as S from './TeamDetails.styles';
 
 export default function ParticipateTeamsDetails() {
@@ -107,7 +108,7 @@ export default function ParticipateTeamsDetails() {
           </S.List>
         </S.Content>
       </S.Container>
-      <AddParticipatingDialog
+      <AddParticipatingPlayer
         open={openDialog}
         players={attendingPlayers}
         onClick={clickHandler}
