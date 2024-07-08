@@ -51,7 +51,7 @@ export const LeftPanel = styled.section`
   justify-content: center;
   flex-direction: column;
   background-color: #f1eeff;
-  border-radius: 16px;
+  border-radius: 8px;
   width: 24%;
   overflow: hidden;
 `;

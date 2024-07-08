@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
 
-export const List = styled.div`
+export const List = styled.ul`
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 0 8px;
   height: calc(100vh - 48px); // 48px는 Header의 높이(16px padding * 2 + Header 자체 높이)
 `;
 
@@ -11,7 +11,7 @@ export const ListItem = styled.li<{ color: string }>`
   display: flex;
   align-items: center;
   background-color: white;
-  margin: 12px;
+  margin: 12px 8px;
   border-radius: 8px;
   padding: 8px 12px;
 
@@ -26,8 +26,7 @@ export const ListItem = styled.li<{ color: string }>`
   }
 
   span {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.875rem;
   }
 
   span + span {
