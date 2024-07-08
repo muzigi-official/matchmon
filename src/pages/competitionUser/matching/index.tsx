@@ -62,12 +62,6 @@ export default function MatchingPage() {
         teams: [
           { id: 1, name: 'Team 1', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
           { id: 2, name: 'Team 2', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Group B',
-        teams: [
           { id: 3, name: 'Team 3', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
           { id: 4, name: 'Team 4', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
         ],

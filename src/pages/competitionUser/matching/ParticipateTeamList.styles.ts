@@ -44,4 +44,5 @@ export const Emblem = styled.div`
 export const EmptyEmblem = styled.img`
   width: 24px;
   height: 24px;
+  object-fit: contain;
 `;

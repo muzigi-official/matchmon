@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { colors } from '@/styles/colors';
 import { containerFlexCol } from '@/styles/mixins';
 import { mediaQuery } from '@/styles/mediaQuery';
 
@@ -60,7 +61,7 @@ export const RightPanel = styled.section`
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  border: 1px solid;
+  border: 1px solid ${colors.border};
   border-radius: 8px;
   width: 76%;
 `;
