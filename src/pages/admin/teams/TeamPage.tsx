@@ -5,7 +5,7 @@ import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
 import ConfirmDialog from '@/components/common/dialog/Confirm';
 import Button from '@/components/common/Button';
-import TeamDialog from '@/pageComponent/team/TeamDialog';
+import TeamDialog from '@/pages/admin/teams/DialogAddTeam';
 
 import { listTeam, addTeam, editTeam } from '@/api/team';
 

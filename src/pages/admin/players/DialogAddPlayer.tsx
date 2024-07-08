@@ -25,7 +25,7 @@ interface Props {
   onConfirm: (player: IPlayerFormInput) => void;
 }
 
-export default function PlayerDialog({ player, teams, open, onClose, onConfirm }: Props) {
+export default function DialogParticipate({ player, teams, open, onClose, onConfirm }: Props) {
   const {
     register,
     reset,
