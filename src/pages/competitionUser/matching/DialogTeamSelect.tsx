@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 
-import Button from '@/components/common/Button';
 import * as S from './DialogTeamSelect.styles';
 import { DialogHeader, DialogHeaderTitle, DialogContent } from '@/components/common/dialog/Dialog.style';
 import ListTeamItem from '@/components/team/ListItem';
@@ -9,12 +8,13 @@ import ListTeamItem from '@/components/team/ListItem';
 interface TeamSelectPopupProps {
   open: boolean;
   teams: IJoinCompTeam[];
+  groupName: string;
   onClick: (team: IJoinCompTeam) => void;
   onClose: () => void;
   onSave: () => void;
 }
 
-const DialogTeamSelect = ({ open, teams, onClick, onClose, onSave }: TeamSelectPopupProps) => {
+const DialogTeamSelect = ({ open, teams, groupName, onClick, onClose }: TeamSelectPopupProps) => {
   const [list, setList] = useState<IJoinCompTeam[]>(teams);
   const [selectedCount, setSelectedCount] = useState<number>(0);
 
@@ -26,7 +26,7 @@ const DialogTeamSelect = ({ open, teams, onClick, onClose, onSave }: TeamSelectP
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby='dialog-apply' aria-describedby='dialog-apply-description'>
       <DialogHeader id='dialog-title'>
-        <DialogHeaderTitle variant='h4'>?? 조를 선택해 주세요.</DialogHeaderTitle>
+        <DialogHeaderTitle variant='h4'>{groupName} 조를 선택해 주세요.</DialogHeaderTitle>
       </DialogHeader>
 
       <DialogContent>
@@ -48,14 +48,6 @@ const DialogTeamSelect = ({ open, teams, onClick, onClose, onSave }: TeamSelectP
           })}
         </S.List>
       </DialogContent>
-      <S.Actions>
-        <Button type='submit' variant='contained' onClick={onSave}>
-          생성
-        </Button>
-        <Button variant='outlined' color='cancel' onClick={onClose}>
-          취소
-        </Button>
-      </S.Actions>
     </Dialog>
   );
 };
