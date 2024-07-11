@@ -4,7 +4,7 @@ import React from 'react';
 
 interface IGroupCardProps {
   name?: string;
-  teams?: ITeam[];
+  teams?: IJoinCompTeam[];
   isAddButton?: boolean;
   onAddTeam?: () => void;
 }
@@ -27,11 +27,13 @@ const GroupCard = ({ name, teams = [], isAddButton, onAddTeam }: IGroupCardProps
         {teams.length > 0 && <S.RemoveButton>−</S.RemoveButton>}
       </S.GroupHeader>
       <S.GroupTeams>
-        {teams.map(team => (
-          <React.Fragment key={team.id}>
-            <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} />
-          </React.Fragment>
-        ))}
+        {teams
+          ? teams.map((team, index) => (
+              <React.Fragment key={team.id}>
+                <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} colorIndex={index} />
+              </React.Fragment>
+            ))
+          : ''}
       </S.GroupTeams>
     </S.GroupCardContainer>
   );

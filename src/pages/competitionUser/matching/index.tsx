@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 
 import Button from '@/components/common/Button';
 import { getParticipateTeams } from '@/api/joinTeamComp';
+import {
+  useGroupstageWithTeamsQuery,
+  useCreateGroupstageMutation,
+  // useAddTeamToGroupMutation,
+} from '@/hooks/queries/useGroupStageQuery';
+
 import useCompetitionStore from '@/store/useCompetitionStore';
 
 import TeamList from './ParticipateTeamList';
@@ -10,18 +16,21 @@ import DialogTeamSelect from './DialogTeamSelect';
 
 import * as S from './Index.style';
 
-interface IGroup {
-  id: number;
-  name: string;
-  teams: ITeam[];
-}
-
 export default function MatchingPage() {
   const { selectedCompetition } = useCompetitionStore();
   const [teams, setTeams] = useState<IJoinCompTeam[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [groups, setGroups] = useState<IGroup[]>([]);
-  // const [selectedGroup, setSelectedGroup] = useState<IGroup | null>(null);
+  const [groups, setGroups] = useState<IGroupStage[]>([]);
+  const [groupName, setGroupName] = useState<string>('');
+
+  const {
+    data: groupStages,
+    error: groupStagesError,
+    isLoading: groupStagesLoading,
+  } = useGroupstageWithTeamsQuery(selectedCompetition || 0);
+
+  const createGroupstageMutation = useCreateGroupstageMutation();
+  // const addTeamToGroupMutation = useAddTeamToGroupMutation();
 
   const getJoinTeams = async () => {
     if (selectedCompetition) {
@@ -43,13 +52,14 @@ export default function MatchingPage() {
 
   const handleAddGroup = () => {
     setOpenDialog(true);
-    const newGroupName = ` ${String.fromCharCode(65 + groups.length)}조`;
-    const newGroup = {
-      id: groups.length + 1,
-      name: newGroupName,
-      teams: [],
-    };
-    setGroups([...groups, newGroup]);
+
+    // 그룹 생성하는 api 만들어져야함.
+    const newGroupName = ` ${String.fromCharCode(65 + groups.length)}`;
+    console.log(newGroupName);
+    // setGroupName(newGroupName);
+    // if (selectedCompetition) {
+    //   createGroupstageMutation.mutate({ competitionId: selectedCompetition, groupName });
+    // }
   };
 
   const randomGroup = () => {
@@ -62,31 +72,27 @@ export default function MatchingPage() {
 
   const clickTeam = (team: IJoinCompTeam) => {
     console.log('click team', team);
+    // 그룹에 팀 추가하는 api 만들꺼야.
+    // if (selectedGroup) {
+    //   addTeamToGroupMutation.mutate({ groupId: selectedGroup.id, teamId: team.teamId });
+    // }
   };
 
   useEffect(() => {
-    // 팀 리스트 부르기
+    // 전체 대회 참가 팀 리스트 부르기
     getJoinTeams();
-    // 조 리스트 부르기
-  }, []);
+  }, [selectedCompetition]);
 
   useEffect(() => {
-    // TODO: 그룹 리스트를 불러오는 로직 추가
-    // 임시로 더미 데이터를 사용
-    const dummyGroups = [
-      {
-        id: 1,
-        name: 'Group A',
-        teams: [
-          { id: 1, name: 'Team 1', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
-          { id: 2, name: 'Team 2', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
-          { id: 3, name: 'Team 3', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
-          { id: 4, name: 'Team 4', emblem: '/empty_emblem.png', location: 'Seoul', gender: 'F' },
-        ],
-      },
-    ];
-    setGroups(dummyGroups);
-  }, []);
+    if (groupStages) {
+      console.log(groupStages);
+      // 조 리스트 부르기
+      setGroups(groupStages);
+    }
+  }, [groupStages]);
+
+  if (groupStagesLoading) return <div>Loading...</div>;
+  if (groupStagesError) return <div>Error: {groupStagesError?.message}</div>;
 
   return (
     <>
@@ -119,6 +125,7 @@ export default function MatchingPage() {
       <DialogTeamSelect
         open={openDialog}
         teams={teams}
+        groupName={groupName}
         onClick={clickTeam}
         onSave={saveGroup}
         onClose={() => {
