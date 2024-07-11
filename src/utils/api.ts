@@ -1,11 +1,13 @@
-import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { checkLogin } from '@/api/loginChecker';
 
 // https://dev.to/vikirobles/how-to-create-an-auth-login-system-with-axios-interceptors-typescript-2k11
 interface IResponseData {
   data?: string;
 }
 
-const SERVER_ADDRESS = import.meta.env.VITE_APP_BACK_END_POINT;
+// const SERVER_ADDRESS = import.meta.env.VITE_APP_BACK_END_POINT;
+const SERVER_ADDRESS = 'http://localhost:3000';
 
 const logOnDev = (message: string) => {
   if (import.meta.env.VITE_APP_NODE_ENV === 'dev') {
@@ -19,11 +21,11 @@ function handleError(serverError: IResponseData) {
   }
 }
 
-const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-  const { method, url } = config;
-  logOnDev(`🚀 [API] ${method?.toUpperCase()} ${url} | Request`);
-  return config;
-};
+// const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+//   const { method, url } = config;
+//   logOnDev(`🚀 [API] ${method?.toUpperCase()} ${url} | Request`);
+//   return config;
+// };
 
 const onResponse = (response: AxiosResponse): AxiosResponse['data'] => {
   const { method, url } = response.config;
@@ -45,7 +47,8 @@ const requestAPI: AxiosInstance = axios.create({
   },
 });
 
-requestAPI.interceptors.request.use(onRequest);
+// requestAPI.interceptors.request.use(onRequest);
+requestAPI.interceptors.request.use(checkLogin);
 requestAPI.interceptors.response.use(onResponse, onResponseError);
 
 export default requestAPI;

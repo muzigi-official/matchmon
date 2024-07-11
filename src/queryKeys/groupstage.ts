@@ -1,3 +1,4 @@
 export const groupstageQueryKeys = {
-  groupstage: () => ['GROUPSTAGE'],
+  groupStage: (competitionId: number) => ['GROUPSTAGE', competitionId],
+  groupStageById: (groupStageId: number) => ['GROUPSTAGE', groupStageId],
 };
