@@ -51,7 +51,6 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
 
 export default function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
   axiosInstance.interceptors.request.use(onRequest, undefined);
-
   axiosInstance.interceptors.response.use(onResponseSuccess, onResponseError);
 
   return axiosInstance;

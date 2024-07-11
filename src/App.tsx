@@ -1,15 +1,37 @@
 import { useMemo, Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
 import { merge } from 'ts-deepmerge';
 
-import router from '@/router';
-
-import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
+import { AxiosError } from 'axios';
 import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
 
+import router from '@/router';
 import GlobalStyle from '@/styles/global-styles';
+import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
+
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      if ((error as AxiosError).code == 'ERR_NETWORK') {
+        toast.error(`서버와 연결되지 않습니다`);
+      }
+      query.state.data;
+    },
+  }),
+
+  defaultOptions: {
+    queries: {
+      // ✅ globally default to 600 seconds
+      staleTime: 1000 * 600,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retry: false,
+    },
+  },
+});
 
 const renderLoader = () => <p>Loading</p>;
 
@@ -21,11 +43,13 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Suspense fallback={renderLoader()}>
-          <RouterProvider router={router} />
-        </Suspense>
-        <ToastContainer />
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyle />
+          <Suspense fallback={renderLoader()}>
+            <RouterProvider router={router} />
+          </Suspense>
+          <ToastContainer />
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   );
