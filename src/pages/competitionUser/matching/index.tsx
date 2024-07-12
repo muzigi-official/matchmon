@@ -19,9 +19,10 @@ import * as S from './Index.style';
 export default function MatchingPage() {
   const { selectedCompetition } = useCompetitionStore();
   const [teams, setTeams] = useState<IJoinCompTeam[]>([]);
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [isOpenDialog, setOpenDialog] = useState<boolean>(false);
   const [groups, setGroups] = useState<IGroupStage[]>([]);
   const [groupName, setGroupName] = useState<string>('');
+  const [selectedGroupTeams, setSelectedGroupTeams] = useState<IJoinCompTeam[]>([]);
 
   const {
     data: groupStages,
@@ -55,19 +56,17 @@ export default function MatchingPage() {
 
     // 그룹 생성하는 api 만들어져야함.
     const newGroupName = ` ${String.fromCharCode(65 + groups.length)}`;
-    console.log(newGroupName);
-    // setGroupName(newGroupName);
-    // if (selectedCompetition) {
-    //   createGroupstageMutation.mutate({ competitionId: selectedCompetition, groupName });
-    // }
+    setGroupName(newGroupName);
+    if (selectedCompetition) {
+      createGroupstageMutation.mutate({ competitionId: selectedCompetition, groupName: newGroupName });
+    }
   };
 
-  const randomGroup = () => {
-    console.log('random');
-  };
-
-  const saveGroup = () => {
-    console.log('save');
+  // 이거 카드 클릭했을 때 실행 시켜주고 싶음....
+  const handleSelectGroup = (group: IGroupStage) => {
+    setGroupName(group.name);
+    setSelectedGroupTeams(group.joinTeamComps);
+    setOpenDialog(true);
   };
 
   const clickTeam = (team: IJoinCompTeam) => {
@@ -76,6 +75,14 @@ export default function MatchingPage() {
     // if (selectedGroup) {
     //   addTeamToGroupMutation.mutate({ groupId: selectedGroup.id, teamId: team.teamId });
     // }
+  };
+
+  const randomGroup = () => {
+    console.log('random team');
+  };
+
+  const saveGroup = () => {
+    console.log('save');
   };
 
   useEffect(() => {
@@ -118,13 +125,14 @@ export default function MatchingPage() {
             <TeamList teams={teams} />
           </S.LeftPanel>
           <S.RightPanel>
-            <GroupList groups={groups} onAddGroup={handleAddGroup} />
+            <GroupList groups={groups} onAddGroup={handleAddGroup} onSelectGroup={handleSelectGroup} />
           </S.RightPanel>
         </S.Content>
       </S.Container>
       <DialogTeamSelect
-        open={openDialog}
+        open={isOpenDialog}
         teams={teams}
+        selectedGroupTeams={selectedGroupTeams}
         groupName={groupName}
         onClick={clickTeam}
         onSave={saveGroup}
