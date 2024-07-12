@@ -1,6 +1,18 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { colors } from '@/styles/colors';
 import { flexPowerCenter } from '@/styles/mixins';
+
+const bounce = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 export const GroupCardContainer = styled.div`
   background-color: #f5f5f5;
@@ -12,6 +24,11 @@ export const GroupCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  &:hover {
+    animation: ${bounce} 0.3s;
+    cursor: pointer;
+  }
 `;
 
 export const GroupIconContainer = styled.div`
@@ -70,4 +87,12 @@ export const RemoveButton = styled.div`
   height: 24px;
   ${flexPowerCenter}
   cursor: pointer;
+`;
+
+export const NoTeamsMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  margin-top: 16px;
 `;

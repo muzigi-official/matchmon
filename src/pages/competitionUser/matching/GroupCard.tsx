@@ -7,9 +7,10 @@ interface IGroupCardProps {
   teams?: IJoinCompTeam[];
   isAddButton?: boolean;
   onAddTeam?: () => void;
+  onClick?: () => void; // 그룹 카드 클릭 이벤트
 }
 
-const GroupCard = ({ name, teams = [], isAddButton, onAddTeam }: IGroupCardProps) => {
+const GroupCard = ({ name, teams = [], isAddButton, onAddTeam, onClick }: IGroupCardProps) => {
   if (isAddButton) {
     return (
       <S.GroupIconContainer>
@@ -21,19 +22,21 @@ const GroupCard = ({ name, teams = [], isAddButton, onAddTeam }: IGroupCardProps
   }
 
   return (
-    <S.GroupCardContainer>
+    <S.GroupCardContainer onClick={onClick}>
       <S.GroupHeader>
-        {name}
-        {teams.length > 0 && <S.RemoveButton>−</S.RemoveButton>}
+        {`${name}조`}
+        {teams.length === 0 && <S.RemoveButton>−</S.RemoveButton>}
       </S.GroupHeader>
       <S.GroupTeams>
-        {teams
-          ? teams.map((team, index) => (
-              <React.Fragment key={team.id}>
-                <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} colorIndex={index} />
-              </React.Fragment>
-            ))
-          : ''}
+        {teams.length === 0 ? (
+          <S.NoTeamsMessage>팀을 추가해 주세요</S.NoTeamsMessage>
+        ) : (
+          teams.map((team, index) => (
+            <React.Fragment key={team.id}>
+              <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} colorIndex={index} />
+            </React.Fragment>
+          ))
+        )}
       </S.GroupTeams>
     </S.GroupCardContainer>
   );
