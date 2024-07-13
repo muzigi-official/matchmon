@@ -7,10 +7,9 @@ import {
   addTeamToGroup,
   removeTeamFromGroup,
 } from '@/api/groupStage';
-import { groupstageQueryKeys } from '@/queryKeys/groupstage';
+import { groupstageQueryKeys } from '@/queryKeys/groupStage';
 
 export const useGroupstageWithTeamsQuery = (competitionId: number) => {
-  console.log('competitionId', competitionId);
   return useQuery<IGroupStage[], AxiosError<ErrorResponse>>(groupstageQueryKeys.groupStage(competitionId), () =>
     requestGroupStagesWithTeams(competitionId),
   );
