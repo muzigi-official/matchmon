@@ -8,20 +8,20 @@ import ListTeamItem from '@/components/team/ListItem';
 interface TeamSelectPopupProps {
   open: boolean;
   teams: IJoinCompTeam[];
+  selectedGroupTeams: IJoinCompTeam[];
   groupName: string;
   onClick: (team: IJoinCompTeam) => void;
   onClose: () => void;
-  onSave: () => void;
 }
 
-const DialogTeamSelect = ({ open, teams, groupName, onClick, onClose }: TeamSelectPopupProps) => {
+const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick, onClose }: TeamSelectPopupProps) => {
   const [list, setList] = useState<IJoinCompTeam[]>(teams);
   const [selectedCount, setSelectedCount] = useState<number>(0);
 
   useEffect(() => {
     setList(teams);
-    setSelectedCount(teams.filter(team => team.group !== '-').length);
-  }, [teams]);
+    setSelectedCount(selectedGroupTeams.length);
+  }, [teams, selectedGroupTeams]);
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby='dialog-apply' aria-describedby='dialog-apply-description'>
@@ -34,13 +34,14 @@ const DialogTeamSelect = ({ open, teams, groupName, onClick, onClose }: TeamSele
           선택된 팀: <b>{selectedCount}</b> 명
         </S.Top>
         <S.List>
-          {list.map(team => {
+          {list.map((team, index) => {
             return (
               <React.Fragment key={team.teamId}>
                 <ListTeamItem
                   id={team.teamId}
                   name={team.name}
                   emblem={team.emblem}
+                  colorIndex={index}
                   onClickTeam={() => onClick(team)}
                 />
               </React.Fragment>
