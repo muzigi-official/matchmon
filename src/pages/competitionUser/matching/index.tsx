@@ -5,7 +5,7 @@ import { getParticipateTeams } from '@/api/joinTeamComp';
 import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,
-  // useAddTeamToGroupMutation,
+  useAddTeamToGroupMutation,
 } from '@/hooks/queries/useGroupStageQuery';
 
 import useCompetitionStore from '@/store/useCompetitionStore';
@@ -22,6 +22,7 @@ export default function MatchingPage() {
   const [isOpenDialog, setOpenDialog] = useState<boolean>(false);
   const [groups, setGroups] = useState<IGroupStage[]>([]);
   const [groupName, setGroupName] = useState<string>('');
+  const [selectedGroup, setSelectedGroup] = useState<IGroupStage | null>(null);
   const [selectedGroupTeams, setSelectedGroupTeams] = useState<IJoinCompTeam[]>([]);
 
   const {
@@ -31,7 +32,7 @@ export default function MatchingPage() {
   } = useGroupstageWithTeamsQuery(selectedCompetition || 0);
 
   const createGroupstageMutation = useCreateGroupstageMutation();
-  // const addTeamToGroupMutation = useAddTeamToGroupMutation();
+  const addTeamToGroupMutation = useAddTeamToGroupMutation();
 
   const getJoinTeams = async () => {
     if (selectedCompetition) {
@@ -64,6 +65,7 @@ export default function MatchingPage() {
 
   // 이거 카드 클릭했을 때 실행 시켜주고 싶음....
   const handleSelectGroup = (group: IGroupStage) => {
+    setSelectedGroup(group);
     setGroupName(group.name);
     setSelectedGroupTeams(group.joinTeamComps);
     setOpenDialog(true);
@@ -72,17 +74,13 @@ export default function MatchingPage() {
   const clickTeam = (team: IJoinCompTeam) => {
     console.log('click team', team);
     // 그룹에 팀 추가하는 api 만들꺼야.
-    // if (selectedGroup) {
-    //   addTeamToGroupMutation.mutate({ groupId: selectedGroup.id, teamId: team.teamId });
-    // }
+    if (selectedGroup) {
+      addTeamToGroupMutation.mutate({ groupId: selectedGroup.id, teamId: team.teamId });
+    }
   };
 
   const randomGroup = () => {
     console.log('random team');
-  };
-
-  const saveGroup = () => {
-    console.log('save');
   };
 
   useEffect(() => {
@@ -135,7 +133,6 @@ export default function MatchingPage() {
         selectedGroupTeams={selectedGroupTeams}
         groupName={groupName}
         onClick={clickTeam}
-        onSave={saveGroup}
         onClose={() => {
           setOpenDialog(false);
         }}
