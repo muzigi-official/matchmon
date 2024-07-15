@@ -46,13 +46,14 @@ export const useDeleteGroupstageMutation = (competitionId: number) => {
   });
 };
 
-export const useAddTeamToGroupMutation = () => {
+export const useAddTeamToGroupMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation((params: { groupId: number; teamId: number }) => addTeamToGroup(params.groupId, params.teamId), {
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries(groupstageQueryKeys.groupStage(variables.groupId));
+  return useMutation(({ groupId, teamId }: { groupId: number; teamId: number }) => addTeamToGroup(groupId, teamId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
     },
     onError: (error: AxiosError<ErrorResponse>) => {
+      console.log(error);
       if (error.response?.data?.message) {
         alert(error.response.data.message);
       }
@@ -60,13 +61,13 @@ export const useAddTeamToGroupMutation = () => {
   });
 };
 
-export const useRemoveTeamFromGroupMutation = () => {
+export const useRemoveTeamFromGroupMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
   return useMutation(
     (params: { groupId: number; teamId: number }) => removeTeamFromGroup(params.groupId, params.teamId),
     {
-      onSuccess: (_, variables) => {
-        queryClient.invalidateQueries(groupstageQueryKeys.groupStage(variables.groupId));
+      onSuccess: () => {
+        queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
       },
       onError: (error: AxiosError<ErrorResponse>) => {
         if (error.response?.data?.message) {

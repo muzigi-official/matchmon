@@ -19,7 +19,7 @@ export const GroupCardContainer = styled.div`
   border-radius: 8px;
   padding: 16px 12px;
   width: 30%;
-  max-height: 280px;
+  max-height: 294px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ export const GroupIconContainer = styled.div`
   border-radius: 8px;
   padding: 16px;
   width: 30%;
-  max-height: 280px;
+  max-height: 294px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   display: flex;
   justify-content: space-between;

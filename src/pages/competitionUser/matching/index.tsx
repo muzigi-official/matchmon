@@ -6,6 +6,7 @@ import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,
   useAddTeamToGroupMutation,
+  useRemoveTeamFromGroupMutation,
 } from '@/hooks/queries/useGroupStageQuery';
 
 import useCompetitionStore from '@/store/useCompetitionStore';
@@ -32,7 +33,8 @@ export default function MatchingPage() {
   } = useGroupstageWithTeamsQuery(selectedCompetition || 0);
 
   const createGroupstageMutation = useCreateGroupstageMutation();
-  const addTeamToGroupMutation = useAddTeamToGroupMutation();
+  const addTeamToGroupMutation = useAddTeamToGroupMutation(selectedCompetition || 0);
+  const removeTeamFromGroupMutation = useRemoveTeamFromGroupMutation(selectedCompetition || 0);
 
   const getJoinTeams = async () => {
     if (selectedCompetition) {
@@ -72,10 +74,28 @@ export default function MatchingPage() {
   };
 
   const clickTeam = (team: IJoinCompTeam) => {
-    console.log('click team', team);
-    // 그룹에 팀 추가하는 api 만들꺼야.
     if (selectedGroup) {
-      addTeamToGroupMutation.mutate({ groupId: selectedGroup.id, teamId: team.teamId });
+      if (selectedGroupTeams.some(t => t.id === team.teamId)) {
+        removeTeamFromGroupMutation.mutate(
+          { groupId: selectedGroup.id, teamId: team.teamId },
+          {
+            onSuccess: () => {
+              setSelectedGroupTeams(prevTeams => prevTeams.filter(t => t.id !== team.teamId));
+            },
+          },
+        );
+      } else {
+        addTeamToGroupMutation.mutate(
+          { groupId: selectedGroup.id, teamId: team.teamId },
+          {
+            onSuccess: () => {
+              setSelectedGroupTeams(prevTeams => {
+                return [...prevTeams, team];
+              });
+            },
+          },
+        );
+      }
     }
   };
 
@@ -90,7 +110,6 @@ export default function MatchingPage() {
 
   useEffect(() => {
     if (groupStages) {
-      console.log(groupStages);
       // 조 리스트 부르기
       setGroups(groupStages);
     }
