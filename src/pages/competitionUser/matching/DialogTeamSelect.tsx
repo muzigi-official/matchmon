@@ -5,6 +5,10 @@ import * as S from './DialogTeamSelect.styles';
 import { DialogHeader, DialogHeaderTitle, DialogContent } from '@/components/common/dialog/Dialog.style';
 import ListTeamItem from '@/components/team/ListItem';
 
+interface IParseTeams extends IJoinCompTeam {
+  selected: boolean;
+}
+
 interface TeamSelectPopupProps {
   open: boolean;
   teams: IJoinCompTeam[];
@@ -15,13 +19,23 @@ interface TeamSelectPopupProps {
 }
 
 const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick, onClose }: TeamSelectPopupProps) => {
-  const [list, setList] = useState<IJoinCompTeam[]>(teams);
+  const [list, setList] = useState<IParseTeams[]>();
   const [selectedCount, setSelectedCount] = useState<number>(0);
 
   useEffect(() => {
-    setList(teams);
+    const updatedTeams = teams.map(team => ({
+      ...team,
+      selected: selectedGroupTeams.some(selectedTeam => selectedTeam.id === team.teamId),
+    }));
+    setList(updatedTeams);
     setSelectedCount(selectedGroupTeams.length);
   }, [teams, selectedGroupTeams]);
+
+  const handleClickTeam = (team: IParseTeams) => {
+    onClick(team);
+    setList((prevList = []) => prevList.map(t => (t.id === team.teamId ? { ...t, selected: !t.selected } : t)));
+    setSelectedCount(prevCount => (team.selected ? prevCount - 1 : prevCount + 1));
+  };
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby='dialog-apply' aria-describedby='dialog-apply-description'>
@@ -34,19 +48,22 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
           선택된 팀: <b>{selectedCount}</b> 명
         </S.Top>
         <S.List>
-          {list.map((team, index) => {
-            return (
-              <React.Fragment key={team.teamId}>
-                <ListTeamItem
-                  id={team.teamId}
-                  name={team.name}
-                  emblem={team.emblem}
-                  colorIndex={index}
-                  onClickTeam={() => onClick(team)}
-                />
-              </React.Fragment>
-            );
-          })}
+          {list
+            ? list.map((team, index) => {
+                return (
+                  <React.Fragment key={team.teamId}>
+                    <ListTeamItem
+                      id={team.teamId}
+                      name={team.name}
+                      emblem={team.emblem}
+                      selected={team.selected}
+                      colorIndex={index}
+                      onClickTeam={() => handleClickTeam(team)}
+                    />
+                  </React.Fragment>
+                );
+              })
+            : ''}
         </S.List>
       </DialogContent>
     </Dialog>

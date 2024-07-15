@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { colors } from '@/styles/colors';
 
 export const List = styled.ul`
   flex: 1;
@@ -7,14 +8,15 @@ export const List = styled.ul`
   height: calc(100vh - 48px); // 48px는 Header의 높이(16px padding * 2 + Header 자체 높이)
 `;
 
-export const ListItem = styled.li<{ color: string }>`
+export const ListItem = styled.li<{ color: string; selected?: boolean }>`
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: ${props => (props.selected ? `${colors.primaryLight}` : 'white')};
   border-radius: 8px;
   gap: 8px;
   padding: 8px;
   font-size: 0.8125rem;
+  border: ${props => (props.selected ? `2px solid ${colors.primary}` : '1px solid #ccc')};
 
   span:first-child {
     width: 30px;
