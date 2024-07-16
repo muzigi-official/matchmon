@@ -33,7 +33,7 @@ const GroupCard = ({ name, teams = [], isAddButton, onAddTeam, onClick }: IGroup
         ) : (
           teams.map((team, index) => (
             <React.Fragment key={team.id}>
-              <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} colorIndex={index} />
+              <ListTeamItem id={team.id} name={team.name} emblem={team.emblem} colorIndex={team.id || index} />
             </React.Fragment>
           ))
         )}

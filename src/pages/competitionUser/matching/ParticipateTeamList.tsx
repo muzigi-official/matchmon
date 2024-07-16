@@ -13,7 +13,7 @@ export default function TeamList({ teams }: IPrps) {
       {teams.map(team => {
         return (
           <React.Fragment key={team.joinCompId}>
-            <ListTeamItem id={team.joinCompId} name={team.name} emblem={team.emblem} />
+            <ListTeamItem id={team.joinCompId} colorIndex={team.joinCompId} name={team.name} emblem={team.emblem} />
           </React.Fragment>
         );
       })}
