@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Button from '@/components/common/Button';
+// import Button from '@/components/common/Button';
 import { getParticipateTeams } from '@/api/joinTeamComp';
 import {
   useGroupstageWithTeamsQuery,
@@ -75,12 +75,12 @@ export default function MatchingPage() {
 
   const clickTeam = (team: IJoinCompTeam) => {
     if (selectedGroup) {
-      if (selectedGroupTeams.some(t => t.id === team.teamId)) {
+      if (selectedGroupTeams.some(t => t.teamId === team.teamId)) {
         removeTeamFromGroupMutation.mutate(
           { groupId: selectedGroup.id, teamId: team.teamId },
           {
             onSuccess: () => {
-              setSelectedGroupTeams(prevTeams => prevTeams.filter(t => t.id !== team.teamId));
+              setSelectedGroupTeams(prevTeams => prevTeams.filter(t => t.teamId !== team.teamId));
             },
           },
         );
@@ -99,18 +99,16 @@ export default function MatchingPage() {
     }
   };
 
-  const randomGroup = () => {
-    console.log('random team');
-  };
+  // const randomGroup = () => {
+  //   console.log('random team');
+  // };
 
   useEffect(() => {
-    // 전체 대회 참가 팀 리스트 부르기
     getJoinTeams();
   }, [selectedCompetition]);
 
   useEffect(() => {
     if (groupStages) {
-      // 조 리스트 부르기
       setGroups(groupStages);
     }
   }, [groupStages]);
@@ -129,9 +127,9 @@ export default function MatchingPage() {
           </S.Title>
         </S.Top>
         <S.Actions>
-          <Button color='primary' onClick={randomGroup}>
+          {/* <Button color='primary' onClick={randomGroup}>
             랜덤 조 생성
-          </Button>
+          </Button> */}
         </S.Actions>
         <S.Content>
           <S.LeftPanel>
