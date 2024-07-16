@@ -25,7 +25,9 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
   useEffect(() => {
     const updatedTeams = teams.map(team => ({
       ...team,
-      selected: selectedGroupTeams.some(selectedTeam => selectedTeam.id === team.teamId),
+      selected: selectedGroupTeams.some(selectedTeam => {
+        return selectedTeam.teamId === team.teamId;
+      }),
     }));
     setList(updatedTeams);
     setSelectedCount(selectedGroupTeams.length);
