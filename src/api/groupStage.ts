@@ -8,8 +8,8 @@ export const createGroupstage = (competitionId: number, groupName: string): Prom
 
 export const deleteGroupstage = (groupId: number): Promise<void> => requestAPI.delete(`/group-stages/${groupId}`);
 
-export const addTeamToGroup = (groupId: number, teamId: number): Promise<TDefaultReturn> =>
-  requestAPI.post('/group-stages/add-team', { groupStageId: groupId, teamId });
+export const addTeamToGroup = (groupId: number, teamId: number, competitionId: number): Promise<TDefaultReturn> =>
+  requestAPI.post('/group-stages/add-team', { groupStageId: groupId, teamId, competitionId });
 
 export const removeTeamFromGroup = (groupId: number, teamId: number): Promise<TDefaultReturn> =>
   requestAPI.delete(`/group-stages/${groupId}/remove-team/${teamId}`);

@@ -48,17 +48,20 @@ export const useDeleteGroupstageMutation = (competitionId: number) => {
 
 export const useAddTeamToGroupMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation(({ groupId, teamId }: { groupId: number; teamId: number }) => addTeamToGroup(groupId, teamId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
+  return useMutation(
+    ({ groupId, teamId }: { groupId: number; teamId: number }) => addTeamToGroup(groupId, teamId, competitionId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
+      },
+      onError: (error: AxiosError<ErrorResponse>) => {
+        console.log(error);
+        if (error.response?.data?.message) {
+          alert(error.response.data.message);
+        }
+      },
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
-      console.log(error);
-      if (error.response?.data?.message) {
-        alert(error.response.data.message);
-      }
-    },
-  });
+  );
 };
 
 export const useRemoveTeamFromGroupMutation = (competitionId: number) => {
