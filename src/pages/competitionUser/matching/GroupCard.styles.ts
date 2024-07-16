@@ -24,6 +24,8 @@ export const GroupCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: auto; /* Adjust height to auto */
+  max-height: none; /* Remove max-height restriction */
 
   &:hover {
     animation: ${bounce} 0.3s;
@@ -36,11 +38,13 @@ export const GroupIconContainer = styled.div`
   border-radius: 8px;
   padding: 16px;
   width: 30%;
-  max-height: 294px;
+  min-height: 294px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: auto; /* Adjust height to auto */
+  /*  max-height: none; Remove max-height restriction */
 `;
 
 export const GroupHeader = styled.div`
@@ -55,6 +59,8 @@ export const GroupTeams = styled.ul`
   flex-direction: column;
   justify-content: space-between;
   gap: 10px;
+  height: auto; /* Adjust height to auto */
+  overflow: visible; /* Ensure content is not cut off */
 `;
 
 export const AddTeamButton = styled.div`

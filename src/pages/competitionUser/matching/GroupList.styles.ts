@@ -8,4 +8,6 @@ export const GroupListContainer = styled.div`
   justify-content: flex-start;
   gap: 18px;
   width: 100%;
+  height: auto; /* Adjust height to auto */
+  overflow: visible; /* Ensure content is not cut off */
 `;

@@ -1,10 +1,10 @@
 import { styled } from 'styled-components';
 import { colors } from '@/styles/colors';
-import { containerFlexCol } from '@/styles/mixins';
+import { containerBasicCol } from '@/styles/mixins';
 import { mediaQuery } from '@/styles/mediaQuery';
 
 export const Container = styled.div`
-  ${containerFlexCol}
+  ${containerBasicCol}
   gap: 12px;
 `;
 
@@ -38,7 +38,7 @@ export const Actions = styled.div`
 export const Content = styled.section`
   display: flex;
   width: 100%;
-  height: calc(var(--vh, 1vh) * 100 - var(--gnb-width) - 72px);
+  height: auto;
   gap: 18px;
 
   ${mediaQuery.mobile} {
@@ -54,6 +54,7 @@ export const LeftPanel = styled.section`
   background-color: #f1eeff;
   border-radius: 8px;
   width: 24%;
+  height: calc(var(--vh, 1vh) * 100 - 8px);
   overflow: hidden;
 `;
 
@@ -64,6 +65,8 @@ export const RightPanel = styled.section`
   border: 1px solid ${colors.border};
   border-radius: 8px;
   width: 76%;
+  height: auto; /* Adjust height to auto */
+  overflow: visible; /* Ensure content is not cut off */
 `;
 
 export const Header = styled.div`
