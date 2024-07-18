@@ -6,6 +6,7 @@ import { DialogHeader, DialogHeaderTitle, DialogContent } from '@/components/com
 import ListTeamItem from '@/components/team/ListItem';
 
 interface IParseTeams extends IJoinCompTeam {
+  disabled: boolean;
   selected: boolean;
 }
 
@@ -25,9 +26,8 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
   useEffect(() => {
     const updatedTeams = teams.map(team => ({
       ...team,
-      selected: selectedGroupTeams.some(selectedTeam => {
-        return selectedTeam.teamId === team.teamId;
-      }),
+      disabled: team.group !== '-',
+      selected: selectedGroupTeams.some(selectedTeam => selectedTeam.teamId === team.teamId),
     }));
     setList(updatedTeams);
     setSelectedCount(selectedGroupTeams.length);
@@ -58,6 +58,7 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
                       id={team.teamId}
                       name={team.name}
                       emblem={team.emblem}
+                      disabled={team.disabled}
                       selected={team.selected}
                       colorIndex={index}
                       onClickTeam={() => handleClickTeam(team)}

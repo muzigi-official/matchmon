@@ -8,7 +8,7 @@ export const List = styled.ul`
   height: calc(100vh - 48px); // 48px는 Header의 높이(16px padding * 2 + Header 자체 높이)
 `;
 
-export const ListItem = styled.li<{ color: string; selected?: boolean }>`
+export const ListItem = styled.li<{ color: string; selected?: boolean; disabled?: boolean }>`
   display: flex;
   align-items: center;
   background-color: ${props => (props.selected ? `${colors.primaryLight}` : 'white')};
@@ -16,6 +16,9 @@ export const ListItem = styled.li<{ color: string; selected?: boolean }>`
   gap: 8px;
   padding: 8px;
   font-size: 0.8125rem;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
   border: ${props => (props.selected ? `2px solid ${colors.primary}` : '1px solid #ccc')};
 
   span:first-child {
