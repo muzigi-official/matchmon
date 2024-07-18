@@ -8,9 +8,10 @@ interface IGroupCardProps {
   isAddButton?: boolean;
   onAddTeam?: () => void;
   onClick?: () => void; // 그룹 카드 클릭 이벤트
+  onRemove?: (event: React.MouseEvent) => void;
 }
 
-const GroupCard = ({ name, teams = [], isAddButton, onAddTeam, onClick }: IGroupCardProps) => {
+const GroupCard = ({ name, teams = [], isAddButton, onAddTeam, onClick, onRemove }: IGroupCardProps) => {
   if (isAddButton) {
     return (
       <S.GroupIconContainer>
@@ -25,7 +26,16 @@ const GroupCard = ({ name, teams = [], isAddButton, onAddTeam, onClick }: IGroup
     <S.GroupCardContainer onClick={onClick}>
       <S.GroupHeader>
         {`${name}조`}
-        {teams.length === 0 && <S.RemoveButton>−</S.RemoveButton>}
+        {teams.length === 0 && (
+          <S.RemoveButton
+            onClick={event => {
+              event.stopPropagation(); // Prevent event bubbling
+              onRemove && onRemove(event);
+            }}
+          >
+            −
+          </S.RemoveButton>
+        )}
       </S.GroupHeader>
       <S.GroupTeams>
         {teams.length === 0 ? (

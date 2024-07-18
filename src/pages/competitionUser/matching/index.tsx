@@ -5,6 +5,7 @@ import { getParticipateTeams } from '@/api/joinTeamComp';
 import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,
+  useDeleteGroupstageMutation,
   useAddTeamToGroupMutation,
   useRemoveTeamFromGroupMutation,
 } from '@/hooks/queries/useGroupStageQuery';
@@ -33,6 +34,7 @@ export default function MatchingPage() {
   } = useGroupstageWithTeamsQuery(selectedCompetition || 0);
 
   const createGroupstageMutation = useCreateGroupstageMutation();
+  const deleteGroupstageMutation = useDeleteGroupstageMutation(selectedCompetition || 0);
   const addTeamToGroupMutation = useAddTeamToGroupMutation(selectedCompetition || 0);
   const removeTeamFromGroupMutation = useRemoveTeamFromGroupMutation(selectedCompetition || 0);
 
@@ -65,7 +67,12 @@ export default function MatchingPage() {
     }
   };
 
-  // 이거 카드 클릭했을 때 실행 시켜주고 싶음....
+  const handleRemoveGroup = (group: IGroupStage) => {
+    console.log(group);
+    // group remove
+    deleteGroupstageMutation.mutate(group.id);
+  };
+
   const handleSelectGroup = (group: IGroupStage) => {
     setSelectedGroup(group);
     setGroupName(group.name);
@@ -128,7 +135,7 @@ export default function MatchingPage() {
         </S.Top>
         <S.Actions>
           {/* <Button color='primary' onClick={randomGroup}>
-            랜덤 조 생성
+            toast
           </Button> */}
         </S.Actions>
         <S.Content>
@@ -140,7 +147,12 @@ export default function MatchingPage() {
             <TeamList teams={teams} />
           </S.LeftPanel>
           <S.RightPanel>
-            <GroupList groups={groups} onAddGroup={handleAddGroup} onSelectGroup={handleSelectGroup} />
+            <GroupList
+              groups={groups}
+              onAddGroup={handleAddGroup}
+              onSelectGroup={handleSelectGroup}
+              onRemoveGroup={handleRemoveGroup}
+            />
           </S.RightPanel>
         </S.Content>
       </S.Container>
