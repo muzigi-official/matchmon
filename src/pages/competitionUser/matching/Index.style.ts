@@ -56,6 +56,11 @@ export const LeftPanel = styled.section`
   width: 24%;
   height: calc(var(--vh, 1vh) * 100 - 8px);
   overflow: hidden;
+
+  ${mediaQuery.mobile} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const RightPanel = styled.section`
@@ -67,6 +72,9 @@ export const RightPanel = styled.section`
   width: 76%;
   height: auto; /* Adjust height to auto */
   overflow: visible; /* Ensure content is not cut off */
+  ${mediaQuery.mobile} {
+    width: 100%;
+  }
 `;
 
 export const Header = styled.div`

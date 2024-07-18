@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { colors } from '@/styles/colors';
 import { flexPowerCenter } from '@/styles/mixins';
+import { mediaQuery } from '@/styles/mediaQuery';
 
 const bounce = keyframes`
   0% {
@@ -30,6 +31,10 @@ export const GroupCardContainer = styled.div`
     animation: ${bounce} 0.3s;
     cursor: pointer;
   }
+
+  ${mediaQuery.mobile} {
+    width: 100%;
+  }
 `;
 
 export const GroupIconContainer = styled.div`
@@ -43,6 +48,10 @@ export const GroupIconContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: auto; /* Adjust height to auto */
+
+  ${mediaQuery.mobile} {
+    width: 100%;
+  }
 `;
 
 export const GroupHeader = styled.div`

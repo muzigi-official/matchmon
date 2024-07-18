@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { mediaQuery } from '@/styles/mediaQuery';
 
 export const List = styled.ul`
   flex: 1;
@@ -8,4 +9,9 @@ export const List = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  ${mediaQuery.mobile} {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 `;
