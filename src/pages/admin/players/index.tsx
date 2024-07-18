@@ -6,8 +6,8 @@ import { listTeam } from '@/api/team';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
 import ConfirmDialog from '@/components/common/dialog/Confirm';
-import PlayerDialog from '@/pageComponent/Player/PlayerDialog';
 import Button from '@/components/common/Button';
+import DialogParticipate from '@/pages/admin/players/DialogAddPlayer';
 
 import * as S from './Container.style';
 
@@ -161,7 +161,7 @@ export default function PlayerList() {
           setIsDialogOpen(false);
         }}
       />
-      <PlayerDialog
+      <DialogParticipate
         player={selectedRow}
         teams={options}
         open={isFormDialogOpen}

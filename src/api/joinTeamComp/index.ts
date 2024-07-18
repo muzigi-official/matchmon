@@ -5,6 +5,7 @@ interface IListJoinTeamCompResponse {
   competition: ICompetition;
   team: ITeam;
   participateState: string;
+  groupStage: IGroupStage;
 }
 
 interface IToggleJoinTeamDto {

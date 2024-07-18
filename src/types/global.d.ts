@@ -5,6 +5,10 @@ declare global {
   type TUserRole = 'admin' | 'competitionUser' | 'user';
   type TDefaultReturn = string;
 
+  interface ErrorResponse {
+    message: string;
+  }
+
   interface INavItem {
     path: string;
     name: string;
@@ -44,6 +48,16 @@ declare global {
     end_date: string;
     description: string;
     organizer: string;
+  }
+
+  interface IJoinCompTeam {
+    id?: number;
+    joinCompId: number;
+    name: string;
+    teamId: number;
+    participateState: string;
+    group: string;
+    emblem?: string;
   }
 
   interface ITournaments {
@@ -95,7 +109,7 @@ declare global {
     location: string;
     emblem: string;
     gender: string;
-    isActive: boolean;
+    isActive?: boolean;
     players?: IPlayer[];
   }
 
@@ -126,6 +140,29 @@ declare global {
 
   interface IApplyFormInput {
     teamId: number | string;
+  }
+
+  interface IGroupStage {
+    id: number;
+    name: string;
+    competitionId: number;
+    joinTeamComps: IJoinCompTeam[];
+    createdAt: Date;
+  }
+
+  interface IGroup {
+    id: number;
+    name: string;
+    teams: ITeam[];
+  }
+
+  interface IJoinCompTeam {
+    id: number;
+    teamId: number;
+    name: string;
+    emblem: string;
+    participateState: string;
+    group: string;
   }
 }
 

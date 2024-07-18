@@ -6,7 +6,7 @@ import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import * as S from './Team.style';
+import * as S from './Team.styles';
 
 const joinTeamHeader = [
   { headerName: '팀이름', property: 'name', withImage: 'emblem', type: 'text' },
@@ -15,19 +15,11 @@ const joinTeamHeader = [
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
-interface joinCompTeam {
-  joinCompId: number;
-  name: string;
-  teamId: number;
-  participateState: string;
-  group: string;
-}
-
 export default function ParticipateTeams() {
   const navigate = useNavigate();
   const { selectedCompetition } = useCompetitionStore();
   // const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [rows, setRows] = useState<joinCompTeam[]>([]);
+  const [rows, setRows] = useState<IJoinCompTeam[]>([]);
 
   useEffect(() => {
     getJoinTeams();
@@ -52,13 +44,14 @@ export default function ParticipateTeams() {
 
   const splitGroup = () => {
     console.log('split group');
+    navigate(`/competition/participateTeams/matching`);
   };
 
   const deleteTeam = () => {
     console.log('delete');
   };
 
-  const movePage = (row: joinCompTeam) => {
+  const movePage = (row: IJoinCompTeam) => {
     navigate(`/competition/participateTeams/${row.joinCompId}`);
   };
 
@@ -88,7 +81,7 @@ export default function ParticipateTeams() {
         <DataTable
           header={joinTeamHeader}
           rows={rows}
-          onClickRow={(row: joinCompTeam) => {
+          onClickRow={(row: IJoinCompTeam) => {
             movePage(row);
           }}
           onClickDelete={deleteTeam}

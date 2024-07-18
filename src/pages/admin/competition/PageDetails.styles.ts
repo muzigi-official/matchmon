@@ -1,13 +1,13 @@
 import { styled } from 'styled-components';
 import { mediaQuery } from '@/styles/mediaQuery';
-import { containerMixin } from '@/styles/mixins';
+import { containerFlexCol } from '@/styles/mixins';
 
 interface StatusBadgeProps {
   $status: string;
 }
 
 export const Container = styled.div`
-  ${containerMixin};
+  ${containerFlexCol};
 `;
 
 export const Top = styled.section`

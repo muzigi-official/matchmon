@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import useUserStore from '@/store/useUserStore';
 import { isTokenExpired } from '@/utils/token';
 
@@ -12,8 +12,8 @@ function handleError(serverError: ResponseData) {
   console.log(serverError);
   if (serverError?.data) {
     if (serverError?.data == '토큰 만료') {
-      logOut();
       toast.error(`토큰이 만료했습니다. 다시 로그인 해주세요`);
+      logOut();
     } else if (serverError?.data == '로그인 되어있지 않음') {
       toast.error(`로그인 해주세요`);
     } else if (serverError?.data == '등록되지 않은 유저입니다') {
@@ -51,7 +51,6 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
 
 export default function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
   axiosInstance.interceptors.request.use(onRequest, undefined);
-
   axiosInstance.interceptors.response.use(onResponseSuccess, onResponseError);
 
   return axiosInstance;

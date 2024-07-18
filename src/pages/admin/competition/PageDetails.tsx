@@ -70,7 +70,6 @@ export default function AdminCompetitionDetail() {
 
   const getAllTeams = async () => {
     const response = await listTeam(1, 100);
-    console.log(joinedTeamIds);
     const selectOptions = response.data
       .filter(team => !joinedTeamIds.includes(team.id)) // 참여한 팀 필터링
       .map(team => {
