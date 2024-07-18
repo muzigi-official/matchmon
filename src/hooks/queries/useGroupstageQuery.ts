@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
 import {
   requestGroupStagesWithTeams,
   createGroupstage,
@@ -25,7 +26,7 @@ export const useCreateGroupstageMutation = () => {
       },
       onError: (error: AxiosError<ErrorResponse>) => {
         if (error.response?.data?.message) {
-          alert(error.response.data.message);
+          toast.error(error.response?.data?.message);
         }
       },
     },
@@ -37,10 +38,11 @@ export const useDeleteGroupstageMutation = (competitionId: number) => {
   return useMutation((groupId: number) => deleteGroupstage(groupId), {
     onSuccess: () => {
       queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
+      toast.success('조 삭제 성공!!!!');
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data?.message) {
-        alert(error.response.data.message);
+        toast.error(error.response?.data?.message);
       }
     },
   });
@@ -57,7 +59,7 @@ export const useAddTeamToGroupMutation = (competitionId: number) => {
       onError: (error: AxiosError<ErrorResponse>) => {
         console.log(error);
         if (error.response?.data?.message) {
-          alert(error.response.data.message);
+          toast.error(error.response?.data?.message);
         }
       },
     },
@@ -74,7 +76,7 @@ export const useRemoveTeamFromGroupMutation = (competitionId: number) => {
       },
       onError: (error: AxiosError<ErrorResponse>) => {
         if (error.response?.data?.message) {
-          alert(error.response.data.message);
+          toast.error(error.response?.data?.message);
         }
       },
     },

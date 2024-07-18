@@ -1,6 +1,6 @@
 import { useMemo, Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
 import { merge } from 'ts-deepmerge';
 
@@ -48,7 +48,7 @@ function App() {
           <Suspense fallback={renderLoader()}>
             <RouterProvider router={router} />
           </Suspense>
-          <ToastContainer />
+          <Toaster position='top-center' reverseOrder={false} gutter={8} />
         </QueryClientProvider>
       </ThemeProvider>
     </>
