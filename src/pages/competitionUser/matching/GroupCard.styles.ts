@@ -1,19 +1,8 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { colors } from '@/styles/colors';
 import { flexPowerCenter } from '@/styles/mixins';
 import { mediaQuery } from '@/styles/mediaQuery';
-
-const bounce = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
+import { jelloHorizontal, jelloHorizontalWebKit, bounce } from '@/styles/animations';
 
 export const GroupCardContainer = styled.div`
   background-color: #f5f5f5;
@@ -100,6 +89,11 @@ export const RemoveButton = styled.div`
   height: 24px;
   ${flexPowerCenter}
   cursor: pointer;
+
+  &:hover {
+    -webkit-animation: ${jelloHorizontalWebKit} 0.9s both;
+    animation: ${jelloHorizontal} 0.9s both;
+  }
 `;
 
 export const NoTeamsMessage = styled.div`
