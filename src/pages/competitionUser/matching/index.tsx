@@ -42,14 +42,14 @@ export default function MatchingPage() {
     if (selectedCompetition) {
       const response = await getParticipateTeams(selectedCompetition);
       const parseTeams = response.map(item => {
-        const { id, team, participateState } = item;
+        const { id, team, participateState, groupStage } = item;
         return {
           joinCompId: id,
           emblem: team.emblem,
           name: team.name,
           teamId: team.id,
           participateState,
-          group: '-',
+          group: groupStage ? groupStage.name : '-',
         };
       });
       setTeams(parseTeams);
@@ -63,13 +63,18 @@ export default function MatchingPage() {
     const newGroupName = ` ${String.fromCharCode(65 + groups.length)}`;
     setGroupName(newGroupName);
     if (selectedCompetition) {
-      createGroupstageMutation.mutate({ competitionId: selectedCompetition, groupName: newGroupName });
+      createGroupstageMutation.mutate(
+        { competitionId: selectedCompetition, groupName: newGroupName },
+        {
+          onSuccess: data => {
+            setSelectedGroup(data);
+          },
+        },
+      );
     }
   };
 
   const handleRemoveGroup = (group: IGroupStage) => {
-    console.log(group);
-    // group remove
     deleteGroupstageMutation.mutate(group.id);
   };
 

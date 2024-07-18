@@ -57,7 +57,6 @@ export const useAddTeamToGroupMutation = (competitionId: number) => {
         queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
       },
       onError: (error: AxiosError<ErrorResponse>) => {
-        console.log(error);
         if (error.response?.data?.message) {
           toast.error(error.response?.data?.message);
         }

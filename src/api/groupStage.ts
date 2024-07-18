@@ -3,7 +3,7 @@ import requestAPI from '@/utils/api';
 export const requestGroupStagesWithTeams = (competitionId: number): Promise<IGroupStage[]> =>
   requestAPI.get(`/group-stages/competition/${competitionId}`);
 
-export const createGroupstage = (competitionId: number, groupName: string): Promise<TDefaultReturn> =>
+export const createGroupstage = (competitionId: number, groupName: string): Promise<IGroupStage> =>
   requestAPI.post('/group-stages', { name: groupName, competitionId });
 
 export const deleteGroupstage = (groupId: number): Promise<void> => requestAPI.delete(`/group-stages/${groupId}`);
