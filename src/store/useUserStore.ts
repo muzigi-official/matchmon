@@ -33,6 +33,7 @@ const useUserStore = create<IUserState>()(
         logOut: () => {
           localStorage.removeItem('access_token');
           set({ isSignIn: false, user: null });
+          window.location.href = '/login';
         },
         setUser: async () => {
           const token = localStorage.getItem('access_token');
