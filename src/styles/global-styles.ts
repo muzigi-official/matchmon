@@ -12,6 +12,9 @@ const GlobalStyle = createGlobalStyle`
     /* ...other variables */
   
     --border-color:  ${colors.border};
+    --white-text:  ${colors.whiteText};
+    --balck-text:  ${colors.darkText};
+    
     --vh: 1vh;
     --gnb-width: 64px;
   }
