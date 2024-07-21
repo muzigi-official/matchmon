@@ -19,7 +19,6 @@ import DialogTeamSelect from './DialogTeamSelect';
 import * as S from './Index.style';
 
 export default function MatchingPage() {
-  const { selectedCompetition } = useCompetitionStore();
   const [teams, setTeams] = useState<IJoinCompTeam[]>([]);
   const [isOpenDialog, setOpenDialog] = useState<boolean>(false);
   const [groups, setGroups] = useState<IGroupStage[]>([]);
@@ -27,12 +26,12 @@ export default function MatchingPage() {
   const [selectedGroup, setSelectedGroup] = useState<IGroupStage | null>(null);
   const [selectedGroupTeams, setSelectedGroupTeams] = useState<IJoinCompTeam[]>([]);
 
+  const { selectedCompetition } = useCompetitionStore();
   const {
     data: groupStages,
     error: groupStagesError,
     isLoading: groupStagesLoading,
   } = useGroupstageWithTeamsQuery(selectedCompetition || 0);
-
   const createGroupstageMutation = useCreateGroupstageMutation();
   const deleteGroupstageMutation = useDeleteGroupstageMutation(selectedCompetition || 0);
   const addTeamToGroupMutation = useAddTeamToGroupMutation(selectedCompetition || 0);
