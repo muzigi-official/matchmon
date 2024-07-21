@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { fetchMatchSettings, createMatchSetting, updateMatchSetting, deleteMatchSetting } from '@/api/matchSetting';
 import { matchSettingQueryKeys } from '@/queryKeys/matchSetting';
 
-export const useMatchSettingsQuery = (competitionId: number) => {
+export const useMatchSettingQuery = (competitionId: number) => {
   return useQuery<IMatchSetting[], AxiosError<IErrorResponse>>(matchSettingQueryKeys.matchSettings(competitionId), () =>
     fetchMatchSettings(competitionId),
   );

@@ -1,7 +1,8 @@
 import { styled } from 'styled-components';
+import { spin } from '@/styles/animations';
 import { colors } from '@/styles/colors';
-import { containerBasicCol } from '@/styles/mixins';
 import { mediaQuery } from '@/styles/mediaQuery';
+import { containerBasicCol } from '@/styles/mixins';
 
 export const Container = styled.div`
   ${containerBasicCol}
@@ -30,9 +31,36 @@ export const Title = styled.h3`
 `;
 
 export const Actions = styled.div`
-  /* background-color: violet; */
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+`;
+
+export const MatchInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+`;
+
+export const InfoText = styled.span`
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+export const Highlight = styled.span`
+  color: ${colors.primary};
+  font-weight: bold;
+`;
+
+export const Spinner = styled.div`
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: ${colors.primary};
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: ${spin} 1s linear infinite;
 `;
 
 export const Content = styled.section`
@@ -45,41 +73,4 @@ export const Content = styled.section`
     flex-direction: column;
     align-items: center;
   }
-`;
-
-export const LeftPanel = styled.section`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  background-color: #f1eeff;
-  border-radius: 8px;
-  width: 24%;
-  height: calc(var(--vh, 1vh) * 100 - 8px);
-  overflow: hidden;
-
-  ${mediaQuery.mobile} {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-export const RightPanel = styled.section`
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  border: 1px solid ${colors.border};
-  border-radius: 8px;
-  width: 76%;
-  height: auto; /* Adjust height to auto */
-  overflow: visible; /* Ensure content is not cut off */
-  ${mediaQuery.mobile} {
-    width: 100%;
-  }
-`;
-
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 16px 18px 0;
 `;
