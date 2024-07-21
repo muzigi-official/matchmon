@@ -33,6 +33,7 @@ export const Title = styled.h3`
 export const Actions = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const MatchInfo = styled.div`

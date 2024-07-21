@@ -36,6 +36,7 @@ export const StyledButton = styled.button<{
   font-family: ${typography.fontFamily};
   cursor: pointer;
   transition: background-color 0.25s;
+  height: 36px;
 
   ${({ $variant }) => buttonStyles[$variant]}
 
