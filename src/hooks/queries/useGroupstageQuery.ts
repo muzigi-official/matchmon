@@ -11,7 +11,7 @@ import {
 import { groupstageQueryKeys } from '@/queryKeys/groupStage';
 
 export const useGroupstageWithTeamsQuery = (competitionId: number) => {
-  return useQuery<IGroupStage[], AxiosError<ErrorResponse>>(groupstageQueryKeys.groupStage(competitionId), () =>
+  return useQuery<IGroupStage[], AxiosError<IErrorResponse>>(groupstageQueryKeys.groupStage(competitionId), () =>
     requestGroupStagesWithTeams(competitionId),
   );
 };
@@ -24,7 +24,7 @@ export const useCreateGroupstageMutation = () => {
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries(groupstageQueryKeys.groupStage(variables.competitionId));
       },
-      onError: (error: AxiosError<ErrorResponse>) => {
+      onError: (error: AxiosError<IErrorResponse>) => {
         if (error.response?.data?.message) {
           toast.error(error.response?.data?.message);
         }
@@ -40,7 +40,7 @@ export const useDeleteGroupstageMutation = (competitionId: number) => {
       queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
       toast.success('조 삭제 성공!!!!');
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<IErrorResponse>) => {
       if (error.response?.data?.message) {
         toast.error(error.response?.data?.message);
       }
@@ -56,7 +56,7 @@ export const useAddTeamToGroupMutation = (competitionId: number) => {
       onSuccess: () => {
         queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
       },
-      onError: (error: AxiosError<ErrorResponse>) => {
+      onError: (error: AxiosError<IErrorResponse>) => {
         if (error.response?.data?.message) {
           toast.error(error.response?.data?.message);
         }
@@ -73,7 +73,7 @@ export const useRemoveTeamFromGroupMutation = (competitionId: number) => {
       onSuccess: () => {
         queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
       },
-      onError: (error: AxiosError<ErrorResponse>) => {
+      onError: (error: AxiosError<IErrorResponse>) => {
         if (error.response?.data?.message) {
           toast.error(error.response?.data?.message);
         }

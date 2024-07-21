@@ -5,7 +5,7 @@ declare global {
   type TUserRole = 'admin' | 'competitionUser' | 'user';
   type TDefaultReturn = string;
 
-  interface ErrorResponse {
+  interface IErrorResponse {
     message: string;
   }
 
@@ -163,6 +163,26 @@ declare global {
     emblem: string;
     participateState: string;
     group: string;
+  }
+
+  export interface IMatchSetting {
+    id: number;
+    stage: string;
+    matchDuration: number;
+    stadiumCount: number;
+    competitionId: number;
+  }
+
+  interface ICreateMatchSettingParams {
+    competitionId: number;
+    stage: string;
+    matchDuration: number;
+    stadiumCount: number;
+    hasHalves: boolean;
+  }
+
+  interface IUpdateMatchSettingParams extends ICreateMatchSettingParams {
+    id: number;
   }
 }
 
