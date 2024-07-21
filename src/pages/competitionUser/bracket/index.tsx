@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
 import Button from '@/components/common/Button';
-import { useCreateMatchSettingMutation } from '@/hooks/queries/useMatchSettingQuery';
+import { useCreateMatchSettingMutation, useMatchSettingQuery } from '@/hooks/queries/useMatchSettingQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
 import MatchGenerator from './DialogMatchSetting';
+import MatchInfoBox from './MatchInfoBox';
+
 import * as S from './Index.style';
 
 export interface IEvent {
@@ -21,8 +23,10 @@ interface IFormData {
 
 export default function BracketPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const { selectedCompetition } = useCompetitionStore();
   const createMatchSettingMutation = useCreateMatchSettingMutation();
+  const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
 
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -53,34 +57,12 @@ export default function BracketPage() {
         </S.Title>
       </S.Top>
       <S.Actions>
-        <p> 경기설정 세부 정보 </p>
+        <MatchInfoBox isLoading={isMatchSettingLoading} infos={matchSettings || []} />
         <Button color='primary' onClick={toggleDialog}>
           경기 설정
         </Button>
       </S.Actions>
 
-      {/* <section>
-          <label>구장 수 만큼 추가하고 구장 이름을 입력해주세요.</label>
-          <ul>
-            {formData.stadiums.map((stadium, index) => (
-              <S.Items key={index}>
-                <input
-                  type='text'
-                  value={stadium}
-                  onChange={e => handleStadiumChange(index, e.target.value)}
-                  placeholder={`구장 ${index + 1}`}
-                />
-
-                <S.FabButton color='error' aria-label='remove' onClick={() => removeStadium(index)}>
-                  <RemoveIcon fontSize='small' />
-                </S.FabButton>
-              </S.Items>
-            ))}
-          </ul>
-          <S.FabButton color='success' aria-label='add' onClick={addStadium}>
-            <AddIcon fontSize='small' />
-          </S.FabButton>
-        </section> */}
       <MatchGenerator open={isDialogOpen} onClose={toggleDialog} onSave={saveMatchSettings} />
     </S.Container>
   );
