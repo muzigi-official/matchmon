@@ -75,3 +75,12 @@ export const Content = styled.section`
     align-items: center;
   }
 `;
+
+export const TimeTable = styled.ul`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const MatchItem = styled.li`
+  display: flex;
+`;
