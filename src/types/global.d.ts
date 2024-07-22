@@ -185,6 +185,36 @@ declare global {
   interface IUpdateMatchSettingParams extends ICreateMatchSettingParams {
     id: number;
   }
+
+  interface IScheduleParams {
+    startTime: string; // 시작 시간 (HH:mm 형식)
+    matchDuration: number; // 경기 시간 (분)
+    breakTime: number; // 휴식 시간 (분)
+    stadiums: string[]; // 구장 목록
+    groups: Record<string, ITeam[]>; // 조 목록 (조 이름을 키로, 팀 목록을 값으로)
+  }
+
+  interface IMatchSchedule {
+    time: string; // 경기 시간
+    stadium: string; // 구장
+    homeTeamId: number;
+    awayTeamId: number;
+    homeTeam: string; // 홈팀
+    awayTeam: string; // 어웨이팀
+  }
+
+  interface IListJoinTeamCompResponse {
+    id: number;
+    competition: ICompetition;
+    team: ITeam;
+    participateState: string;
+    groupStage: IGroupStage;
+  }
+
+  interface IToggleJoinTeamDto {
+    joinTeamCompId: number;
+    playerId: number;
+  }
 }
 
 export {};
