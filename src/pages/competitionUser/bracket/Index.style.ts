@@ -38,13 +38,19 @@ export const Actions = styled.div`
 
 export const MatchInfoContainer = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   gap: 8px;
 `;
 
+export const SelectWrapper = styled.div`
+  flex: 0 1 auto;
+  min-width: 150px;
+  max-width: 200px;
+`;
+
 export const MatchInfo = styled.div`
   margin-top: 8px;
+  flex-grow: 1; /* 추가 */
 `;
 
 export const InfoText = styled.span`
@@ -68,6 +74,7 @@ export const Spinner = styled.div`
 
 export const Content = styled.section`
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: auto;
   gap: 18px;
@@ -81,8 +88,12 @@ export const Content = styled.section`
 export const TimeTable = styled.ul`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const MatchItem = styled.li`
   display: flex;
+  align-items: center;
+  gap: 8px;
 `;

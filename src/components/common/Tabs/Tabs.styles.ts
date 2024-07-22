@@ -4,6 +4,7 @@ import { colors } from '@/styles/colors';
 export const TabsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const TabContainer = styled.div`
@@ -15,6 +16,7 @@ export const TabContainer = styled.div`
 
 export const TabButtonWrapper = styled.div`
   display: flex;
+
   margin-bottom: 16px;
 `;
 
@@ -35,5 +37,8 @@ export const TabButton = styled.button<{ $isSelected: boolean }>`
 
 export const TabContentContainer = styled.div`
   padding: 0;
-  border-radius: 0 8px 8px 8px; /* Rounded corners for the content container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 `;

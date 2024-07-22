@@ -108,15 +108,17 @@ export default function BracketPage() {
       <S.Actions>
         <MatchInfoBox isLoading={isMatchSettingLoading} infos={matchSettings || []} />
         <div>
-          <Button color='primary' onClick={createAutoSchdule}>
-            일정 자동 생성
-          </Button>
           <Button color='primary' onClick={toggleDialog}>
             경기 설정
           </Button>
         </div>
       </S.Actions>
       <S.Content>
+        <div>
+          <Button variant='outlined' color='primary' onClick={createAutoSchdule}>
+            일정 자동 생성
+          </Button>
+        </div>
         <StadiumTabs
           schedules={matches}
           addMatch={addMatch}
