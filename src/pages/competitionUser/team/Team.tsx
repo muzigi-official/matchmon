@@ -29,13 +29,13 @@ export default function ParticipateTeams() {
     if (selectedCompetition) {
       const response = await getParticipateTeams(selectedCompetition);
       const parseTeams = response.map(item => {
-        const { id, team, participateState } = item;
+        const { id, team, participateState, groupStage } = item;
         return {
           joinCompId: id,
           name: team.name,
           teamId: team.id,
           participateState,
-          group: '-',
+          group: groupStage.name,
         };
       });
       setRows(parseTeams);
