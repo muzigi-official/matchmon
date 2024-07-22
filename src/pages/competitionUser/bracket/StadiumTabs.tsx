@@ -1,7 +1,10 @@
+import AddIcon from '@mui/icons-material/Add';
+
 import Tabs from '@/components/common/Tabs';
+import Button from '@/components/common/Button';
+
 import MatchField from './MatchField';
 import * as S from './Index.style';
-import Button from '@/components/common/Button';
 
 interface IStadiumTabsProps {
   schedules: IMatchSchedule[];
@@ -18,7 +21,9 @@ const StadiumTabs = ({ schedules, addMatch, removeMatch, handleMatchChange }: IS
       {filteredMatches.map((match, index) => (
         <MatchField key={index} match={match} index={index} onMatchChange={handleMatchChange} onRemove={removeMatch} />
       ))}
-      <Button onClick={addMatch}>추가</Button>
+      <Button variant='fab' color='danger' onClick={addMatch}>
+        <AddIcon />
+      </Button>
     </S.TimeTable>
   );
 

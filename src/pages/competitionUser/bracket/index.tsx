@@ -3,15 +3,14 @@ import { useState } from 'react';
 import Button from '@/components/common/Button';
 import { useCreateMatchSettingMutation, useMatchSettingQuery } from '@/hooks/queries/useMatchSettingQuery';
 import { useJoinCompTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
-
 import useCompetitionStore from '@/store/useCompetitionStore';
+import { generateSchedule } from '@/utils/match';
 
 import MatchGenerator from './DialogMatchSetting';
 import MatchInfoBox from './MatchInfoBox';
+import StadiumTabs from './StadiumTabs';
 
 import * as S from './Index.style';
-import { generateSchedule } from '@/utils/match';
-import StadiumTabs from './StadiumTabs';
 
 export interface IEvent {
   name: string;
