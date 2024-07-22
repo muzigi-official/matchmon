@@ -1,4 +1,6 @@
-import Tabs from '@/components/common/Tabs';
+import { useState } from 'react';
+
+import CustomSelect from '@/components/common/Select/CustomSelect';
 
 import * as S from './Index.style';
 
@@ -8,23 +10,37 @@ interface IInfoBoxProps {
 }
 
 const MatchInfoBox = ({ infos, isLoading }: IInfoBoxProps) => {
-  const tabs = infos.map(setting => ({
-    label: setting.stage,
-    content: (
-      <S.MatchInfo>
-        {isLoading ? (
-          <S.Spinner />
-        ) : (
-          <S.InfoText>
-            구장 수: <S.Highlight>{setting?.stadiumCount || '2'}</S.Highlight>개 | 경기 시간(분):{' '}
-            <S.Highlight>{setting?.matchDuration || '15'}</S.Highlight>분 | 경기 구분:{' '}
-            <S.Highlight>{setting?.hasHalves ? '전.후반' : '단판'}</S.Highlight>
-          </S.InfoText>
-        )}
-      </S.MatchInfo>
-    ),
+  const [selectedStage, setSelectedStage] = useState<string | number>(infos[0]?.stage || '');
+
+  const options = infos.map(setting => ({
+    value: setting.stage,
+    text: setting.stage,
   }));
-  return <Tabs tabs={tabs} />;
+
+  const handleSelectChange = (value: string | number | undefined) => {
+    setSelectedStage(value || '');
+  };
+
+  const selectedInfo = infos.find(setting => setting.stage === selectedStage);
+
+  return (
+    <S.MatchInfoContainer>
+      <CustomSelect options={options} label='단계 선택' defaultValue={selectedStage} onSelect={handleSelectChange} />
+      {selectedInfo && (
+        <S.MatchInfo>
+          {isLoading ? (
+            <S.Spinner />
+          ) : (
+            <S.InfoText>
+              구장 수: <S.Highlight>{selectedInfo.stadiumCount || '2'}</S.Highlight>개 | 경기 시간(분):{' '}
+              <S.Highlight>{selectedInfo.matchDuration || '15'}</S.Highlight>분 | 경기 구분:{' '}
+              <S.Highlight>{selectedInfo.hasHalves ? '전.후반' : '단판'}</S.Highlight>
+            </S.InfoText>
+          )}
+        </S.MatchInfo>
+      )}
+    </S.MatchInfoContainer>
+  );
 };
 
 export default MatchInfoBox;

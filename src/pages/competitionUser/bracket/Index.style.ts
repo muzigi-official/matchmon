@@ -36,13 +36,15 @@ export const Actions = styled.div`
   align-items: center;
 `;
 
-export const MatchInfo = styled.div`
+export const MatchInfoContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+`;
+
+export const MatchInfo = styled.div`
+  margin-top: 8px;
 `;
 
 export const InfoText = styled.span`
