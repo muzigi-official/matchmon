@@ -1,11 +1,21 @@
 import styled from 'styled-components';
 import { colors } from '@/styles/colors';
 
-export const TabContainer = styled.div`
+export const TabsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const TabContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   align-items: flex-start;
   gap: 8px;
+`;
+
+export const TabButtonWrapper = styled.div`
+  display: flex;
+  margin-bottom: 16px;
 `;
 
 export const TabButton = styled.button<{ $isSelected: boolean }>`

@@ -1,5 +1,5 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import { TabContainer, TabButton, TabContentContainer } from './Tabs.styles';
+import { ReactNode, useState, useEffect } from 'react';
+import { TabsWrapper, TabButtonWrapper, TabContainer, TabButton, TabContentContainer } from './Tabs.styles';
 
 interface ITab {
   label: string;
@@ -27,16 +27,22 @@ const Tabs = ({ tabs, selectedTab: initialSelectedTab, onTabClick }: ITabsProps)
   }, [initialSelectedTab, tabs]);
 
   return (
-    <React.Fragment>
-      <TabContainer>
-        {tabs.map(tab => (
-          <TabButton key={tab.label} $isSelected={selectedTab === tab.label} onClick={() => handleTabClick(tab.label)}>
-            {tab.label}
-          </TabButton>
-        ))}
-        <TabContentContainer>{tabs.find(tab => tab.label === selectedTab)?.content}</TabContentContainer>
-      </TabContainer>
-    </React.Fragment>
+    <TabsWrapper>
+      <TabButtonWrapper>
+        <TabContainer>
+          {tabs.map(tab => (
+            <TabButton
+              key={tab.label}
+              $isSelected={selectedTab === tab.label}
+              onClick={() => handleTabClick(tab.label)}
+            >
+              {tab.label}
+            </TabButton>
+          ))}
+        </TabContainer>
+      </TabButtonWrapper>
+      <TabContentContainer>{tabs.find(tab => tab.label === selectedTab)?.content}</TabContentContainer>
+    </TabsWrapper>
   );
 };
 
