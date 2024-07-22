@@ -25,7 +25,9 @@ const MatchInfoBox = ({ infos, isLoading }: IInfoBoxProps) => {
 
   return (
     <S.MatchInfoContainer>
-      <CustomSelect options={options} label='단계 선택' defaultValue={selectedStage} onSelect={handleSelectChange} />
+      <S.SelectWrapper>
+        <CustomSelect options={options} label='단계 선택' defaultValue={selectedStage} onSelect={handleSelectChange} />
+      </S.SelectWrapper>
       {selectedInfo && (
         <S.MatchInfo>
           {isLoading ? (

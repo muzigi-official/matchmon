@@ -1,3 +1,4 @@
+import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@/components/common/Button';
 import * as S from './Index.style';
 
@@ -30,7 +31,9 @@ const MatchField = ({ match, index, onMatchChange, onRemove }: IMatchFieldProps)
         placeholder='어웨이팀'
         onChange={e => onMatchChange(index, 'awayTeam', e.target.value)}
       />
-      <Button onClick={() => onRemove(index)}>삭제</Button>
+      <Button variant='fab' color='danger' onClick={() => onRemove(index)}>
+        <RemoveIcon />
+      </Button>
     </S.MatchItem>
   );
 };

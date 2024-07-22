@@ -1,3 +1,4 @@
+import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 
 import Tabs from '@/components/common/Tabs';
@@ -17,14 +18,22 @@ const StadiumTabs = ({ schedules, addMatch, removeMatch, handleMatchChange }: IS
   const stadiums = Array.from(new Set(schedules.map(match => match.stadium)));
 
   const renderMatchFields = (filteredMatches: IMatchSchedule[]) => (
-    <S.TimeTable>
-      {filteredMatches.map((match, index) => (
-        <MatchField key={index} match={match} index={index} onMatchChange={handleMatchChange} onRemove={removeMatch} />
-      ))}
-      <Button variant='fab' color='danger' onClick={addMatch}>
+    <React.Fragment>
+      <S.TimeTable>
+        {filteredMatches.map((match, index) => (
+          <MatchField
+            key={index}
+            match={match}
+            index={index}
+            onMatchChange={handleMatchChange}
+            onRemove={removeMatch}
+          />
+        ))}
+      </S.TimeTable>
+      <Button variant='fab' onClick={addMatch}>
         <AddIcon />
       </Button>
-    </S.TimeTable>
+    </React.Fragment>
   );
 
   const tabs = [
