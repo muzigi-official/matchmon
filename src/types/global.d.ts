@@ -1,7 +1,7 @@
 declare global {
   type TAnchor = 'top' | 'left' | 'bottom' | 'right';
   type TGender = 'M' | 'F' | 'A';
-  type TButtonVariant = 'text' | 'contained' | 'outlined';
+  type TButtonVariant = 'text' | 'contained' | 'outlined' | 'fab';
   type TUserRole = 'admin' | 'competitionUser' | 'user';
   type TDefaultReturn = string;
 
