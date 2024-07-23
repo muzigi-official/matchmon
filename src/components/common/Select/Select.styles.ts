@@ -33,6 +33,13 @@ export const SelectButton = styled.div<{ open: boolean; disabled?: boolean }>`
   }
 `;
 
+export const SelectSearchInput = styled.input`
+  padding: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+`;
+
 export const SelectMenu = styled.ul<{ open: boolean }>`
   position: absolute;
   width: 100%;
