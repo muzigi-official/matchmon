@@ -30,12 +30,9 @@ export const useClickOutside = (callback: () => void, containerRef: React.RefObj
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target as Node) &&
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      console.log('되나??/');
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        console.log('here');
         callback();
       }
     };
