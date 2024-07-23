@@ -132,6 +132,7 @@ declare global {
   interface ISelectProperty {
     value: string | number | undefined;
     text: string;
+    group?: string;
   }
 
   export interface IFormValues {

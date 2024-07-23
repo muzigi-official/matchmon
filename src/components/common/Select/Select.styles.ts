@@ -54,3 +54,17 @@ export const SelectOption = styled.li`
     background-color: ${colors.primaryLight};
   }
 `;
+
+export const SelectGroup = styled.div`
+  padding: 8px 0;
+  background-color: #f9f9f9;
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+  }
+
+  strong {
+    display: block;
+    padding: 4px 8px;
+    background-color: #fff;
+  }
+`;
