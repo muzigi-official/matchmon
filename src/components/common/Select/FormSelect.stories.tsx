@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import FormSelect from './FormSelect';
+import { ClickOutsideProvider } from './ClickOutSideProvider';
 
 const meta = {
   title: 'Components/common/FormSelect',
   component: FormSelect,
+  decorators: [
+    Story => (
+      <ClickOutsideProvider onClickOutside={() => console.log('Clicked outside!')}>
+        <Story />
+      </ClickOutsideProvider>
+    ),
+  ],
   parameters: {
     layout: 'centered',
   },
