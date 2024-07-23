@@ -1,7 +1,13 @@
-import { useState, useEffect, forwardRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
+import { useClickOutside } from '@/providers/ClickOutsideProvider';
 import SelectGroupOptions from './SelectGroupOptions';
-import { ClickOutsideProvider, useClickOutside } from './ClickOutSideProvider';
 import { SelectContainer, SelectButton, SelectMenu, SelectGroup, SelectSearchInput } from './Select.styles';
+
+interface ISelectProperty {
+  value: string | number;
+  text: string;
+  group?: string;
+}
 
 interface IFormSelectProps {
   options: ISelectProperty[];
@@ -15,12 +21,15 @@ interface IFormSelectProps {
 }
 
 const FormSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
-  ({ options, name, value, onChange, onBlur, defaultValue = name, disabled, error }, ref) => {
+  ({ options, name, value, onChange, onBlur, defaultValue = '', disabled, error }, ref) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedText, setSelectedText] = useState<string>(defaultValue);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
-    const { ref: containerRef } = useClickOutside();
+    const menuRef = useRef<HTMLUListElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside(() => setIsOpen(false), containerRef);
 
     const handleToggle = () => {
       if (!disabled) {
@@ -54,33 +63,31 @@ const FormSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
     }, [value, options, name]);
 
     return (
-      <ClickOutsideProvider onClickOutside={() => setIsOpen(false)}>
-        <SelectContainer ref={ref}>
-          <SelectButton onClick={handleToggle} open={isOpen} disabled={disabled}>
-            <SelectSearchInput
-              type='text'
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              placeholder={selectedText}
-            />
-            <span>&#9662;</span>
-          </SelectButton>
-          <SelectMenu ref={containerRef} open={isOpen}>
-            {hasGroup ? (
-              Object.keys(groupedOptions).map(group => (
-                <SelectGroup key={group}>
-                  <strong>{group}</strong>
-                  <SelectGroupOptions options={groupedOptions[group]} handleOptionClick={handleOptionClick} />
-                </SelectGroup>
-              ))
-            ) : (
-              <SelectGroupOptions options={filteredOptions} handleOptionClick={handleOptionClick} />
-            )}
-          </SelectMenu>
-          <input type='hidden' name={name} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-        </SelectContainer>
-      </ClickOutsideProvider>
+      <SelectContainer ref={ref}>
+        <SelectButton onClick={handleToggle} open={isOpen} disabled={disabled}>
+          <SelectSearchInput
+            type='text'
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            placeholder={selectedText}
+          />
+          <span>&#9662;</span>
+        </SelectButton>
+        <SelectMenu ref={menuRef} open={isOpen}>
+          {hasGroup ? (
+            Object.keys(groupedOptions).map(group => (
+              <SelectGroup key={group}>
+                <strong>{group}</strong>
+                <SelectGroupOptions options={groupedOptions[group]} handleOptionClick={handleOptionClick} />
+              </SelectGroup>
+            ))
+          ) : (
+            <SelectGroupOptions options={filteredOptions} handleOptionClick={handleOptionClick} />
+          )}
+        </SelectMenu>
+        <input type='hidden' name={name} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </SelectContainer>
     );
   },
 );
