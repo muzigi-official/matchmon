@@ -12,8 +12,6 @@ import router from '@/router';
 import GlobalStyle from '@/styles/global-styles';
 import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
 
-import Providers from '@/providers';
-
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
@@ -44,17 +42,15 @@ function App() {
 
   return (
     <>
-      <Providers>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <GlobalStyle />
-            <Suspense fallback={renderLoader()}>
-              <RouterProvider router={router} />
-            </Suspense>
-            <Toaster position='top-center' reverseOrder={false} gutter={8} />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </Providers>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyle />
+          <Suspense fallback={renderLoader()}>
+            <RouterProvider router={router} />
+          </Suspense>
+          <Toaster position='top-center' reverseOrder={false} gutter={8} />
+        </QueryClientProvider>
+      </ThemeProvider>
     </>
   );
 }
