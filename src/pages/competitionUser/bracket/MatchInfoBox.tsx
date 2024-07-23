@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CustomSelect from '@/components/common/Select/CustomSelect';
 
@@ -22,6 +22,12 @@ const MatchInfoBox = ({ infos, isLoading }: IInfoBoxProps) => {
   };
 
   const selectedInfo = infos.find(setting => setting.stage === selectedStage);
+
+  useEffect(() => {
+    if (infos.length > 0) {
+      setSelectedStage(infos[0].stage);
+    }
+  }, [infos]);
 
   return (
     <S.MatchInfoContainer>

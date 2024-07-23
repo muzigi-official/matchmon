@@ -130,7 +130,7 @@ declare global {
   }
 
   interface ISelectProperty {
-    value: string | number | undefined;
+    value: string | number;
     text: string;
     group?: string;
   }

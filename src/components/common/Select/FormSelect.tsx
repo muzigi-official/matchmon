@@ -6,8 +6,8 @@ import { SelectContainer, SelectButton, SelectMenu, SelectGroup, SelectSearchInp
 interface IFormSelectProps {
   options: ISelectProperty[];
   name: string;
-  value: string | number | undefined;
-  onChange: (value: string | number | undefined) => void;
+  value: string | number;
+  onChange: (value: string | number) => void;
   onBlur: () => void;
   defaultValue?: string;
   disabled?: boolean;

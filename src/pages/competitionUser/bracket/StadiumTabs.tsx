@@ -9,12 +9,13 @@ import * as S from './Index.style';
 
 interface IStadiumTabsProps {
   schedules: IMatchSchedule[];
+  teamOptions: ISelectProperty[];
   addMatch: () => void;
   removeMatch: (index: number) => void;
-  handleMatchChange: (index: number, field: keyof IMatchSchedule, value: string) => void;
+  handleMatchChange: (index: number, field: keyof IMatchSchedule, value: string | number) => void;
 }
 
-const StadiumTabs = ({ schedules, addMatch, removeMatch, handleMatchChange }: IStadiumTabsProps) => {
+const StadiumTabs = ({ schedules, teamOptions, addMatch, removeMatch, handleMatchChange }: IStadiumTabsProps) => {
   const stadiums = Array.from(new Set(schedules.map(match => match.stadium)));
 
   const renderMatchFields = (filteredMatches: IMatchSchedule[]) => (
@@ -25,6 +26,7 @@ const StadiumTabs = ({ schedules, addMatch, removeMatch, handleMatchChange }: IS
             key={index}
             match={match}
             index={index}
+            teamOptions={teamOptions}
             onMatchChange={handleMatchChange}
             onRemove={removeMatch}
           />

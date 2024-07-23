@@ -23,6 +23,11 @@ interface IFormData {
   matchDuration: number;
   hasHalves: boolean;
 }
+/* TODO: 
+1. MatchField에 팀 선택하는 거 팀 셀렉트로 표현하기, 그룹을 잘 나눠서 보여줄 수 있도록 하기
+2. 수정상태와 뷰상태를 토글 스위치로 구분해서 보여주기
+3. 백엔드 작업 매치 스케쥴? 만들기 그래서 백엔드랑 연동하기
+*/
 
 export default function BracketPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -32,6 +37,13 @@ export default function BracketPage() {
   const createMatchSettingMutation = useCreateMatchSettingMutation();
   const { data: joinCompTeams } = useJoinCompTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
+
+  const teamOptions =
+    joinCompTeams?.map(item => ({
+      value: item.team.id,
+      text: item.team.name,
+      group: item.groupStage.name,
+    })) || [];
 
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -75,11 +87,10 @@ export default function BracketPage() {
           stadiums: Array(groupLeague?.stadiumCount || 2)
             .fill('')
             .map((_, i) => `${String.fromCharCode(65 + i)}구장`),
-          groups, // 예시 값
+          groups,
         };
 
         const res = generateSchedule(autoParams);
-        console.log(res);
         setMatches(res);
       }
     }
@@ -93,7 +104,7 @@ export default function BracketPage() {
     setMatches(matches.filter((_, i) => i !== index));
   };
 
-  const handleMatchChange = (index: number, field: keyof IMatchSchedule, value: string) => {
+  const handleMatchChange = (index: number, field: keyof IMatchSchedule, value: string | number) => {
     const updatedMatches = matches.map((match, i) => (i === index ? { ...match, [field]: value } : match));
     setMatches(updatedMatches);
   };
@@ -121,6 +132,7 @@ export default function BracketPage() {
         </div>
         <StadiumTabs
           schedules={matches}
+          teamOptions={teamOptions}
           addMatch={addMatch}
           removeMatch={removeMatch}
           handleMatchChange={handleMatchChange}
