@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import { useCreateMatchSettingMutation, useMatchSettingQuery } from '@/hooks/queries/useMatchSettingQuery';
@@ -24,14 +24,21 @@ interface IFormData {
   hasHalves: boolean;
 }
 /* TODO: 
-1. MatchField에 팀 선택하는 거 팀 셀렉트로 표현하기, 그룹을 잘 나눠서 보여줄 수 있도록 하기
 2. 수정상태와 뷰상태를 토글 스위치로 구분해서 보여주기
 3. 백엔드 작업 매치 스케쥴? 만들기 그래서 백엔드랑 연동하기
 */
 
+const createStadiumOptions = (stadiumCount: number = 2) => {
+  const stadiums = Array(stadiumCount)
+    .fill('')
+    .map((_, i) => `${String.fromCharCode(65 + i)}구장`);
+  return stadiums.map(stadium => ({ value: stadium, text: stadium }));
+};
+
 export default function BracketPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [matches, setMatches] = useState<IMatchSchedule[]>([]);
+  const [stadiumOptions, setStadiumOptions] = useState<ISelectProperty[]>([]);
 
   const { selectedCompetition } = useCompetitionStore();
   const createMatchSettingMutation = useCreateMatchSettingMutation();
@@ -79,14 +86,14 @@ export default function BracketPage() {
 
       if (matchSettings) {
         const groupLeague = matchSettings[0];
+        const stadiums = createStadiumOptions(groupLeague.stadiumCount || 2).map(option => option.value);
 
         const autoParams = {
+          //FIXME: startTime과 breakTime은 나중에 입력받을 수 있도록 해줘야 함.
           startTime: '09:00',
           matchDuration: groupLeague.matchDuration,
           breakTime: 5,
-          stadiums: Array(groupLeague?.stadiumCount || 2)
-            .fill('')
-            .map((_, i) => `${String.fromCharCode(65 + i)}구장`),
+          stadiums,
           groups,
         };
 
@@ -108,6 +115,13 @@ export default function BracketPage() {
     const updatedMatches = matches.map((match, i) => (i === index ? { ...match, [field]: value } : match));
     setMatches(updatedMatches);
   };
+
+  useEffect(() => {
+    if (matchSettings && matchSettings.length > 0) {
+      const groupLeague = matchSettings[0];
+      setStadiumOptions(createStadiumOptions(groupLeague.stadiumCount || 2));
+    }
+  }, [matchSettings]);
 
   return (
     <S.Container className='container'>
@@ -132,6 +146,7 @@ export default function BracketPage() {
         </div>
         <StadiumTabs
           schedules={matches}
+          stadiumsOptions={stadiumOptions}
           teamOptions={teamOptions}
           addMatch={addMatch}
           removeMatch={removeMatch}

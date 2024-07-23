@@ -9,19 +9,27 @@ interface IMatchFieldProps {
   match: IMatchSchedule;
   index: number;
   teamOptions: ISelectProperty[];
+  stadiumOptions: ISelectProperty[];
   onMatchChange: (index: number, field: keyof IMatchSchedule, value: string | number) => void;
   onRemove: (index: number) => void;
 }
 
-const MatchField = ({ match, index, teamOptions, onMatchChange, onRemove }: IMatchFieldProps) => {
+const MatchField = ({ match, index, teamOptions, stadiumOptions, onMatchChange, onRemove }: IMatchFieldProps) => {
   return (
     <S.MatchItem key={index}>
       <input type='time' value={match.time} onChange={e => onMatchChange(index, 'time', e.target.value)} />
-      <input
+      {/* <input
         type='text'
         value={match.stadium}
         placeholder='구장'
         onChange={e => onMatchChange(index, 'stadium', e.target.value)}
+      /> */}
+      <FormSelect
+        name='stadium'
+        value={match.stadium}
+        onChange={value => onMatchChange(index, 'stadium', value)}
+        options={stadiumOptions}
+        onBlur={() => {}}
       />
       <FormSelect
         name='homeTeam'
