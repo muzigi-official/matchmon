@@ -18,12 +18,6 @@ const MatchField = ({ match, index, teamOptions, stadiumOptions, onMatchChange, 
   return (
     <S.MatchItem key={index}>
       <input type='time' value={match.time} onChange={e => onMatchChange(index, 'time', e.target.value)} />
-      {/* <input
-        type='text'
-        value={match.stadium}
-        placeholder='구장'
-        onChange={e => onMatchChange(index, 'stadium', e.target.value)}
-      /> */}
       <FormSelect
         name='stadium'
         value={match.stadium}

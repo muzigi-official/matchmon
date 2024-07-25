@@ -17,15 +17,10 @@ import FormSelect from '@/components/common/Select/FormSelect';
 
 interface IMatchSettingProps {
   open: boolean;
+  isUpdate: boolean;
   onClose: () => void;
-  onSave: (data: IFormValues) => void;
-}
-
-interface IFormValues {
-  stage: string;
-  stadiumCount: number;
-  matchDuration: number;
-  hasHalves: boolean;
+  onSave: (data: IMatchSettingParams) => void;
+  initialValues?: IMatchSettingParams & { id?: number };
 }
 
 const stageOptions = [
@@ -34,37 +29,37 @@ const stageOptions = [
   { value: '결선', text: '결선' },
 ];
 
-const DEFAULT_MATCH_SETTING_VALUES: IFormValues = {
+const DEFAULT_MATCH_SETTING_VALUES: ICreateMatchSettingParams = {
   stage: '예선',
   stadiumCount: 2,
   matchDuration: 15,
   hasHalves: false,
 };
 
-const MatchGenerator = ({ open, onClose, onSave }: IMatchSettingProps) => {
+const DialogMatchSetting = ({ open, isUpdate, onClose, onSave, initialValues }: IMatchSettingProps) => {
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<IFormValues>({
-    defaultValues: DEFAULT_MATCH_SETTING_VALUES,
+  } = useForm<IMatchSettingParams>({
+    defaultValues: initialValues || DEFAULT_MATCH_SETTING_VALUES,
   });
 
-  const onSubmit: SubmitHandler<IFormValues> = async formData => {
+  const onSubmit: SubmitHandler<IMatchSettingParams> = async formData => {
     onSave(formData);
   };
 
   useEffect(() => {
     if (open) {
-      reset(DEFAULT_MATCH_SETTING_VALUES);
+      reset(initialValues || DEFAULT_MATCH_SETTING_VALUES);
     }
   }, [open, reset]);
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='sm'>
       <DialogHeader id='dialog-title'>
         <DialogHeaderTitle variant='h4'>
-          경기 설정
+          {`경기 설정 ${isUpdate ? '수정' : ''}`}
           <DialogHeaderBody variant='body1'>경기의 상세 정보를 입력하세요.</DialogHeaderBody>
         </DialogHeaderTitle>
       </DialogHeader>
@@ -83,7 +78,6 @@ const MatchGenerator = ({ open, onClose, onSave }: IMatchSettingProps) => {
                   <FormSelect
                     {...field}
                     options={stageOptions}
-                    label='단계 선택'
                     value={field.value}
                     onChange={field.onChange}
                     onBlur={field.onBlur}
@@ -132,7 +126,7 @@ const MatchGenerator = ({ open, onClose, onSave }: IMatchSettingProps) => {
         </DialogContent>
         <DialogFooter>
           <Button type='submit' color='primary'>
-            생성
+            {isUpdate ? '수정' : '생성'}
           </Button>
           <Button onClick={onClose}>취소</Button>
         </DialogFooter>
@@ -141,4 +135,4 @@ const MatchGenerator = ({ open, onClose, onSave }: IMatchSettingProps) => {
   );
 };
 
-export default MatchGenerator;
+export default DialogMatchSetting;

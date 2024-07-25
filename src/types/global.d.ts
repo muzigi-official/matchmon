@@ -166,25 +166,16 @@ declare global {
     group: string;
   }
 
-  export interface IMatchSetting {
-    id: number;
-    competitionId: number;
-    hasHalves: boolean;
-    matchDuration: number;
-    stadiumCount: number;
-    stage: string;
-  }
-
   interface ICreateMatchSettingParams {
-    competitionId: number;
     hasHalves: boolean;
     matchDuration: number;
     stadiumCount: number;
     stage: string;
   }
 
-  interface IUpdateMatchSettingParams extends ICreateMatchSettingParams {
-    id: number;
+  interface IMatchSettingParams extends ICreateMatchSettingParams {
+    id?: number;
+    competitionId?: number;
   }
 
   interface IScheduleParams {

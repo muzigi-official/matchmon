@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
-import { useCreateMatchSettingMutation, useMatchSettingQuery } from '@/hooks/queries/useMatchSettingQuery';
+import {
+  useCreateMatchSettingMutation,
+  useMatchSettingQuery,
+  useUpdateMatchSettingMutation,
+  useDeleteMatchSettingMutation,
+} from '@/hooks/queries/useMatchSettingQuery';
 import { useJoinCompTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 import { generateSchedule } from '@/utils/match';
 
-import MatchGenerator from './DialogMatchSetting';
+import DialogMatchSetting from './DialogMatchSetting';
 import MatchInfoBox from './MatchInfoBox';
 import StadiumTabs from './StadiumTabs';
 
@@ -17,12 +22,6 @@ export interface IEvent {
   time: string;
 }
 
-interface IFormData {
-  stage: string;
-  stadiumCount: number;
-  matchDuration: number;
-  hasHalves: boolean;
-}
 /* TODO: 
 2. 수정상태와 뷰상태를 토글 스위치로 구분해서 보여주기
 3. 백엔드 작업 매치 스케쥴? 만들기 그래서 백엔드랑 연동하기
@@ -37,11 +36,16 @@ const createStadiumOptions = (stadiumCount: number = 2) => {
 
 export default function BracketPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentSetting, setCurrentSetting] = useState<IMatchSettingParams | null>(null);
   const [matches, setMatches] = useState<IMatchSchedule[]>([]);
   const [stadiumOptions, setStadiumOptions] = useState<ISelectProperty[]>([]);
 
   const { selectedCompetition } = useCompetitionStore();
   const createMatchSettingMutation = useCreateMatchSettingMutation();
+  const updateMatchSettingMutation = useUpdateMatchSettingMutation(selectedCompetition || 0);
+  const deleteMatchSettingMutation = useDeleteMatchSettingMutation(selectedCompetition || 0);
+
   const { data: joinCompTeams } = useJoinCompTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
 
@@ -54,23 +58,48 @@ export default function BracketPage() {
 
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
+    if (!isDialogOpen) {
+      setIsEditMode(false);
+    }
   };
 
-  const saveMatchSettings = (formData: IFormData) => {
+  const saveMatchSettings = (formData: ICreateMatchSettingParams) => {
+    console.log('save', formData);
     if (selectedCompetition) {
+      console.log('create');
       createMatchSettingMutation.mutate(
         { competitionId: selectedCompetition, ...formData },
         {
           onSuccess: () => {
-            console.log('Match settings saved successfully');
             setIsDialogOpen(false);
-          },
-          onError: error => {
-            console.error('Error saving match settings:', error);
+            setIsEditMode(false);
           },
         },
       );
     }
+  };
+
+  const updateMatchSettings = (formData: IMatchSettingParams) => {
+    updateMatchSettingMutation.mutate(formData, {
+      onSuccess: () => {
+        console.log('Match settings updated successfully');
+        setIsDialogOpen(false);
+        setIsEditMode(false);
+      },
+      onError: error => {
+        console.error('Error updating match settings:', error);
+      },
+    });
+  };
+
+  const editMatchSettings = (setting: IMatchSettingParams) => {
+    setCurrentSetting(setting);
+    setIsEditMode(true);
+    setIsDialogOpen(true);
+  };
+
+  const handleDeleteMatchSetting = (id: number) => {
+    deleteMatchSettingMutation.mutate(id);
   };
 
   const createAutoSchdule = () => {
@@ -131,7 +160,12 @@ export default function BracketPage() {
         </S.Title>
       </S.Top>
       <S.Actions>
-        <MatchInfoBox isLoading={isMatchSettingLoading} infos={matchSettings || []} />
+        <MatchInfoBox
+          isLoading={isMatchSettingLoading}
+          infos={matchSettings || []}
+          onEdit={editMatchSettings}
+          onDelete={handleDeleteMatchSetting}
+        />
         <div>
           <Button color='primary' onClick={toggleDialog}>
             경기 설정
@@ -154,7 +188,13 @@ export default function BracketPage() {
         />
       </S.Content>
 
-      <MatchGenerator open={isDialogOpen} onClose={toggleDialog} onSave={saveMatchSettings} />
+      <DialogMatchSetting
+        open={isDialogOpen}
+        isUpdate={isEditMode}
+        onClose={toggleDialog}
+        onSave={isEditMode ? updateMatchSettings : saveMatchSettings}
+        initialValues={currentSetting || undefined}
+      />
     </S.Container>
   );
 }
