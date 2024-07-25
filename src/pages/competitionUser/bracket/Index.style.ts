@@ -49,7 +49,6 @@ export const SelectWrapper = styled.div`
 `;
 
 export const MatchInfo = styled.div`
-  margin-top: 8px;
   flex-grow: 1; /* 추가 */
 `;
 
