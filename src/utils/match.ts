@@ -14,12 +14,12 @@ export function generateSchedule(params: IScheduleParams): IMatchSchedule[] {
     for (let i = 0; i < teams.length; i++) {
       for (let j = i + 1; j < teams.length; j++) {
         groupMatches.push({
-          time: '',
+          matchTime: '',
           stadium: '',
           homeTeamId: teams[i].id,
           awayTeamId: teams[j].id,
-          homeTeam: teams[i].name,
-          awayTeam: teams[j].name,
+          homeTeamName: teams[i].name,
+          awayTeamName: teams[j].name,
         });
       }
     }
@@ -43,7 +43,7 @@ export function generateSchedule(params: IScheduleParams): IMatchSchedule[] {
         }
 
         match.stadium = stadium;
-        match.time = currentTime;
+        match.matchTime = currentTime;
         matchSchedules.push({ ...match });
 
         teamLastMatchTime[match.homeTeamId] = currentTime;

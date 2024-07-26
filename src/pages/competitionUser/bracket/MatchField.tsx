@@ -17,7 +17,7 @@ interface IMatchFieldProps {
 const MatchField = ({ match, index, teamOptions, stadiumOptions, onMatchChange, onRemove }: IMatchFieldProps) => {
   return (
     <S.MatchItem key={index}>
-      <input type='time' value={match.time} onChange={e => onMatchChange(index, 'time', e.target.value)} />
+      <input type='time' value={match.matchTime} onChange={e => onMatchChange(index, 'matchTime', e.target.value)} />
       <FormSelect
         name='stadium'
         value={match.stadium}

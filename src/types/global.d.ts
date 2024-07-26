@@ -186,13 +186,36 @@ declare global {
     groups: Record<string, ITeam[]>; // 조 목록 (조 이름을 키로, 팀 목록을 값으로)
   }
 
-  interface IMatchSchedule {
-    time: string; // 경기 시간
-    stadium: string; // 구장
+  // interface IMatchSchedule {
+  //   time: string; // 경기 시간
+  //   stadium: string; // 구장
+  //   homeTeamId: number;
+  //   awayTeamId: number;
+  //   homeTeam: string; // 홈팀
+  //   awayTeam: string; // 어웨이팀
+  // }
+
+  export interface IMatchSchedule {
+    round?: ITournamentRound;
+    groupStage?: IGroupStage;
+    homeTeamId: IJoinTeamComp;
+    awayTeamId: IJoinTeamComp;
+    homeTeamName?: string; // 팀 이름 추가
+    awayTeamName?: string; // 팀 이름 추가
+    matchTime: string;
+    stadium: string;
+  }
+
+  export interface IMatchScheduleDto {
+    id: number;
+    roundId?: number;
+    groupStageId?: number;
     homeTeamId: number;
     awayTeamId: number;
-    homeTeam: string; // 홈팀
-    awayTeam: string; // 어웨이팀
+    homeTeamName: string; // 팀 이름 추가
+    awayTeamName: string; // 팀 이름 추가
+    matchTime: string;
+    stadium: string;
   }
 
   interface IListJoinTeamCompResponse {
