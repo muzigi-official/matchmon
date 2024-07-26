@@ -8,6 +8,7 @@ import MatchField from './MatchField';
 import * as S from './Index.style';
 
 interface IStadiumTabsProps {
+  isLoading: boolean;
   schedules: IMatchSchedule[];
   teamOptions: ISelectProperty[];
   stadiumsOptions: ISelectProperty[];
@@ -17,6 +18,7 @@ interface IStadiumTabsProps {
 }
 
 const StadiumTabs = ({
+  isLoading,
   schedules,
   teamOptions,
   stadiumsOptions,
@@ -29,17 +31,21 @@ const StadiumTabs = ({
   const renderMatchFields = (filteredMatches: IMatchSchedule[]) => (
     <React.Fragment>
       <S.TimeTable>
-        {filteredMatches.map((match, index) => (
-          <MatchField
-            key={index}
-            match={match}
-            index={index}
-            stadiumOptions={stadiumsOptions}
-            teamOptions={teamOptions}
-            onMatchChange={handleMatchChange}
-            onRemove={removeMatch}
-          />
-        ))}
+        {isLoading ? (
+          <span> loading...</span>
+        ) : (
+          filteredMatches.map((match, index) => (
+            <MatchField
+              key={index}
+              match={match}
+              index={index}
+              stadiumOptions={stadiumsOptions}
+              teamOptions={teamOptions}
+              onMatchChange={handleMatchChange}
+              onRemove={removeMatch}
+            />
+          ))
+        )}
       </S.TimeTable>
       <Button variant='fab' onClick={addMatch}>
         <AddIcon />
