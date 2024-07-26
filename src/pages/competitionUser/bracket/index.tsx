@@ -116,7 +116,7 @@ export default function BracketPage() {
     deleteMatchSettingMutation.mutate(id);
   };
 
-  const createAutoSchdule = () => {
+  const createAutoSchedule = () => {
     if (joinCompTeams) {
       const groups = joinCompTeams.reduce((acc: Record<string, ITeam[]>, item) => {
         const groupName = item.groupStage.name;
@@ -235,17 +235,13 @@ export default function BracketPage() {
         </div>
       </S.Actions>
       <S.Content>
-        <div>
-          <Button variant='outlined' color='primary' onClick={createAutoSchdule}>
-            일정 자동 생성
-          </Button>
-        </div>
         <StadiumTabs
           isLoading={schedulesLoading}
           schedules={matches}
           stadiumsOptions={stadiumOptions}
           teamOptions={teamOptions}
           addMatch={addMatch}
+          createAutoSchedule={createAutoSchedule}
           removeMatch={removeMatch}
           handleMatchChange={handleMatchChange}
         />

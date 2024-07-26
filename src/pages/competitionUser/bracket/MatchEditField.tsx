@@ -14,7 +14,7 @@ interface IMatchFieldProps {
   onRemove: (index: number) => void;
 }
 
-const MatchField = ({ match, index, teamOptions, stadiumOptions, onMatchChange, onRemove }: IMatchFieldProps) => {
+const MatchEditField = ({ match, index, teamOptions, stadiumOptions, onMatchChange, onRemove }: IMatchFieldProps) => {
   return (
     <S.MatchItem key={index}>
       <input type='time' value={match.matchTime} onChange={e => onMatchChange(index, 'matchTime', e.target.value)} />
@@ -46,4 +46,4 @@ const MatchField = ({ match, index, teamOptions, stadiumOptions, onMatchChange, 
   );
 };
 
-export default MatchField;
+export default MatchEditField;
