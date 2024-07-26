@@ -12,13 +12,14 @@ import { Table, TableHeader, TableContainer, TableBody, TableRow, TableHeaderCel
 
 interface IStadiumTabsProps {
   isLoading: boolean;
-  schedules: IMatchSchedule[];
+  schedules: IMatchScheduleDto[];
   teamOptions: ISelectProperty[];
   stadiumsOptions: ISelectProperty[];
   addMatch: () => void;
   createAutoSchedule: () => void;
   removeMatch: (index: number) => void;
-  handleMatchChange: (index: number, field: keyof IMatchSchedule, value: string | number) => void;
+  updateMatch: (index: IMatchScheduleDto) => void;
+  handleMatchChange: (index: number, field: keyof IMatchScheduleDto, value: string | number) => void;
 }
 
 const StadiumTabs = ({
@@ -28,6 +29,7 @@ const StadiumTabs = ({
   stadiumsOptions,
   createAutoSchedule,
   addMatch,
+  updateMatch,
   removeMatch,
   handleMatchChange,
 }: IStadiumTabsProps) => {
@@ -38,7 +40,7 @@ const StadiumTabs = ({
     setIsEditMode(!isEditMode);
   };
 
-  const renderMatchFields = (filteredMatches: IMatchSchedule[]) => (
+  const renderMatchFields = (filteredMatches: IMatchScheduleDto[]) => (
     <React.Fragment>
       <FormControlLabel
         control={<Switch checked={isEditMode} onChange={toggleEditMode} />}
@@ -63,6 +65,7 @@ const StadiumTabs = ({
                   stadiumOptions={stadiumsOptions}
                   teamOptions={teamOptions}
                   onMatchChange={handleMatchChange}
+                  onUpdate={updateMatch}
                   onRemove={removeMatch}
                 />
               ))

@@ -207,13 +207,13 @@ declare global {
   }
 
   export interface IMatchScheduleDto {
-    id: number;
-    roundId?: number;
-    groupStageId?: number;
+    id?: number;
+    round?: number;
+    groupStage?: number;
     homeTeamId: number;
     awayTeamId: number;
-    homeTeamName: string; // 팀 이름 추가
-    awayTeamName: string; // 팀 이름 추가
+    homeTeamName?: string; // 팀 이름 추가
+    awayTeamName?: string; // 팀 이름 추가
     matchTime: string;
     stadium: string;
   }

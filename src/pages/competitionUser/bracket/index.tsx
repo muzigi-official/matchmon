@@ -30,8 +30,9 @@ export interface IEvent {
 }
 
 /* TODO: 
-2. 수정상태와 뷰상태를 토글 스위치로 구분해서 보여주기
-3. 백엔드 작업 매치 스케쥴? 만들기 그래서 백엔드랑 연동하기
+3. 백엔드랑 연동 안된거
+  2) 전체 초기화 하는 버튼 만들기
+  3) 버튼만 처음부터 있는게 아니라 입력하는 것 주고 버튼을 누르면 db에 한개 추가되도록 바꿔야 함.
 */
 
 const createStadiumOptions = (stadiumCount: number = 2) => {
@@ -45,7 +46,7 @@ export default function BracketPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentSetting, setCurrentSetting] = useState<IMatchSettingParams | null>(null);
-  const [matches, setMatches] = useState<IMatchSchedule[]>([]);
+  const [matches, setMatches] = useState<IMatchScheduleDto[]>([]);
   const [changeMatches, setChangeMatches] = useState<Partial<IMatchScheduleDto>[]>([]);
   const [stadiumOptions, setStadiumOptions] = useState<ISelectProperty[]>([]);
 
@@ -148,7 +149,7 @@ export default function BracketPage() {
     }
   };
 
-  const saveBulkSchedules = async (matchScheduleDtos: IMatchSchedule[]) => {
+  const saveBulkSchedules = async (matchScheduleDtos: IMatchScheduleDto[]) => {
     try {
       createMatchSchedulesMutation.mutate(matchScheduleDtos);
       alert('전체 시간표가 성공적으로 저장되었습니다.');
@@ -160,7 +161,7 @@ export default function BracketPage() {
   const addMatch = () => {
     setMatches([
       ...matches,
-      { matchTime: '', stadium: '', homeTeamName: '', awayTeamName: '', homeTeamId: 0, awayTeamId: 0 },
+      { id: 0, matchTime: '', stadium: '', homeTeamName: '', awayTeamName: '', homeTeamId: 0, awayTeamId: 0 },
     ]);
   };
 
@@ -169,7 +170,7 @@ export default function BracketPage() {
     handleDeleteMatchSchdule(index);
   };
 
-  const handleMatchChange = (index: number, field: keyof IMatchSchedule, value: string | number) => {
+  const handleMatchChange = (index: number, field: keyof IMatchScheduleDto, value: string | number) => {
     const updatedMatches = matches.map((match, i) => {
       if (i === index) {
         const updatedMatch = { ...match, [field]: value };
@@ -193,6 +194,7 @@ export default function BracketPage() {
   };
 
   const updateMatchSchedule = (formData: IMatchScheduleDto) => {
+    console.log(formData);
     updateMatchScheduleMutation.mutate(formData);
   };
 
@@ -243,6 +245,7 @@ export default function BracketPage() {
           addMatch={addMatch}
           createAutoSchedule={createAutoSchedule}
           removeMatch={removeMatch}
+          updateMatch={updateMatchSchedule}
           handleMatchChange={handleMatchChange}
         />
       </S.Content>

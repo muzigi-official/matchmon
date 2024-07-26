@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from './Tables.style';
 
 interface IMatchViewFieldProps {
-  match: IMatchSchedule;
+  match: IMatchScheduleDto;
 }
 
 const MatchViewField = ({ match }: IMatchViewFieldProps) => {

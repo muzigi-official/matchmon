@@ -11,8 +11,9 @@ import {
 import { matchScheduleQueryKeys } from '@/queryKeys/matchSchedule';
 
 export const useMatchSchedulesQuery = (competitionId: number) => {
-  return useQuery<IMatchSchedule[], AxiosError<IErrorResponse>>(matchScheduleQueryKeys.schedules(competitionId), () =>
-    fetchMatchSchedules(competitionId),
+  return useQuery<IMatchScheduleDto[], AxiosError<IErrorResponse>>(
+    matchScheduleQueryKeys.schedules(competitionId),
+    () => fetchMatchSchedules(competitionId),
   );
 };
 

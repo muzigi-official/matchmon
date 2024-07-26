@@ -1,16 +1,16 @@
-export function generateSchedule(params: IScheduleParams): IMatchSchedule[] {
+export function generateSchedule(params: IScheduleParams): IMatchScheduleDto[] {
   const { startTime, matchDuration, breakTime, stadiums, groups } = params;
-  const matchSchedules: IMatchSchedule[] = [];
+  const matchSchedules: IMatchScheduleDto[] = [];
   let currentTime = startTime;
   let stadiumIndex = 0;
 
   const groupKeys = Object.keys(groups);
-  const matchesByGroup: { [groupName: string]: IMatchSchedule[] } = {};
+  const matchesByGroup: { [groupName: string]: IMatchScheduleDto[] } = {};
 
   // 각 조별로 매치 리스트 생성
   groupKeys.forEach(groupName => {
     const teams = groups[groupName];
-    const groupMatches: IMatchSchedule[] = [];
+    const groupMatches: IMatchScheduleDto[] = [];
     for (let i = 0; i < teams.length; i++) {
       for (let j = i + 1; j < teams.length; j++) {
         groupMatches.push({
