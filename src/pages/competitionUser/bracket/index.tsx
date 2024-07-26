@@ -8,6 +8,13 @@ import {
   useDeleteMatchSettingMutation,
 } from '@/hooks/queries/useMatchSettingQuery';
 import { useJoinCompTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
+import {
+  useMatchSchedulesQuery,
+  useCreateMatchScheduleMutation,
+  useCreateMatchSchedulesMutation,
+  useUpdateMatchScheduleMutation,
+  useDeleteMatchScheduleMutation,
+} from '@/hooks/queries/useMatchScheduleQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 import { generateSchedule } from '@/utils/match';
 
@@ -39,12 +46,19 @@ export default function BracketPage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentSetting, setCurrentSetting] = useState<IMatchSettingParams | null>(null);
   const [matches, setMatches] = useState<IMatchSchedule[]>([]);
+  const [changeMatches, setChangeMatches] = useState<Partial<IMatchScheduleDto>[]>([]);
   const [stadiumOptions, setStadiumOptions] = useState<ISelectProperty[]>([]);
 
   const { selectedCompetition } = useCompetitionStore();
   const createMatchSettingMutation = useCreateMatchSettingMutation();
   const updateMatchSettingMutation = useUpdateMatchSettingMutation(selectedCompetition || 0);
   const deleteMatchSettingMutation = useDeleteMatchSettingMutation(selectedCompetition || 0);
+
+  const { data: matchSchedules, isLoading: schedulesLoading } = useMatchSchedulesQuery(selectedCompetition || 0);
+  const createMatchScheduleMutation = useCreateMatchSchedulesMutation(selectedCompetition || 0);
+  const createMatchSchedulesMutation = useCreateMatchSchedulesMutation(selectedCompetition || 0);
+  const updateMatchScheduleMutation = useUpdateMatchScheduleMutation(selectedCompetition || 0);
+  const deleteMatchScheduleMutation = useDeleteMatchScheduleMutation(selectedCompetition || 0);
 
   const { data: joinCompTeams } = useJoinCompTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
@@ -127,22 +141,63 @@ export default function BracketPage() {
         };
 
         const res = generateSchedule(autoParams);
+        console.log('res', res);
         setMatches(res);
+        saveBulkSchedules(res); // 생성된 시간표를 저장
       }
     }
   };
 
+  const saveBulkSchedules = async (matchScheduleDtos: IMatchSchedule[]) => {
+    try {
+      createMatchSchedulesMutation.mutate(matchScheduleDtos);
+      alert('전체 시간표가 성공적으로 저장되었습니다.');
+    } catch (error) {
+      console.error('전체 시간표 저장 중 오류가 발생했습니다:', error);
+    }
+  };
+
   const addMatch = () => {
-    setMatches([...matches, { time: '', stadium: '', homeTeam: '', awayTeam: '', homeTeamId: 0, awayTeamId: 0 }]);
+    setMatches([
+      ...matches,
+      { matchTime: '', stadium: '', homeTeamName: '', awayTeamName: '', homeTeamId: 0, awayTeamId: 0 },
+    ]);
   };
 
   const removeMatch = (index: number) => {
     setMatches(matches.filter((_, i) => i !== index));
+    handleDeleteMatchSchdule(index);
   };
 
   const handleMatchChange = (index: number, field: keyof IMatchSchedule, value: string | number) => {
-    const updatedMatches = matches.map((match, i) => (i === index ? { ...match, [field]: value } : match));
+    const updatedMatches = matches.map((match, i) => {
+      if (i === index) {
+        const updatedMatch = { ...match, [field]: value };
+        setChangeMatches(prev => [...prev, updatedMatch]); // 변경 사항 추적
+        return updatedMatch;
+      }
+      return match;
+    });
     setMatches(updatedMatches);
+  };
+
+  const saveChanges = async () => {
+    console.log(changeMatches);
+    try {
+      createMatchScheduleMutation.mutate(changeMatches);
+      alert('변경 사항이 성공적으로 저장되었습니다.');
+      setChangeMatches([]); // 저장 후 변경 사항 초기화
+    } catch (error) {
+      console.error('변경 사항 저장 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  const updateMatchSchedule = (formData: IMatchScheduleDto) => {
+    updateMatchScheduleMutation.mutate(formData);
+  };
+
+  const handleDeleteMatchSchdule = (id: number) => {
+    deleteMatchScheduleMutation.mutate(id);
   };
 
   useEffect(() => {
@@ -151,6 +206,13 @@ export default function BracketPage() {
       setStadiumOptions(createStadiumOptions(groupLeague.stadiumCount || 2));
     }
   }, [matchSettings]);
+
+  useEffect(() => {
+    if (matchSchedules) {
+      console.log('matchSchedules', matchSchedules);
+      setMatches(matchSchedules);
+    }
+  }, [matchSchedules]);
 
   return (
     <S.Container className='container'>
@@ -179,6 +241,7 @@ export default function BracketPage() {
           </Button>
         </div>
         <StadiumTabs
+          isLoading={schedulesLoading}
           schedules={matches}
           stadiumsOptions={stadiumOptions}
           teamOptions={teamOptions}
