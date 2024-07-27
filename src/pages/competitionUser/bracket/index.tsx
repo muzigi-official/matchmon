@@ -31,6 +31,7 @@ export interface IEvent {
 
 /* TODO: 
 3. 백엔드랑 연동 안된거
+  1) 뷰모드랑 에디트 모드랑 조금씩 안맞는 부분이 있음 .... 다시 봐야할듯
   2) 전체 초기화 하는 버튼 만들기
   3) 버튼만 처음부터 있는게 아니라 입력하는 것 주고 버튼을 누르면 db에 한개 추가되도록 바꿔야 함.
 */
@@ -194,7 +195,6 @@ export default function BracketPage() {
   };
 
   const updateMatchSchedule = (formData: IMatchScheduleDto) => {
-    console.log(formData);
     updateMatchScheduleMutation.mutate(formData);
   };
 
