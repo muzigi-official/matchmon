@@ -10,8 +10,9 @@ import {
 import { useJoinCompTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchSchedulesQuery,
-  useCreateBulkMatchSchedulesMutation,
+  useCreateScheduleBulkMutation,
   useUpdateMatchScheduleMutation,
+  useUpdateBulkMatchSchedulesMutation,
   useDeleteMatchScheduleMutation,
   useDeleteMatchSchedulesByCompetitionIdMutation,
 } from '@/hooks/queries/useMatchScheduleQuery';
@@ -49,8 +50,9 @@ export default function BracketPage() {
   const deleteMatchSettingMutation = useDeleteMatchSettingMutation(selectedCompetition || 0);
 
   const { data: matchSchedules, isLoading: schedulesLoading } = useMatchSchedulesQuery(selectedCompetition || 0);
-  const createBulkMatchSchedulesMutation = useCreateBulkMatchSchedulesMutation(selectedCompetition || 0);
+  const createScheduleBulkMutation = useCreateScheduleBulkMutation(selectedCompetition || 0);
   const updateMatchScheduleMutation = useUpdateMatchScheduleMutation(selectedCompetition || 0);
+  const updateBulkMatchSchedulesMutation = useUpdateBulkMatchSchedulesMutation(selectedCompetition || 0);
   const deleteMatchScheduleMutation = useDeleteMatchScheduleMutation(selectedCompetition || 0);
   const deleteMatchSchedulesByCompetitionIdMutation = useDeleteMatchSchedulesByCompetitionIdMutation(
     selectedCompetition || 0,
@@ -140,10 +142,19 @@ export default function BracketPage() {
 
   const saveBulkSchedules = async (matchScheduleDtos: IMatchScheduleDto[]) => {
     try {
-      const res = await createBulkMatchSchedulesMutation.mutateAsync(matchScheduleDtos);
+      const res = await createScheduleBulkMutation.mutateAsync(matchScheduleDtos);
       console.log(res);
     } catch (error) {
       console.error('전체 시간표 저장 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  const updateBulkSchedules = async () => {
+    console.log(matches);
+    try {
+      await updateBulkMatchSchedulesMutation.mutate(matches);
+    } catch (error) {
+      console.error('시간표 수정 중 오류가 발생했습니다:', error);
     }
   };
 
@@ -186,14 +197,28 @@ export default function BracketPage() {
   const handleMatchChange = (id: number, field: keyof IMatchScheduleDto, value: string | number) => {
     const updatedMatches = matches.map(match => {
       if (match.id === id) {
-        return { ...match, [field]: value };
+        const updatedMatch = { ...match, [field]: value };
+        if (field === 'homeTeamId') {
+          const team = teamOptions.find(option => option.value === value);
+          if (team) {
+            updatedMatch.homeTeamName = team.text;
+          }
+        } else if (field === 'awayTeamId') {
+          const team = teamOptions.find(option => option.value === value);
+          if (team) {
+            updatedMatch.awayTeamName = team.text;
+          }
+        }
+        return updatedMatch;
       }
       return match;
     });
+
     setMatches(updatedMatches);
   };
 
   const updateMatchSchedule = (formData: IMatchScheduleDto) => {
+    console.log('update', formData);
     updateMatchScheduleMutation.mutate(formData);
   };
 
@@ -244,6 +269,7 @@ export default function BracketPage() {
           createAutoSchedule={createAutoSchedule}
           handleMatchChange={handleMatchChange}
           updateMatch={updateMatchSchedule}
+          updateAllMatches={updateBulkSchedules}
           removeMatch={removeMatch}
           removeAllMatches={removeAllMatches}
         />

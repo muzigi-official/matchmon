@@ -6,8 +6,10 @@ import {
   createMatchSchedule,
   createMatchSchedules,
   updateMatchSchedule,
+  updateBulkMatchSchedules,
   deleteMatchSchedule,
   deleteMatchSchedulesByCompetitionId,
+  createScheduleBulk,
 } from '@/api/matchSchedule';
 import { matchScheduleQueryKeys } from '@/queryKeys/matchSchedule';
 
@@ -49,6 +51,19 @@ export const useCreateBulkMatchSchedulesMutation = (competitionId: number) => {
   );
 };
 
+export const useCreateScheduleBulkMutation = (competitionId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation((params: ICreateScheduleBulkDto[]) => createScheduleBulk(competitionId, params), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
+      toast.success('Schedules created successfully!');
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      toast.error(error.response?.data?.message || 'Error creating schedules');
+    },
+  });
+};
+
 export const useUpdateMatchScheduleMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
   return useMutation(updateMatchSchedule, {
@@ -59,6 +74,18 @@ export const useUpdateMatchScheduleMutation = (competitionId: number) => {
     onError: (error: AxiosError<IErrorResponse>) => {
       console.log(error.response);
       toast.error(error.response?.data?.message || '전체 시간표 저장 중 오류가 발생했습니다.');
+    },
+  });
+};
+
+export const useUpdateBulkMatchSchedulesMutation = (competitionId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation(updateBulkMatchSchedules, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['matchSchedules', competitionId]);
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      console.error('Error updating match schedules:', error.response?.data?.message || error.message);
     },
   });
 };

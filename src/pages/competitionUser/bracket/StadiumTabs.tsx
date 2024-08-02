@@ -20,6 +20,7 @@ interface IStadiumTabsProps {
   updateMatch: (match: IMatchScheduleDto) => void;
   removeMatch: (match: IMatchScheduleDto) => void;
   handleMatchChange: (id: number, field: keyof IMatchScheduleDto, value: string | number) => void;
+  updateAllMatches: () => void;
   removeAllMatches: () => void;
 }
 
@@ -31,6 +32,7 @@ const StadiumTabs = ({
   createAutoSchedule,
   addMatch,
   updateMatch,
+  updateAllMatches,
   removeMatch,
   removeAllMatches,
   handleMatchChange,
@@ -52,7 +54,7 @@ const StadiumTabs = ({
         {isEditMode && (
           <S.ButtonList>
             <Button variant='outlined' color='primary' onClick={createAutoSchedule}>
-              일정 자동 생성
+              시간 자동 생성
             </Button>
 
             <Button variant='outlined' color='danger' onClick={removeAllMatches}>
@@ -80,9 +82,14 @@ const StadiumTabs = ({
                     onRemove={removeMatch}
                   />
                 ))}
-                <Button variant='fab' onClick={addMatch}>
-                  <AddIcon />
-                </Button>
+                <S.TopActions>
+                  <Button variant='fab' onClick={addMatch}>
+                    <AddIcon />
+                  </Button>
+                  <Button variant='outlined' color='primary' onClick={updateAllMatches}>
+                    한번에 수정
+                  </Button>
+                </S.TopActions>
               </React.Fragment>
             ) : (
               <TableContainer>

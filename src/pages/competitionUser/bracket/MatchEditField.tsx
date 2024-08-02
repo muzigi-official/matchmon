@@ -28,15 +28,19 @@ const MatchEditField = ({
   }
 
   const handleUpdate = () => {
+    const homeTeam = teamOptions.find(option => option.value === match.homeTeamId);
+    const awayTeam = teamOptions.find(option => option.value === match.awayTeamId);
+
     const updatedMatch: IMatchScheduleDto = {
       id: match.id,
       matchTime: match.matchTime,
       stadium: match.stadium,
       homeTeamId: match.homeTeamId,
       awayTeamId: match.awayTeamId,
-      homeTeamName: match.homeTeamName,
-      awayTeamName: match.awayTeamName,
+      homeTeamName: homeTeam ? homeTeam.text : '',
+      awayTeamName: awayTeam ? awayTeam.text : '',
     };
+
     onUpdate(updatedMatch);
   };
 
