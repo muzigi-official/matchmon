@@ -33,6 +33,13 @@ export const SelectButton = styled.div<{ open: boolean; disabled?: boolean }>`
   }
 `;
 
+export const SelectSearchInput = styled.input`
+  padding: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+`;
+
 export const SelectMenu = styled.ul<{ open: boolean }>`
   position: absolute;
   width: 100%;
@@ -52,5 +59,19 @@ export const SelectOption = styled.li`
   cursor: pointer;
   &:hover {
     background-color: ${colors.primaryLight};
+  }
+`;
+
+export const SelectGroup = styled.div`
+  padding: 8px 0;
+  background-color: #f9f9f9;
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+  }
+
+  strong {
+    display: block;
+    padding: 4px 8px;
+    background-color: #fff;
   }
 `;

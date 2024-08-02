@@ -35,6 +35,11 @@ const CustomSelect = ({ options, label, defaultValue, onSelect }: CustomSelectPr
   };
 
   useEffect(() => {
+    const defaultOption = options.find(option => option.value === defaultValue);
+    setSelectedText(defaultOption ? defaultOption.text : '');
+  }, [defaultValue, options]);
+
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {

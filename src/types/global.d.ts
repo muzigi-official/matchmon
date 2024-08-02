@@ -1,11 +1,11 @@
 declare global {
   type TAnchor = 'top' | 'left' | 'bottom' | 'right';
   type TGender = 'M' | 'F' | 'A';
-  type TButtonVariant = 'text' | 'contained' | 'outlined';
+  type TButtonVariant = 'text' | 'contained' | 'outlined' | 'fab';
   type TUserRole = 'admin' | 'competitionUser' | 'user';
   type TDefaultReturn = string;
 
-  interface ErrorResponse {
+  interface IErrorResponse {
     message: string;
   }
 
@@ -130,8 +130,9 @@ declare global {
   }
 
   interface ISelectProperty {
-    value: string | number | undefined;
+    value: string | number;
     text: string;
+    group?: string;
   }
 
   export interface IFormValues {
@@ -163,6 +164,68 @@ declare global {
     emblem: string;
     participateState: string;
     group: string;
+  }
+
+  interface ICreateMatchSettingParams {
+    hasHalves: boolean;
+    matchDuration: number;
+    stadiumCount: number;
+    stage: string;
+  }
+
+  interface IMatchSettingParams extends ICreateMatchSettingParams {
+    id?: number;
+    competitionId?: number;
+  }
+
+  interface IScheduleParams {
+    startTime: string; // 시작 시간 (HH:mm 형식)
+    matchDuration: number; // 경기 시간 (분)
+    breakTime: number; // 휴식 시간 (분)
+    stadiums: string[]; // 구장 목록
+    groups: Record<string, ITeam[]>; // 조 목록 (조 이름을 키로, 팀 목록을 값으로)
+  }
+
+  export interface IMatchSchedule {
+    round?: ITournamentRound;
+    groupStage?: IGroupStage;
+    homeTeamId: number | null;
+    awayTeamId: number | null;
+    homeTeamName?: string; // 팀 이름 추가
+    awayTeamName?: string; // 팀 이름 추가
+    matchTime: string;
+    stadium: string;
+  }
+
+  export interface IMatchScheduleDto {
+    id?: number;
+    round?: number;
+    groupStage?: number;
+    homeTeamId: number;
+    awayTeamId: number;
+    homeTeamName?: string; // 팀 이름 추가
+    awayTeamName?: string; // 팀 이름 추가
+    matchTime: string;
+    stadium: string;
+    isTemporary?: boolean;
+  }
+
+  export interface ICreateScheduleBulkDto {
+    matchTime: string;
+    stadium: string;
+  }
+
+  interface IListJoinTeamCompResponse {
+    id: number;
+    competition: ICompetition;
+    team: ITeam;
+    participateState: string;
+    groupStage: IGroupStage;
+  }
+
+  interface IToggleJoinTeamDto {
+    joinTeamCompId: number;
+    playerId: number;
   }
 }
 

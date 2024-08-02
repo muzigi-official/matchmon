@@ -38,7 +38,7 @@ export const DialogFooter = styled.div`
   }
 
   button:last-child {
-    border-color: var(--border-color);
-    color: var(--border-color);
+    border-color: var(--white-text);
+    color: var(--white-text);
   }
 `;
