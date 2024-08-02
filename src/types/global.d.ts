@@ -216,6 +216,7 @@ declare global {
     awayTeamName?: string; // 팀 이름 추가
     matchTime: string;
     stadium: string;
+    isTemporary?: boolean;
   }
 
   interface IListJoinTeamCompResponse {
