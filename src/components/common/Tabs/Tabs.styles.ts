@@ -41,4 +41,5 @@ export const TabContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  width: 100%;
 `;

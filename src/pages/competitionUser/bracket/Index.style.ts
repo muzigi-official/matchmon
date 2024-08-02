@@ -84,15 +84,22 @@ export const Content = styled.section`
   }
 `;
 
-export const TimeTable = styled.ul`
+export const TopActions = styled.ul`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
   gap: 8px;
 `;
 
-export const MatchItem = styled.li`
+export const TimeTable = styled.div`
+  width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const MatchItem = styled.div`
+  width: 100%;
+  display: flex;
   gap: 8px;
 `;
