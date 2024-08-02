@@ -17,9 +17,9 @@ interface IStadiumTabsProps {
   stadiumsOptions: ISelectProperty[];
   addMatch: () => void;
   createAutoSchedule: () => void;
-  removeMatch: (index: number) => void;
-  updateMatch: (index: IMatchScheduleDto) => void;
-  handleMatchChange: (index: number, field: keyof IMatchScheduleDto, value: string | number) => void;
+  updateMatch: (match: IMatchScheduleDto) => void;
+  removeMatch: (match: IMatchScheduleDto) => void;
+  handleMatchChange: (id: number, field: keyof IMatchScheduleDto, value: string | number) => void;
 }
 
 const StadiumTabs = ({
@@ -42,33 +42,39 @@ const StadiumTabs = ({
 
   const renderMatchFields = (filteredMatches: IMatchScheduleDto[]) => (
     <React.Fragment>
-      <FormControlLabel
-        control={<Switch checked={isEditMode} onChange={toggleEditMode} />}
-        label={isEditMode ? 'Edit Mode' : 'View Mode'}
-      />
-      {isEditMode && (
-        <Button variant='outlined' color='primary' onClick={createAutoSchedule}>
-          일정 자동 생성
-        </Button>
-      )}
+      <S.TopActions>
+        <FormControlLabel
+          control={<Switch checked={isEditMode} onChange={toggleEditMode} />}
+          label={isEditMode ? 'Edit Mode' : 'View Mode'}
+        />
+        {isEditMode && (
+          <Button variant='outlined' color='primary' onClick={createAutoSchedule}>
+            일정 자동 생성
+          </Button>
+        )}
+      </S.TopActions>
       <S.TimeTable>
         {isLoading ? (
           <span> loading...</span>
         ) : (
           <React.Fragment>
             {isEditMode ? (
-              filteredMatches.map((match, index) => (
-                <MatchEditField
-                  key={index}
-                  match={match}
-                  index={index}
-                  stadiumOptions={stadiumsOptions}
-                  teamOptions={teamOptions}
-                  onMatchChange={handleMatchChange}
-                  onUpdate={updateMatch}
-                  onRemove={removeMatch}
-                />
-              ))
+              <React.Fragment>
+                {filteredMatches.map((match, index) => (
+                  <MatchEditField
+                    key={index}
+                    match={match}
+                    stadiumOptions={stadiumsOptions}
+                    teamOptions={teamOptions}
+                    onMatchChange={handleMatchChange}
+                    onUpdate={updateMatch}
+                    onRemove={removeMatch}
+                  />
+                ))}
+                <Button variant='fab' onClick={addMatch}>
+                  <AddIcon />
+                </Button>
+              </React.Fragment>
             ) : (
               <TableContainer>
                 <Table>
@@ -87,11 +93,6 @@ const StadiumTabs = ({
                   </TableBody>
                 </Table>
               </TableContainer>
-            )}
-            {isEditMode && (
-              <Button variant='fab' onClick={addMatch}>
-                <AddIcon />
-              </Button>
             )}
           </React.Fragment>
         )}

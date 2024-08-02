@@ -162,18 +162,40 @@ export default function BracketPage() {
   const addMatch = () => {
     setMatches([
       ...matches,
-      { id: 0, matchTime: '', stadium: '', homeTeamName: '', awayTeamName: '', homeTeamId: 0, awayTeamId: 0 },
+      {
+        id: Date.now(), // 임시 id
+        matchTime: '',
+        stadium: '',
+        homeTeamName: '',
+        awayTeamName: '',
+        homeTeamId: 0,
+        awayTeamId: 0,
+        isTemporary: true, // 임시 항목임을 나타냄
+      },
     ]);
   };
 
-  const removeMatch = (index: number) => {
-    setMatches(matches.filter((_, i) => i !== index));
-    handleDeleteMatchSchdule(index);
+  const removeMatch = (matchSchedule: IMatchScheduleDto) => {
+    const matchToRemove = matches.find(match => match.id === matchSchedule.id);
+
+    if (matchToRemove) {
+      if (!matchToRemove.isTemporary) {
+        if (matchSchedule.id !== undefined) {
+          console.log('Deleting from server:', matchSchedule.id);
+          handleDeleteMatchSchdule(matchSchedule.id);
+        } else {
+          console.error('Cannot delete match with undefined id');
+        }
+      }
+
+      setMatches(matches.filter(match => match.id !== matchSchedule.id));
+    }
   };
 
-  const handleMatchChange = (index: number, field: keyof IMatchScheduleDto, value: string | number) => {
-    const updatedMatches = matches.map((match, i) => {
-      if (i === index) {
+  const handleMatchChange = (id: number, field: keyof IMatchScheduleDto, value: string | number) => {
+    console.log(matches, id);
+    const updatedMatches = matches.map(match => {
+      if (match.id === id) {
         const updatedMatch = { ...match, [field]: value };
         setChangeMatches(prev => [...prev, updatedMatch]); // 변경 사항 추적
         return updatedMatch;
@@ -184,7 +206,7 @@ export default function BracketPage() {
   };
 
   const saveChanges = async () => {
-    console.log(changeMatches);
+    // console.log(changeMatches);
     try {
       createMatchScheduleMutation.mutate(changeMatches);
       alert('변경 사항이 성공적으로 저장되었습니다.');
