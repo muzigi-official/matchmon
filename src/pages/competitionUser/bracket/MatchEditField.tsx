@@ -41,7 +41,6 @@ const MatchEditField = ({
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('matchTime: ', match.id, e.target.value);
     if (match.id !== undefined) {
       onMatchChange(match.id, 'matchTime', e.target.value);
     }
