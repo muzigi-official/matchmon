@@ -20,6 +20,7 @@ interface IStadiumTabsProps {
   updateMatch: (match: IMatchScheduleDto) => void;
   removeMatch: (match: IMatchScheduleDto) => void;
   handleMatchChange: (id: number, field: keyof IMatchScheduleDto, value: string | number) => void;
+  removeAllMatches: () => void;
 }
 
 const StadiumTabs = ({
@@ -31,6 +32,7 @@ const StadiumTabs = ({
   addMatch,
   updateMatch,
   removeMatch,
+  removeAllMatches,
   handleMatchChange,
 }: IStadiumTabsProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -40,7 +42,7 @@ const StadiumTabs = ({
     setIsEditMode(!isEditMode);
   };
 
-  const renderMatchFields = (filteredMatches: IMatchScheduleDto[]) => (
+  const renderMatchFields = (matches: IMatchScheduleDto[]) => (
     <React.Fragment>
       <S.TopActions>
         <FormControlLabel
@@ -48,9 +50,16 @@ const StadiumTabs = ({
           label={isEditMode ? 'Edit Mode' : 'View Mode'}
         />
         {isEditMode && (
-          <Button variant='outlined' color='primary' onClick={createAutoSchedule}>
-            일정 자동 생성
-          </Button>
+          <S.ButtonList>
+            <Button variant='outlined' color='primary' onClick={createAutoSchedule}>
+              일정 자동 생성
+            </Button>
+
+            <Button variant='outlined' color='danger' onClick={removeAllMatches}>
+              일정 초기화
+            </Button>
+            {/* TODO: 이 버튼 누르면 한번 더 물어봐야할 것 같긴 함. */}
+          </S.ButtonList>
         )}
       </S.TopActions>
       <S.TimeTable>
@@ -60,9 +69,9 @@ const StadiumTabs = ({
           <React.Fragment>
             {isEditMode ? (
               <React.Fragment>
-                {filteredMatches.map((match, index) => (
+                {matches.map(match => (
                   <MatchEditField
-                    key={index}
+                    key={match.id}
                     match={match}
                     stadiumOptions={stadiumsOptions}
                     teamOptions={teamOptions}
@@ -87,8 +96,8 @@ const StadiumTabs = ({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {schedules.map((match, index) => (
-                      <MatchViewField key={index} match={match} />
+                    {matches.map(match => (
+                      <MatchViewField key={match.id} match={match} />
                     ))}
                   </TableBody>
                 </Table>
@@ -102,10 +111,12 @@ const StadiumTabs = ({
 
   const tabs = [
     {
+      key: 'all', // 고유한 키 추가
       label: '전체',
       content: renderMatchFields(schedules),
     },
     ...stadiums.map(stadium => ({
+      key: stadium, // 고유한 키 추가
       label: stadium,
       content: renderMatchFields(schedules.filter(match => match.stadium === stadium)),
     })),

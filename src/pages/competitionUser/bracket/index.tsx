@@ -10,10 +10,10 @@ import {
 import { useJoinCompTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchSchedulesQuery,
-  useCreateMatchScheduleMutation,
-  useCreateMatchSchedulesMutation,
+  useCreateBulkMatchSchedulesMutation,
   useUpdateMatchScheduleMutation,
   useDeleteMatchScheduleMutation,
+  useDeleteMatchSchedulesByCompetitionIdMutation,
 } from '@/hooks/queries/useMatchScheduleQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 import { generateSchedule } from '@/utils/match';
@@ -29,13 +29,6 @@ export interface IEvent {
   time: string;
 }
 
-/* TODO: 
-3. 백엔드랑 연동 안된거
-  1) 뷰모드랑 에디트 모드랑 조금씩 안맞는 부분이 있음 .... 다시 봐야할듯
-  2) 전체 초기화 하는 버튼 만들기
-  3) 버튼만 처음부터 있는게 아니라 입력하는 것 주고 버튼을 누르면 db에 한개 추가되도록 바꿔야 함.
-*/
-
 const createStadiumOptions = (stadiumCount: number = 2) => {
   const stadiums = Array(stadiumCount)
     .fill('')
@@ -48,7 +41,6 @@ export default function BracketPage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentSetting, setCurrentSetting] = useState<IMatchSettingParams | null>(null);
   const [matches, setMatches] = useState<IMatchScheduleDto[]>([]);
-  const [changeMatches, setChangeMatches] = useState<Partial<IMatchScheduleDto>[]>([]);
   const [stadiumOptions, setStadiumOptions] = useState<ISelectProperty[]>([]);
 
   const { selectedCompetition } = useCompetitionStore();
@@ -57,14 +49,15 @@ export default function BracketPage() {
   const deleteMatchSettingMutation = useDeleteMatchSettingMutation(selectedCompetition || 0);
 
   const { data: matchSchedules, isLoading: schedulesLoading } = useMatchSchedulesQuery(selectedCompetition || 0);
-  const createMatchScheduleMutation = useCreateMatchSchedulesMutation(selectedCompetition || 0);
-  const createMatchSchedulesMutation = useCreateMatchSchedulesMutation(selectedCompetition || 0);
+  const createBulkMatchSchedulesMutation = useCreateBulkMatchSchedulesMutation(selectedCompetition || 0);
   const updateMatchScheduleMutation = useUpdateMatchScheduleMutation(selectedCompetition || 0);
   const deleteMatchScheduleMutation = useDeleteMatchScheduleMutation(selectedCompetition || 0);
+  const deleteMatchSchedulesByCompetitionIdMutation = useDeleteMatchSchedulesByCompetitionIdMutation(
+    selectedCompetition || 0,
+  );
 
   const { data: joinCompTeams } = useJoinCompTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
-
   const teamOptions =
     joinCompTeams?.map(item => ({
       value: item.team.id,
@@ -80,9 +73,7 @@ export default function BracketPage() {
   };
 
   const saveMatchSettings = (formData: ICreateMatchSettingParams) => {
-    console.log('save', formData);
     if (selectedCompetition) {
-      console.log('create');
       createMatchSettingMutation.mutate(
         { competitionId: selectedCompetition, ...formData },
         {
@@ -98,7 +89,6 @@ export default function BracketPage() {
   const updateMatchSettings = (formData: IMatchSettingParams) => {
     updateMatchSettingMutation.mutate(formData, {
       onSuccess: () => {
-        console.log('Match settings updated successfully');
         setIsDialogOpen(false);
         setIsEditMode(false);
       },
@@ -134,7 +124,6 @@ export default function BracketPage() {
         const stadiums = createStadiumOptions(groupLeague.stadiumCount || 2).map(option => option.value);
 
         const autoParams = {
-          //FIXME: startTime과 breakTime은 나중에 입력받을 수 있도록 해줘야 함.
           startTime: '09:00',
           matchDuration: groupLeague.matchDuration,
           breakTime: 5,
@@ -143,17 +132,16 @@ export default function BracketPage() {
         };
 
         const res = generateSchedule(autoParams);
-        console.log('res', res);
         setMatches(res);
-        saveBulkSchedules(res); // 생성된 시간표를 저장
+        saveBulkSchedules(res);
       }
     }
   };
 
   const saveBulkSchedules = async (matchScheduleDtos: IMatchScheduleDto[]) => {
     try {
-      createMatchSchedulesMutation.mutate(matchScheduleDtos);
-      alert('전체 시간표가 성공적으로 저장되었습니다.');
+      const res = await createBulkMatchSchedulesMutation.mutateAsync(matchScheduleDtos);
+      console.log(res);
     } catch (error) {
       console.error('전체 시간표 저장 중 오류가 발생했습니다:', error);
     }
@@ -163,14 +151,14 @@ export default function BracketPage() {
     setMatches([
       ...matches,
       {
-        id: Date.now(), // 임시 id
+        id: Date.now(),
         matchTime: '',
         stadium: '',
         homeTeamName: '',
         awayTeamName: '',
         homeTeamId: 0,
         awayTeamId: 0,
-        isTemporary: true, // 임시 항목임을 나타냄
+        isTemporary: true,
       },
     ]);
   };
@@ -181,7 +169,6 @@ export default function BracketPage() {
     if (matchToRemove) {
       if (!matchToRemove.isTemporary) {
         if (matchSchedule.id !== undefined) {
-          console.log('Deleting from server:', matchSchedule.id);
           handleDeleteMatchSchdule(matchSchedule.id);
         } else {
           console.error('Cannot delete match with undefined id');
@@ -192,28 +179,18 @@ export default function BracketPage() {
     }
   };
 
+  const removeAllMatches = () => {
+    deleteMatchSchedulesByCompetitionIdMutation.mutate();
+  };
+
   const handleMatchChange = (id: number, field: keyof IMatchScheduleDto, value: string | number) => {
-    console.log(matches, id);
     const updatedMatches = matches.map(match => {
       if (match.id === id) {
-        const updatedMatch = { ...match, [field]: value };
-        setChangeMatches(prev => [...prev, updatedMatch]); // 변경 사항 추적
-        return updatedMatch;
+        return { ...match, [field]: value };
       }
       return match;
     });
     setMatches(updatedMatches);
-  };
-
-  const saveChanges = async () => {
-    // console.log(changeMatches);
-    try {
-      createMatchScheduleMutation.mutate(changeMatches);
-      alert('변경 사항이 성공적으로 저장되었습니다.');
-      setChangeMatches([]); // 저장 후 변경 사항 초기화
-    } catch (error) {
-      console.error('변경 사항 저장 중 오류가 발생했습니다:', error);
-    }
   };
 
   const updateMatchSchedule = (formData: IMatchScheduleDto) => {
@@ -233,7 +210,6 @@ export default function BracketPage() {
 
   useEffect(() => {
     if (matchSchedules) {
-      console.log('matchSchedules', matchSchedules);
       setMatches(matchSchedules);
     }
   }, [matchSchedules]);
@@ -266,9 +242,10 @@ export default function BracketPage() {
           teamOptions={teamOptions}
           addMatch={addMatch}
           createAutoSchedule={createAutoSchedule}
-          removeMatch={removeMatch}
-          updateMatch={updateMatchSchedule}
           handleMatchChange={handleMatchChange}
+          updateMatch={updateMatchSchedule}
+          removeMatch={removeMatch}
+          removeAllMatches={removeAllMatches}
         />
       </S.Content>
 
