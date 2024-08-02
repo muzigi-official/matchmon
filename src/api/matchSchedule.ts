@@ -14,3 +14,6 @@ export const updateMatchSchedule = (data: IMatchScheduleDto): Promise<IMatchSche
   requestAPI.put(`${API_URL}/${data.id}`, data);
 
 export const deleteMatchSchedule = (id: number): Promise<void> => requestAPI.delete(`${API_URL}/${id}`);
+
+export const deleteMatchSchedulesByCompetitionId = (competitionId: number): Promise<void> =>
+  requestAPI.delete(`${API_URL}/competition/${competitionId}`);

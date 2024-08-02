@@ -7,6 +7,7 @@ import {
   createMatchSchedules,
   updateMatchSchedule,
   deleteMatchSchedule,
+  deleteMatchSchedulesByCompetitionId,
 } from '@/api/matchSchedule';
 import { matchScheduleQueryKeys } from '@/queryKeys/matchSchedule';
 
@@ -32,17 +33,20 @@ export const useCreateMatchScheduleMutation = (competitionId: number) => {
   });
 };
 
-export const useCreateMatchSchedulesMutation = (competitionId: number) => {
+export const useCreateBulkMatchSchedulesMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation(createMatchSchedules, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('Match schedules created successfully!');
+  return useMutation<IMatchSchedule[], AxiosError<IErrorResponse>, IMatchScheduleDto[]>(
+    data => createMatchSchedules(data.map(d => ({ ...d, competitionId }))), // competitionId 추가
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
+        toast.success('Match schedules created successfully!');
+      },
+      onError: (error: AxiosError<IErrorResponse>) => {
+        toast.error(error.response?.data?.message || 'Error creating match schedules');
+      },
     },
-    onError: (error: AxiosError<IErrorResponse>) => {
-      toast.error(error.response?.data?.message || 'Error creating match schedules');
-    },
-  });
+  );
 };
 
 export const useUpdateMatchScheduleMutation = (competitionId: number) => {
@@ -50,10 +54,11 @@ export const useUpdateMatchScheduleMutation = (competitionId: number) => {
   return useMutation(updateMatchSchedule, {
     onSuccess: () => {
       queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('Match schedule updated successfully!');
+      toast.success('전체 시간표가 성공적으로 저장되었습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      toast.error(error.response?.data?.message || 'Error updating match schedule');
+      console.log(error.response);
+      toast.error(error.response?.data?.message || '전체 시간표 저장 중 오류가 발생했습니다.');
     },
   });
 };
@@ -67,6 +72,19 @@ export const useDeleteMatchScheduleMutation = (competitionId: number) => {
     },
     onError: (error: AxiosError<IErrorResponse>) => {
       toast.error(error.response?.data?.message || 'Error deleting match schedule');
+    },
+  });
+};
+
+export const useDeleteMatchSchedulesByCompetitionIdMutation = (competitionId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation(() => deleteMatchSchedulesByCompetitionId(competitionId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
+      toast.success('All match schedules for the competition deleted successfully!');
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      toast.error(error.response?.data?.message || 'Error deleting match schedules for the competition');
     },
   });
 };
