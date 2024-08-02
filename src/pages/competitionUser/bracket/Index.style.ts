@@ -91,6 +91,11 @@ export const TopActions = styled.ul`
   gap: 8px;
 `;
 
+export const ButtonList = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
 export const TimeTable = styled.div`
   width: 100%;
   display: flex;
