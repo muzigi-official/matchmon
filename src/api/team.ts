@@ -4,10 +4,8 @@ const API_URL = '/teams';
 
 export const getTeam = (id: number | string): Promise<ITeam[]> => requestAPI.get(`${API_URL}/get/${id}`);
 
-export const listTeam = (page: number, itemPerPage: number): Promise<IListTeamResponse> => {
-  const params = { page, itemPerPage };
-  return requestAPI.get(`${API_URL}/list`, { params });
-};
+export const listTeam = (page: number, itemPerPage: number): Promise<IListTeamResponse> =>
+  requestAPI.get(`${API_URL}/list`, { params: { page, itemPerPage } });
 
 export const addTeam = (data: ICreateTeamDto): Promise<TDefaultReturn> => requestAPI.post(`${API_URL}/create`, data);
 
