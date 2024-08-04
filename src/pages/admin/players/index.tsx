@@ -84,7 +84,7 @@ export default function PlayerList() {
 
   const handleAddPlayer = async (formData: IPlayerFormInput) => {
     const { uniformNumber, teamId } = formData;
-    const { statusText } = await addPlayer({
+    const statusText = await addPlayer({
       ...formData,
       uniformNumber: uniformNumber ? Number(uniformNumber) : 0,
       teamId: Number(teamId),
@@ -99,7 +99,7 @@ export default function PlayerList() {
   const handleChangePlayer = async (formData: IPlayerFormInput) => {
     const { id, nickName, picture } = formData;
     if (id) {
-      const { statusText } = await editPlayer(id, {
+      const statusText = await editPlayer(id, {
         nickName: nickName,
         role: formData.role ? formData.role : 0,
         picture: picture,

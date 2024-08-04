@@ -73,6 +73,33 @@ declare global {
     gameOrder: number; // 0~1, 0~3
   }
 
+  interface ICreatePlayerDto {
+    nickName: string;
+    picture?: string;
+    uniformNumber?: number;
+    teamId: number;
+  }
+
+  interface IUpdatePlayerDto {
+    nickName: string;
+    picture?: string;
+    uniformNumber?: number;
+    role: number;
+  }
+
+  interface IListPlayerResponse {
+    data: IPlayer[];
+    meta: {
+      total: number;
+      page: number;
+      last_page: number;
+    };
+  }
+
+  interface IGetPlayerResponse {
+    player: IPlayer;
+  }
+
   interface IPlayerFormInput {
     id?: number;
     nickName: string;
