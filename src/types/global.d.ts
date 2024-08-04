@@ -120,6 +120,30 @@ declare global {
     emblem: string;
   }
 
+  interface ICreateTeamDto {
+    name: string;
+    location: string;
+    emblem: string;
+    gender: string;
+  }
+
+  interface IUpdateTeamDto {
+    name: string;
+    location: string;
+    emblem: string;
+    gender: string;
+    teamId: number;
+  }
+
+  interface IListTeamResponse {
+    data: ITeam[];
+    meta: {
+      total: number;
+      page: number;
+      last_page: number;
+    };
+  }
+
   interface ICompetitionFormInput {
     name: string;
     address: string;
