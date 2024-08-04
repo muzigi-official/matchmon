@@ -1,32 +1,5 @@
 import customAxios from '@/api/customAxios';
 
-interface ICreatePlayerDto {
-  nickName: string;
-  picture?: string;
-  uniformNumber?: number;
-  teamId: number;
-}
-
-interface IUpdatePlayerDto {
-  nickName: string;
-  picture?: string;
-  uniformNumber?: number;
-  role: number;
-}
-
-interface IListPlayerResponse {
-  data: IPlayer[];
-  meta: {
-    total: number;
-    page: number;
-    last_page: number;
-  };
-}
-
-interface IGetPlayerResponse {
-  player: IPlayer;
-}
-
 export async function addPlayer(data: ICreatePlayerDto) {
   const response = await customAxios.post<TDefaultReturn>('/players/create', data);
   return response;
