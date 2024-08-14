@@ -14,10 +14,16 @@ export const getCustomColor = (color?: string) => {
   switch (color) {
     case 'primary':
       return colors.primary;
-    case 'danger':
-      return colors.danger;
+    case 'error':
+      return colors.error.default;
+    case 'warning':
+      return colors.warning.default;
+    case 'success':
+      return colors.success.default;
+    case 'info':
+      return colors.info.default;
     case 'cancel':
-      return colors.cancel;
+      return colors.cancel.default;
     default:
       return color || colors.primary;
   }
