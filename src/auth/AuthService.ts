@@ -1,4 +1,4 @@
-import customAxios from '@/api/customAxios';
+import customAxios from '@/api/remove_customAxios';
 
 interface ISignInDto {
   username: string;

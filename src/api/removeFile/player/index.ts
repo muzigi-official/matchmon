@@ -1,4 +1,4 @@
-import customAxios from '@/api/customAxios';
+import customAxios from '@/api/remove_customAxios';
 
 export async function addPlayer(data: ICreatePlayerDto) {
   const response = await customAxios.post<TDefaultReturn>('/players/create', data);
