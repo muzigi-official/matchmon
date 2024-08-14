@@ -1,5 +1,4 @@
-import { forwardRef } from 'react';
-
+import React, { forwardRef } from 'react';
 import BasicSelect from './BasicSelect';
 
 interface ISelectProperty {
@@ -11,6 +10,7 @@ interface ISelectProperty {
 interface IFormSelectProps {
   options: ISelectProperty[];
   name: string;
+  label?: string;
   value: string | number;
   onChange: (value: string | number) => void;
   onBlur: () => void;
@@ -21,27 +21,30 @@ interface IFormSelectProps {
 }
 
 const FormSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
-  ({ options, name, value, onChange, onBlur, defaultValue, disabled = false, searchable = false, error }, ref) => {
+  (
+    { options, label, name, value, onChange, onBlur, defaultValue, disabled = false, searchable = false, error },
+    ref,
+  ) => {
     const handleSelect = (selectedOption: ISelectProperty) => {
-      onChange(selectedOption.value);
+      onChange(selectedOption.value); // 선택된 값의 value를 전달
     };
 
     return (
-      <div>
+      <React.Fragment>
         <BasicSelect
           ref={ref}
           options={options}
-          label={name}
+          label={label || name}
           name={name}
-          value={value}
+          value={value} // value를 전달
           defaultValue={defaultValue}
-          onSelect={handleSelect}
+          onSelect={handleSelect} // 선택 핸들러 전달
           disabled={disabled}
           searchable={searchable}
         />
         <input type='hidden' name={name} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
         {error && <p style={{ color: 'red' }}>{error}</p>}
-      </div>
+      </React.Fragment>
     );
   },
 );

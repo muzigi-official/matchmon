@@ -5,7 +5,7 @@ import { capitalizeFirstLetter } from '@/utils/string';
 
 import { SelectContainer, SelectButton, SelectMenu, SelectGroup, SelectSearchInput, InputLabel } from './Select.styles';
 
-interface IFormSelectProps {
+interface ISelectProps {
   options: ISelectProperty[];
   name: string;
   value?: string | number;
@@ -16,7 +16,7 @@ interface IFormSelectProps {
   onSelect: (value: ISelectProperty) => void;
 }
 
-const BasicSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
+const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
   ({ options, label, name, value, defaultValue = '', disabled = false, searchable = false, onSelect }, ref) => {
     const [selectedValue, setSelectedValue] = useState<string | number>(value !== undefined ? value : defaultValue);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,18 +33,6 @@ const BasicSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
       }
     };
 
-    useEffect(() => {
-      if (isOpen) {
-        document.addEventListener('mousedown', handleClickOutside);
-      } else {
-        document.removeEventListener('mousedown', handleClickOutside);
-      }
-
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [isOpen]);
-
     const handleToggle = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
@@ -53,7 +41,7 @@ const BasicSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
 
     const handleOptionClick = (option: ISelectProperty) => {
       onSelect(option);
-      setSelectedValue(option.text);
+      setSelectedValue(option.value);
       setSearchTerm('');
       setIsOpen(false);
     };
@@ -75,6 +63,18 @@ const BasicSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
       const selectedOption = options.find(option => option.value === value);
       setSelectedValue(selectedOption ? selectedOption.text : '');
     }, [value, options]);
+
+    useEffect(() => {
+      if (isOpen) {
+        document.addEventListener('mousedown', handleClickOutside);
+      } else {
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [isOpen]);
 
     return (
       <SelectContainer ref={containerRef}>
