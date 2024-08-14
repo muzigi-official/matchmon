@@ -3,7 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 
-import { addJoinTeam, getParticipatPlayers, getParticipateTeamInPlayers, removeJoinTeam } from '@/api/joinTeamComp';
+import {
+  addJoinTeam,
+  getParticipatPlayers,
+  getParticipateTeamInPlayers,
+  removeJoinTeam,
+} from '@/api/removeFile/joinTeamComp';
 import Button from '@/components/common/Button';
 import AddParticipatingPlayer from '@/pages/admin/competition/dialog/AddParticipatingPlayer';
 import * as S from './TeamDetails.styles';

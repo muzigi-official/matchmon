@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getParticipateTeams } from '@/api/joinTeamComp';
+import { getParticipateTeams } from '@/api/removeFile/joinTeamComp';
 import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
 import useCompetitionStore from '@/store/useCompetitionStore';

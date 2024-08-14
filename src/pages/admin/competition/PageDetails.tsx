@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import { getCompetition, applyCompetition } from '@/api/competition';
-import { getParticipateTeams } from '@/api/joinTeamComp';
+import { getParticipateTeams } from '@/api/removeFile/joinTeamComp';
 import { listTeam } from '@/api/team';
 import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
