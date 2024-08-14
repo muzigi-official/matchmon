@@ -80,16 +80,18 @@ const BasicSelect = forwardRef<HTMLDivElement, IFormSelectProps>(
       <SelectContainer ref={containerRef}>
         {label && <InputLabel>{capitalizeFirstLetter(label)}</InputLabel>}
         <SelectButton onClick={handleToggle} $open={isOpen} $disabled={disabled}>
-          {searchable ? (
-            <SelectSearchInput
-              type='text'
-              name={name}
-              value={isOpen ? searchTerm : selectedValue}
-              onChange={e => setSearchTerm(e.target.value)}
-            />
-          ) : (
-            selectedValue || defaultValue
-          )}
+          <span>
+            {searchable ? (
+              <SelectSearchInput
+                type='text'
+                name={name}
+                value={isOpen ? searchTerm : selectedValue}
+                onChange={e => setSearchTerm(e.target.value)}
+              />
+            ) : (
+              selectedValue || defaultValue
+            )}
+          </span>
           <span>&#9662;</span>
         </SelectButton>
         <SelectMenu ref={menuRef} $open={isOpen}>
