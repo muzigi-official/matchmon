@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 
 import { listCompetition } from '@/api/competition';
-import CustomSelect from '@/components/common/Select/CustomSelect';
+import BasicSelect from '@/components/common/Select/BasicSelect';
 import useUserStore from '@/store/useUserStore';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
@@ -26,12 +26,10 @@ export default function VerticalLayoutHeader({ open, userRole = 'user', userName
 
   const getList = async () => {
     const response = await listCompetition(1);
-    const parsing = response.data.map(competition => {
-      return {
-        text: competition.name,
-        value: competition.id,
-      };
-    });
+    const parsing = response.data.map(competition => ({
+      text: competition.name,
+      value: competition.id ?? '',
+    }));
     setCompetitions(parsing);
   };
 
@@ -43,8 +41,8 @@ export default function VerticalLayoutHeader({ open, userRole = 'user', userName
     logOut();
   };
 
-  const changeFilterOption = (value: string | number | undefined) => {
-    setCompetition(Number(value));
+  const changeFilterOption = (selected: ISelectProperty) => {
+    setCompetition(Number(selected.value));
     // if (Number(value) !== 0 && value !== selectedCompetition) {
     //   navigate(`/admin/competition/${value}`);
     // }
@@ -66,8 +64,8 @@ export default function VerticalLayoutHeader({ open, userRole = 'user', userName
             }}
           />
           {competitions.length > 0 ? (
-            <CustomSelect
-              label='대회를 선택해주세요'
+            <BasicSelect
+              name='competition'
               defaultValue={selectedCompetition}
               options={competitions}
               onSelect={value => {
