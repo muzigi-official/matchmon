@@ -128,35 +128,22 @@ declare global {
     }
   }
 
-  interface ITeam {
-    id: number;
+  interface ITeamBase {
     name: string;
     location: string;
     emblem: string;
     gender: string;
+  }
+
+  interface ITeam extends ITeamBase {
+    id: number;
     isActive?: boolean;
     players?: IPlayer[];
   }
 
-  interface ITeamFormInput {
-    name: string;
-    gender: string;
-    location: string;
-    emblem: string;
-  }
+  interface ITeamFormInput extends ITeamBase {}
 
-  interface ICreateTeamDto {
-    name: string;
-    location: string;
-    emblem: string;
-    gender: string;
-  }
-
-  interface IUpdateTeamDto {
-    name: string;
-    location: string;
-    emblem: string;
-    gender: string;
+  interface IUpdateTeamDto extends ITeamBase {
     teamId: number;
   }
 
@@ -182,10 +169,6 @@ declare global {
     value: string | number;
     text: string;
     group?: string;
-  }
-
-  export interface IFormValues {
-    customSelect: string | number | undefined;
   }
 
   interface IApplyFormInput {

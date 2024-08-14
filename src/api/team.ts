@@ -7,9 +7,9 @@ export const getTeam = (id: number | string): Promise<ITeam[]> => requestAPI.get
 export const listTeam = (page: number, itemPerPage: number): Promise<IListTeamResponse> =>
   requestAPI.get(`${API_URL}/list`, { params: { page, itemPerPage } });
 
-export const addTeam = (data: ICreateTeamDto): Promise<TDefaultReturn> => requestAPI.post(`${API_URL}/create`, data);
+export const addTeam = (data: ITeamFormInput): Promise<TDefaultReturn> => requestAPI.post(`${API_URL}/create`, data);
 
 export const editTeam = (data: IUpdateTeamDto): Promise<TDefaultReturn> =>
   requestAPI.patch(`${API_URL}/update${data.teamId}`, data);
 
-export const removeTeam = (id: number): Promise<IListTeamResponse> => requestAPI.delete(`${API_URL}/remove, ${id}`);
+export const removeTeam = (id: number): Promise<IListTeamResponse> => requestAPI.delete(`${API_URL}/remove/${id}`);

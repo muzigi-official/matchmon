@@ -1,12 +1,5 @@
 import customAxios from '@/api/customAxios';
 
-interface ICreateTeamDto {
-  name: string;
-  location: string;
-  emblem: string;
-  gender: string;
-}
-
 interface IUpdateTeamDto {
   name: string;
   location: string;
@@ -24,7 +17,7 @@ interface IListTeamResponse {
   };
 }
 
-export async function addTeam(data: ICreateTeamDto) {
+export async function addTeam(data: ITeamFormInput) {
   const response = await customAxios.post<TDefaultReturn>('/teams/create', data);
   return response;
 }
