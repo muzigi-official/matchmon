@@ -12,4 +12,4 @@ export const addTeam = (data: ITeamFormInput): Promise<TDefaultReturn> => reques
 export const editTeam = (data: IUpdateTeamDto): Promise<TDefaultReturn> =>
   requestAPI.patch(`${API_URL}/update${data.teamId}`, data);
 
-export const removeTeam = (id: number): Promise<IListTeamResponse> => requestAPI.delete(`${API_URL}/remove/${id}`);
+export const removeTeam = (id: number): Promise<void> => requestAPI.delete(`${API_URL}/${id}`);

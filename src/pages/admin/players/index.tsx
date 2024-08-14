@@ -7,7 +7,7 @@ import {
   useEditPlayerMutation,
 } from '@/hooks/queries/usePlayerQuery';
 
-import { listTeam } from '@/api/team';
+import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
@@ -31,12 +31,13 @@ export default function PlayerList() {
   const [selectedRow, setSelectedRow] = useState<IParsePlayer | null>(null);
   const [options, setOptions] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
-  // React Query를 사용하여 플레이어 목록 가져오기
-  const { data } = usePlayerListQuery(page);
+  const { data: playerData, isLoading: isPlayerLoading, error: playerError } = usePlayerListQuery(page);
+
+  const { data: teamData, isLoading: isTeamLoading, error: teamError } = useTeamListQuery(page, 100);
 
   // 데이터를 파싱하여 필요한 형태로 변환
   const players =
-    data?.data.map(player => {
+    playerData?.data.map(player => {
       return {
         id: player.id ?? 0,
         uniformNumber: player.uniformNumber ?? 0,
@@ -47,23 +48,12 @@ export default function PlayerList() {
         teamId: player.team?.id ?? '',
       };
     }) || [];
-  const pageTotal = data?.meta.last_page || 1;
+  const pageTotal = playerData?.meta.last_page || 1;
 
   // React Query를 사용하여 플레이어 추가, 수정, 삭제
   const addPlayerMutation = useAddPlayerMutation(setPage);
   const editPlayerMutation = useEditPlayerMutation(page);
   const removePlayerMutation = useRemovePlayerMutation(page, setPage);
-
-  const getTeams = async (newPage: number) => {
-    const response = await listTeam(newPage, 100);
-    const selectOptions = response.data.map(team => {
-      return {
-        value: team.id,
-        text: team.name,
-      };
-    });
-    setOptions(selectOptions);
-  };
 
   // 플레이어 추가 핸들러
   const handleAddPlayer = async (formData: IPlayerFormInput) => {
@@ -82,12 +72,8 @@ export default function PlayerList() {
 
     addPlayerMutation.mutate(playerData, {
       onSuccess: () => {
-        alert('선수 등록 성공');
         setIsDialogOpen(false);
         setSelectedRow(null);
-      },
-      onError: () => {
-        alert('선수 등록 실패');
       },
     });
   };
@@ -111,27 +97,15 @@ export default function PlayerList() {
 
     editPlayerMutation.mutate(updateData, {
       onSuccess: () => {
-        alert('선수 수정 성공');
         setIsDialogOpen(false);
         setSelectedRow(null);
-      },
-      onError: () => {
-        alert('선수 수정 실패');
       },
     });
   };
 
-  // 플레이어 삭제 핸들러
   const deleteRow = async (row: IParsePlayer) => {
     if (row.id) {
-      removePlayerMutation.mutate(row.id, {
-        onSuccess: () => {
-          alert('선수 삭제 성공');
-        },
-        onError: () => {
-          alert('선수 삭제 실패');
-        },
-      });
+      removePlayerMutation.mutate(row.id);
     }
   };
 
@@ -150,8 +124,18 @@ export default function PlayerList() {
   };
 
   useEffect(() => {
-    getTeams(page);
-  }, []);
+    if (teamData && !isTeamLoading) {
+      const selectOptions = teamData.data.map(team => ({
+        value: team.id,
+        text: team.name,
+      }));
+      setOptions(selectOptions);
+    }
+  }, [teamData, isTeamLoading]);
+
+  if (isPlayerLoading || isTeamLoading) return <p>Loading...</p>;
+  if (playerError) return <p>Error loading players</p>;
+  if (teamError) return <p>Error loading teams</p>;
 
   return (
     <>
