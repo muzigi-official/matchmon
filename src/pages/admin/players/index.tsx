@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 
-import { listPlayer, removePlayer, addPlayer, editPlayer } from '@/api/player';
+import {
+  usePlayerListQuery,
+  useRemovePlayerMutation,
+  useAddPlayerMutation,
+  useEditPlayerMutation,
+} from '@/hooks/queries/usePlayerQuery';
+
 import { listTeam } from '@/api/team';
 
 import Pagination from '@/components/common/Pagination';
@@ -18,43 +24,37 @@ const tableHeader = [
   { headerName: '', property: 'actions', type: 'button', isAction: true },
 ];
 
-const pageSize = 10;
-
 export default function PlayerList() {
   const [page, setPage] = useState<number>(1);
-  const [pageTotal, setPageCount] = useState<number>(pageSize);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<IParsePlayer | null>(null);
-  const [players, setPlayer] = useState<IParsePlayer[]>([]);
   const [options, setOptions] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
-  useEffect(() => {
-    getList(page);
-  }, []);
+  // React Query를 사용하여 플레이어 목록 가져오기
+  const { data } = usePlayerListQuery(page);
 
-  useEffect(() => {
-    getTeams(page);
-  }, []);
+  console.log('player data', data);
 
-  const getList = async (newPage: number) => {
-    const response = await listPlayer(newPage);
-    const { page, last_page } = response.meta;
-    const IParsePlayer = response.data.map(player => {
+  // 데이터를 파싱하여 필요한 형태로 변환
+  const players =
+    data?.data.map(player => {
       return {
-        id: player.id ? player.id : 0,
-        uniformNumber: player.uniformNumber ? player.uniformNumber : 0,
+        id: player.id ?? 0,
+        uniformNumber: player.uniformNumber ?? 0,
         role: player.role,
         nickName: player.nickName,
-        picture: player.picture ? player.picture : '',
-        teamName: player.team ? player.team.name : '',
-        teamId: player.team ? player.team.id : '',
+        picture: player.picture ?? '',
+        teamName: player.team?.name ?? '',
+        teamId: player.team?.id ?? '',
       };
-    });
-    setPlayer(IParsePlayer);
-    setPage(Number(page));
-    setPageCount(last_page);
-  };
+    }) || [];
+  const pageTotal = data?.meta.last_page || 1;
+
+  // React Query를 사용하여 플레이어 추가, 수정, 삭제
+  const addPlayerMutation = useAddPlayerMutation();
+  const editPlayerMutation = useEditPlayerMutation();
+  const removePlayerMutation = useRemovePlayerMutation();
 
   const getTeams = async (newPage: number) => {
     const response = await listTeam(newPage, 100);
@@ -65,6 +65,76 @@ export default function PlayerList() {
       };
     });
     setOptions(selectOptions);
+  };
+
+  // 플레이어 추가 핸들러
+  const handleAddPlayer = async (formData: IPlayerFormInput) => {
+    // teamId를 number로 변환
+    if (formData.teamId === undefined) {
+      console.error('Team ID is required.');
+      return;
+    }
+
+    const playerData: ICreatePlayerDto = {
+      nickName: formData.nickName,
+      picture: formData.picture,
+      uniformNumber: formData.uniformNumber ?? null,
+      teamId: Number(formData.teamId), // teamId를 number로 변환
+    };
+
+    addPlayerMutation.mutate(playerData, {
+      onSuccess: () => {
+        alert('선수 등록 성공');
+        setIsDialogOpen(false);
+        setSelectedRow(null);
+      },
+      onError: () => {
+        alert('선수 등록 실패');
+      },
+    });
+  };
+
+  // 플레이어 수정 핸들러
+  const handleChangePlayer = async (formData: IPlayerFormInput) => {
+    if (!selectedRow?.id) {
+      console.error('No player selected for update.');
+      return;
+    }
+
+    const { nickName, picture, uniformNumber, role } = formData;
+
+    const updateData: IUpdatePlayerDto = {
+      id: selectedRow.id,
+      nickName,
+      picture,
+      uniformNumber: uniformNumber ?? null,
+      role: role ?? 0, // 0으로 기본값 설정
+    };
+
+    editPlayerMutation.mutate(updateData, {
+      onSuccess: () => {
+        alert('선수 수정 성공');
+        setIsDialogOpen(false);
+        setSelectedRow(null);
+      },
+      onError: () => {
+        alert('선수 수정 실패');
+      },
+    });
+  };
+
+  // 플레이어 삭제 핸들러
+  const deleteRow = async (row: IParsePlayer) => {
+    if (row.id) {
+      removePlayerMutation.mutate(row.id, {
+        onSuccess: () => {
+          alert('선수 삭제 성공');
+        },
+        onError: () => {
+          alert('선수 삭제 실패');
+        },
+      });
+    }
   };
 
   const onClickAddButton = () => {
@@ -79,47 +149,11 @@ export default function PlayerList() {
       await handleChangePlayer(formData);
     }
     setIsFormDialogOpen(false);
-    await getList(1);
   };
 
-  const handleAddPlayer = async (formData: IPlayerFormInput) => {
-    const { uniformNumber, teamId } = formData;
-    const statusText = await addPlayer({
-      ...formData,
-      uniformNumber: uniformNumber ? Number(uniformNumber) : 0,
-      teamId: Number(teamId),
-    });
-    if (statusText === 'Created') {
-      alert('선수 등록 성공');
-      setIsDialogOpen(false);
-      setSelectedRow(null);
-    }
-  };
-
-  const handleChangePlayer = async (formData: IPlayerFormInput) => {
-    const { id, nickName, picture } = formData;
-    if (id) {
-      const statusText = await editPlayer(id, {
-        nickName: nickName,
-        role: formData.role ? formData.role : 0,
-        picture: picture,
-        uniformNumber: formData.uniformNumber ? Number(formData.uniformNumber) : 0,
-      });
-
-      if (statusText === 'OK') {
-        alert('선수 수정 성공');
-        setIsDialogOpen(false);
-        setSelectedRow(null);
-      }
-    }
-  };
-
-  const deleteRow = async (row: IPlayer) => {
-    if (row.id) {
-      const response = await removePlayer(row.id);
-      console.log(response);
-    }
-  };
+  useEffect(() => {
+    getTeams(page);
+  }, []);
 
   return (
     <>
@@ -146,7 +180,7 @@ export default function PlayerList() {
           />
         </S.Content>
         <S.FooterContainer>
-          <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => getList(newPage)} />
+          <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => setPage(newPage)} />
         </S.FooterContainer>
       </S.Container>
       <ConfirmDialog

@@ -15,4 +15,4 @@ export const addPlayer = (data: ICreatePlayerDto): Promise<TDefaultReturn> =>
 export const editPlayer = (id: number, data: IUpdatePlayerDto): Promise<TDefaultReturn> =>
   requestAPI.patch(`${API_URL}/${id}`, data);
 
-export const removePlayer = (id: number): Promise<IListPlayerResponse> => requestAPI.delete(`${API_URL}/delete, ${id}`);
+export const removePlayer = (id: number): Promise<IListPlayerResponse> => requestAPI.delete(`${API_URL}/${id}`);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // import Button from '@/components/common/Button';
-import { getParticipateTeams } from '@/api/joinTeamComp';
+import { getParticipateTeams } from '@/api/removeFile/joinTeamComp';
 import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,

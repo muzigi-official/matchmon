@@ -73,18 +73,25 @@ declare global {
     gameOrder: number; // 0~1, 0~3
   }
 
-  interface ICreatePlayerDto {
+  interface IPlayerBase {
     nickName: string;
     picture?: string;
-    uniformNumber?: number;
+    uniformNumber?: number | null;
+  }
+
+  interface ICreatePlayerDto extends IPlayerBase {
     teamId: number;
   }
 
-  interface IUpdatePlayerDto {
-    nickName: string;
-    picture?: string;
-    uniformNumber?: number;
+  interface IUpdatePlayerDto extends IPlayerBase {
+    id: number;
     role: number;
+  }
+
+  interface IPlayerFormInput extends IPlayerBase {
+    id?: number;
+    role?: number;
+    teamId?: number | string;
   }
 
   interface IListPlayerResponse {
@@ -98,15 +105,6 @@ declare global {
 
   interface IGetPlayerResponse {
     player: IPlayer;
-  }
-
-  interface IPlayerFormInput {
-    id?: number;
-    nickName: string;
-    uniformNumber?: number | null;
-    role?: number;
-    picture?: string;
-    teamId?: number | string;
   }
 
   class Coordinate {

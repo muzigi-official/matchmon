@@ -5,7 +5,7 @@ import { fetchMatchSettings, createMatchSetting, updateMatchSetting, deleteMatch
 import { matchSettingQueryKeys } from '@/queryKeys/matchSetting';
 
 export const useMatchSettingQuery = (competitionId: number) => {
-  return useQuery<IUpdateMatchSettingParams[], AxiosError<IErrorResponse>>(
+  return useQuery<IMatchSettingParams[], AxiosError<IErrorResponse>>(
     matchSettingQueryKeys.matchSettings(competitionId),
     () => fetchMatchSettings(competitionId),
   );
@@ -28,7 +28,7 @@ export const useCreateMatchSettingMutation = () => {
 
 export const useUpdateMatchSettingMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation((params: IUpdateMatchSettingParams & { id: number }) => updateMatchSetting(params), {
+  return useMutation((params: IMatchSettingParams) => updateMatchSetting(params), {
     onSuccess: () => {
       queryClient.invalidateQueries(matchSettingQueryKeys.matchSettings(competitionId));
       toast.success('경기 설정이 성공적으로 업데이트되었습니다!');
