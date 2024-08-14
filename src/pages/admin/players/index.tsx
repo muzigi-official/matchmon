@@ -34,8 +34,6 @@ export default function PlayerList() {
   // React Query를 사용하여 플레이어 목록 가져오기
   const { data } = usePlayerListQuery(page);
 
-  console.log('player data', data);
-
   // 데이터를 파싱하여 필요한 형태로 변환
   const players =
     data?.data.map(player => {
@@ -52,9 +50,9 @@ export default function PlayerList() {
   const pageTotal = data?.meta.last_page || 1;
 
   // React Query를 사용하여 플레이어 추가, 수정, 삭제
-  const addPlayerMutation = useAddPlayerMutation();
-  const editPlayerMutation = useEditPlayerMutation();
-  const removePlayerMutation = useRemovePlayerMutation();
+  const addPlayerMutation = useAddPlayerMutation(setPage);
+  const editPlayerMutation = useEditPlayerMutation(page);
+  const removePlayerMutation = useRemovePlayerMutation(page, setPage);
 
   const getTeams = async (newPage: number) => {
     const response = await listTeam(newPage, 100);

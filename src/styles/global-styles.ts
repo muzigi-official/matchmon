@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     /* ...other variables */
   
     --border-color:  ${colors.border};
-    --white-text:  ${colors.white};
+    --white-text:  ${colors.cancel.default};
     --balck-text:  ${colors.black};
     
     --vh: 1vh;
