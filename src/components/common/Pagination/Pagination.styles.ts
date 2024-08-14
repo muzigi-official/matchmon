@@ -19,5 +19,5 @@ export const PaginationLi = styled.li`
 `;
 
 export const PaginationSpan = styled.span`
-  color: ${colors.darkText};
+  color: ${colors.black};
 `;
