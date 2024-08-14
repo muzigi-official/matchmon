@@ -87,7 +87,14 @@ export default function DialogParticipate({ player, teams, open, onClose, onConf
                 defaultValue=''
                 rules={{ required: '필수값입니다.' }}
                 render={({ field, fieldState: { error } }) => (
-                  <FormSelect {...field} options={teams} disabled={isDisabled} label='팀' error={error?.message} />
+                  <FormSelect
+                    {...field}
+                    label='팀'
+                    options={teams}
+                    value={field.value ?? ''}
+                    disabled={isDisabled}
+                    error={error?.message}
+                  />
                 )}
               />
             </Grid>

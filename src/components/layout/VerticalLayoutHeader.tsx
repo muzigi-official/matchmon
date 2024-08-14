@@ -43,6 +43,7 @@ export default function VerticalLayoutHeader({ open, userRole = 'user', userName
 
   const changeFilterOption = (selected: ISelectProperty) => {
     setCompetition(Number(selected.value));
+    console.log(selected);
     // if (Number(value) !== 0 && value !== selectedCompetition) {
     //   navigate(`/admin/competition/${value}`);
     // }
@@ -66,7 +67,7 @@ export default function VerticalLayoutHeader({ open, userRole = 'user', userName
           {competitions.length > 0 ? (
             <BasicSelect
               name='competition'
-              defaultValue={selectedCompetition}
+              value={selectedCompetition}
               options={competitions}
               onSelect={value => {
                 changeFilterOption(value);

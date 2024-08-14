@@ -29,7 +29,7 @@ export const SelectButton = styled.div<{ $open: boolean; $disabled?: boolean }>`
     border-color: ${({ $disabled }) => ($disabled ? colors.disabled.border : colors.primary)};
   }
 
-  span {
+  span:last-child {
     transform: ${({ $open }) => ($open ? 'rotate(180deg)' : 'rotate(0deg)')};
     transition: transform 0.2s;
   }

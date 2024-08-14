@@ -18,7 +18,10 @@ interface ISelectProps {
 
 const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
   ({ options, label, name, value, defaultValue = '', disabled = false, searchable = false, onSelect }, ref) => {
-    const [selectedValue, setSelectedValue] = useState<string | number>(value !== undefined ? value : defaultValue);
+    const [selectedText, setSelectedText] = useState<string>(() => {
+      const initialOption = options.find(option => option.value === defaultValue);
+      return initialOption ? initialOption.text : '';
+    });
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -41,7 +44,7 @@ const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
 
     const handleOptionClick = (option: ISelectProperty) => {
       onSelect(option);
-      setSelectedValue(option.value);
+      setSelectedText(option.text);
       setSearchTerm('');
       setIsOpen(false);
     };
@@ -61,7 +64,7 @@ const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
 
     useEffect(() => {
       const selectedOption = options.find(option => option.value === value);
-      setSelectedValue(selectedOption ? selectedOption.text : '');
+      setSelectedText(selectedOption ? selectedOption.text : '');
     }, [value, options]);
 
     useEffect(() => {
@@ -85,11 +88,11 @@ const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
               <SelectSearchInput
                 type='text'
                 name={name}
-                value={isOpen ? searchTerm : selectedValue}
+                value={isOpen ? searchTerm : selectedText}
                 onChange={e => setSearchTerm(e.target.value)}
               />
             ) : (
-              selectedValue || defaultValue
+              selectedText || defaultValue
             )}
           </span>
           <span>&#9662;</span>
@@ -101,13 +104,13 @@ const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
                 <strong>{group}</strong>
                 <SelectOptions
                   options={groupedOptions[group]}
-                  selected={selectedValue}
+                  selected={selectedText}
                   handleOptionClick={handleOptionClick}
                 />
               </SelectGroup>
             ))
           ) : (
-            <SelectOptions options={filteredOptions} selected={selectedValue} handleOptionClick={handleOptionClick} />
+            <SelectOptions options={filteredOptions} selected={selectedText} handleOptionClick={handleOptionClick} />
           )}
         </SelectMenu>
       </SelectContainer>
