@@ -10,7 +10,7 @@ export const fetchParticipatePlayers = (joinTeamCompId: number | string): Promis
   return requestAPI.get(`/joinTeamComp/players`, { params });
 };
 
-export const fetchParticipateTeamInPlayers = (joinTeamCompId: number | string): Promise<IPlayer[]> => {
+export const fetchParticipateTeamInPlayers = (joinTeamCompId: number | string): Promise<ICompetitionTeam> => {
   const params = { joinTeamCompId };
   return requestAPI.get(`/joinTeamComp/relatedTeam`, { params });
 };

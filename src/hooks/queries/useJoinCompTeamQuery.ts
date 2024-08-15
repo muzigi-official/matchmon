@@ -22,7 +22,7 @@ export const useParticipatePlayersQuery = (joinTeamCompId: number | string) => {
 };
 
 export const useParticipateTeamInPlayersQuery = (joinTeamCompId: number | string) => {
-  return useQuery<IPlayer[], AxiosError>(joinTeamCompsQueryKeys.participateTeamInPlayers(joinTeamCompId), () =>
+  return useQuery<ICompetitionTeam, AxiosError>(joinTeamCompsQueryKeys.participateTeamInPlayers(joinTeamCompId), () =>
     fetchParticipateTeamInPlayers(joinTeamCompId),
   );
 };
