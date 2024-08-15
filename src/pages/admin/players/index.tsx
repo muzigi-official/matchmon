@@ -9,6 +9,7 @@ import {
 
 import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
+import Loading from '@/components/common/Loading';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
 import ConfirmDialog from '@/components/common/dialog/Confirm';
@@ -31,8 +32,11 @@ export default function PlayerList() {
   const [selectedRow, setSelectedRow] = useState<IParsePlayer | null>(null);
   const [options, setOptions] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
+  // React Query를 사용하여 플레이어 추가, 수정, 삭제
+  const addPlayerMutation = useAddPlayerMutation(setPage);
+  const editPlayerMutation = useEditPlayerMutation(page);
+  const removePlayerMutation = useRemovePlayerMutation(page, setPage);
   const { data: playerData, isLoading: isPlayerLoading, error: playerError } = usePlayerListQuery(page);
-
   const { data: teamData, isLoading: isTeamLoading, error: teamError } = useTeamListQuery(page, 100);
 
   // 데이터를 파싱하여 필요한 형태로 변환
@@ -49,11 +53,6 @@ export default function PlayerList() {
       };
     }) || [];
   const pageTotal = playerData?.meta.last_page || 1;
-
-  // React Query를 사용하여 플레이어 추가, 수정, 삭제
-  const addPlayerMutation = useAddPlayerMutation(setPage);
-  const editPlayerMutation = useEditPlayerMutation(page);
-  const removePlayerMutation = useRemovePlayerMutation(page, setPage);
 
   // 플레이어 추가 핸들러
   const handleAddPlayer = async (formData: IPlayerFormInput) => {
@@ -133,7 +132,7 @@ export default function PlayerList() {
     }
   }, [teamData, isTeamLoading]);
 
-  if (isPlayerLoading || isTeamLoading) return <p>Loading...</p>;
+  if (isPlayerLoading || isTeamLoading) return <Loading />;
   if (playerError) return <p>Error loading players</p>;
   if (teamError) return <p>Error loading teams</p>;
 

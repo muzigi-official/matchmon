@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
 import { Stack } from '@mui/material';
-
-import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
-import ConfirmDialog from '@/components/common/dialog/Confirm';
+
 import Button from '@/components/common/Button';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
+import Loading from '@/components/common/Loading';
+import Pagination from '@/components/common/Pagination';
 import {
   useTeamListQuery,
   useAddTeamMutation,
@@ -92,7 +93,7 @@ export default function TeamPage() {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>Error loading teams</p>;
 
   return (
