@@ -15,7 +15,7 @@ export const useCreateMatchSettingMutation = () => {
   const queryClient = useQueryClient();
   return useMutation((params: IMatchSettingParams) => createMatchSetting(params), {
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries(matchSettingQueryKeys.matchSettings(variables.competitionId));
+      queryClient.invalidateQueries(matchSettingQueryKeys.matchSettings(variables.competitionId || 0));
       toast.success('경기 설정이 성공적으로 생성되었습니다!');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
@@ -50,7 +50,6 @@ export const useDeleteMatchSettingMutation = (competitionId: number) => {
     },
     onError: (error: AxiosError<IErrorResponse>) => {
       if (error.response?.data?.message) {
-        console.log(error.response);
         toast.error(error.response?.data?.message);
       }
     },
