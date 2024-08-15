@@ -10,7 +10,7 @@ interface IGetTournamentListResponse extends ICompetition {
 
 const API_URL = '/tournaments';
 
-export const tournamentList = (competitionId: number | string): Promise<IGetTournamentListResponse> => {
+export const getTournamentList = (competitionId: number | string): Promise<IGetTournamentListResponse> => {
   return requestAPI.get(`${API_URL}/list`, { params: { competitionId } });
 };
 
