@@ -4,7 +4,7 @@ import { getCompetition, listCompetition, addCompetition, applyCompetition } fro
 import { competitionQueryKeys } from '@/queryKeys/competitionQueryKey';
 
 export const useCompetitionQuery = (competitionId: number | string) => {
-  return useQuery<ICompetition[], AxiosError>(competitionQueryKeys.competition(competitionId), () =>
+  return useQuery<ICompetition, AxiosError>(competitionQueryKeys.competition(competitionId), () =>
     getCompetition(competitionId),
   );
 };
