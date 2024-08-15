@@ -21,12 +21,6 @@ function handleError(serverError: IResponseData) {
   }
 }
 
-// const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-//   const { method, url } = config;
-//   logOnDev(`🚀 [API] ${method?.toUpperCase()} ${url} | Request`);
-//   return config;
-// };
-
 const onResponse = (response: AxiosResponse): AxiosResponse['data'] => {
   const { method, url } = response.config;
   const { status } = response;
@@ -47,7 +41,6 @@ const requestAPI: AxiosInstance = axios.create({
   },
 });
 
-// requestAPI.interceptors.request.use(onRequest);
 requestAPI.interceptors.request.use(checkLogin);
 requestAPI.interceptors.response.use(onResponse, onResponseError);
 

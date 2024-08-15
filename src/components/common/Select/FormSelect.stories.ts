@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import FormSelect from './FormSelect'
+import FormSelect from './FormSelect';
 
 const meta = {
   title: 'Components/select/FormSelect',
@@ -21,10 +21,10 @@ const meta = {
     },
   },
   args: {},
-} satisfies Meta<typeof FormSelect>
+} satisfies Meta<typeof FormSelect>;
 
-export default meta
-type TStory = StoryObj<typeof meta>
+export default meta;
+type TStory = StoryObj<typeof meta>;
 
 export const HasGroupSelect: TStory = {
   args: {
@@ -40,8 +40,8 @@ export const HasGroupSelect: TStory = {
     name: '과일',
     value: '사과',
     onChange: (value: string | number | undefined) => {
-      console.log(value)
+      console.log(value);
     },
     onBlur: () => {},
   },
-}
+};

@@ -72,7 +72,6 @@ export const useUpdateMatchScheduleMutation = (competitionId: number) => {
       toast.success('전체 시간표가 성공적으로 저장되었습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      console.log(error.response);
       toast.error(error.response?.data?.message || '전체 시간표 저장 중 오류가 발생했습니다.');
     },
   });

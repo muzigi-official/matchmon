@@ -43,10 +43,6 @@ export default function VerticalLayoutHeader({ open, userRole = 'user', userName
 
   const changeFilterOption = (selected: ISelectProperty) => {
     setCompetition(Number(selected.value));
-    console.log(selected);
-    // if (Number(value) !== 0 && value !== selectedCompetition) {
-    //   navigate(`/admin/competition/${value}`);
-    // }
   };
 
   return (
