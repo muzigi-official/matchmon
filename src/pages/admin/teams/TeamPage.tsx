@@ -32,11 +32,10 @@ export default function TeamPage() {
   const [selectedRow, setSelectedRow] = useState<ITeam | null>(null);
   const [page, setPage] = useState<number>(1);
 
-  // React Query를 사용하여 팀 목록 가져오기
-  const { data, isLoading, error } = useTeamListQuery(page, PAGE_SIZE);
+  const { data: teamListResponse, isLoading, error } = useTeamListQuery(page, PAGE_SIZE);
 
-  const teamData = data?.data || [];
-  const pageTotal = data?.meta.last_page || 1;
+  const teamData = teamListResponse?.data || [];
+  const pageTotal = teamListResponse?.meta.last_page || 1;
 
   const addTeamMutation = useAddTeamMutation(setPage);
   const editTeamMutation = useEditTeamMutation(page);

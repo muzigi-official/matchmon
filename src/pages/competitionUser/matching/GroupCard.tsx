@@ -4,7 +4,7 @@ import React from 'react';
 
 interface IGroupCardProps {
   name?: string;
-  teams?: IJoinCompTeam[];
+  teams?: IJoinTeamComps[];
   isAddButton?: boolean;
   onAddTeam?: () => void;
   onClick?: () => void; // 그룹 카드 클릭 이벤트

@@ -4,7 +4,7 @@ import React from 'react';
 import { List } from './ParticipateTeamList.styles';
 
 interface IPrps {
-  teams: IJoinCompTeam[];
+  teams: IJoinTeamComps[];
 }
 
 export default function TeamList({ teams }: IPrps) {

@@ -7,7 +7,7 @@ import {
   useUpdateMatchSettingMutation,
   useDeleteMatchSettingMutation,
 } from '@/hooks/queries/useMatchSettingQuery';
-import { useJoinCompTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
+import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchSchedulesQuery,
   useCreateScheduleBulkMutation,
@@ -58,7 +58,7 @@ export default function BracketPage() {
     selectedCompetition || 0,
   );
 
-  const { data: joinCompTeams } = useJoinCompTeamsQuery(selectedCompetition || 0);
+  const { data: joinCompTeams } = useParticipateTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
   const teamOptions =
     joinCompTeams?.map(item => ({
