@@ -84,6 +84,26 @@ declare global {
     emblem?: string;
   }
 
+  export interface ICompetitionPlayer {
+    id: number;
+    nickName: string;
+    uniformNumber: number;
+    picture: string;
+    role: number;
+    createdAt: string;
+    isActive: boolean;
+  }
+
+  export interface ICompetitionTeam {
+    id: number;
+    name: string;
+    location: string;
+    emblem: string;
+    gender: string;
+    isActive: boolean;
+    players: ICompetitionPlayer[];
+  }
+
   interface ITournaments {
     [groupKey: string]: TTournament;
   }

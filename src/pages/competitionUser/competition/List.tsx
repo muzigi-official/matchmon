@@ -1,20 +1,21 @@
 import { useState } from 'react';
 
-import { addCompetition } from '@/api/competition';
 import Button from '@/components/common/Button';
+import { useAddCompetitionMutation } from '@/hooks/queries/useCompetitionQuery';
 import AddDialog from '@/pages/admin/competition/dialog/AddCompetition';
 
 import * as S from './Container.style';
 
 export default function AdminCompetition() {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  const addCompetitionMutation = useAddCompetitionMutation();
 
-  const onSubmitHandler = async (formData: ICompetitionFormInput) => {
-    const { statusText } = await addCompetition(formData);
-    if (statusText === 'Created') {
-      alert('대회 등록 성공');
-      setDialogOpen(false);
-    }
+  const onSubmitHandler = (formData: ICompetitionFormInput) => {
+    addCompetitionMutation.mutate(formData, {
+      onSuccess: () => {
+        setDialogOpen(false);
+      },
+    });
   };
 
   return (
