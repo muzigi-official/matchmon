@@ -11,7 +11,7 @@ import useUserStore from '@/store/useUserStore';
 import Button from '@/components/common/Button';
 import { idValidation, passwordValidation } from '@/utils/validataion';
 
-import { LoginContainer, Logo, LoginTitle, Form } from './Login.style'; // LinksContainer, StyledLink, OAuthContainer
+import { LoginContainer, Logo, LoginTitle, Form } from './Login.style';
 
 interface ILoginForm {
   id: string;
@@ -32,7 +32,7 @@ const Login = () => {
   const onSubmit = async (data: ILoginForm) => {
     try {
       const token = await signIn({ username: data.id, password: data.password });
-      logIn(token);
+      logIn(token.access_token);
       await setUser();
       navigate('/main'); // 로그인 후 리다이렉션
     } catch (error) {
