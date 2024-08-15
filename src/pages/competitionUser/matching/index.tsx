@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-// import Button from '@/components/common/Button';
-import { getParticipateTeams } from '@/api/removeFile/joinTeamComp';
 import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,
   useDeleteGroupstageMutation,
   useAddTeamToGroupMutation,
   useRemoveTeamFromGroupMutation,
-} from '@/hooks/queries/useGroupStageQuery';
+} from '@/hooks/queries/useGroupstageQuery';
+import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 
 import useCompetitionStore from '@/store/useCompetitionStore';
 
@@ -17,18 +16,37 @@ import GroupList from './GroupList';
 import DialogTeamSelect from './DialogTeamSelect';
 
 import * as S from './Index.style';
+import Loading from '@/components/common/Loading';
 
 export default function MatchingPage() {
-  const [teams, setTeams] = useState<IJoinCompTeam[]>([]);
   const [isOpenDialog, setOpenDialog] = useState<boolean>(false);
-  const [groups, setGroups] = useState<IGroupStage[]>([]);
   const [groupName, setGroupName] = useState<string>('');
   const [selectedGroup, setSelectedGroup] = useState<IGroupStage | null>(null);
-  const [selectedGroupTeams, setSelectedGroupTeams] = useState<IJoinCompTeam[]>([]);
+  const [selectedGroupTeams, setSelectedGroupTeams] = useState<IJoinTeamComps[]>([]);
 
   const { selectedCompetition } = useCompetitionStore();
+
   const {
-    data: groupStages,
+    data: teamsData = [],
+    error: teamsError,
+    isLoading: teamsLoading,
+  } = useParticipateTeamsQuery(selectedCompetition || 0);
+
+  // 팀 데이터를 파싱합니다.
+  const teams = teamsData.map(item => {
+    const { id, team, participateState, groupStage } = item;
+    return {
+      joinCompId: id,
+      emblem: team.emblem,
+      name: team.name,
+      teamId: team.id,
+      participateState,
+      group: groupStage ? groupStage.name : '-',
+    };
+  });
+
+  const {
+    data: groups = [],
     error: groupStagesError,
     isLoading: groupStagesLoading,
   } = useGroupstageWithTeamsQuery(selectedCompetition || 0);
@@ -36,24 +54,6 @@ export default function MatchingPage() {
   const deleteGroupstageMutation = useDeleteGroupstageMutation(selectedCompetition || 0);
   const addTeamToGroupMutation = useAddTeamToGroupMutation(selectedCompetition || 0);
   const removeTeamFromGroupMutation = useRemoveTeamFromGroupMutation(selectedCompetition || 0);
-
-  const getJoinTeams = async () => {
-    if (selectedCompetition) {
-      const response = await getParticipateTeams(selectedCompetition);
-      const parseTeams = response.map(item => {
-        const { id, team, participateState, groupStage } = item;
-        return {
-          joinCompId: id,
-          emblem: team.emblem,
-          name: team.name,
-          teamId: team.id,
-          participateState,
-          group: groupStage ? groupStage.name : '-',
-        };
-      });
-      setTeams(parseTeams);
-    }
-  };
 
   const handleAddGroup = () => {
     setOpenDialog(true);
@@ -84,7 +84,7 @@ export default function MatchingPage() {
     setOpenDialog(true);
   };
 
-  const clickTeam = (team: IJoinCompTeam) => {
+  const clickTeam = (team: IJoinTeamComps) => {
     if (selectedGroup) {
       if (selectedGroupTeams.some(t => t.teamId === team.teamId)) {
         removeTeamFromGroupMutation.mutate(
@@ -114,18 +114,9 @@ export default function MatchingPage() {
   //   console.log('random team');
   // };
 
-  useEffect(() => {
-    getJoinTeams();
-  }, [selectedCompetition]);
-
-  useEffect(() => {
-    if (groupStages) {
-      setGroups(groupStages);
-    }
-  }, [groupStages]);
-
-  if (groupStagesLoading) return <div>Loading...</div>;
+  if (groupStagesLoading || teamsLoading) return <Loading />;
   if (groupStagesError) return <div>Error: {groupStagesError?.message}</div>;
+  if (teamsError) return <div>Error: {teamsError.message}</div>;
 
   return (
     <>
