@@ -8,12 +8,12 @@ const GlobalStyle = createGlobalStyle`
   :root {
     /* ...example */
     --mui-palette-primary-main: ${colors.primary};
-    --mui-palette-primary-contrast-text: ${colors.darkText};
+    --mui-palette-primary-contrast-text: ${colors.black};
     /* ...other variables */
   
     --border-color:  ${colors.border};
-    --white-text:  ${colors.whiteText};
-    --balck-text:  ${colors.darkText};
+    --white-text:  ${colors.cancel.default};
+    --balck-text:  ${colors.black};
     
     --vh: 1vh;
     --gnb-width: 64px;
@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: ${typography.fontFamily};
     font-size: 16px;
-    color: ${colors.darkText};
+    color: ${colors.black};
     background-color: ${colors.background};
     width: 100%;
     height: calc(var(--vh, 1vh) * 100);

@@ -1,25 +1,31 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 
-import { addJoinTeam, getParticipatPlayers, getParticipateTeamInPlayers, removeJoinTeam } from '@/api/joinTeamComp';
 import Button from '@/components/common/Button';
+import Loading from '@/components/common/Loading';
+import {
+  useParticipatePlayersQuery,
+  useParticipateTeamInPlayersQuery,
+  useAddJoinCompTeamMutation,
+  useDeleteJoinCompTeamMutation,
+} from '@/hooks/queries/useJoinCompTeamQuery';
 import AddParticipatingPlayer from '@/pages/admin/competition/dialog/AddParticipatingPlayer';
+
 import * as S from './TeamDetails.styles';
+import React from 'react';
 
 export default function ParticipateTeamsDetails() {
   const { joinCompId } = useParams();
-  const [participatePlayers, setParticipatePlayers] = useState<IPlayer[]>([]);
-  const [allPlayers, setAllPlayers] = useState<IPlayer[]>([]);
-  const [team, setTeam] = useState<ITeam | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (joinCompId) {
-      initialrise(joinCompId);
-    }
-  }, []);
+  const { data: participatePlayers = [], isLoading: isPlayersLoading } = useParticipatePlayersQuery(joinCompId || '');
+  const { data: team, isLoading: isTeamLoading } = useParticipateTeamInPlayersQuery(joinCompId || '');
+  const addJoinCompTeamMutation = useAddJoinCompTeamMutation();
+  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation();
+
+  const allPlayers = team?.players || [];
 
   const attendingPlayers = useMemo(() => {
     return allPlayers.map((player: IPlayer) => {
@@ -30,56 +36,31 @@ export default function ParticipateTeamsDetails() {
     });
   }, [participatePlayers, allPlayers]);
 
-  const initialrise = async (joinCompId: string) => {
-    await fetchParticipatePlayers(joinCompId);
-    await fetchParticipateTeams(joinCompId);
-  };
-
-  const fetchParticipatePlayers = async (joinCompId: string) => {
-    if (joinCompId) {
-      const response = await getParticipatPlayers(joinCompId);
-      setParticipatePlayers(response);
-    }
-  };
-
-  const fetchParticipateTeams = async (joinCompId: string) => {
-    const response = await getParticipateTeamInPlayers(joinCompId);
-    setTeam(response);
-    if (response.players) {
-      setAllPlayers(response.players);
-    }
-  };
-
-  const clickHandler = async (player: IPlayer) => {
-    if (player.id) {
-      if (player.isAttend) {
-        const response = await removeJoinTeam({ joinTeamCompId: Number(joinCompId), playerId: player.id });
-        if (response) {
-          const updatedItems = participatePlayers.filter(item => item.nickName !== player.nickName);
-          setParticipatePlayers(updatedItems);
-        }
-      } else {
-        const response = await addJoinTeam({ joinTeamCompId: Number(joinCompId), playerId: player.id });
-        if (response) {
-          setParticipatePlayers(prevList => {
-            return [...prevList, { ...player, isAttend: true }];
-          });
-        }
-      }
-    }
-  };
-
   const clickAddPlayer = () => {
     setOpenDialog(true);
   };
 
+  const clickHandler = (player: IPlayer) => {
+    if (player.id) {
+      if (player.isAttend) {
+        deleteJoinCompTeamMutation.mutate({ joinTeamCompId: Number(joinCompId), playerId: player.id });
+      } else {
+        addJoinCompTeamMutation.mutate({ joinTeamCompId: Number(joinCompId), playerId: player.id });
+      }
+    }
+  };
+
+  if (isPlayersLoading || isTeamLoading) {
+    return <Loading />;
+  }
+
   return (
-    <>
+    <React.Fragment>
       <S.Container>
         <S.Top>
           <h5>
             참가팀 &gt;
-            <span>{team?.name}</span>
+            <span>{` ${team?.name}`}</span>
           </h5>
         </S.Top>
         <S.Content>
@@ -116,6 +97,6 @@ export default function ParticipateTeamsDetails() {
           setOpenDialog(false);
         }}
       />
-    </>
+    </React.Fragment>
   );
 }

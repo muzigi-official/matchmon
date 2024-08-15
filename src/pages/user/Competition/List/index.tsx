@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Box } from '@mui/material';
 import CompetitionCard from '@/components/competition/Card';
 import ApplyDialog from '@/components/competition/ApplyDialog';
-import { Box } from '@mui/material';
+import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
 import { applyCompetition, listCompetition } from '@/api/competition';
-import { listTeam } from '@/api/team';
+
+const PAGE_SIZE = 100;
 
 export default function CompetitionList() {
   const navigate = useNavigate();
 
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const [pageTotal, setPageCount] = useState<number>(10);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [competitions, setCompetitions] = useState<ICompetition[]>([]);
@@ -19,11 +21,49 @@ export default function CompetitionList() {
   const [isApplyDialog, setIsApplyDialog] = useState<boolean>(false);
   const [teams, setTeams] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
+  const { data: teamData, isLoading: isTeamLoading, error: teamError } = useTeamListQuery(page, PAGE_SIZE);
+
   const ref = useRef<HTMLDivElement>(null);
+
+  const getList = async (newPage: number) => {
+    setIsFetching(true);
+    const response = await listCompetition(newPage);
+    const { page, last_page } = response.meta;
+    setCompetitions(response.data);
+    setPage(Number(page));
+    setPageCount(last_page);
+    setIsFetching(false);
+  };
+
+  const clickApplyButton = (id: number) => {
+    setCompetitionId(id);
+    setIsApplyDialog(true);
+  };
+
+  const onSubmitHandler = async (formData: IApplyFormInput) => {
+    const body = {
+      ...formData,
+      competitionId,
+    };
+    const response = await applyCompetition(body);
+    if (response === '등록 성공') {
+      setIsApplyDialog(false);
+    }
+  };
 
   const hasNextPage = useMemo(() => {
     return page < pageTotal;
   }, [page, pageTotal]);
+
+  const getNextPage = () => {
+    if (!hasNextPage) {
+      return;
+    }
+    if (isFetching) {
+      return;
+    }
+    getList(page + 1);
+  };
 
   const callback = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(entry => {
@@ -44,55 +84,17 @@ export default function CompetitionList() {
   }, [ref, callback]);
 
   useEffect(() => {
-    getTeams(1, 100);
-  }, []);
-
-  const getNextPage = () => {
-    if (!hasNextPage) {
-      return;
-    }
-    if (isFetching) {
-      return;
-    }
-    getList(page + 1);
-  };
-
-  const getList = async (newPage: number) => {
-    setIsFetching(true);
-    const response = await listCompetition(newPage);
-    const { page, last_page } = response.meta;
-    setCompetitions(response.data);
-    setPage(Number(page));
-    setPageCount(last_page);
-    setIsFetching(false);
-  };
-
-  const getTeams = async (newPage: number, itemPerPage: number) => {
-    const response = await listTeam(newPage, itemPerPage);
-    const selectOptions = response.data.map(team => {
-      return {
+    if (teamData && !isTeamLoading) {
+      const selectOptions = teamData.data.map(team => ({
         value: team.id,
         text: team.name,
-      };
-    });
-    setTeams(selectOptions);
-  };
-
-  const clickApplyButton = (id: number) => {
-    setCompetitionId(id);
-    setIsApplyDialog(true);
-  };
-
-  const onSubmitHandler = async (formData: IApplyFormInput) => {
-    const body = {
-      ...formData,
-      competitionId,
-    };
-    const response = await applyCompetition(body);
-    if (response === '등록 성공') {
-      setIsApplyDialog(false);
+      }));
+      setTeams(selectOptions);
     }
-  };
+  }, [teamData, isTeamLoading]);
+
+  if (isTeamLoading) return <p>Loading...</p>;
+  if (teamError) return <p>Error loading teams</p>;
 
   return (
     <>

@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Stack } from '@mui/material';
-import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
-import ConfirmDialog from '@/components/common/dialog/Confirm';
-import Button from '@/components/common/Button';
-import TeamDialog from '@/pages/admin/teams/DialogAddTeam';
 
-import { listTeam, addTeam, editTeam } from '@/api/team';
+import Button from '@/components/common/Button';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
+import Loading from '@/components/common/Loading';
+import Pagination from '@/components/common/Pagination';
+import {
+  useTeamListQuery,
+  useAddTeamMutation,
+  useEditTeamMutation,
+  useRemoveTeamMutation,
+} from '@/hooks/queries/useTeamQuery';
+import TeamDialog from '@/pages/admin/teams/DialogAddTeam';
 
 import * as S from './Container.style';
 
@@ -24,21 +30,16 @@ export default function TeamPage() {
   const [isTeamDialogOpen, setIsTeamDialogOpen] = useState<boolean>(false);
   const [isComfirmOpen, setIsComfirmOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<ITeam | null>(null);
-  const [teams, setTeams] = useState<ITeam[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [pageTotal, setPageCount] = useState<number>(PAGE_SIZE);
 
-  useEffect(() => {
-    getTeams(page);
-  }, []);
+  const { data: teamListResponse, isLoading, error } = useTeamListQuery(page, PAGE_SIZE);
 
-  const getTeams = async (newPage: number) => {
-    const response = await listTeam(newPage, PAGE_SIZE);
-    const { page, last_page } = response.meta;
-    setTeams(response.data);
-    setPage(Number(page));
-    setPageCount(last_page);
-  };
+  const teamData = teamListResponse?.data || [];
+  const pageTotal = teamListResponse?.meta.last_page || 1;
+
+  const addTeamMutation = useAddTeamMutation(setPage);
+  const editTeamMutation = useEditTeamMutation(page);
+  const removeTeamMutation = useRemoveTeamMutation(page, setPage);
 
   const onClickAddButton = () => {
     setSelectedRow(null);
@@ -55,23 +56,23 @@ export default function TeamPage() {
   };
 
   const handleAddTeam = async (formData: ITeamFormInput) => {
-    const { statusText } = await addTeam(formData);
-
-    if (statusText === 'Created') {
-      alert('팀 추가 성공');
-      setIsTeamDialogOpen(false);
-      getTeams(page);
-    }
+    addTeamMutation.mutate(formData, {
+      onSuccess: () => {
+        setIsTeamDialogOpen(false);
+      },
+    });
   };
 
   const handleUpdateTeam = async (formData: ITeamFormInput) => {
     if (selectedRow) {
-      const response = await editTeam({ ...formData, teamId: selectedRow.id });
-      if (response) {
-        alert('팀 수정 성공');
-        setIsTeamDialogOpen(false);
-        getTeams(page);
-      }
+      editTeamMutation.mutate(
+        { ...formData, teamId: selectedRow.id },
+        {
+          onSuccess: () => {
+            setIsTeamDialogOpen(false);
+          },
+        },
+      );
     }
   };
 
@@ -84,6 +85,15 @@ export default function TeamPage() {
     setSelectedRow(row);
     setIsComfirmOpen(true);
   };
+
+  const deleteRow = async (row: ITeam) => {
+    if (row.id) {
+      removeTeamMutation.mutate(row.id);
+    }
+  };
+
+  if (isLoading) return <Loading />;
+  if (error) return <p>Error loading teams</p>;
 
   return (
     <>
@@ -101,14 +111,14 @@ export default function TeamPage() {
           <Stack>
             <DataTable
               header={teamHeader}
-              rows={teams}
+              rows={teamData}
               onClickModify={(row: ITeam) => clickModify(row)}
               onClickDelete={(row: ITeam) => openDeleteConfirm(row)}
             />
           </Stack>
           <Stack>
             <S.FooterContainer>
-              <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => getTeams(newPage)} />
+              <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => setPage(newPage)} />
             </S.FooterContainer>
           </Stack>
         </S.Content>
@@ -129,6 +139,7 @@ export default function TeamPage() {
           setIsComfirmOpen(false);
         }}
         onConfirm={() => {
+          if (selectedRow) deleteRow(selectedRow);
           setIsComfirmOpen(false);
         }}
       />

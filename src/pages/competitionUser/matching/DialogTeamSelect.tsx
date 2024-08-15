@@ -5,17 +5,17 @@ import * as S from './DialogTeamSelect.styles';
 import { DialogHeader, DialogHeaderTitle, DialogContent } from '@/components/common/dialog/Dialog.style';
 import ListTeamItem from '@/components/team/ListItem';
 
-interface IParseTeams extends IJoinCompTeam {
+interface IParseTeams extends IJoinTeamComps {
   disabled: boolean;
   selected: boolean;
 }
 
 interface TeamSelectPopupProps {
   open: boolean;
-  teams: IJoinCompTeam[];
-  selectedGroupTeams: IJoinCompTeam[];
+  teams: IJoinTeamComps[];
+  selectedGroupTeams: IJoinTeamComps[];
   groupName: string;
-  onClick: (team: IJoinCompTeam) => void;
+  onClick: (team: IJoinTeamComps) => void;
   onClose: () => void;
 }
 

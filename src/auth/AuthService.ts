@@ -1,4 +1,6 @@
-import customAxios from '@/api/customAxios';
+import requestAPI from '@/utils/api';
+
+const API_URL = '/auth';
 
 interface ISignInDto {
   username: string;
@@ -15,17 +17,8 @@ interface ISignInReturn {
   access_token: string;
 }
 
-export async function signIn(data: ISignInDto) {
-  const response = await customAxios.post<ISignInReturn>('/auth/signIn', data);
-  return response.data.access_token;
-}
+export const signIn = (data: ISignInDto): Promise<ISignInReturn> => requestAPI.post(`${API_URL}/signIn`, data);
 
-export async function signUp(data: ISignUpDto) {
-  const response = await customAxios.post<TDefaultReturn>('/auth/signUp', data);
-  return response.data;
-}
+export const signUp = (data: ISignUpDto): Promise<TDefaultReturn> => requestAPI.post(`${API_URL}/signUp`, data);
 
-export async function getMe() {
-  const response = await customAxios.get('/auth/profile');
-  return response.data;
-}
+export const getMe = (): Promise<void> => requestAPI.get(`${API_URL}/profile`);

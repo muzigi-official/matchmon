@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-import { addCompetition, listCompetition } from '@/api/competition';
+import { useCompetitionListQuery, useAddCompetitionMutation } from '@/hooks/queries/useCompetitionQuery';
+
 import Button from '@/components/common/Button';
+import Loading from '@/components/common/Loading';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
 import AddDialog from '@/pages/admin/competition/dialog/AddCompetition';
@@ -21,25 +23,21 @@ const competitionHeader = [
 export default function AdminCompetition() {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
-  const [pageTotal, setPageCount] = useState<number>(10);
-  const [competitions, setCompetitions] = useState<ICompetition[]>([]);
   const navigate = useNavigate();
 
-  const getList = async (newPage: number) => {
-    const response = await listCompetition(newPage);
-    const { page, last_page } = response.meta;
+  // React Query를 사용하여 대회 목록 가져오기
+  const { data: competitionData, isLoading, error } = useCompetitionListQuery(page);
+  const addCompetitionMutation = useAddCompetitionMutation();
 
-    const competitions = response.data.map(competition => {
+  const competitions =
+    competitionData?.data.map(competition => {
       return {
         ...competition,
         startDate: dayjs(competition.startDate).format('YYYY-MM-DD'),
       };
-    });
+    }) || [];
 
-    setCompetitions(competitions);
-    setPage(Number(page));
-    setPageCount(last_page);
-  };
+  const pageTotal = competitionData?.meta?.last_page || 1;
 
   const clickModify = (competition: ICompetition) => {
     console.log('modify', competition);
@@ -49,21 +47,19 @@ export default function AdminCompetition() {
     console.log('delete', competition);
   };
 
-  const onSubmitHandler = async (formData: ICompetitionFormInput) => {
-    const { statusText } = await addCompetition(formData);
-    if (statusText === 'Created') {
-      alert('대회 등록 성공');
-      setDialogOpen(false);
-    }
+  const onSubmitHandler = (formData: ICompetitionFormInput) => {
+    addCompetitionMutation.mutate(formData, {
+      onSuccess: () => {
+        setDialogOpen(false);
+      },
+    });
   };
 
   const movePage = (row: ICompetition) => {
     navigate(`/admin/competitions/${row.id}`);
   };
-
-  useEffect(() => {
-    getList(page);
-  }, []);
+  if (isLoading) return <Loading />;
+  if (error) return <p>Error loading players</p>;
 
   return (
     <S.Container>
@@ -83,7 +79,7 @@ export default function AdminCompetition() {
           onClickModify={(row: ICompetition) => clickModify(row)}
           onClickDelete={(row: ICompetition) => openDeleteConfirm(row)}
         />
-        <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => getList(newPage)} />
+        <Pagination currentPage={page} totalPage={pageTotal} onPageChange={newPage => setPage(newPage)} />
       </S.Content>
       <AddDialog
         open={isDialogOpen}

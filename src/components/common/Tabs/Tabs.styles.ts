@@ -22,7 +22,7 @@ export const TabButtonWrapper = styled.div`
 
 export const TabButton = styled.button<{ $isSelected: boolean }>`
   background-color: ${({ $isSelected }) => ($isSelected ? colors.primary : 'inherit')};
-  color: ${({ $isSelected }) => ($isSelected ? colors.whiteText : '#000')};
+  color: ${({ $isSelected }) => ($isSelected ? colors.white : '#000')};
   border: none;
   border-radius: 8px;
   padding: 8px 16px;

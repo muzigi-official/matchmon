@@ -9,7 +9,7 @@ import { darkenColor, getBrightness, getCustomColor, getRgbaColor } from '@/util
 const buttonStyles = {
   contained: css<{ $color?: string }>`
     background-color: ${({ $color }) => getCustomColor($color)};
-    color: ${({ $color }) => (getBrightness(getCustomColor($color)) > 128 ? colors.darkText : colors.whiteText)};
+    color: ${({ $color }) => (getBrightness(getCustomColor($color)) > 128 ? colors.black : colors.white)};
   `,
   outlined: css<{ $color?: string }>`
     background-color: inherit;
@@ -76,6 +76,6 @@ export const StyledButton = styled.button<{
     $selected &&
     css`
       background-color: ${colors.primary};
-      color: ${colors.whiteText};
+      color: ${colors.white};
     `}
 `;

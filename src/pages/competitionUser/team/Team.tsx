@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getParticipateTeams } from '@/api/joinTeamComp';
-import Button from '@/components/common/Button';
 import DataTable from '@/components/mui/table/DataTable';
+
+import Button from '@/components/common/Button';
+import Loading from '@/components/common/Loading';
+import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
 import * as S from './Team.styles';
@@ -18,42 +19,39 @@ const joinTeamHeader = [
 export default function ParticipateTeams() {
   const navigate = useNavigate();
   const { selectedCompetition } = useCompetitionStore();
-  // const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [rows, setRows] = useState<IJoinCompTeam[]>([]);
 
-  useEffect(() => {
-    getJoinTeams();
-  }, []);
+  const {
+    data: teamsData = [],
+    error: teamsError,
+    isLoading: teamsLoading,
+  } = useParticipateTeamsQuery(selectedCompetition || 0);
 
-  const getJoinTeams = async () => {
-    if (selectedCompetition) {
-      const response = await getParticipateTeams(selectedCompetition);
-      const parseTeams = response.map(item => {
-        const { id, team, participateState, groupStage } = item;
-        return {
-          joinCompId: id,
-          name: team.name,
-          teamId: team.id,
-          participateState,
-          group: groupStage.name,
-        };
-      });
-      setRows(parseTeams);
-    }
-  };
+  const teams = teamsData.map(item => {
+    const { id, team, participateState, groupStage } = item;
+    return {
+      joinCompId: id,
+      emblem: team.emblem,
+      name: team.name,
+      teamId: team.id,
+      participateState,
+      group: groupStage ? groupStage.name : '-',
+    };
+  });
 
   const splitGroup = () => {
-    console.log('split group');
     navigate(`/competition/participateTeams/matching`);
   };
 
-  const deleteTeam = () => {
-    console.log('delete');
+  const deleteTeam = (row: IJoinTeamComps) => {
+    console.log('delete', row);
   };
 
-  const movePage = (row: IJoinCompTeam) => {
+  const movePage = (row: IJoinTeamComps) => {
     navigate(`/competition/participateTeams/${row.joinCompId}`);
   };
+
+  if (teamsLoading) return <Loading />;
+  if (teamsError) return <div>Error: {teamsError.message}</div>;
 
   return (
     <S.Container>
@@ -62,7 +60,7 @@ export default function ParticipateTeams() {
           {selectedCompetition ? (
             <h3>
               <span>참가팀</span>
-              <span> : {rows.length}팀</span>
+              <span> : {teams.length}팀</span>
             </h3>
           ) : (
             <p>대회를 선택하세요.</p>
@@ -80,11 +78,11 @@ export default function ParticipateTeams() {
       <S.Content>
         <DataTable
           header={joinTeamHeader}
-          rows={rows}
-          onClickRow={(row: IJoinCompTeam) => {
+          rows={teams}
+          onClickRow={(row: IJoinTeamComps) => {
             movePage(row);
           }}
-          onClickDelete={deleteTeam}
+          onClickDelete={(row: IJoinTeamComps) => deleteTeam(row)}
         />
       </S.Content>
     </S.Container>

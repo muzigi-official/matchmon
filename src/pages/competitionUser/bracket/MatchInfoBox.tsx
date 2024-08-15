@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 
-import CustomSelect from '@/components/common/Select/CustomSelect';
+import BasicSelect from '@/components/common/Select/BasicSelect';
 
 import * as S from './Index.style';
 
@@ -23,8 +23,8 @@ const MatchInfoBox = ({ infos, isLoading, onEdit, onDelete }: IInfoBoxProps) => 
     text: setting.stage,
   }));
 
-  const handleSelectChange = (value: string | number | undefined) => {
-    setSelectedStage(value || '');
+  const handleSelectChange = (option: ISelectProperty) => {
+    setSelectedStage(option.value || '');
   };
 
   const selectedInfo = infos.find(setting => setting.id === selectedStage);
@@ -38,7 +38,13 @@ const MatchInfoBox = ({ infos, isLoading, onEdit, onDelete }: IInfoBoxProps) => 
   return (
     <S.MatchInfoContainer>
       <S.SelectWrapper>
-        <CustomSelect options={options} label='단계 선택' defaultValue={selectedStage} onSelect={handleSelectChange} />
+        <BasicSelect
+          options={options}
+          label='단계 선택'
+          name='step'
+          defaultValue={selectedStage}
+          onSelect={handleSelectChange}
+        />
       </S.SelectWrapper>
       {selectedInfo && (
         <S.MatchInfo>

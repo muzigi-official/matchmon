@@ -1,2 +1,2 @@
+export { default as BasicSelect } from './BasicSelect';
 export { default as FormSelect } from './FormSelect';
-export { default as CustomSelect } from './CustomSelect';

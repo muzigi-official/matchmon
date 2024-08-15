@@ -39,18 +39,42 @@ declare global {
   }
 
   interface ICompetition {
-    [x: string]: any;
     id?: number | string;
     name: string;
     address: string;
     poster: string;
-    start_date: string;
-    end_date: string;
+    startDate: string;
+    endDate: string;
     description: string;
+    phoneNumber: string;
     organizer: string;
   }
 
-  interface IJoinCompTeam {
+  interface ICompetitionFormInput {
+    name: string;
+    address: string;
+    phoneNumber: string;
+    startDate: Date; // Date 객체 사용
+    endDate: Date; // Date 객체 사용
+    organizer: string;
+  }
+
+  interface IListCompetitionResponse {
+    data: ICompetition[];
+    meta: {
+      total: number;
+      page: number;
+      last_page: number;
+    };
+  }
+
+  // 특정 팀이 Competition에 신청할 때 사용하는 DTO
+  interface IApplyCompetitionDto {
+    competitionId: number;
+    teamId: number | string;
+  }
+
+  interface IJoinTeamComps {
     id?: number;
     joinCompId: number;
     name: string;
@@ -58,6 +82,26 @@ declare global {
     participateState: string;
     group: string;
     emblem?: string;
+  }
+
+  export interface ICompetitionPlayer {
+    id: number;
+    nickName: string;
+    uniformNumber: number;
+    picture: string;
+    role: number;
+    createdAt: string;
+    isActive: boolean;
+  }
+
+  export interface ICompetitionTeam {
+    id: number;
+    name: string;
+    location: string;
+    emblem: string;
+    gender: string;
+    isActive: boolean;
+    players: ICompetitionPlayer[];
   }
 
   interface ITournaments {
@@ -73,13 +117,38 @@ declare global {
     gameOrder: number; // 0~1, 0~3
   }
 
-  interface IPlayerFormInput {
-    id?: number;
+  interface IPlayerBase {
     nickName: string;
-    uniformNumber?: number | null;
-    role?: number;
     picture?: string;
+    uniformNumber?: number | null;
+  }
+
+  interface ICreatePlayerDto extends IPlayerBase {
+    teamId: number;
+  }
+
+  interface IUpdatePlayerDto extends IPlayerBase {
+    id: number;
+    role: number;
+  }
+
+  interface IPlayerFormInput extends IPlayerBase {
+    id?: number;
+    role?: number;
     teamId?: number | string;
+  }
+
+  interface IListPlayerResponse {
+    data: IPlayer[];
+    meta: {
+      total: number;
+      page: number;
+      last_page: number;
+    };
+  }
+
+  interface IGetPlayerResponse {
+    player: IPlayer;
   }
 
   class Coordinate {
@@ -103,40 +172,38 @@ declare global {
     }
   }
 
-  interface ITeam {
-    id: number;
+  interface ITeamBase {
     name: string;
     location: string;
     emblem: string;
     gender: string;
+  }
+
+  interface ITeam extends ITeamBase {
+    id: number;
     isActive?: boolean;
     players?: IPlayer[];
   }
 
-  interface ITeamFormInput {
-    name: string;
-    gender: string;
-    location: string;
-    emblem: string;
+  interface ITeamFormInput extends ITeamBase {}
+
+  interface IUpdateTeamDto extends ITeamBase {
+    teamId: number;
   }
 
-  interface ICompetitionFormInput {
-    name: string;
-    address: string;
-    phoneNumber: string;
-    startDate: Date;
-    endDate: Date;
-    organizer: string;
+  interface IListTeamResponse {
+    data: ITeam[];
+    meta: {
+      total: number;
+      page: number;
+      last_page: number;
+    };
   }
 
   interface ISelectProperty {
     value: string | number;
     text: string;
     group?: string;
-  }
-
-  export interface IFormValues {
-    customSelect: string | number | undefined;
   }
 
   interface IApplyFormInput {
@@ -147,7 +214,7 @@ declare global {
     id: number;
     name: string;
     competitionId: number;
-    joinTeamComps: IJoinCompTeam[];
+    joinTeamComps: IJoinTeamComps[];
     createdAt: Date;
   }
 
@@ -157,7 +224,7 @@ declare global {
     teams: ITeam[];
   }
 
-  interface IJoinCompTeam {
+  interface IJoinTeamComps {
     id: number;
     teamId: number;
     name: string;

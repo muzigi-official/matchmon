@@ -36,7 +36,7 @@ export const LinksContainer = styled.div`
 `;
 
 export const StyledLink = styled.a`
-  color: ${colors.darkText};
+  color: ${colors.black};
   text-decoration: none;
   font-size: 0.75rem;
   margin: 0 5px;
