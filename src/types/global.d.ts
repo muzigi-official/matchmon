@@ -38,16 +38,42 @@ declare global {
     teamName: string;
   }
 
+  // 기본 Competition 정보를 담고 있는 인터페이스
   interface ICompetition {
-    [x: string]: any;
     id?: number | string;
     name: string;
     address: string;
-    poster: string;
-    start_date: string;
-    end_date: string;
-    description: string;
+    poster: string; // 포스터 이미지 URL 혹은 경로
+    startDate: string; // 대회 시작 날짜 (ISO 문자열 형식)
+    endDate: string; // 대회 종료 날짜 (ISO 문자열 형식)
+    description: string; // 대회 설명
+    organizer: string; // 주최자 정보
+  }
+
+  // Competition을 생성하거나 수정할 때 사용하는 DTO (Data Transfer Object)
+  interface ICompetitionFormInput {
+    name: string;
+    address: string;
+    phoneNumber: string;
+    startDate: Date; // Date 객체 사용
+    endDate: Date; // Date 객체 사용
     organizer: string;
+  }
+
+  // API 요청에서 Competition 리스트를 받을 때 사용하는 인터페이스
+  interface IListCompetitionResponse {
+    data: ICompetition[];
+    meta: {
+      total: number; // 총 항목 수
+      page: number; // 현재 페이지 번호
+      last_page: number; // 마지막 페이지 번호
+    };
+  }
+
+  // 특정 팀이 Competition에 신청할 때 사용하는 DTO
+  interface IApplyCompetitionDto {
+    competitionId: number;
+    teamId: number | string;
   }
 
   interface IJoinCompTeam {
@@ -154,15 +180,6 @@ declare global {
       page: number;
       last_page: number;
     };
-  }
-
-  interface ICompetitionFormInput {
-    name: string;
-    address: string;
-    phoneNumber: string;
-    startDate: Date;
-    endDate: Date;
-    organizer: string;
   }
 
   interface ISelectProperty {
