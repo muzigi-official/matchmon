@@ -54,3 +54,5 @@ export const COLOR_SET = [
   '#ef5350',
   '#8d6e63',
 ];
+
+export const USER_ROLE = ['user', 'competitionUser', 'admin'];

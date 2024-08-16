@@ -1,39 +1,34 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
+import { colors } from './colors';
+import { typography } from './typography';
 
 const GlobalStyle = createGlobalStyle`
   ${normalize},
   :root {
     /* ...example */
-    --mui-palette-primary-main: #1976d2;
-    --mui-palette-primary-light: #42a5f5;
-    --mui-palette-primary-dark: #1565c0;
-    --mui-palette-primary-contrast-text: rgb(46, 38, 61);
+    --mui-palette-primary-main: ${colors.primary};
+    --mui-palette-primary-contrast-text: ${colors.black};
     /* ...other variables */
   
-    --border-color: rgb(46, 38, 61, 0.12);
-  }
-  
-
-  :is(.border) {
-      border-width: 1px
-    }
+    --border-color:  ${colors.border};
+    --white-text:  ${colors.cancel.default};
+    --balck-text:  ${colors.black};
     
-  :is(.border-bs) {
-      border-block-start-width: 1px
+    --vh: 1vh;
+    --gnb-width: 64px;
   }
 
-  :is(.inline-end-4) {
-    inset-inline-end: 1rem;
-  }
-
-  :is(.block-start-4) {
-    inset-block-start: 1rem;
+  html { font-size: 100%; }
+  body {
+    font-family: ${typography.fontFamily};
+    font-size: 16px;
+    color: ${colors.black};
+    background-color: ${colors.background};
+    width: 100%;
+    height: calc(var(--vh, 1vh) * 100);
   }
   
-  :is(.absolute) {
-    position: absolute;
-  }
   :is(.select-none) {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -55,9 +50,7 @@ const GlobalStyle = createGlobalStyle`
     vertical-align:baseline;
   }
   article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
-  #root {width: 100%;}
-  html { font-size: 100%; }
-  body {line-height:1; width: 100%; height: 100%; font-size: 1.6rem;}
+  
   ol, ul {list-style:none}
   blockquote, q {quotes:none}
   blockquote:after, blockquote:before, q:after, q:before {content:"";content:none}
@@ -116,13 +109,6 @@ const GlobalStyle = createGlobalStyle`
   input[type="button"],
   input[type="submit"] {
     -webkit-appearance: none;
-  }
-  
-  p.error {
-    color: red;
-    margin-top: 2px;
-    margin-bottom: 0;
-    font-size: .75rem
   }
 
 `;

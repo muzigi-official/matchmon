@@ -102,6 +102,9 @@ export const MuiAvatar = styled(Avatar)`
 
 export const MainContainer = styled(Box)`
   padding: 0 18px;
+  margin: 0;
+  width: calc(100% - var(--gnb-width));
+  height: calc(var(--vh, 1vh) * 100);
 `;
 
 export const ToolbarStart = styled('div')`
@@ -109,9 +112,11 @@ export const ToolbarStart = styled('div')`
   margin: 0;
   width: 30%;
   gap: 10px;
+  align-items: center;
 `;
 export const ToolbarEnd = styled('div')`
   display: flex;
   align-items: center;
   margin-right: 18px;
+  column-gap: 8px;
 `;

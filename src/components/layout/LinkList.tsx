@@ -1,23 +1,15 @@
-import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import List from '@mui/material/List';
-import { ListItemProps } from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
 
-interface ListItemLinkProps extends ListItemProps {
+import { List, ListItemProps, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+
+interface IListItemLinkProps extends ListItemProps {
   to: string;
   open?: boolean;
   primary: string;
   icon?: React.ReactElement;
 }
 
-const breadcrumbNameMap: { [key: string]: string } = {};
-
-function ListItemLink(props: ListItemLinkProps) {
-  const { to, open, icon, primary, ...other } = props;
-
+function ListItemLink({ to, open, icon, primary, ...other }: IListItemLinkProps) {
   return (
     <li>
       <ListItemButton
@@ -47,21 +39,25 @@ function ListItemLink(props: ListItemLinkProps) {
   );
 }
 
-interface Props {
+interface ILinkListProps {
   open: boolean;
-  list: RouteData[];
+  list: INavItem[];
   onClick: () => void;
 }
 
-export default function LinkList({ open, onClick, list }: Props) {
+const breadcrumbNameMap: { [key: string]: string } = {};
+
+const LinkList = ({ open, list, onClick }: ILinkListProps) => {
   return (
     <List>
       {list.map(routeData => {
-        const { url, name, icon } = routeData;
-        breadcrumbNameMap[url] = name;
-        const primary = breadcrumbNameMap[url];
-        return <ListItemLink key={url} to={url} open={open} icon={icon} primary={primary} onClick={onClick} />;
+        const { path, name, icon } = routeData;
+        breadcrumbNameMap[path] = name;
+        const primary = breadcrumbNameMap[path];
+        return <ListItemLink key={path} to={path} open={open} icon={icon} primary={primary} onClick={onClick} />;
       })}
     </List>
   );
-}
+};
+
+export default LinkList;
