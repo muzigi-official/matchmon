@@ -12,9 +12,9 @@ export const SelectContainer = styled.div`
 export const InputLabel = styled.label<{ $isOpen: boolean; $hasValue: boolean }>`
   position: absolute;
   left: 12px;
-  top: ${({ $isOpen, $hasValue }) => ($isOpen || $hasValue ? '-15px' : '4px')}; /* Adjusted for floating effect */
+  top: ${({ $isOpen, $hasValue }) => ($isOpen || $hasValue ? '-15px' : '2px')}; /* Adjusted for floating effect */
   font-size: ${({ $isOpen, $hasValue }) => ($isOpen || $hasValue ? '12px' : '16px')};
-  color: ${({ $isOpen, $hasValue }) => ($isOpen || $hasValue ? colors.primary : '#757575')};
+  color: ${({ $isOpen, $hasValue }) => ($isOpen || $hasValue ? colors.primary : colors.text.placeholder)};
   background: ${colors.white};
   padding: 0 4px;
   transition: all 0.2s ease;
@@ -33,6 +33,7 @@ export const SelectButton = styled.div<{ $open: boolean; $disabled?: boolean }>`
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.75rem;
 
   ${({ $open }) =>
     $open &&
@@ -94,18 +95,19 @@ export const SelectMenu = styled.ul<{ $open: boolean }>`
 export const SelectOption = styled.li<{ $isSelected: boolean }>`
   padding: 0.625rem;
   cursor: pointer;
+  font-size: 0.75rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
   background-color: ${({ $isSelected }) => ($isSelected ? colors.primaryOpacity : 'transparent')};
   &:hover {
     background-color: ${colors.hover};
   }
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 `;
 
 export const SelectGroup = styled.div`
   padding: 8px;
+  font-size: 0.8125rem;
   &:not(:last-child) {
     border-bottom: 1px solid ${colors.border.darken};
   }

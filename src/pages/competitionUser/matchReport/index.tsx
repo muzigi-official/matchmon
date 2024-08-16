@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import * as S from '../Container.style';
-import BasicSelect from '@/components/select/BasicSelect';
-import DataTable from '@/components/table/DataTable';
+import BasicSelect from '@/components/common/Select/BasicSelect';
+import DataTable from '@/components/mui/table/DataTable';
+import * as S from './Container.style';
 
 const dateSelect = [
   { value: '2024-04-20', text: '2024-04-20' },
@@ -40,8 +40,8 @@ export default function AdminMatchReport() {
     { order: 5, dateTime: '11:20 ~ 11:35', teams: '장도리 FC vs 눈누난나A', result: '-', gameState: '-' },
     { order: 6, dateTime: '11:40 ~ 11:55', teams: '룰루랄라 vs Hobby FC', result: '-', gameState: '-' },
   ];
-  const handleSelect = (value: string) => {
-    console.log('select', value);
+  const handleSelect = (option: ISelectProperty) => {
+    console.log('select', option.value);
   };
 
   const hadleClickRow = (row: HeaderProperty) => {
@@ -55,10 +55,22 @@ export default function AdminMatchReport() {
         <h3>경기 기록</h3>
       </S.Top>
       <S.Content>
-        <S.ContentTop>
-          <BasicSelect title='날짜' items={dateSelect} size='small' onSelect={handleSelect}></BasicSelect>
-          <BasicSelect title='구장' items={stadiumSelect} size='small' onSelect={handleSelect}></BasicSelect>
-        </S.ContentTop>
+        <S.Header>
+          <BasicSelect
+            label='날짜'
+            options={dateSelect}
+            name='date'
+            value='2024-04-20'
+            onSelect={handleSelect}
+          ></BasicSelect>
+          <BasicSelect
+            label='구장'
+            options={stadiumSelect}
+            name='stadium'
+            value='A구장'
+            onSelect={handleSelect}
+          ></BasicSelect>
+        </S.Header>
         <DataTable header={tableHeader} rows={rows} onClickRow={hadleClickRow} />
       </S.Content>
     </S.Container>

@@ -20,9 +20,7 @@ export const Content = styled('section')`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background-color: rgba(173, 169, 188, 0.36);
   border-radius: 16px;
-  width: 40%;
 `;
 
 export const Header = styled('div')`

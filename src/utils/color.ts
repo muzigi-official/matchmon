@@ -23,6 +23,7 @@ export const getCustomColor = (color?: string) => {
     case 'info':
       return colors.info.default;
     case 'cancel':
+    case 'default':
       return colors.cancel.default;
     default:
       return color || colors.primary;
