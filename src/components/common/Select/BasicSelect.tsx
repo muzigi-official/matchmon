@@ -81,7 +81,11 @@ const BasicSelect = forwardRef<HTMLDivElement, ISelectProps>(
 
     return (
       <SelectContainer ref={containerRef}>
-        {label && <InputLabel>{capitalizeFirstLetter(label)}</InputLabel>}
+        {label && (
+          <InputLabel $isOpen={!!(isOpen || selectedText)} $hasValue={!!selectedText}>
+            {capitalizeFirstLetter(label)}
+          </InputLabel>
+        )}
         <SelectButton onClick={handleToggle} $open={isOpen} $disabled={disabled}>
           <span>
             {searchable ? (
