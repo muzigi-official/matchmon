@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { colors } from '@/styles/colors';
+// import BasicSelect from './BasicSelect';
 
 export const SelectContainer = styled.div`
   position: relative;
@@ -118,3 +119,10 @@ export const SelectGroup = styled.div`
     font-weight: bold;
   }
 `;
+
+// export const SmallBasicSelect = styled(BasicSelect)`
+//   flex-basis: 30%; /* Adjusts the width relative to the parent */
+//   max-width: 200px; /* Ensures it doesn't exceed a certain width */
+//   min-width: 100px; /* Optional: ensures it doesn't go below a certain width */
+//   margin-left: 12px; /* Optional: adjusts space between span and select */
+// `;

@@ -1,18 +1,14 @@
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+
+import DataTable from '@/components/mui/table/DataTable';
 
 import BasicSelect from '@/components/common/Select/BasicSelect';
-import DataTable from '@/components/mui/table/DataTable';
-import * as S from './Container.style';
+import { useCompetitionQuery } from '@/hooks/queries/useCompetitionQuery';
+import { useMatchSchedulesQuery } from '@/hooks/queries/useMatchScheduleQuery';
+import useCompetitionStore from '@/store/useCompetitionStore';
 
-const dateSelect = [
-  { value: '2024-04-20', text: '2024-04-20' },
-  { value: '2024-04-21', text: '2024-04-21' },
-];
-const stadiumSelect = [
-  { value: 'A구장', text: 'A구장' },
-  { value: 'B구장', text: 'B구장' },
-  { value: 'C구장', text: 'C구장' },
-];
+import * as S from './Container.style';
 
 const tableHeader = [
   { headerName: '순서', property: 'order', type: 'string' },
@@ -32,6 +28,21 @@ interface HeaderProperty {
 
 export default function AdminMatchReport() {
   const navigate = useNavigate();
+  const { selectedCompetition } = useCompetitionStore();
+
+  const { data: competition } = useCompetitionQuery(selectedCompetition || 0);
+  const { data: matchSchedules } = useMatchSchedulesQuery(selectedCompetition || 0);
+
+  console.log(competition);
+
+  const stadiums = Array.from(new Set(matchSchedules?.map(match => match.stadium))).map(stadium => ({
+    value: stadium,
+    text: stadium,
+  }));
+  stadiums.unshift({ value: 'all', text: '전체' });
+
+  // 여기에 필요한 정보, 시간, 구장, homeTeam, awayTeam, result(결과),state(상태) => 결과와 상태만 추가되면 됨. 스케줄에서
+  // state(상태: 완료 -> 경기 진행완료, 결과도 입력, 미입력 -> 경기는 진행 완료, but 결과 미입력, 대기 -> 경기가 아직 진행 되지 않음.)
   const rows = [
     { order: 1, dateTime: '10:00 ~ 10:15', teams: '눈누난나A vs 눈누난나B', result: 'Home 승', gameState: '완료' },
     { order: 2, dateTime: '10:20 ~ 10:35', teams: '양구시청 vs 장도리 FC', result: '무', gameState: '미입력' },
@@ -46,7 +57,7 @@ export default function AdminMatchReport() {
 
   const hadleClickRow = (row: HeaderProperty) => {
     console.log('click', row);
-    navigate(`/admin/matchReport/${row.order}`);
+    navigate(`/competition/results/${row.order}`);
   };
 
   return (
@@ -56,20 +67,8 @@ export default function AdminMatchReport() {
       </S.Top>
       <S.Content>
         <S.Header>
-          <BasicSelect
-            label='날짜'
-            options={dateSelect}
-            name='date'
-            value='2024-04-20'
-            onSelect={handleSelect}
-          ></BasicSelect>
-          <BasicSelect
-            label='구장'
-            options={stadiumSelect}
-            name='stadium'
-            value='A구장'
-            onSelect={handleSelect}
-          ></BasicSelect>
+          <span>{dayjs(competition?.startDate).format('YYYY/MM/DD')}</span>
+          <BasicSelect label='구장' options={stadiums} name='stadium' value='all' onSelect={handleSelect}></BasicSelect>
         </S.Header>
         <DataTable header={tableHeader} rows={rows} onClickRow={hadleClickRow} />
       </S.Content>
