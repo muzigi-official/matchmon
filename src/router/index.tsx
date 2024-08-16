@@ -11,22 +11,12 @@ const Result = lazy(() => import('@/pages/user/Competition/Result'));
 const Bracket = lazy(() => import('@/pages/user/Bracket'));
 const Team = lazy(() => import('@/pages/user/team'));
 
-<<<<<<< HEAD
-const AdminHome = lazy(() => import('../pages/admin/Home'));
-const AdminCompetition = lazy(() => import('../pages/admin/competition'));
-const AdminMatchReport = lazy(() => import('../pages/admin/matchReport'));
-const AdminMatchDetail = lazy(() => import('../pages/admin/matchReport/Detail'));
-const ParticipateTeams = lazy(() => import('../pages/admin/competition/team/Team'));
-const ParticipateTeamDetails = lazy(() => import('../pages/admin/competition/team/TeamDetails'));
-// const AdminCompetitionDetails = lazy(() => import('../pages/admin/competition/Details'));
-=======
 const AdminHome = lazy(() => import('@/pages/admin/Home'));
 const AdminUsers = lazy(() => import('@/pages/admin/users'));
 const AdminCompetition = lazy(() => import('@/pages/admin/competition'));
 const AdminCompetitionDetail = lazy(() => import('@/pages/admin/competition/PageDetails'));
 const AdminTeams = lazy(() => import('@/pages/admin/teams/TeamPage'));
 const AdminPlayers = lazy(() => import('@/pages/admin/players'));
->>>>>>> e522dfb9a8f9368eb18405f71b49c68e2e332e9b
 
 const CompetitionUserHome = lazy(() => import('@/pages/competitionUser/Home'));
 const MyCompetitionList = lazy(() => import('@/pages/competitionUser/competition/List'));
@@ -129,32 +119,6 @@ const routes: RouteObject[] = [
   { path: '/login', element: <Login /> },
 ];
 
-<<<<<<< HEAD
-      <Route path='admin'>
-        <Route index element={<AdminHome />} />
-        <Route path='competition'>
-          <Route index element={<AdminCompetition />} />
-          {/* <Route path=':competitionId' element={<AdminCompetitionDetails />} /> */}
-          <Route path='participateTeams'>
-            <Route index element={<ParticipateTeams />} />
-            <Route path=':joinCompId' element={<ParticipateTeamDetails />} />
-          </Route>
-        </Route>
-        <Route path='matchReport'>
-          <Route index element={<AdminMatchReport />} />
-          <Route path=':matchId' element={<AdminMatchDetail />} />
-        </Route>
-      </Route>
-
-      <Route path='ranking' element={<Ranking />} />
-      <Route path='bracket' element={<Bracket />} />
-      <Route path='*' element={<Navigate to='/main' replace />} />
-      <Route index element={<Main />} />
-    </Route>,
-  ),
-);
-=======
 const router = createBrowserRouter(routes);
->>>>>>> e522dfb9a8f9368eb18405f71b49c68e2e332e9b
 
 export default router;
