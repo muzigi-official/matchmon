@@ -1,5 +1,5 @@
-// styles.ts
 import styled from 'styled-components';
+import { colors } from '@/styles/colors';
 
 export const Container = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ export const TabButton = styled.button<{ selected: boolean }>`
   font-size: 16px;
   font-weight: bold;
   color: white;
-  background-color: ${props => (props.selected ? '#4a90e2' : '#cccccc')};
+  background-color: ${props => (props.selected ? colors.primary : '#cccccc')};
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -36,7 +36,7 @@ export const ResetButton = styled.button`
   padding: 10px 20px;
   font-size: 16px;
   color: white;
-  background-color: #e74c3c;
+  background-color: ${colors.error.default};
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -51,7 +51,6 @@ export const PlayerListContainer = styled.div`
 
 export const PlayerList = styled.div<{ visible: boolean }>`
   flex: 1;
-  padding: 8px;
   display: ${props => (props.visible ? 'block' : 'none')};
 `;
 
@@ -85,7 +84,7 @@ export const GoalButton = styled.button`
   font-size: 20px;
   font-weight: bold;
   color: white;
-  background-color: #4a90e2;
+  background-color: ${colors.primary};
   border: none;
   border-radius: 4px;
   cursor: pointer;

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Button from '@/components/common/Button';
+
 import * as S from './ScoreBoard.styles'; // 스타일 컴포넌트를 불러옴
 
 // Example data (replace with API data)
@@ -73,9 +75,13 @@ export default function MatchScoreKeeper() {
       <S.PlayerItem key={player.id}>
         <S.PlayerName>{player.name}</S.PlayerName>
         <S.GoalControl>
-          <S.GoalButton onClick={() => handleGoalChange(team, player.id, -1)}>-</S.GoalButton>
-          <S.GoalCount>{player.goals}</S.GoalCount>
-          <S.GoalButton onClick={() => handleGoalChange(team, player.id, 1)}>+</S.GoalButton>
+          <Button variant='outlined' color='primary' onClick={() => handleGoalChange(team, player.id, -1)}>
+            -
+          </Button>
+          <S.GoalCount>{`⚽️ ${player.goals}`}</S.GoalCount>
+          <Button variant='outlined' color='primary' onClick={() => handleGoalChange(team, player.id, 1)}>
+            +
+          </Button>
         </S.GoalControl>
       </S.PlayerItem>
     ));
@@ -92,7 +98,9 @@ export default function MatchScoreKeeper() {
             어웨이
           </S.TabButton>
         </div>
-        <S.ResetButton onClick={handleReset}>초기화</S.ResetButton>
+        <Button variant='outlined' color='error' onClick={handleReset}>
+          초기화
+        </Button>
       </S.TopBar>
 
       <S.PlayerListContainer>
