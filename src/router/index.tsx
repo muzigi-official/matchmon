@@ -108,7 +108,7 @@ const routes: RouteObject[] = [
             element: <PrivateRoute component={CompetitionMatchReport} roles={['competitionUser']} />,
           },
           {
-            path: 'results/:id',
+            path: 'results/:matchId',
             element: <PrivateRoute component={CompetitionInputMatchReport} roles={['competitionUser']} />,
           },
           {

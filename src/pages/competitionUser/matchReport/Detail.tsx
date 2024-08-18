@@ -1,45 +1,42 @@
-import BasicSelect from '@/components/common/Select/BasicSelect';
+import { useParams } from 'react-router-dom';
 
+import BasicSelect from '@/components/common/Select/BasicSelect';
+import { useMatchSchedulesQuery } from '@/hooks/queries/useMatchScheduleQuery';
+import useCompetitionStore from '@/store/useCompetitionStore';
+
+import ScoreBoard from './ScoreBoard';
 import * as S from './Container.style';
 
-const matchSelect = [
-  { value: '1', text: '1경기 10:00 ~ 10:15 눈누난나A vs 눈누난나B' },
-  { value: '2', text: '2경기 10:20 ~ 10:35 양구시청 vs 장도리 FC' },
-  { value: '3', text: '3경기 10:40 ~ 10:55 hobby FC vs 프라임 FC' },
-  { value: '4', text: '4경기 11:00 ~ 11:15 눈누난나B vs 프라임 FC' },
-  { value: '5', text: '5경기 11:20 ~ 10:35 장도리 FC vs 눈누난나A' },
-  { value: '6', text: '6경기 11:40 ~ 11:55 룰루랄라 vs Hobby FC' },
-];
+export default function MatchReportDetail() {
+  const { matchId } = useParams();
 
-// interface HeaderProperty {
-//   order: number;
-//   dateTime: string;
-//   teams: string;
-//   result: string;
-//   gameState: string;
-// }
+  const { selectedCompetition } = useCompetitionStore();
+  const { data: matchSchedules } = useMatchSchedulesQuery(selectedCompetition || 0);
 
-export default function AdminMatchDetail() {
+  const matchSelectOption =
+    matchSchedules?.map(match => ({
+      value: match.id ?? 0,
+      text: `${match.matchTime} ${match.homeTeamName} vs ${match.awayTeamName}`,
+    })) || [];
+
   const handleSelect = (option: ISelectProperty) => {
     console.log('select', option.value);
   };
-
-  // const hadleClickRow = (row: HeaderProperty) => {
-  //   console.log('click', row);
-  // };
 
   return (
     <S.Container>
       <S.Top>
         <h3>경기 기록</h3>
+        <BasicSelect
+          label='경기'
+          name='match'
+          value={Number(matchId)}
+          options={matchSelectOption}
+          onSelect={handleSelect}
+        ></BasicSelect>
       </S.Top>
       <S.Content>
-        <S.Header>
-          <h5>2024.04.20</h5>
-          <h5>B 구장</h5>
-        </S.Header>
-        <S.List>{}</S.List>
-        <BasicSelect label='경기' name='match' options={matchSelect} onSelect={handleSelect}></BasicSelect>
+        <ScoreBoard />
       </S.Content>
     </S.Container>
   );
