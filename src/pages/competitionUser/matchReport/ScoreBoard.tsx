@@ -62,8 +62,11 @@ export default function MatchScoreKeeper() {
   };
 
   const handleReset = () => {
-    setHomePlayers(initialHomePlayers);
-    setAwayPlayers(initialAwayPlayers);
+    // 모든 선수의 골 수를 0으로 초기화
+    setHomePlayers(homePlayers.map(player => ({ ...player, goals: 0 })));
+    setAwayPlayers(awayPlayers.map(player => ({ ...player, goals: 0 })));
+
+    // 스코어보드 점수 초기화
     setHomeScores(0);
     setAwayScores(0);
   };
@@ -103,14 +106,14 @@ export default function MatchScoreKeeper() {
         </Button>
       </S.TopBar>
 
+      <S.ScoreBoard>
+        {homeScores} : {awayScores}
+      </S.ScoreBoard>
+
       <S.PlayerListContainer>
         <S.PlayerList visible={selectedTeam === 'home'}>{renderPlayerList('home')}</S.PlayerList>
         <S.PlayerList visible={selectedTeam === 'away'}>{renderPlayerList('away')}</S.PlayerList>
       </S.PlayerListContainer>
-
-      <S.ScoreBoard>
-        {homeScores} : {awayScores}
-      </S.ScoreBoard>
     </S.Container>
   );
 }
