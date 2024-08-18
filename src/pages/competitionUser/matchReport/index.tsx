@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
@@ -33,11 +34,10 @@ interface HeaderProperty {
 export default function AdminMatchReport() {
   const navigate = useNavigate();
   const { selectedCompetition } = useCompetitionStore();
+  const [selectedStadium, setSelectedStadium] = useState<string | number>('all');
 
   const { data: competition } = useCompetitionQuery(selectedCompetition || 0);
   const { data: matchSchedules } = useMatchSchedulesQuery(selectedCompetition || 0);
-
-  console.log(matchSchedules);
 
   const stadiums = Array.from(new Set(matchSchedules?.map(match => match.stadium))).map(stadium => ({
     value: stadium,
@@ -61,8 +61,11 @@ export default function AdminMatchReport() {
       };
     }) || [];
 
+  // 선택된 구장에 따른 필터링
+  const filteredRows = selectedStadium === 'all' ? rows : rows.filter(row => row.stadium === selectedStadium);
+
   const handleSelect = (option: ISelectProperty) => {
-    console.log('select', option.value);
+    setSelectedStadium(option.value); // 선택된 구장을 상태로 업데이트
   };
 
   const hadleClickRow = (row: HeaderProperty) => {
@@ -78,9 +81,15 @@ export default function AdminMatchReport() {
       <S.Content>
         <S.Header>
           <span>{dayjs(competition?.startDate).format('YYYY/MM/DD')}</span>
-          <BasicSelect label='구장' options={stadiums} name='stadium' value='all' onSelect={handleSelect}></BasicSelect>
+          <BasicSelect
+            label='구장'
+            options={stadiums}
+            name='stadium'
+            value={selectedStadium}
+            onSelect={handleSelect}
+          ></BasicSelect>
         </S.Header>
-        <DataTable header={tableHeader} rows={rows} onClickRow={hadleClickRow} />
+        <DataTable header={tableHeader} rows={filteredRows} onClickRow={hadleClickRow} />
       </S.Content>
     </S.Container>
   );
