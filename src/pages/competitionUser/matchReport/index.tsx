@@ -22,6 +22,7 @@ const tableHeader = [
 ];
 
 interface HeaderProperty {
+  id?: number;
   order: number;
   dateTime: string;
   stadium: string;
@@ -70,7 +71,7 @@ export default function AdminMatchReport() {
 
   const hadleClickRow = (row: HeaderProperty) => {
     console.log('click', row);
-    navigate(`/competition/results/${row.order}`);
+    navigate(`/competition/results/${row.id}`);
   };
 
   return (
