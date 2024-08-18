@@ -8,6 +8,7 @@ export const Container = styled.div`
   height: 100vh;
   padding: 16px;
   background-color: #f0f0f0;
+  gap: 12px;
 `;
 
 export const TopBar = styled.div`
@@ -45,7 +46,6 @@ export const ResetButton = styled.button`
 export const PlayerListContainer = styled.div`
   display: flex;
   flex-grow: 1;
-  margin: 16px 0;
   overflow-y: auto;
 `;
 
@@ -101,8 +101,6 @@ export const ScoreBoard = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 16px;
   font-size: 48px;
   font-weight: bold;
-  border-top: 2px solid #ccc;
 `;

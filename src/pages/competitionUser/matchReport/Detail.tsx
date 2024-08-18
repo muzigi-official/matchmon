@@ -5,7 +5,7 @@ import { useMatchSchedulesQuery } from '@/hooks/queries/useMatchScheduleQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
 import ScoreBoard from './ScoreBoard';
-import * as S from './Container.style';
+import * as S from './Details.styles';
 
 export default function MatchReportDetail() {
   const { matchId } = useParams();
