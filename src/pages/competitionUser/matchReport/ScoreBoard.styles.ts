@@ -49,9 +49,9 @@ export const PlayerListContainer = styled.div`
   overflow-y: auto;
 `;
 
-export const PlayerList = styled.div<{ visible: boolean }>`
+export const PlayerList = styled.div<{ $visible: boolean }>`
   flex: 1;
-  display: ${props => (props.visible ? 'block' : 'none')};
+  display: ${props => (props.$visible ? 'block' : 'none')};
 `;
 
 export const PlayerItem = styled.div`

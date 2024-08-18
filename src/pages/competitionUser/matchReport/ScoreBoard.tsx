@@ -10,11 +10,11 @@ const initialHomePlayers = [
   { id: 3, name: '동블리', goals: 0 },
   { id: 4, name: '봉준호', goals: 2 },
   { id: 5, name: '파이리', goals: 0 },
-  { id: 1, name: '꼬부기', goals: 3 },
-  { id: 2, name: '임영웅', goals: 0 },
-  { id: 3, name: '류새아라', goals: 0 },
-  { id: 4, name: '도토리', goals: 2 },
-  { id: 5, name: '지니', goals: 0 },
+  { id: 11, name: '꼬부기', goals: 3 },
+  { id: 12, name: '임영웅', goals: 0 },
+  { id: 13, name: '류새아라', goals: 0 },
+  { id: 14, name: '도토리', goals: 2 },
+  { id: 15, name: '지니', goals: 0 },
 ];
 
 const initialAwayPlayers = [
@@ -111,8 +111,8 @@ export default function MatchScoreKeeper() {
       </S.ScoreBoard>
 
       <S.PlayerListContainer>
-        <S.PlayerList visible={selectedTeam === 'home'}>{renderPlayerList('home')}</S.PlayerList>
-        <S.PlayerList visible={selectedTeam === 'away'}>{renderPlayerList('away')}</S.PlayerList>
+        <S.PlayerList $visible={selectedTeam === 'home'}>{renderPlayerList('home')}</S.PlayerList>
+        <S.PlayerList $visible={selectedTeam === 'away'}>{renderPlayerList('away')}</S.PlayerList>
       </S.PlayerListContainer>
     </S.Container>
   );
