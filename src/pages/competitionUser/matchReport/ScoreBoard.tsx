@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/common/Button';
 
 import * as S from './ScoreBoard.styles'; // 스타일 컴포넌트를 불러옴
@@ -15,11 +15,10 @@ interface IMatchScoreProps {
   awayTeamPlayers: IResultPlayer[];
 }
 
-// Main Component
 export default function MatchScoreKeeper({ homeTeamPlayers, awayTeamPlayers }: IMatchScoreProps) {
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away'>('home');
-  const [homePlayers, setHomePlayers] = useState(homeTeamPlayers);
-  const [awayPlayers, setAwayPlayers] = useState(awayTeamPlayers);
+  const [homePlayers, setHomePlayers] = useState<IResultPlayer[]>([]);
+  const [awayPlayers, setAwayPlayers] = useState<IResultPlayer[]>([]);
   const [homeScores, setHomeScores] = useState(0);
   const [awayScores, setAwayScores] = useState(0);
 
@@ -60,6 +59,18 @@ export default function MatchScoreKeeper({ homeTeamPlayers, awayTeamPlayers }: I
     setHomeScores(0);
     setAwayScores(0);
   };
+
+  useEffect(() => {
+    if (homeTeamPlayers) {
+      setHomePlayers(homeTeamPlayers);
+    }
+  }, [homeTeamPlayers]);
+
+  useEffect(() => {
+    if (awayTeamPlayers) {
+      setAwayPlayers(awayTeamPlayers);
+    }
+  }, [awayTeamPlayers]);
 
   const renderPlayerList = (team: 'home' | 'away') => {
     const players = team === 'home' ? homePlayers : awayPlayers;
