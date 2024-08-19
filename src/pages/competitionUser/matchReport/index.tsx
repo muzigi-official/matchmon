@@ -32,7 +32,7 @@ interface HeaderProperty {
   gameState: string;
 }
 
-export default function AdminMatchReport() {
+export default function MatchReport() {
   const navigate = useNavigate();
   const { selectedCompetition } = useCompetitionStore();
   const [selectedStadium, setSelectedStadium] = useState<string | number>('all');
