@@ -68,7 +68,7 @@ export default function DataTable<T>({ header, rows, onClickRow, onClickModify, 
                   );
                 }
 
-                if (header.type === 'text' && row !== null) {
+                if (header.type !== 'button' && row !== null) {
                   return <S.DataTableTd key={`td_${index}`}>{(row as HeaderKey)[header.property]}</S.DataTableTd>;
                 }
               })}

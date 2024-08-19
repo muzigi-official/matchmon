@@ -74,10 +74,10 @@ const MatchEditField = ({
         options={teamOptions}
         onBlur={() => {}}
       />
-      <Button variant='outlined' color='grey' onClick={handleUpdate}>
+      <Button variant='outlined' color='default' onClick={handleUpdate}>
         <EditIcon />
       </Button>
-      <Button variant='outlined' color='danger' onClick={() => onRemove(match)}>
+      <Button variant='outlined' color='error' onClick={() => onRemove(match)}>
         <RemoveIcon />
       </Button>
     </S.MatchItem>

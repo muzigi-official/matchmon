@@ -6,7 +6,7 @@ export const colors = {
   primaryDark: '#3741b6',
   secondaryDark: '#1F1B45',
   secondaryLight: '#F4B400',
-  background: '#EFEFEF',
+  background: '#FFFFFF',
 
   hover: '#e8e8e83d',
   disabled: {
@@ -25,6 +25,7 @@ export const colors = {
   },
   text: {
     basic: '#242424',
+    placeholder: '#757575',
     error: '#e91e63',
   },
 

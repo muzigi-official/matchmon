@@ -42,7 +42,7 @@ const MatchInfoBox = ({ infos, isLoading, onEdit, onDelete }: IInfoBoxProps) => 
           options={options}
           label='단계 선택'
           name='step'
-          defaultValue={selectedStage}
+          value={selectedStage}
           onSelect={handleSelectChange}
         />
       </S.SelectWrapper>
