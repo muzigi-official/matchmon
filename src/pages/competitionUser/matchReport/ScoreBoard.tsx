@@ -3,35 +3,25 @@ import Button from '@/components/common/Button';
 
 import * as S from './ScoreBoard.styles'; // 스타일 컴포넌트를 불러옴
 
-// Example data (replace with API data)
-const initialHomePlayers = [
-  { id: 1, name: '아이유', goals: 3 },
-  { id: 2, name: '강남길', goals: 0 },
-  { id: 3, name: '동블리', goals: 0 },
-  { id: 4, name: '봉준호', goals: 2 },
-  { id: 5, name: '파이리', goals: 0 },
-  { id: 11, name: '꼬부기', goals: 3 },
-  { id: 12, name: '임영웅', goals: 0 },
-  { id: 13, name: '류새아라', goals: 0 },
-  { id: 14, name: '도토리', goals: 2 },
-  { id: 15, name: '지니', goals: 0 },
-];
+interface IResultPlayer {
+  id: number;
+  name: string;
+  uniformNumber: number;
+  goals: number;
+}
 
-const initialAwayPlayers = [
-  { id: 6, name: '임하농', goals: 0 },
-  { id: 7, name: '김철수', goals: 1 },
-  { id: 8, name: '박영희', goals: 0 },
-  { id: 9, name: '정민수', goals: 0 },
-  { id: 10, name: '이기자', goals: 0 },
-];
+interface IMatchScoreProps {
+  homeTeamPlayers: IResultPlayer[];
+  awayTeamPlayers: IResultPlayer[];
+}
 
 // Main Component
-export default function MatchScoreKeeper() {
+export default function MatchScoreKeeper({ homeTeamPlayers, awayTeamPlayers }: IMatchScoreProps) {
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away'>('home');
-  const [homePlayers, setHomePlayers] = useState(initialHomePlayers);
-  const [awayPlayers, setAwayPlayers] = useState(initialAwayPlayers);
-  const [homeScores, setHomeScores] = useState(5);
-  const [awayScores, setAwayScores] = useState(1);
+  const [homePlayers, setHomePlayers] = useState(homeTeamPlayers);
+  const [awayPlayers, setAwayPlayers] = useState(awayTeamPlayers);
+  const [homeScores, setHomeScores] = useState(0);
+  const [awayScores, setAwayScores] = useState(0);
 
   const handleSelectTeam = (team: 'home' | 'away') => {
     setSelectedTeam(team);
