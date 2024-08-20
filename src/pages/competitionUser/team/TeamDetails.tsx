@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -27,14 +27,16 @@ export default function ParticipateTeamsDetails() {
 
   const allPlayers = team?.players || [];
 
-  const attendingPlayers = useMemo(() => {
-    return allPlayers.map((player: IPlayer) => {
-      const isAttend = participatePlayers.some(participatePlayer => {
-        return participatePlayer.id === player.id;
-      });
-      return { ...player, isAttend };
+  console.log('all', allPlayers);
+
+  console.log(participatePlayers);
+
+  const attendingPlayers = allPlayers.map((player: IPlayer) => {
+    const isAttend = participatePlayers.some(participatePlayer => {
+      return participatePlayer.id === player.id;
     });
-  }, [participatePlayers, allPlayers]);
+    return { ...player, isAttend };
+  });
 
   const clickAddPlayer = () => {
     setOpenDialog(true);
