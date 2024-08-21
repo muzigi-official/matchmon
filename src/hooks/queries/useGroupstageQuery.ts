@@ -9,6 +9,7 @@ import {
   removeTeamFromGroup,
 } from '@/api/groupStage';
 import { groupstageQueryKeys } from '@/queryKeys/groupstage';
+import { joinTeamCompsQueryKeys } from '@/queryKeys/joinTeamCompsQueryKeys';
 
 export const useGroupstageWithTeamsQuery = (competitionId: number) => {
   return useQuery<IGroupStage[], AxiosError<IErrorResponse>>(groupstageQueryKeys.groupStage(competitionId), () =>
@@ -72,6 +73,7 @@ export const useRemoveTeamFromGroupMutation = (competitionId: number) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
+        queryClient.invalidateQueries(joinTeamCompsQueryKeys.participateTeams(competitionId));
       },
       onError: (error: AxiosError<IErrorResponse>) => {
         if (error.response?.data?.message) {
