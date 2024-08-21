@@ -22,17 +22,13 @@ export default function ParticipateTeamsDetails() {
 
   const { data: participatePlayers = [], isLoading: isPlayersLoading } = useParticipatePlayersQuery(joinCompId || '');
   const { data: team, isLoading: isTeamLoading } = useParticipateTeamInPlayersQuery(joinCompId || '');
-  const addJoinCompTeamMutation = useAddJoinCompTeamMutation();
-  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation();
+  const addJoinCompTeamMutation = useAddJoinCompTeamMutation(joinCompId || '');
+  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation(joinCompId || '');
 
   const allPlayers = team?.players || [];
 
-  console.log('all', allPlayers);
-
-  console.log(participatePlayers);
-
   const attendingPlayers = allPlayers.map((player: IPlayer) => {
-    const isAttend = participatePlayers.some(participatePlayer => {
+    const isAttend = participatePlayers.some((participatePlayer: IPlayer) => {
       return participatePlayer.id === player.id;
     });
     return { ...player, isAttend };
@@ -71,7 +67,7 @@ export default function ParticipateTeamsDetails() {
             <h5>{participatePlayers.length} 명</h5>
           </S.Header>
           <S.List>
-            {participatePlayers.map(player => {
+            {participatePlayers.map((player: IPlayer) => {
               return (
                 <S.ListItem key={player.id}>
                   {player.uniformNumber ? (
