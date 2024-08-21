@@ -16,7 +16,7 @@ export const fetchParticipateTeamInPlayers = (joinTeamCompId: number | string): 
 };
 
 export const addJoinCompTeam = (data: IToggleJoinTeamDto): Promise<TDefaultReturn> =>
-  requestAPI.patch(`/joinTeamComp/removePlayer`, data);
+  requestAPI.patch(`/joinTeamComp/addPlayers`, data);
 
 export const deleteJoinCompTeam = (data: IToggleJoinTeamDto): Promise<TDefaultReturn> =>
   requestAPI.patch(`/joinTeamComp/removePlayer`, data);

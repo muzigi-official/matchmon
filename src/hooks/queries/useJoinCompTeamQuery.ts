@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
+
 import {
   fetchParticipateTeams,
   fetchParticipatePlayers,
@@ -22,25 +24,38 @@ export const useParticipatePlayersQuery = (joinTeamCompId: number | string) => {
 };
 
 export const useParticipateTeamInPlayersQuery = (joinTeamCompId: number | string) => {
-  return useQuery<ICompetitionTeam, AxiosError>(joinTeamCompsQueryKeys.participateTeamInPlayers(joinTeamCompId), () =>
-    fetchParticipateTeamInPlayers(joinTeamCompId),
+  return useQuery<ICompetitionTeam, AxiosError>(
+    joinTeamCompsQueryKeys.participateTeamInPlayers(Number(joinTeamCompId)),
+    () => fetchParticipateTeamInPlayers(Number(joinTeamCompId)),
   );
 };
 
-export const useAddJoinCompTeamMutation = () => {
+export const useAddJoinCompTeamMutation = (joinCompId: string) => {
   const queryClient = useQueryClient();
   return useMutation((data: IToggleJoinTeamDto) => addJoinCompTeam(data), {
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries(joinTeamCompsQueryKeys.participateTeams(variables.joinTeamCompId));
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(joinCompId));
+      toast.success('선수 참가 신청이 성공했습니다.');
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      if (error.response?.data?.message) {
+        toast.error(error.response?.data?.message);
+      }
     },
   });
 };
 
-export const useDeleteJoinCompTeamMutation = () => {
+export const useDeleteJoinCompTeamMutation = (joinCompId: string) => {
   const queryClient = useQueryClient();
   return useMutation((data: IToggleJoinTeamDto) => deleteJoinCompTeam(data), {
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries(joinTeamCompsQueryKeys.participateTeams(variables.joinTeamCompId));
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(joinCompId));
+      toast.success('선수 참가 신청 취소가 완료됐습니다.');
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      if (error.response?.data?.message) {
+        toast.error(error.response?.data?.message);
+      }
     },
   });
 };

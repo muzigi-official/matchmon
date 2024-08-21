@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -22,19 +22,17 @@ export default function ParticipateTeamsDetails() {
 
   const { data: participatePlayers = [], isLoading: isPlayersLoading } = useParticipatePlayersQuery(joinCompId || '');
   const { data: team, isLoading: isTeamLoading } = useParticipateTeamInPlayersQuery(joinCompId || '');
-  const addJoinCompTeamMutation = useAddJoinCompTeamMutation();
-  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation();
+  const addJoinCompTeamMutation = useAddJoinCompTeamMutation(joinCompId || '');
+  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation(joinCompId || '');
 
   const allPlayers = team?.players || [];
 
-  const attendingPlayers = useMemo(() => {
-    return allPlayers.map((player: IPlayer) => {
-      const isAttend = participatePlayers.some(participatePlayer => {
-        return participatePlayer.id === player.id;
-      });
-      return { ...player, isAttend };
+  const attendingPlayers = allPlayers.map((player: IPlayer) => {
+    const isAttend = participatePlayers.some((participatePlayer: IPlayer) => {
+      return participatePlayer.id === player.id;
     });
-  }, [participatePlayers, allPlayers]);
+    return { ...player, isAttend };
+  });
 
   const clickAddPlayer = () => {
     setOpenDialog(true);
@@ -69,7 +67,7 @@ export default function ParticipateTeamsDetails() {
             <h5>{participatePlayers.length} 명</h5>
           </S.Header>
           <S.List>
-            {participatePlayers.map(player => {
+            {participatePlayers.map((player: IPlayer) => {
               return (
                 <S.ListItem key={player.id}>
                   {player.uniformNumber ? (

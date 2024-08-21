@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
 import { merge } from 'ts-deepmerge';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { AxiosError } from 'axios';
 import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
@@ -49,6 +50,8 @@ function App() {
             <RouterProvider router={router} />
           </Suspense>
           <Toaster position='top-center' reverseOrder={false} gutter={8} />
+          {/* 하단에 꽃 모양 제거하려면 이거 지우면 됨. */}
+          <ReactQueryDevtools initialIsOpen={false} /> {/* Devtools 추가 */}
         </QueryClientProvider>
       </ThemeProvider>
     </>
