@@ -32,7 +32,7 @@ export const useParticipateTeamInPlayersQuery = (joinTeamCompId: number | string
 
 export const useAddJoinCompTeamMutation = (joinCompId: string) => {
   const queryClient = useQueryClient();
-  return useMutation((data: IToggleJoinTeamDto) => addJoinCompTeam(data), {
+  return useMutation((data: IToggleJoinTeamCompDto) => addJoinCompTeam(data), {
     onSuccess: async () => {
       await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(joinCompId));
       toast.success('선수 참가 신청이 성공했습니다.');
@@ -47,7 +47,7 @@ export const useAddJoinCompTeamMutation = (joinCompId: string) => {
 
 export const useDeleteJoinCompTeamMutation = (joinCompId: string) => {
   const queryClient = useQueryClient();
-  return useMutation((data: IToggleJoinTeamDto) => deleteJoinCompTeam(data), {
+  return useMutation((data: IToggleJoinTeamCompDto) => deleteJoinCompTeam(data), {
     onSuccess: async () => {
       await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(joinCompId));
       toast.success('선수 참가 신청 취소가 완료됐습니다.');
