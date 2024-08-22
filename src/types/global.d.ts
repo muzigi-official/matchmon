@@ -4,6 +4,8 @@ declare global {
   type TButtonVariant = 'text' | 'contained' | 'outlined' | 'fab';
   type TUserRole = 'admin' | 'competitionUser' | 'user';
   type TDefaultReturn = string;
+  type TMatchResult = 'HOME_WIN' | 'AWAY_WIN' | 'DRAW';
+  type TMatchResultState = 'COMPLETED' | 'PENDING_RESULT' | 'WAITING';
 
   interface IErrorResponse {
     message: string;
@@ -233,6 +235,19 @@ declare global {
     group: string;
   }
 
+  interface IListJoinTeamCompResponse {
+    id: number;
+    competition: ICompetition;
+    team: ITeam;
+    participateState: string;
+    groupStage: IGroupStage;
+  }
+
+  interface IToggleJoinTeamCompDto {
+    joinTeamCompId: number;
+    playerId: number;
+  }
+
   interface ICreateMatchSettingParams {
     hasHalves: boolean;
     matchDuration: number;
@@ -282,17 +297,15 @@ declare global {
     stadium: string;
   }
 
-  interface IListJoinTeamCompResponse {
-    id: number;
-    competition: ICompetition;
-    team: ITeam;
-    participateState: string;
-    groupStage: IGroupStage;
-  }
-
-  interface IToggleJoinTeamDto {
-    joinTeamCompId: number;
-    playerId: number;
+  export interface IMatchResultDto {
+    matchScheduleId: number;
+    homeScore: number;
+    awayScore: number;
+    isPenaltyShootout: boolean;
+    homePenaltyScore: number | null;
+    awayPenaltyScore: number | null;
+    result: TMatchResult | null;
+    state: TMatchResultState;
   }
 }
 
