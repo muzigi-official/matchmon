@@ -6,7 +6,7 @@ import DataTable from '@/components/mui/table/DataTable';
 
 import BasicSelect from '@/components/common/Select/BasicSelect';
 import { useCompetitionQuery } from '@/hooks/queries/useCompetitionQuery';
-import { useMatchSchedulesQuery } from '@/hooks/queries/useMatchScheduleQuery';
+import { useMatchResultsList } from '@/hooks/queries/useMatchResultQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
 import * as S from './Container.style';
@@ -28,7 +28,7 @@ interface HeaderProperty {
   stadium: string;
   homeTeam: string;
   awayTeam: string;
-  result: string;
+  result: TMatchResult | null;
   gameState: string;
 }
 
@@ -38,9 +38,9 @@ export default function MatchReport() {
   const [selectedStadium, setSelectedStadium] = useState<string | number>('all');
 
   const { data: competition } = useCompetitionQuery(selectedCompetition || 0);
-  const { data: matchSchedules } = useMatchSchedulesQuery(selectedCompetition || 0);
+  const { data: matchResults } = useMatchResultsList(selectedCompetition || 0);
 
-  const stadiums = Array.from(new Set(matchSchedules?.map(match => match.stadium))).map(stadium => ({
+  const stadiums = Array.from(new Set(matchResults?.map(match => match.matchSchedule.stadium))).map(stadium => ({
     value: stadium,
     text: stadium,
   }));
@@ -49,16 +49,19 @@ export default function MatchReport() {
   // 여기에 필요한 정보, 시간, 구장, homeTeam, awayTeam, result(결과),state(상태) => 결과와 상태만 추가되면 됨. 스케줄에서
   // state(상태: 완료 -> 경기 진행완료, 결과도 입력, 미입력 -> 경기는 진행 완료, but 결과 미입력, 대기 -> 경기가 아직 진행 되지 않음.)
   const rows =
-    matchSchedules?.map((match, index) => {
+    matchResults?.map((match, index) => {
+      const { id, matchTime, stadium, homeTeamName, awayTeamName } = match.matchSchedule;
       return {
-        id: match.id,
+        id: id,
         order: index + 1,
-        dateTime: match.matchTime || '-',
-        stadium: match.stadium,
-        homeTeam: match.homeTeamName || '-',
-        awayTeam: match.awayTeamName || '-',
-        result: '',
-        gameState: '미입력',
+        dateTime: matchTime || '-',
+        stadium: stadium,
+        homeTeam: homeTeamName || '-',
+        awayTeam: awayTeamName || '-',
+        homeTeamScore: match.homeScore,
+        awayTeamScore: match.awayScore,
+        result: match.result,
+        gameState: match.state,
       };
     }) || [];
 
