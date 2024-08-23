@@ -8,9 +8,7 @@ export const fetchMatchResult = (scheduleId: number): Promise<IMatchResultDto> =
 };
 
 export const fetchMatchResultsList = (competitionId: number): Promise<IMatchResultDto[]> => {
-  return requestAPI
-    .get<IMatchResultDto[]>(`${API_URL}/competition/${competitionId}/results`)
-    .then(response => response.data);
+  return requestAPI.get(`${API_URL}/competition/${competitionId}/results`);
 };
 
 // 경기 결과 생성하기
