@@ -60,6 +60,7 @@ export default function BracketPage() {
 
   const { data: joinCompTeams } = useParticipateTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
+
   const teamOptions =
     joinCompTeams?.map(item => ({
       value: item.team.id,
@@ -111,6 +112,8 @@ export default function BracketPage() {
   };
 
   const createAutoSchedule = () => {
+    // FIXME: 날짜 추가되도록 수정, groupStageid 도 추가해줘야함. list 보일때,
+    // 그러면서 팀 선택될 때 조 id가 셀렉트를 잘 나눠주게도 했으면 좋겠음.
     if (joinCompTeams) {
       const groups = joinCompTeams.reduce((acc: Record<string, ITeam[]>, item) => {
         const groupName = item.groupStage.name;
