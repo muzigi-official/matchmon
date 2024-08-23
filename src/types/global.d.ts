@@ -298,7 +298,7 @@ declare global {
   }
 
   export interface IMatchResultDto {
-    matchScheduleId: number;
+    matchSchedule: IMatchScheduleDto;
     homeScore: number;
     awayScore: number;
     isPenaltyShootout: boolean;
