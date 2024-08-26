@@ -7,7 +7,7 @@ interface IGroupCardProps {
   teams?: IJoinTeamComps[];
   isAddButton?: boolean;
   onAddTeam?: () => void;
-  onClick?: () => void; // 그룹 카드 클릭 이벤트
+  onClick?: () => void;
   onRemove?: (event: React.MouseEvent) => void;
 }
 

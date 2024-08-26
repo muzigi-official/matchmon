@@ -16,7 +16,7 @@ export const useCreateMatchResult = () => {
   const queryClient = useQueryClient();
   return useMutation(createMatchResult, {
     onSuccess: data => {
-      queryClient.invalidateQueries(matchResultQueryKeys.result(data.matchScheduleId));
+      queryClient.invalidateQueries(matchResultQueryKeys.result(data.matchSchedule?.id || 0));
     },
   });
 };

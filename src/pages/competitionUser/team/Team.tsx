@@ -70,9 +70,6 @@ export default function ParticipateTeams() {
           <Button variant='contained' onClick={splitGroup}>
             조짜기
           </Button>
-          {/* <Button variant='contained' onClick={() => setDialogOpen(true)}>
-            팀 추가
-          </Button> */}
         </div>
       </S.Top>
       <S.Content>

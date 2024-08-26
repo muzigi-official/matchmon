@@ -32,7 +32,6 @@ export default function PlayerList() {
   const [selectedRow, setSelectedRow] = useState<IParsePlayer | null>(null);
   const [options, setOptions] = useState<ISelectProperty[]>([{ value: '', text: '팀 선택' }]);
 
-  // React Query를 사용하여 플레이어 추가, 수정, 삭제
   const addPlayerMutation = useAddPlayerMutation(setPage);
   const editPlayerMutation = useEditPlayerMutation(page);
   const removePlayerMutation = useRemovePlayerMutation(page, setPage);
@@ -54,9 +53,27 @@ export default function PlayerList() {
     }) || [];
   const pageTotal = playerData?.meta.last_page || 1;
 
-  // 플레이어 추가 핸들러
+  const onClickAddButton = () => {
+    setSelectedRow(null);
+    setIsFormDialogOpen(true);
+  };
+
+  const deleteRow = async (row: IParsePlayer) => {
+    if (row.id) {
+      removePlayerMutation.mutate(row.id);
+    }
+  };
+
+  const onSubmitHandler = async (formData: IPlayerFormInput) => {
+    if (selectedRow === null) {
+      handleAddPlayer(formData);
+    } else {
+      await handleChangePlayer(formData);
+    }
+    setIsFormDialogOpen(false);
+  };
+
   const handleAddPlayer = async (formData: IPlayerFormInput) => {
-    // teamId를 number로 변환
     if (formData.teamId === undefined) {
       console.error('Team ID is required.');
       return;
@@ -66,7 +83,7 @@ export default function PlayerList() {
       nickName: formData.nickName,
       picture: formData.picture,
       uniformNumber: formData.uniformNumber ?? null,
-      teamId: Number(formData.teamId), // teamId를 number로 변환
+      teamId: Number(formData.teamId),
     };
 
     addPlayerMutation.mutate(playerData, {
@@ -77,7 +94,6 @@ export default function PlayerList() {
     });
   };
 
-  // 플레이어 수정 핸들러
   const handleChangePlayer = async (formData: IPlayerFormInput) => {
     if (!selectedRow?.id) {
       console.error('No player selected for update.');
@@ -91,7 +107,7 @@ export default function PlayerList() {
       nickName,
       picture,
       uniformNumber: uniformNumber ?? null,
-      role: role ?? 0, // 0으로 기본값 설정
+      role: role ?? 0,
     };
 
     editPlayerMutation.mutate(updateData, {
@@ -100,26 +116,6 @@ export default function PlayerList() {
         setSelectedRow(null);
       },
     });
-  };
-
-  const deleteRow = async (row: IParsePlayer) => {
-    if (row.id) {
-      removePlayerMutation.mutate(row.id);
-    }
-  };
-
-  const onClickAddButton = () => {
-    setSelectedRow(null);
-    setIsFormDialogOpen(true);
-  };
-
-  const onSubmitHandler = async (formData: IPlayerFormInput) => {
-    if (selectedRow === null) {
-      handleAddPlayer(formData);
-    } else {
-      await handleChangePlayer(formData);
-    }
-    setIsFormDialogOpen(false);
   };
 
   useEffect(() => {

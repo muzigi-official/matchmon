@@ -46,6 +46,7 @@ export default function MatchReport() {
   }));
   stadiums.unshift({ value: 'all', text: '전체' });
 
+  // TODO: STATE, RESULT 한글로 표시되도록 수정하기, ui도 이쁘게
   // 여기에 필요한 정보, 시간, 구장, homeTeam, awayTeam, result(결과),state(상태) => 결과와 상태만 추가되면 됨. 스케줄에서
   // state(상태: 완료 -> 경기 진행완료, 결과도 입력, 미입력 -> 경기는 진행 완료, but 결과 미입력, 대기 -> 경기가 아직 진행 되지 않음.)
   const rows =

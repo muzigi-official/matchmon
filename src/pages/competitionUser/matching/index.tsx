@@ -73,15 +73,15 @@ export default function MatchingPage() {
     }
   };
 
-  const handleRemoveGroup = (group: IGroupStage) => {
-    deleteGroupstageMutation.mutate(group.id);
-  };
-
   const handleSelectGroup = (group: IGroupStage) => {
     setSelectedGroup(group);
     setGroupName(group.name);
     setSelectedGroupTeams(group.joinTeamComps);
     setOpenDialog(true);
+  };
+
+  const handleRemoveGroup = (group: IGroupStage) => {
+    deleteGroupstageMutation.mutate(group.id);
   };
 
   const clickTeam = (team: IJoinTeamComps) => {
