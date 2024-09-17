@@ -3,15 +3,6 @@ import { devtools, persist } from 'zustand/middleware';
 import { getMe } from '@/auth/AuthService';
 import { USER_ROLE } from '@/constant/DefaultSetting';
 
-interface IUser {
-  auth: 1;
-  exp: number;
-  iat: number;
-  userId: number;
-  username: string;
-  role: TUserRole;
-}
-
 interface IUserState {
   isSignIn: boolean;
   logIn: (token: string) => void;
@@ -41,18 +32,21 @@ const useUserStore = create<IUserState>()(
             try {
               const response = await getMe();
 
-              set({ user: { ...response, role: USER_ROLE[response.auth] } });
+              if (typeof response === 'object' && response !== null) {
+                set({ user: { ...response, role: USER_ROLE[response.auth] as TUserRole } });
+              }
             } catch (error) {
               console.error('Failed to fetch user profile:', error);
-              // Handle token invalidation, logout, etc.
-              set({ isSignIn: false, user: null });
-              localStorage.removeItem('access_token');
+              set(state => {
+                state.logOut();
+                return state;
+              });
             }
           }
         },
       }),
       {
-        name: 'user-storage', // name of the item in the storage (must be unique)
+        name: 'user-storage',
       },
     ),
   ),

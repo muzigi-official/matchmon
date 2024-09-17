@@ -17,6 +17,15 @@ declare global {
     icon?: React.ReactElement;
   }
 
+  interface IUser {
+    auth: number;
+    exp: number;
+    iat: number;
+    userId: number;
+    username: string;
+    role: TUserRole;
+  }
+
   interface IPlayer {
     id?: number;
     nickName: string;
