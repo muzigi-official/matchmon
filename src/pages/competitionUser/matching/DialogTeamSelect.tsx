@@ -23,6 +23,12 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
   const [list, setList] = useState<IParseTeams[]>();
   const [selectedCount, setSelectedCount] = useState<number>(0);
 
+  const handleClickTeam = (team: IParseTeams) => {
+    onClick(team);
+    setList((prevList = []) => prevList.map(t => (t.id === team.teamId ? { ...t, selected: !t.selected } : t)));
+    setSelectedCount(prevCount => (team.selected ? prevCount - 1 : prevCount + 1));
+  };
+
   useEffect(() => {
     const updatedTeams = teams.map(team => ({
       ...team,
@@ -32,12 +38,6 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
     setList(updatedTeams);
     setSelectedCount(selectedGroupTeams.length);
   }, [teams, selectedGroupTeams]);
-
-  const handleClickTeam = (team: IParseTeams) => {
-    onClick(team);
-    setList((prevList = []) => prevList.map(t => (t.id === team.teamId ? { ...t, selected: !t.selected } : t)));
-    setSelectedCount(prevCount => (team.selected ? prevCount - 1 : prevCount + 1));
-  };
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby='dialog-apply' aria-describedby='dialog-apply-description'>
