@@ -1,6 +1,9 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: 'src/{api,hooks/queries,queryKeys}/**'
+fileMatchPattern:
+  - 'src/api/**'
+  - 'src/hooks/queries/**'
+  - 'src/queryKeys/**'
 ---
 
 # MatchMon · 백엔드 API 계약 (기준 문서)

@@ -1,6 +1,8 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: 'src/**/*.{ts,tsx}'
+fileMatchPattern:
+  - 'src/**/*.ts'
+  - 'src/**/*.tsx'
 ---
 
 # MatchMon · 기술 스택 (tech)
