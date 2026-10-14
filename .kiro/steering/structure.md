@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: 'src/**/*.{ts,tsx}'
+---
+
 # MatchMon · 프로젝트 구조 (structure)
 
 > 실제 `src` 디렉터리와 파일 경로를 확인해 정리한다. 존재하는 경로만 기록한다.

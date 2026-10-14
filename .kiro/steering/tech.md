@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: 'src/**/*.{ts,tsx}'
+---
+
 # MatchMon · 기술 스택 (tech)
 
 > `package.json`, `vite.config.ts`, `.yarnrc.yml`, 실제 `src` 코드로 확인한 사실만 기록한다.
