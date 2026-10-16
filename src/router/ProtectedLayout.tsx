@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+
 import useUserStore from '../store/useUserStore';
 
 const ProtectedLayout = ({ children }: { children: JSX.Element }) => {

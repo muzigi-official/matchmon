@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import { mediaQuery } from '@/styles/mediaQuery';
 import { containerFlexCol } from '@/styles/mixins';
 

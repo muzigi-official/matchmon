@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 
 import { listCompetition } from '@/api/competition';
 import BasicSelect from '@/components/common/Select/BasicSelect';
-import useUserStore from '@/store/useUserStore';
 import useCompetitionStore from '@/store/useCompetitionStore';
+import useUserStore from '@/store/useUserStore';
 
 interface AppBarProps {
   open: boolean;

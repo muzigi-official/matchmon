@@ -1,4 +1,5 @@
 import GroupCard from './GroupCard';
+
 import * as S from './GroupList.styles';
 
 interface GroupListProps {

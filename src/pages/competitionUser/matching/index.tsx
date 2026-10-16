@@ -11,11 +11,11 @@ import {
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import TeamList from './ParticipateTeamList';
-import GroupList from './GroupList';
 import DialogTeamSelect from './DialogTeamSelect';
+import GroupList from './GroupList';
 
 import * as S from './Index.style';
+import TeamList from './ParticipateTeamList';
 
 export default function MatchingPage() {
   const [isOpenDialog, setOpenDialog] = useState<boolean>(false);

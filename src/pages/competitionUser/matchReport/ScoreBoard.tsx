@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import Button from '@/components/common/Button';
 
 import * as S from './ScoreBoard.styles'; // 스타일 컴포넌트를 불러옴

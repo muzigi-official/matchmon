@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import { mediaQuery } from '@/styles/mediaQuery';
 
 export const List = styled.ul`

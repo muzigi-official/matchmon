@@ -1,11 +1,11 @@
-import ShieldIcon from '@mui/icons-material/Shield';
-import PersonOutline from '@mui/icons-material/PersonOutline';
-import StadiumIcon from '@mui/icons-material/Stadium';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
+import PersonOutline from '@mui/icons-material/PersonOutline';
+import ScoreboardIcon from '@mui/icons-material/Scoreboard';
+import ShieldIcon from '@mui/icons-material/Shield';
+import StadiumIcon from '@mui/icons-material/Stadium';
 
 export const adminNavItems = [
   { name: '대회', path: '/admin/competitions', icon: <StadiumIcon /> },

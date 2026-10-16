@@ -1,7 +1,8 @@
 import { styled } from 'styled-components';
+
 import { colors } from '@/styles/colors';
-import { containerBasicCol } from '@/styles/mixins';
 import { mediaQuery } from '@/styles/mediaQuery';
+import { containerBasicCol } from '@/styles/mixins';
 
 export const Container = styled.div`
   ${containerBasicCol}

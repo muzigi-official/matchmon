@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+
 import { checkLogin } from '@/api/loginChecker';
 
 // https://dev.to/vikirobles/how-to-create-an-auth-login-system-with-axios-interceptors-typescript-2k11

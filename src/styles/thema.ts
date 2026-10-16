@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components';
+
 import { colors } from './colors';
 import { mediaQuery } from './mediaQuery';
 import { typography } from './typography';

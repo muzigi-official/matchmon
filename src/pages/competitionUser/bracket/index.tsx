@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
-import {
-  useCreateMatchSettingMutation,
-  useMatchSettingQuery,
-  useUpdateMatchSettingMutation,
-  useDeleteMatchSettingMutation,
-} from '@/hooks/queries/useMatchSettingQuery';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchSchedulesQuery,
@@ -16,14 +10,20 @@ import {
   useDeleteMatchScheduleMutation,
   useDeleteMatchSchedulesByCompetitionIdMutation,
 } from '@/hooks/queries/useMatchScheduleQuery';
+import {
+  useCreateMatchSettingMutation,
+  useMatchSettingQuery,
+  useUpdateMatchSettingMutation,
+  useDeleteMatchSettingMutation,
+} from '@/hooks/queries/useMatchSettingQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 import { generateSchedule } from '@/utils/match';
 
 import DialogMatchSetting from './DialogMatchSetting';
+import * as S from './Index.style';
 import MatchInfoBox from './MatchInfoBox';
 import StadiumTabs from './StadiumTabs';
 
-import * as S from './Index.style';
 
 export interface IEvent {
   name: string;

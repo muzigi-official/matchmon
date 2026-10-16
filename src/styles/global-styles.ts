@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
+
 import { colors } from './colors';
 import { typography } from './typography';
 

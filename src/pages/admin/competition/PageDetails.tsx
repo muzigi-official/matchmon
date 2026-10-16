@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import dayjs from 'dayjs';
 
 // import { getCompetition, applyCompetition } from '@/api/competition';
 // import { getParticipateTeams } from '@/api/removeFile/joinTeamComp';
 // import { listTeam } from '@/api/team';
+import Button from '@/components/common/Button';
+import ApplyDialog from '@/components/competition/ApplyDialog';
+import DataTable from '@/components/mui/table/DataTable';
 import { useCompetitionQuery, useApplyCompetitionMutation } from '@/hooks/queries/useCompetitionQuery';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
-import Button from '@/components/common/Button';
-import DataTable from '@/components/mui/table/DataTable';
+
+import LeftPanel from './LeftPanel';
 
 import * as S from './PageDetails.styles';
-import ApplyDialog from '@/components/competition/ApplyDialog';
-import LeftPanel from './LeftPanel';
+
 
 // interface joinCompTeam {
 //   joinCompId: number;

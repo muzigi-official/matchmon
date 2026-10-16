@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+
 import Dialog from '@mui/material/Dialog';
 
-import * as S from './DialogTeamSelect.styles';
 import { DialogHeader, DialogHeaderTitle, DialogContent } from '@/components/common/dialog/Dialog.style';
 import ListTeamItem from '@/components/team/ListItem';
+
+import * as S from './DialogTeamSelect.styles';
 
 interface IParseTeams extends IJoinTeamComps {
   disabled: boolean;

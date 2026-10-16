@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+
 import { useCompetitionQuery } from '@/hooks/queries/useCompetitionQuery';
 
 export default function AdminCompetitionDetails() {

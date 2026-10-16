@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import NodeV2 from './NodeV2';
 import { baseHeight, baseWidth } from './Layout';
+import NodeV2 from './NodeV2';
 
 const meta = {
   title: 'tournament/NodeV2',

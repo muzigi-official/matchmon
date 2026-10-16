@@ -1,7 +1,8 @@
-import Button from '@/components/common/Button';
-import Dialog from '@mui/material/Dialog';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { Box, Typography } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+
+import Button from '@/components/common/Button';
 
 import * as S from './Confirm.style';
 

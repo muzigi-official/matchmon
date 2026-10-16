@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+
 import { colors } from '@/styles/colors';
 import { typography } from '@/styles/typography';
 import { darkenColor, getBrightness, getCustomColor, getRgbaColor } from '@/utils/color.ts';

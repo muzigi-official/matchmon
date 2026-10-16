@@ -1,10 +1,12 @@
 import * as React from 'react';
-import Button from '@/components/common/Button';
+
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import Button from '@/components/common/Button';
 
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);

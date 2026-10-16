@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
-import DataTable from '@/components/mui/table/DataTable';
 
 import Button from '@/components/common/Button';
 import Loading from '@/components/common/Loading';
+import DataTable from '@/components/mui/table/DataTable';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 

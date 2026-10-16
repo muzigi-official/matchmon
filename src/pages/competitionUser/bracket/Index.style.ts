@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import { spin } from '@/styles/animations';
 import { colors } from '@/styles/colors';
 import { mediaQuery } from '@/styles/mediaQuery';

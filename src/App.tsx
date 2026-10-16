@@ -1,13 +1,14 @@
 import { useMemo, Suspense } from 'react';
-import { RouterProvider } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
-import { merge } from 'ts-deepmerge';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { RouterProvider } from 'react-router-dom';
 
-import { AxiosError } from 'axios';
-import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
+
 import { ThemeProvider } from '@mui/material';
+import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
+import { AxiosError } from 'axios';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { merge } from 'ts-deepmerge';
 
 import router from '@/router';
 import GlobalStyle from '@/styles/global-styles';

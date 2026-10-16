@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import dayjs from 'dayjs';
 
+import BasicSelect from '@/components/common/Select/BasicSelect';
 import DataTable from '@/components/mui/table/DataTable';
 
-import BasicSelect from '@/components/common/Select/BasicSelect';
 import { useCompetitionQuery } from '@/hooks/queries/useCompetitionQuery';
 import { useMatchResultsList } from '@/hooks/queries/useMatchResultQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';

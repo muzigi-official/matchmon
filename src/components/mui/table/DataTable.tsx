@@ -1,8 +1,8 @@
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
-import IconButton from '@mui/material/IconButton';
-import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
 import * as S from './DataTable.style';
 

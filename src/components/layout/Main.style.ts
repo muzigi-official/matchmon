@@ -1,10 +1,10 @@
-import { styled, Theme, CSSObject } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiToobar from '@mui/material/Toolbar';
 import { Avatar } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+import MuiToobar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;

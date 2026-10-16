@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import Dialog from '@mui/material/Dialog';
+
 import CloseIcon from '@mui/icons-material/Close';
+import Dialog from '@mui/material/Dialog';
 
 import {
   DialogHeader,

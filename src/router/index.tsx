@@ -1,6 +1,8 @@
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
+
 import MainLayout from '@/components/layout/Main';
+
 import PrivateRoute from './PrivateRoute';
 import ProtectedLayout from './ProtectedLayout';
 

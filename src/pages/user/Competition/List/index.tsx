@@ -2,11 +2,12 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
-import CompetitionCard from '@/components/competition/Card';
-import ApplyDialog from '@/components/competition/ApplyDialog';
-import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
 import { applyCompetition, listCompetition } from '@/api/competition';
+import ApplyDialog from '@/components/competition/ApplyDialog';
+import CompetitionCard from '@/components/competition/Card';
+import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
+
 
 const PAGE_SIZE = 100;
 

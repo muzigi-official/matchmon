@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { dotPulse } from '@/styles/animations';
 import { colors } from '@/styles/colors';
 

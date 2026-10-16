@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
-import { getPageList } from '@/utils/pagination';
+
 import Button from '@/components/common/Button';
+import { getPageList } from '@/utils/pagination';
+
 import { Container, PaginationUl, PaginationLi, PaginationSpan } from './Pagination.styles';
 
 type Props = {

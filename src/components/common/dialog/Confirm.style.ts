@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import Typography from '@mui/material/Typography';
+import { styled } from 'styled-components';
 
 export const DialogHeader = styled.div`
   padding: 64px 64px 24px;

@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { Box } from '@mui/system';
+import { styled } from 'styled-components';
 
 export const Container = styled.div`
   padding: 12px 0;

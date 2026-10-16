@@ -1,11 +1,15 @@
-import { createTournament, getTournamentList } from '@/api/tournament';
-import TournamentLayout from '@/components/tournament/Layout';
+
+import { useEffect, useState } from 'react';
+
+import { useParams } from 'react-router-dom';
 
 import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+
 import * as _ from 'lodash';
+
+import { createTournament, getTournamentList } from '@/api/tournament';
+import TournamentLayout from '@/components/tournament/Layout';
 
 export default function Competition() {
   const { competitionId } = useParams();

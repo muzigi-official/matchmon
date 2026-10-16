@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { colors } from '@/styles/colors';
-import { flexPowerCenter } from '@/styles/mixins';
-import { mediaQuery } from '@/styles/mediaQuery';
+
 import { jelloHorizontal, jelloHorizontalWebKit, bounce } from '@/styles/animations';
+import { colors } from '@/styles/colors';
+import { mediaQuery } from '@/styles/mediaQuery';
+import { flexPowerCenter } from '@/styles/mixins';
 
 export const GroupCardContainer = styled.div`
   background-color: #f5f5f5;

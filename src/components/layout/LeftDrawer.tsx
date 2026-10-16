@@ -1,14 +1,16 @@
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+import { useTheme } from '@mui/material/styles';
+
+import { adminNavItems, competitionUserNavItems, userNavItems } from '@/constant/Navigation';
+
 import LinkList from './LinkList';
 import * as S from './Main.style';
 
-import { adminNavItems, competitionUserNavItems, userNavItems } from '@/constant/Navigation';
 
 interface IProps {
   open: boolean;

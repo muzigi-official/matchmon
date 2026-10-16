@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import { containerFlexCol } from '@/styles/mixins';
 
 export const Container = styled.div`

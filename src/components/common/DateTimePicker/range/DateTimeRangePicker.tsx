@@ -3,8 +3,8 @@ import { useState, ChangeEvent } from 'react';
 import dayjs from 'dayjs';
 
 import DatePicker from '../DatePicker';
-import TimePicker from '../TimePicker';
 import { Container, PickerGroup, PickerContainer, Label, Separator } from '../styles';
+import TimePicker from '../TimePicker';
 
 interface IDateTimeRangePickerProps {
   startValue: Date | null;

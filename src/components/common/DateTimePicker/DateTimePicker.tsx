@@ -1,7 +1,9 @@
 import { useState, ChangeEvent } from 'react';
+
 import dayjs from 'dayjs';
-import { Container } from './styles';
+
 import DatePicker from './DatePicker';
+import { Container } from './styles';
 import TimePicker from './TimePicker';
 
 interface IDateTimePickerProps {

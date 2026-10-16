@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AddParticipatingPlayer from './AddParticipatingPlayer';
 import ADD_PLAYERS from '@/Mocks/AddPlayers.data.json';
+
+import AddParticipatingPlayer from './AddParticipatingPlayer';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {

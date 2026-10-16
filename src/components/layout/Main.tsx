@@ -6,10 +6,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import useUserStore from '@/store/useUserStore';
 
-import VerticalLayoutHeader from './VerticalLayoutHeader';
 import LeftDrawer from './LeftDrawer';
 
 import * as S from './Main.style';
+import VerticalLayoutHeader from './VerticalLayoutHeader';
 
 export default function MainLayout() {
   const [open, setOpen] = useState<boolean>(false);

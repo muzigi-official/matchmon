@@ -1,5 +1,5 @@
-import Line from './Line';
 import { Coordinate } from './Layout';
+import Line from './Line';
 
 interface Props {
   start: Coordinate;

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import { TableBody, TableRow } from '@mui/material';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TableCell from '@mui/material/TableCell';
-import { TableBody, TableRow } from '@mui/material';
+import styled from 'styled-components';
 
 export const DataTableContainer = styled(TableContainer)`
   margin: 0;

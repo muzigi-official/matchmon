@@ -1,5 +1,6 @@
 import { ComponentType } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
+
 import useUserStore from '../store/useUserStore';
 
 interface PrivateRouteProps {

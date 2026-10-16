@@ -1,6 +1,8 @@
-import ListTeamItem from '@/components/team/ListItem';
-import * as S from './GroupCard.styles';
 import React from 'react';
+
+import ListTeamItem from '@/components/team/ListItem';
+
+import * as S from './GroupCard.styles';
 
 interface IGroupCardProps {
   name?: string;

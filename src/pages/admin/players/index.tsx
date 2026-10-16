@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 
+import Button from '@/components/common/Button';
+import ConfirmDialog from '@/components/common/dialog/Confirm';
+import Loading from '@/components/common/Loading';
+import Pagination from '@/components/common/Pagination';
+import DataTable from '@/components/mui/table/DataTable';
 import {
   usePlayerListQuery,
   useRemovePlayerMutation,
@@ -9,11 +14,6 @@ import {
 
 import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
-import Loading from '@/components/common/Loading';
-import Pagination from '@/components/common/Pagination';
-import DataTable from '@/components/mui/table/DataTable';
-import ConfirmDialog from '@/components/common/dialog/Confirm';
-import Button from '@/components/common/Button';
 import DialogParticipate from '@/pages/admin/players/DialogAddPlayer';
 
 import * as S from './Container.style';
