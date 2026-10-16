@@ -5,6 +5,7 @@ import ConfirmDialog from '@/components/common/dialog/Confirm';
 import Loading from '@/components/common/Loading';
 import Pagination from '@/components/common/Pagination';
 import DataTable from '@/components/mui/table/DataTable';
+import { TEAM_LIST_PAGE_SIZE } from '@/constant/common';
 import {
   usePlayerListQuery,
   useRemovePlayerMutation,
@@ -36,7 +37,7 @@ export default function PlayerList() {
   const editPlayerMutation = useEditPlayerMutation(page);
   const removePlayerMutation = useRemovePlayerMutation(page, setPage);
   const { data: playerData, isLoading: isPlayerLoading, error: playerError } = usePlayerListQuery(page);
-  const { data: teamData, isLoading: isTeamLoading, error: teamError } = useTeamListQuery(page, 100);
+  const { data: teamData, isLoading: isTeamLoading, error: teamError } = useTeamListQuery(page, TEAM_LIST_PAGE_SIZE);
 
   // 데이터를 파싱하여 필요한 형태로 변환
   const players =

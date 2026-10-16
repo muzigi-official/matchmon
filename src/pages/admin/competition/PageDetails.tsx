@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import Button from '@/components/common/Button';
 import ApplyDialog from '@/components/competition/ApplyDialog';
 import DataTable from '@/components/mui/table/DataTable';
+import { TEAM_LIST_PAGE_SIZE } from '@/constant/common';
 import { useCompetitionQuery, useApplyCompetitionMutation } from '@/hooks/queries/useCompetitionQuery';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
@@ -41,7 +42,7 @@ export default function AdminCompetitionDetail() {
 
   const { data: competitionData } = useCompetitionQuery(compId || 0);
   const { data: participateTeams } = useParticipateTeamsQuery(compId || 0);
-  const { data: teamList } = useTeamListQuery(1, 100);
+  const { data: teamList } = useTeamListQuery(1, TEAM_LIST_PAGE_SIZE);
 
   const applyCompetitionMutation = useApplyCompetitionMutation();
 
