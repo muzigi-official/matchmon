@@ -2,7 +2,7 @@ import { MS_PER_SECOND } from '@/constant/time';
 
 const HEX_RADIX = 16;
 
-interface TokenPayload {
+interface ITokenPayload {
   exp: number;
 }
 
@@ -20,7 +20,7 @@ function base64UrlDecode(base64Url: string) {
 export function isTokenExpired(token: string): boolean {
   try {
     const base64Url = token.split('.')[1];
-    const decoded: TokenPayload = base64UrlDecode(base64Url);
+    const decoded: ITokenPayload = base64UrlDecode(base64Url);
     const currentTime = Math.floor(Date.now() / MS_PER_SECOND);
     return decoded.exp < currentTime;
   } catch (error) {

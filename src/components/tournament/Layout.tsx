@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { ceil } from 'lodash';
 
 import LineN2N from './LineN2N';
-import { NodeInfo } from './Node';
+import { INodeInfo } from './Node';
 import NodeV2 from './NodeV2';
 
 
@@ -39,9 +39,9 @@ export class Coordinate {
   }
 }
 
-interface Props {
+interface ITournamentLayoutProps {
   round: number;
-  nodeInfoList: NodeInfo[];
+  nodeInfoList: INodeInfo[];
 }
 export function makeNodeProps(
   round: number,
@@ -71,12 +71,12 @@ export const baseHeight = new Coordinate(0, 100);
 const intervalWidth = new Coordinate(350, 0);
 const intervalHeight = new Coordinate(0, 150);
 
-type RelativePosition = Record<number, Record<number, [number, number]>>;
+type TRelativePosition = Record<number, Record<number, [number, number]>>;
 
-const makeRelativePosition = (round: number): RelativePosition => {
+const makeRelativePosition = (round: number): TRelativePosition => {
   const centerX = logRound(round);
 
-  const relativePosition: RelativePosition = { 2: {} };
+  const relativePosition: TRelativePosition = { 2: {} };
 
   relativePosition[round] = {};
   for (let i = 1; i <= round / 2; i++) {
@@ -110,7 +110,7 @@ const makeRelativePosition = (round: number): RelativePosition => {
   return relativePosition;
 };
 
-export default function TournamentLayout(props: Props) {
+export default function TournamentLayout(props: ITournamentLayoutProps) {
   const { round: totalRound = 32, nodeInfoList } = props;
   const relativePosition = makeRelativePosition(totalRound);
 

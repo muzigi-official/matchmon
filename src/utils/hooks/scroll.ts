@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 //hook props interface
-interface IuseIntersectionObserverProps {
+interface IUseIntersectionObserverProps {
   threshold?: number;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
@@ -11,7 +11,7 @@ export const useIntersectionObserver = ({
   threshold = 0.1,
   hasNextPage,
   fetchNextPage,
-}: IuseIntersectionObserverProps) => {
+}: IUseIntersectionObserverProps) => {
   //관찰할 요소입니다. 스크롤 최하단 div요소에 setTarget을 ref로 넣어 사용할 것입니다.
   const [target, setTarget] = useState<HTMLDivElement | null | undefined>(null);
 

@@ -6,7 +6,7 @@ import Button from '@/components/common/Button';
 
 import * as S from './Confirm.style';
 
-interface Props {
+interface IConfirmProps {
   title: string;
   content: string;
   open: boolean;
@@ -14,7 +14,7 @@ interface Props {
   onConfirm: () => void;
 }
 
-export default function ConfirmDialog(props: Props) {
+export default function ConfirmDialog(props: IConfirmProps) {
   const { content, open, onClose, onConfirm } = props;
 
   return (

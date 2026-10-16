@@ -6,11 +6,11 @@ import TableRow from '@mui/material/TableRow';
 
 import * as S from './DataTable.style';
 
-interface HeaderKey {
+interface IHeaderKey {
   [key: string]: string;
 }
 
-interface HeaderOptions {
+interface IHeaderOptions {
   headerName: string;
   property: string;
   withImage?: string;
@@ -18,15 +18,15 @@ interface HeaderOptions {
   isAction?: boolean;
 }
 
-interface Props<T> {
-  header: HeaderOptions[];
+interface IDataTableProps<T> {
+  header: IHeaderOptions[];
   rows: T[];
   onClickRow?: (row: T) => void;
   onClickModify?: (row: T) => void;
   onClickDelete?: (row: T) => void;
 }
 
-export default function DataTable<T>({ header, rows, onClickRow, onClickModify, onClickDelete }: Props<T>) {
+export default function DataTable<T>({ header, rows, onClickRow, onClickModify, onClickDelete }: IDataTableProps<T>) {
   return (
     <S.DataTableContainer>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -46,7 +46,7 @@ export default function DataTable<T>({ header, rows, onClickRow, onClickModify, 
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               onClick={() => onClickRow && onClickRow(row)}
             >
-              {header.map((cell: HeaderOptions, cellIndex: number) => {
+              {header.map((cell: IHeaderOptions, cellIndex: number) => {
                 if (cell.isAction) {
                   return (
                     <S.DataTableTd key={`td_actions_${cellIndex}`}>
@@ -69,7 +69,7 @@ export default function DataTable<T>({ header, rows, onClickRow, onClickModify, 
                 }
 
                 if (cell.type !== 'button' && row !== null) {
-                  return <S.DataTableTd key={`td_${cellIndex}`}>{(row as HeaderKey)[cell.property]}</S.DataTableTd>;
+                  return <S.DataTableTd key={`td_${cellIndex}`}>{(row as IHeaderKey)[cell.property]}</S.DataTableTd>;
                 }
 
                 return null;

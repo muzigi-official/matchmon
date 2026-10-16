@@ -16,7 +16,7 @@ import FormSelect from '@/components/common/Select/FormSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
 
 
-interface Props {
+interface IProps {
   team?: ITeam | null;
   open: boolean;
   onClose: () => void;
@@ -25,7 +25,7 @@ interface Props {
 
 const selectLocation = LOCATION_INFO;
 
-export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
+export default function TeamDialog({ team, open, onClose, onConfirm }: IProps) {
   const {
     register,
     formState: { errors },

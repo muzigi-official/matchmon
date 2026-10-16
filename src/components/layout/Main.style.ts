@@ -6,7 +6,7 @@ import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiToobar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-interface AppBarProps extends MuiAppBarProps {
+interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
   onClickMenu?: () => void;
 }
@@ -53,7 +53,7 @@ export const HomeLink = styled(Typography)(({ theme }) => ({
 
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+})<IAppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -72,7 +72,7 @@ export const AppBar = styled(MuiAppBar, {
 
 export const Toolbar = styled(MuiToobar, {
   shouldForwardProp: prop => prop !== 'open',
-})<AppBarProps>(({ open }) => ({
+})<IAppBarProps>(({ open }) => ({
   display: 'flex',
   padding: 0,
   justifyContent: 'space-between',

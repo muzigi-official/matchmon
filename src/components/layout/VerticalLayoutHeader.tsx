@@ -9,14 +9,14 @@ import useUserStore from '@/store/useUserStore';
 
 import * as S from './Main.style';
 
-interface AppBarProps {
+interface IAppBarProps {
   open: boolean;
   userRole?: TUserRole;
   userName?: string;
   onClickMenu: () => void;
 }
 
-export default function VerticalLayoutHeader({ open, userRole = 'user', userName = '', onClickMenu }: AppBarProps) {
+export default function VerticalLayoutHeader({ open, userRole = 'user', userName = '', onClickMenu }: IAppBarProps) {
   const isSignIn = useUserStore(state => state.isSignIn);
   const { logOut } = useUserStore();
   const { selectedCompetition, setCompetition } = useCompetitionStore();

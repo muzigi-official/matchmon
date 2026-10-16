@@ -17,7 +17,7 @@ import {
 import FormSelect from '@/components/common/Select/FormSelect';
 
 
-interface Props {
+interface IApplyDialogProps {
   open: boolean;
   team?: ITeam | null;
   teams: ISelectProperty[];
@@ -25,7 +25,7 @@ interface Props {
   onConfirm: (formData: IApplyFormInput) => void;
 }
 
-export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: Props) {
+export default function ApplyDialog({ team, teams, open, onClose, onConfirm }: IApplyDialogProps) {
   const { reset, control, handleSubmit } = useForm<IApplyFormInput>();
 
   useEffect(() => {

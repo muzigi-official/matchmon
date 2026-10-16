@@ -3,12 +3,12 @@ import { useLocation, Navigate } from 'react-router-dom';
 
 import useUserStore from '../store/useUserStore';
 
-interface PrivateRouteProps {
+interface IPrivateRouteProps {
   component: ComponentType;
   roles: string[];
 }
 
-const PrivateRoute = ({ component: Component, roles, ...rest }: PrivateRouteProps) => {
+const PrivateRoute = ({ component: Component, roles, ...rest }: IPrivateRouteProps) => {
   const location = useLocation();
   const { user, isSignIn } = useUserStore();
 

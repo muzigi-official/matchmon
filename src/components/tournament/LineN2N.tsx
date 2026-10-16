@@ -2,12 +2,12 @@
 import { Coordinate } from './Layout';
 import Line from './Line';
 
-interface Props {
+interface ILineN2NProps {
   start: Coordinate;
   end: Coordinate;
 }
 
-export default function LineN2N(props: Props) {
+export default function LineN2N(props: ILineN2NProps) {
   const { start, end } = props;
 
   const isLeft = start.x < end.x;
@@ -23,7 +23,7 @@ export default function LineN2N(props: Props) {
   );
 }
 
-function LineN2NA(props: Props) {
+function LineN2NA(props: ILineN2NProps) {
   const { start, end } = props;
 
   return (
@@ -34,7 +34,7 @@ function LineN2NA(props: Props) {
     </>
   );
 }
-function LineN2NB(props: Props) {
+function LineN2NB(props: ILineN2NProps) {
   const { start, end } = props;
   return (
     <>
@@ -44,7 +44,7 @@ function LineN2NB(props: Props) {
     </>
   );
 }
-function LineN2NC(props: Props) {
+function LineN2NC(props: ILineN2NProps) {
   const { start, end } = props;
 
   return (
@@ -55,7 +55,7 @@ function LineN2NC(props: Props) {
     </>
   );
 }
-function LineN2ND(props: Props) {
+function LineN2ND(props: ILineN2NProps) {
   const { start, end } = props;
 
   return (

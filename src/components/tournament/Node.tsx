@@ -6,7 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 // https://codesandbox.io/p/sandbox/tournament-bracket-po5u4?file=%2F
 
-export interface NodeInfo {
+export interface INodeInfo {
   round: number;
   gameOrder: number;
   date?: string;
@@ -16,7 +16,7 @@ export interface NodeInfo {
   scoreB?: string | number;
 }
 
-interface NodeProps extends NodeInfo {
+interface INodeProps extends INodeInfo {
   x: number;
   y: number;
 }
@@ -25,7 +25,7 @@ const fontSize = 5;
 const width = 50;
 const height = 10;
 
-export default function Node(props: NodeProps) {
+export default function Node(props: INodeProps) {
   const { x, y, round, gameOrder, date = '', teamNameA = '', teamNameB = '', scoreA = '', scoreB = '' } = props;
 
   return (
@@ -52,12 +52,12 @@ export default function Node(props: NodeProps) {
   );
 }
 
-interface PropsBlock {
+interface IPropsBlock {
   teamName: string;
   score: string | number;
   isWin: boolean;
 }
-function TeamScoreBlock({ teamName, score, isWin = false }: PropsBlock) {
+function TeamScoreBlock({ teamName, score, isWin = false }: IPropsBlock) {
   const backgroundColor = isWin ? '#E6D3FF' : '#C6B3CF';
   const backgroundColorScore = '#E6D3FF';
   const fontColor = isWin ? 'white' : 'grey';

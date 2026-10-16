@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 
-interface ListItemProps {
+interface IListItemProps {
   isAttend?: boolean;
 }
 
@@ -18,7 +18,7 @@ export const List = styled('ul')`
 
 export const ListItem = styled('li', {
   shouldForwardProp: prop => prop !== 'isAttend',
-})<ListItemProps>(({ isAttend }) => ({
+})<IListItemProps>(({ isAttend }) => ({
   display: 'inline-block',
   marginRight: '8px',
   marginBottom: '8px',

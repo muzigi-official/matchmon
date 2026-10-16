@@ -12,7 +12,7 @@ interface IParseTeams extends IJoinTeamComps {
   selected: boolean;
 }
 
-interface TeamSelectPopupProps {
+interface ITeamSelectPopupProps {
   open: boolean;
   teams: IJoinTeamComps[];
   selectedGroupTeams: IJoinTeamComps[];
@@ -21,7 +21,7 @@ interface TeamSelectPopupProps {
   onClose: () => void;
 }
 
-const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick, onClose }: TeamSelectPopupProps) => {
+const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick, onClose }: ITeamSelectPopupProps) => {
   const [list, setList] = useState<IParseTeams[]>();
   const [selectedCount, setSelectedCount] = useState<number>(0);
 

@@ -14,14 +14,14 @@ import {
 
 import * as S from './AddParticipatingPlayer.styles';
 
-interface Props {
+interface IAddParticipatingPlayerProps {
   open: boolean;
   players: IPlayer[];
   onClose: () => void;
   onClick: (player: IPlayer) => void;
 }
 
-export default function AddParticipatingPlayer({ open, players, onClose, onClick }: Props) {
+export default function AddParticipatingPlayer({ open, players, onClose, onClick }: IAddParticipatingPlayerProps) {
   const [list, setList] = useState<IPlayer[]>(players);
   const [selectedCount, setSelectedCount] = useState<number>(list.filter(player => player.isAttend).length);
 

@@ -18,7 +18,7 @@ import {
 } from '@/components/common/dialog/Dialog.style';
 import FormSelect from '@/components/common/Select/FormSelect';
 
-interface Props {
+interface IDialogAddPlayerProps {
   player?: IParsePlayer | null;
   teams: ISelectProperty[];
   open: boolean;
@@ -26,7 +26,7 @@ interface Props {
   onConfirm: (player: IPlayerFormInput) => void;
 }
 
-export default function DialogParticipate({ player, teams, open, onClose, onConfirm }: Props) {
+export default function DialogParticipate({ player, teams, open, onClose, onConfirm }: IDialogAddPlayerProps) {
   const {
     register,
     reset,

@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import { Button } from '@mui/material';
 
-interface Props {
+interface IDropdownProps {
   options: string[];
 }
 
-export default function Dropdown({ options }: Props) {
+export default function Dropdown({ options }: IDropdownProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>('');
   const closeStyle = { display: 'none' };

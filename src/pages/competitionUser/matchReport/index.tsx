@@ -22,7 +22,7 @@ const tableHeader = [
   { headerName: '결과입력상태', property: 'gameState', type: 'text' },
 ];
 
-interface HeaderProperty {
+interface IHeaderProperty {
   id?: number;
   order: number;
   dateTime: string;
@@ -74,7 +74,7 @@ export default function MatchReport() {
     setSelectedStadium(option.value); // 선택된 구장을 상태로 업데이트
   };
 
-  const hadleClickRow = (row: HeaderProperty) => {
+  const hadleClickRow = (row: IHeaderProperty) => {
     console.log('click', row);
     navigate(`/competition/results/${row.id}`);
   };

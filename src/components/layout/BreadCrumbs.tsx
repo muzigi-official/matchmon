@@ -13,12 +13,12 @@ const breadcrumbNameMap: { [key: string]: string } = {
   '/drafts': 'Drafts',
 };
 
-interface LinkRouterProps extends LinkProps {
+interface ILinkRouterProps extends LinkProps {
   to: string;
   replace?: boolean;
 }
 
-function LinkRouter(props: LinkRouterProps) {
+function LinkRouter(props: ILinkRouterProps) {
   return <Link {...props} component={RouterLink as ElementType} />;
 }
 

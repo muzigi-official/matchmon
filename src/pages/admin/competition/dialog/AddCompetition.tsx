@@ -14,13 +14,13 @@ import DateRangePicker from '@/components/common/DateTimePicker/range/DateRangeP
 
 import * as S from '@/components/common/dialog/Dialog.style';
 
-interface Props {
+interface IAddCompetitionProps {
   open: boolean;
   onClose: () => void;
   onConfirm: (competition: ICompetitionFormInput) => void;
 }
 
-export default function AddDialog({ open, onClose, onConfirm }: Props) {
+export default function AddDialog({ open, onClose, onConfirm }: IAddCompetitionProps) {
   const {
     register,
     reset,
