@@ -1,3 +1,12 @@
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import PersonOutline from '@mui/icons-material/PersonOutline';
+import ScoreboardIcon from '@mui/icons-material/Scoreboard';
+import ShieldIcon from '@mui/icons-material/Shield';
+import StadiumIcon from '@mui/icons-material/Stadium';
+// import BarChartIcon from '@mui/icons-material/BarChart';
+// import SettingsIcon from '@mui/icons-material/Settings';
+
 /*
   권한 나누기(role)
   - 유저, 대회 관리자, 개발자 전용
@@ -7,15 +16,6 @@
   - 일반유저는 대회를 생성할 수 없다. 대회를 만들고 싶으면 대회 관리자 계정을 새로 만들어야 한다.
     대회 참가비랑 이런것들이 있어서 아무나 막 만들게 해주면 안될 것 같다.
 */
-
-import ShieldIcon from '@mui/icons-material/Shield';
-import PersonOutline from '@mui/icons-material/PersonOutline';
-import StadiumIcon from '@mui/icons-material/Stadium';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ScoreboardIcon from '@mui/icons-material/Scoreboard';
-// import BarChartIcon from '@mui/icons-material/BarChart';
-// import SettingsIcon from '@mui/icons-material/Settings';
 
 export const authByRoute = {
   NU: [
