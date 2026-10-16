@@ -13,29 +13,34 @@ import {
 import { joinTeamCompsQueryKeys } from '@/queryKeys/joinTeamCompsQueryKeys';
 
 export const useParticipateTeamsQuery = (competitionId: number | string) => {
-  return useQuery<IListJoinTeamCompResponse[], AxiosError>(joinTeamCompsQueryKeys.participateTeams(competitionId), () =>
-    fetchParticipateTeams(competitionId),
+  return useQuery<IListJoinTeamCompResponse[], AxiosError>(
+    joinTeamCompsQueryKeys.participateTeams(competitionId),
+    () => fetchParticipateTeams(competitionId),
+    { enabled: !!competitionId },
   );
 };
 
-export const useParticipatePlayersQuery = (joinTeamCompId: number | string) => {
-  return useQuery<IPlayer[], AxiosError>(joinTeamCompsQueryKeys.participatePlayers(joinTeamCompId), () =>
-    fetchParticipatePlayers(joinTeamCompId),
+export const useParticipatePlayersQuery = (competitionId: number | string, participantId: number | string) => {
+  return useQuery<IPlayer[], AxiosError>(
+    joinTeamCompsQueryKeys.participatePlayers(participantId),
+    () => fetchParticipatePlayers(competitionId, participantId),
+    { enabled: !!competitionId && !!participantId },
   );
 };
 
-export const useParticipateTeamInPlayersQuery = (joinTeamCompId: number | string) => {
+export const useParticipateTeamInPlayersQuery = (competitionId: number | string, participantId: number | string) => {
   return useQuery<ICompetitionTeam, AxiosError>(
-    joinTeamCompsQueryKeys.participateTeamInPlayers(Number(joinTeamCompId)),
-    () => fetchParticipateTeamInPlayers(Number(joinTeamCompId)),
+    joinTeamCompsQueryKeys.participateTeamInPlayers(Number(participantId)),
+    () => fetchParticipateTeamInPlayers(competitionId, Number(participantId)),
+    { enabled: !!competitionId && !!participantId },
   );
 };
 
-export const useAddJoinCompTeamMutation = (joinCompId: string) => {
+export const useAddJoinCompTeamMutation = (competitionId: number | string, participantId: string) => {
   const queryClient = useQueryClient();
-  return useMutation((data: IToggleJoinTeamCompDto) => addJoinCompTeam(data), {
+  return useMutation((data: IToggleJoinTeamCompDto) => addJoinCompTeam(competitionId, data), {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(joinCompId));
+      await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(participantId));
       toast.success('선수 참가 신청이 성공했습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
@@ -46,11 +51,11 @@ export const useAddJoinCompTeamMutation = (joinCompId: string) => {
   });
 };
 
-export const useDeleteJoinCompTeamMutation = (joinCompId: string) => {
+export const useDeleteJoinCompTeamMutation = (competitionId: number | string, participantId: string) => {
   const queryClient = useQueryClient();
-  return useMutation((data: IToggleJoinTeamCompDto) => deleteJoinCompTeam(data), {
+  return useMutation((data: IToggleJoinTeamCompDto) => deleteJoinCompTeam(competitionId, data), {
     onSuccess: async () => {
-      await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(joinCompId));
+      await queryClient.invalidateQueries(joinTeamCompsQueryKeys.participatePlayers(participantId));
       toast.success('선수 참가 신청 취소가 완료됐습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {

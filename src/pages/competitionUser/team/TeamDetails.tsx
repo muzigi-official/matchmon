@@ -12,17 +12,25 @@ import {
   useDeleteJoinCompTeamMutation,
 } from '@/hooks/queries/useJoinCompTeamQuery';
 import AddParticipatingPlayer from '@/pages/admin/competition/dialog/AddParticipatingPlayer';
+import useCompetitionStore from '@/store/useCompetitionStore';
 
 import * as S from './TeamDetails.styles';
 
 export default function ParticipateTeamsDetails() {
+  // joinCompId(URL 파라미터)는 참가 ID(participantId)로 사용된다.
   const { joinCompId } = useParams();
+  const { selectedCompetition } = useCompetitionStore();
+  const competitionId = selectedCompetition || 0;
+  const participantId = joinCompId || '';
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  const { data: participatePlayers = [], isLoading: isPlayersLoading } = useParticipatePlayersQuery(joinCompId || '');
-  const { data: team, isLoading: isTeamLoading } = useParticipateTeamInPlayersQuery(joinCompId || '');
-  const addJoinCompTeamMutation = useAddJoinCompTeamMutation(joinCompId || '');
-  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation(joinCompId || '');
+  const { data: participatePlayers = [], isLoading: isPlayersLoading } = useParticipatePlayersQuery(
+    competitionId,
+    participantId,
+  );
+  const { data: team, isLoading: isTeamLoading } = useParticipateTeamInPlayersQuery(competitionId, participantId);
+  const addJoinCompTeamMutation = useAddJoinCompTeamMutation(competitionId, participantId);
+  const deleteJoinCompTeamMutation = useDeleteJoinCompTeamMutation(competitionId, participantId);
 
   const allPlayers = team?.players || [];
 
@@ -40,9 +48,9 @@ export default function ParticipateTeamsDetails() {
   const clickHandler = (player: IPlayer) => {
     if (player.id) {
       if (player.isAttend) {
-        deleteJoinCompTeamMutation.mutate({ joinTeamCompId: Number(joinCompId), playerId: player.id });
+        deleteJoinCompTeamMutation.mutate({ participantId: Number(joinCompId), playerId: player.id });
       } else {
-        addJoinCompTeamMutation.mutate({ joinTeamCompId: Number(joinCompId), playerId: player.id });
+        addJoinCompTeamMutation.mutate({ participantId: Number(joinCompId), playerId: player.id });
       }
     }
   };

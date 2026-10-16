@@ -6,6 +6,7 @@ declare global {
   type TDefaultReturn = string;
   type TMatchResult = 'HOME_WIN' | 'AWAY_WIN' | 'DRAW';
   type TMatchResultState = 'COMPLETED' | 'PENDING_RESULT' | 'WAITING';
+  type TGoalEvent = 'GOAL' | 'OWN_GOAL' | 'PENALTY';
 
   interface IErrorResponse {
     message: string;
@@ -253,7 +254,7 @@ declare global {
   }
 
   interface IToggleJoinTeamCompDto {
-    joinTeamCompId: number;
+    participantId: number;
     playerId: number;
   }
 
@@ -306,8 +307,36 @@ declare global {
     stadium: string;
   }
 
+  // 경기(일정/정보) — 백엔드 Match
+  export interface IMatchDto {
+    id: number;
+    roundId?: number;
+    groupStageId?: number;
+    competitionId: number;
+    homeParticipantId: number;
+    awayParticipantId: number;
+    homeParticipantName: string;
+    awayParticipantName: string;
+    stadium: string;
+    matchDate: string; // 'YYYY-MM-DD'
+    matchTime: string; // 'HH:mm'
+    createdAt: string;
+  }
+
+  // 결과에 포함되는 득점자 정보
+  export interface IGoalInResult {
+    id: number;
+    playerId: number;
+    playerName: string; // player.nickName
+    uniformNumber: number | null;
+    teamId: number;
+    teamName: string;
+    minute: number;
+    isOwnGoal: boolean;
+  }
+
   export interface IMatchResultDto {
-    matchSchedule: IMatchScheduleDto;
+    match: IMatchDto;
     homeScore: number;
     awayScore: number;
     isPenaltyShootout: boolean;
@@ -315,6 +344,55 @@ declare global {
     awayPenaltyScore: number | null;
     result: TMatchResult | null;
     state: TMatchResultState;
+    goals: IGoalInResult[];
+  }
+
+  // 경기 결과 생성/수정 바디 (matchId는 URL 경로로 전달하므로 바디에서 제외)
+  export interface ICreateMatchResultDto {
+    homeScore: number;
+    awayScore: number;
+    result?: TMatchResult | null;
+    state: TMatchResultState;
+    isPenaltyShootout: boolean;
+    homePenaltyScore?: number | null;
+    awayPenaltyScore?: number | null;
+  }
+
+  // 득점 기록 생성 바디
+  export interface ICreateGoalDto {
+    playerId: number;
+    teamId?: number;
+    minute?: number;
+    event: TGoalEvent;
+  }
+
+  // 조별 순위
+  export interface IStandingRow {
+    teamId: number;
+    teamName: string;
+    participantId: number;
+    played: number;
+    won: number;
+    draw: number;
+    lost: number;
+    goalsFor: number;
+    goalsAgainst: number;
+    goalDifference: number;
+    points: number;
+  }
+
+  export interface IStandingsDto {
+    competitionId: number;
+    groupLabel: string;
+    standings: IStandingRow[];
+  }
+
+  // 득점 랭킹
+  export interface IScorerDto {
+    playerId: number;
+    playerName: string;
+    teamName: string;
+    goalCount: number;
   }
 }
 

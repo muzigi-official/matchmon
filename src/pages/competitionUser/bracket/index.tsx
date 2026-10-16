@@ -263,6 +263,15 @@ export default function BracketPage() {
           </Button>
         </div>
       </S.Actions>
+      {!isMatchSettingLoading && (!matchSettings || matchSettings.length === 0) && (
+        <S.SettingNotice>
+          <span>⚠️</span>
+          <span>
+            <strong>경기 설정</strong>이 아직 없습니다. 우측 상단 <strong>경기 설정</strong> 버튼으로 구장 수 등을 먼저
+            등록하면 구장·단계 선택이 활성화됩니다.
+          </span>
+        </S.SettingNotice>
+      )}
       <S.Content>
         <StadiumTabs
           isLoading={schedulesLoading}
