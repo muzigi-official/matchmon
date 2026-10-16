@@ -16,7 +16,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const 가로선: Story = {
+export const HorizontalLine: Story = {
+  name: '가로선',
   args: {
     x: 100,
     y: 100,
@@ -25,7 +26,8 @@ export const 가로선: Story = {
   },
 };
 
-export const 세로선: Story = {
+export const VerticalLine: Story = {
+  name: '세로선',
   args: {
     x: 100,
     y: 100,

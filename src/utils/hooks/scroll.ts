@@ -25,7 +25,7 @@ export const useIntersectionObserver = ({
   };
 
   useEffect(() => {
-    if (!target) return;
+    if (!target) return undefined;
 
     //ointersection observer 인스턴스 생성
     const observer = new IntersectionObserver(observerCallback, {

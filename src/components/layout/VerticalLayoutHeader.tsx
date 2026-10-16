@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 
 import { listCompetition } from '@/api/competition';
+import Button from '@/components/common/Button';
 import BasicSelect from '@/components/common/Select/BasicSelect';
 import useCompetitionStore from '@/store/useCompetitionStore';
 import useUserStore from '@/store/useUserStore';
+
+import * as S from './Main.style';
 
 interface AppBarProps {
   open: boolean;
@@ -12,10 +15,6 @@ interface AppBarProps {
   userName?: string;
   onClickMenu: () => void;
 }
-
-import * as S from './Main.style';
-
-import Button from '@/components/common/Button';
 
 export default function VerticalLayoutHeader({ open, userRole = 'user', userName = '', onClickMenu }: AppBarProps) {
   const isSignIn = useUserStore(state => state.isSignIn);

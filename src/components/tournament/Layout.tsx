@@ -110,19 +110,19 @@ const makeRelativePosition = (round: number): RelativePosition => {
 };
 
 export default function TournamentLayout(props: Props) {
-  const { round = 32, nodeInfoList } = props;
-  const RelativePosition = makeRelativePosition(round);
+  const { round: totalRound = 32, nodeInfoList } = props;
+  const relativePosition = makeRelativePosition(totalRound);
 
   const makeXY = (round: number, gameOrder: number): Coordinate => {
-    const position = RelativePosition[round][gameOrder];
+    const position = relativePosition[round][gameOrder];
     const x = position[0];
     const y = position[1];
 
     return intervalWidth.multiply(x).add(intervalHeight.multiply(y));
   };
 
-  const BoxWidth = baseWidth.add(intervalWidth.multiply((logRound(round) - 1) * 2 + 1)).x;
-  const BoxHeight = baseHeight.add(intervalHeight.multiply(round / 4)).y;
+  const BoxWidth = baseWidth.add(intervalWidth.multiply((logRound(totalRound) - 1) * 2 + 1)).x;
+  const BoxHeight = baseHeight.add(intervalHeight.multiply(totalRound / 4)).y;
 
   return (
     <TransformWrapper initialScale={1} initialPositionX={0} initialPositionY={0}>

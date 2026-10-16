@@ -79,14 +79,14 @@ export default function PlayerList() {
       return;
     }
 
-    const playerData: ICreatePlayerDto = {
+    const newPlayerData: ICreatePlayerDto = {
       nickName: formData.nickName,
       picture: formData.picture,
       uniformNumber: formData.uniformNumber ?? null,
       teamId: Number(formData.teamId),
     };
 
-    addPlayerMutation.mutate(playerData, {
+    addPlayerMutation.mutate(newPlayerData, {
       onSuccess: () => {
         setIsDialogOpen(false);
         setSelectedRow(null);
