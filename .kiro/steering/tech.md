@@ -7,7 +7,7 @@ fileMatchPattern:
 
 # MatchMon · 기술 스택 (tech)
 
-> `package.json`, `vite.config.ts`, `.yarnrc.yml`, 실제 `src` 코드로 확인한 사실만 기록한다.
+> `package.json`, `vite.config.ts`, `.npmrc`, 실제 `src` 코드로 확인한 사실만 기록한다.
 > `package.json`에 선언됐더라도 코드에서 사용이 확인되지 않으면 "사용 중"으로 단정하지 않는다.
 
 ## 1. 프레임워크 / 언어
@@ -16,9 +16,14 @@ fileMatchPattern:
   - `vite.config.ts`에서 경로 별칭(`@` → `/src` 등)과 `@mui/styled-engine` → `@mui/styled-engine-sc` alias 설정
 
 ## 2. 패키지 매니저
-- **Yarn Berry 4.3.0** (`.yarnrc.yml` → `nodeLinker: node-modules`)
+- **pnpm 9.15.2** (`package.json` → `"packageManager": "pnpm@9.15.2"`, 락파일 `pnpm-lock.yaml`)
+  - `.npmrc` → `node-linker=hoisted` (MUI/Emotion/styled-components + `@mui/styled-engine-sc` alias
+    조합에서 pnpm 기본 symlink 방식의 의존성 해석 문제를 피하려고 평면 node_modules 사용)
+  - (이전에는 Yarn Berry 4.3.0 `nodeLinker: node-modules` 사용 → pnpm으로 전환함)
 - Node v20.x에서 동작 확인 (`node -v` → v20.20.0, 실행으로 확인)
-- `node_modules` 설치 상태: 설치됨 (실행으로 확인)
+- `node_modules` 설치 상태: 설치됨 (`pnpm install` 실행으로 확인)
+- peer dependency 경고 2건(실행 영향 없음): `@vitejs/plugin-react`가 vite@4 기대(현재 5),
+  `@testing-library/jest-dom`이 `@testing-library/dom`@10 기대(현재 9.3.4).
 
 ## 3. 상태 관리 — 실제 사용 현황 (중요)
 - **react-query v3** (`react-query` ^3.39.3): 서버 상태 관리의 주력. `App.tsx`에서
@@ -49,19 +54,20 @@ fileMatchPattern:
 - 라우팅: `react-router-dom` ^6 (`createBrowserRouter`, lazy import)
 - 개발 도구: Storybook 7, ESLint, Prettier
 
-## 6. 명령어 (package.json scripts, 실제 선언 확인)
+## 6. 명령어 (package.json scripts, 실제 선언 확인 — pnpm 기준)
 | 목적 | 명령 | 비고 |
 |------|------|------|
-| 개발 서버 | `yarn dev` (= `vite`) | 장시간 실행 — 터미널에서 직접 실행 |
-| 빌드 | `yarn build` (= `tsc && vite build`) | **tsc 통과가 선행 조건** |
-| 미리보기 | `yarn preview` | |
-| 린트 | `yarn lint` / `yarn lint:fix` | `lint:fix`는 파일 변경하므로 분석 시 사용 금지 |
-| 포맷 | `yarn format` | 파일 변경하므로 분석 시 사용 금지 |
-| Storybook | `yarn storybook` | 장시간 실행 |
-| 테스트 | `yarn test` (= `react-scripts test`) | **현재 동작 불가** — 아래 7절 |
+| 설치 | `pnpm install` | 락파일 `pnpm-lock.yaml` |
+| 개발 서버 | `pnpm dev` (= `vite`) | 장시간 실행 — 터미널에서 직접 실행. 기동 확인됨(localhost:5173) |
+| 빌드 | `pnpm build` (= `tsc && vite build`) | **tsc 통과가 선행 조건** (현재 실패 — 7절) |
+| 미리보기 | `pnpm preview` | |
+| 린트 | `pnpm lint` / `pnpm lint:fix` | `lint:fix`는 파일 변경하므로 분석 시 사용 금지 |
+| 포맷 | `pnpm format` | 파일 변경하므로 분석 시 사용 금지 |
+| Storybook | `pnpm storybook` | 장시간 실행 |
+| 테스트 | `pnpm test` (= `react-scripts test`) | **현재 동작 불가** — 아래 7절 |
 
 ## 7. 현재 확인된 기술적 문제 (실행/코드로 확인)
-1. **빌드 실패**: `npx tsc --noEmit` 종료 코드 2 (실행으로 확인). 따라서 `yarn build`도 실패.
+1. **빌드 실패**: `npx tsc --noEmit` 종료 코드 2 (실행으로 확인). 따라서 `pnpm build`도 실패.
    주요 원인:
    - `src/pages/competitionUser/matchReport/Detail.tsx`: `IMatchResultDto`에 없는 필드
      (`matchScheduleId`, `matchTime`, `homeTeamName`, `awayTeamName`) 접근.
