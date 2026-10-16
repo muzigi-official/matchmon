@@ -7,7 +7,6 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:react-refresh/recommended",
     "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",

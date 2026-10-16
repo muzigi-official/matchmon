@@ -95,7 +95,7 @@ interface PropsBlock {
   emblem?: string;
   isWin: boolean;
 }
-function TeamBlock({ teamName, emblem = emblemExample, isWin = false }: PropsBlock) {
+function TeamBlock({ teamName, emblem = emblemExample }: PropsBlock) {
   return (
     <Box flexDirection={'column'} display={'flex'} justifyContent={'center'}>
       <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>

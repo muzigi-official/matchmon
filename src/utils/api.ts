@@ -6,8 +6,8 @@ interface IResponseData {
   data?: string;
 }
 
-// const SERVER_ADDRESS = import.meta.env.VITE_APP_BACK_END_POINT;
-const SERVER_ADDRESS = 'http://localhost:3000';
+// 환경변수(VITE_APP_BACK_END_POINT)를 우선 사용하고, 없으면 로컬 기본값으로 폴백한다.
+const SERVER_ADDRESS = import.meta.env.VITE_APP_BACK_END_POINT || 'http://localhost:3000';
 
 const logOnDev = (message: string) => {
   if (import.meta.env.VITE_APP_NODE_ENV === 'dev') {

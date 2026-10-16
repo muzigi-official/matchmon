@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# 로컬 전용 환경 오버라이드 (.env, .env.example은 커밋)
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

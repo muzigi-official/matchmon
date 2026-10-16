@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Link, { LinkProps } from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -30,7 +29,7 @@ export default function LayoutBreadcrumbs() {
       <LinkRouter underline='hover' color='inherit' to='/'>
         Home
       </LinkRouter>
-      {pathnames.map((value, index) => {
+      {pathnames.map((_value, index) => {
         const last = index === pathnames.length - 1;
         const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 

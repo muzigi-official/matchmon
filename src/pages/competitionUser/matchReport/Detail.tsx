@@ -3,11 +3,9 @@ import { useParams } from 'react-router-dom';
 import BasicSelect from '@/components/common/Select/BasicSelect';
 
 import { useMatchResultsList } from '@/hooks/queries/useMatchResultQuery';
-import { useParticipatePlayersQuery } from '@/hooks/queries/useJoinCompTeamQuery'; // 대회에 참여한 선수 정보를 가져오는 훅
 
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import ScoreBoard from './ScoreBoard';
 import * as S from './Details.styles';
 
 export default function MatchReportDetail() {
@@ -16,42 +14,16 @@ export default function MatchReportDetail() {
   const { selectedCompetition } = useCompetitionStore();
   const { data: matchResults } = useMatchResultsList(selectedCompetition || 0);
 
-  console.log(matchResults);
+  // 선택한 경기 정보 찾기 (경기 정보는 matchSchedule 하위에 존재)
+  // const selectedMatch = matchResults?.find(match => match.matchSchedule.id === Number(matchId));
 
-  // 선택한 경기 정보 찾기
-  const selectedMatch = matchResults?.find(match => match.matchScheduleId === Number(matchId));
-
-  console.log(selectedMatch);
-
-  // 팀의 joinTeamCompId 가져오기 (대회에 참가한 팀과 관련된 ID)
-  // const homeTeamId = selectedMatch?.homeTeamId || 0;
-  // const awayTeamId = selectedMatch?.awayTeamId || 0;
-
-  // 대회에 참여한 선수 정보 가져오기
-  // const { data: rawHomeTeamPlayers } = useParticipatePlayersQuery(homeTeamId);
-  // const { data: rawAwayTeamPlayers } = useParticipatePlayersQuery(awayTeamId);
-
-  // 선수 정보를 원하는 구조로 변환
-  // const homeTeamPlayers =
-  //   rawHomeTeamPlayers?.map(player => ({
-  //     id: player.id ?? 0,
-  //     name: player.nickName,
-  //     uniformNumber: player.uniformNumber ?? 0,
-  //     goals: 0, // 초기값을 0으로 설정
-  //   })) || [];
-
-  // const awayTeamPlayers =
-  //   rawAwayTeamPlayers?.map(player => ({
-  //     id: player.id ?? 0,
-  //     name: player.nickName,
-  //     uniformNumber: player.uniformNumber ?? 0,
-  //     goals: 0, // 초기값을 0으로 설정
-  //   })) || [];
-
+  // NOTE: 결과 입력(ScoreBoard) / 저장 로직 연결은 경기 결과 입력 기능(P1)에서 구현한다.
   const matchSelectOption =
     matchResults?.map(match => ({
-      value: match.matchScheduleId ?? 0,
-      text: `${match.matchTime} ${match.homeTeamName} vs ${match.awayTeamName}`,
+      value: match.matchSchedule.id ?? 0,
+      text: `${match.matchSchedule.matchTime} ${match.matchSchedule.homeTeamName ?? ''} vs ${
+        match.matchSchedule.awayTeamName ?? ''
+      }`,
     })) || [];
 
   const handleSelect = (option: ISelectProperty) => {
@@ -70,7 +42,7 @@ export default function MatchReportDetail() {
           onSelect={handleSelect}
         ></BasicSelect>
       </S.Top>
-      <S.Content>{/* <ScoreBoard homeTeamPlayers={homeTeamPlayers} awayTeamPlayers={awayTeamPlayers} /> */}</S.Content>
+      <S.Content>{/* 결과 입력 ScoreBoard는 P1에서 연결 */}</S.Content>
     </S.Container>
   );
 }

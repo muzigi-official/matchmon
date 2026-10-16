@@ -38,5 +38,6 @@ export const DefaultListItem: Story = {
     id: 1,
     name: 'FS 눈누난나',
     emblem: '',
+    colorIndex: 0,
   },
 };

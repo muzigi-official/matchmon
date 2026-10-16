@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
-  onClickMenu: () => void;
+  onClickMenu?: () => void;
 }
 
 const drawerWidth = 240;

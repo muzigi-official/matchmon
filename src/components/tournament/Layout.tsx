@@ -1,9 +1,8 @@
 import { Box } from '@mui/material';
-import Node, { NodeInfo } from './Node';
+import { NodeInfo } from './Node';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import NodeV2 from './NodeV2';
-import { ceil, floor } from 'lodash';
-import Line from './Line';
+import { ceil } from 'lodash';
 import LineN2N from './LineN2N';
 
 export class Coordinate {
