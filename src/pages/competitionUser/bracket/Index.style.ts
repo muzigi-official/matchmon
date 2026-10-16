@@ -109,3 +109,20 @@ export const MatchItem = styled.div`
   display: flex;
   gap: 8px;
 `;
+
+export const SettingNotice = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: ${colors.warning.lighter};
+  color: ${colors.text.basic};
+  font-size: 14px;
+  border: 1px solid ${colors.warning.default};
+
+  strong {
+    font-weight: 700;
+  }
+`;
