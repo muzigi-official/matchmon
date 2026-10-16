@@ -17,7 +17,7 @@ import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
-      if ((error as AxiosError).code == 'ERR_NETWORK') {
+      if ((error as AxiosError).code === 'ERR_NETWORK') {
         toast.error(`서버와 연결되지 않습니다`);
       }
       query.state.data;

@@ -54,13 +54,13 @@ export function makeNodeProps(
   return { round, gameOrder, date, teamNameA, teamNameB, scoreA, scoreB };
 }
 const logRound = (round: number): number => {
-  if (round == 128) return 7;
-  if (round == 64) return 6;
-  if (round == 32) return 5;
-  if (round == 16) return 4;
-  if (round == 8) return 3;
-  if (round == 4) return 2;
-  if (round == 2) return 1;
+  if (round === 128) return 7;
+  if (round === 64) return 6;
+  if (round === 32) return 5;
+  if (round === 16) return 4;
+  if (round === 8) return 3;
+  if (round === 4) return 2;
+  if (round === 2) return 1;
   return 0;
 };
 
