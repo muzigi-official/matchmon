@@ -32,6 +32,12 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+    // import resolver가 라이브러리 타입(react 등) default export를 오판해 발생하는 노이즈성 규칙을 끈다.
+    // (import/order 정렬 규칙은 유지)
+    "import/default": "off",
+    "import/namespace": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
     "consistent-return": "error", // 모든 함수에서 일관된 방식으로 값을 반환하도록 강제. 코드의 일관성을 유지, 예기치 않은 동작 방지.
     "eqeqeq": ["error", "always"], // 엄격한 동등성 비교 (===와 !==)만을 허용. 암묵적인 타입 강제 변환으로 인한 오류 방지
     "prefer-const": "error", // 변경되지 않는 변수를 let 대신 const로 선언하도록 강제
