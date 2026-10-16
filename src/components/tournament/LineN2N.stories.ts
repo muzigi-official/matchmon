@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Coordinate } from './Layout';
+import { Coordinate } from './layoutUtils';
 import LineN2N from './LineN2N';
 
 const meta = {

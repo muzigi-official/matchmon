@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { baseHeight, baseWidth } from './Layout';
+import { baseHeight, baseWidth } from './layoutUtils';
 import NodeV2 from './NodeV2';
 
 const meta = {

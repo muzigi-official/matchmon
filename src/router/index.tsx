@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- 라우터 설정 파일. lazy 컴포넌트는 내부용이며 router 객체를 export하므로 Fast Refresh 대상이 아니다 */
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
 

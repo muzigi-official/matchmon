@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Layout, { makeNodeProps } from './Layout';
+import Layout from './Layout';
+import { makeNodeProps } from './layoutUtils';
 
 const meta = {
   title: 'tournament/Layout',
