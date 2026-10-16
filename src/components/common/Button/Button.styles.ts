@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { BRIGHTNESS_THRESHOLD, HOVER_DARKEN_AMOUNT, HOVER_BG_OPACITY } from '@/constant/color';
 import { colors } from '@/styles/colors';
+import { radius, shadow } from '@/styles/tokens';
 import { typography } from '@/styles/typography';
 import { darkenColor, getBrightness, getCustomColor, getRgbaColor } from '@/utils/color.ts';
 
@@ -13,6 +14,7 @@ const buttonStyles = {
     background-color: ${({ $color }) => getCustomColor($color)};
     color: ${({ $color }) =>
       getBrightness(getCustomColor($color)) > BRIGHTNESS_THRESHOLD ? colors.black : colors.white};
+    box-shadow: ${shadow.sm};
   `,
   outlined: css<{ $color?: string }>`
     background-color: inherit;
@@ -28,7 +30,7 @@ const buttonStyles = {
     background-color: inherit;
     border: 1px solid ${({ $color }) => getCustomColor($color)};
     color: ${({ $color }) => getCustomColor($color)};
-    width: 36px;
+    width: 48px;
     padding: 0;
     border-radius: 50%;
   `,
@@ -40,19 +42,23 @@ export const StyledButton = styled.button<{
   $color?: string;
   $block?: boolean;
 }>`
-  border-radius: 4px;
-  padding: 0.5em 0.8em;
+  border-radius: ${radius.md};
+  padding: 0 18px;
   font-size: ${typography.body.fontSize};
-  font-weight: ${typography.body.fontWeight};
+  font-weight: 600;
   font-family: ${typography.fontFamily};
   cursor: pointer;
-  transition: background-color 0.25s;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  height: 36px;
+  height: 48px;
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
 
   ${({ $variant }) => buttonStyles[$variant]}
 
