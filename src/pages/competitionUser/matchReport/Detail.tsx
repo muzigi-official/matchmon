@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
-import BasicSelect from '@/components/common/Select/BasicSelect';
 import Loading from '@/components/common/Loading';
+import BasicSelect from '@/components/common/Select/BasicSelect';
+import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchResult,
   useMatchResultsList,
@@ -13,8 +14,10 @@ import {
 } from '@/hooks/queries/useMatchResultQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import * as S from './MatchResultForm.styles';
+import AddGoalDialog from './AddGoalDialog';
+
 import * as D from './Details.styles';
+import * as S from './MatchResultForm.styles';
 
 const computeResult = (home: number, away: number): TMatchResult => {
   if (home > away) return 'HOME_WIN';
@@ -34,6 +37,13 @@ export default function MatchReportDetail() {
   const createMutation = useCreateMatchResult(competitionId, selectedMatchId);
   const updateMutation = useUpdateMatchResult(competitionId, selectedMatchId);
   const deleteGoalMutation = useDeleteGoalMutation(competitionId, selectedMatchId);
+
+  // participantId → teamId 매핑용 참가팀 목록
+  const { data: participants = [] } = useParticipateTeamsQuery(competitionId);
+  const [isGoalDialogOpen, setGoalDialogOpen] = useState(false);
+
+  const findTeamId = (participantId?: number) =>
+    participants.find(p => p.id === participantId)?.team?.id ?? 0;
 
   // 입력 상태 (조회 결과로 초기화)
   const [homeScore, setHomeScore] = useState(0);
@@ -193,10 +203,7 @@ export default function MatchReportDetail() {
           <S.Card>
             <S.SectionHeader>
               <S.SectionTitle>득점 기록</S.SectionTitle>
-              {/* TODO(B): 득점 추가 모달 연결 */}
-              <S.AddGoalButton disabled title='다음 단계에서 연결'>
-                + 득점 추가
-              </S.AddGoalButton>
+              <S.AddGoalButton onClick={() => setGoalDialogOpen(true)}>+ 득점 추가</S.AddGoalButton>
             </S.SectionHeader>
 
             {result.goals.length === 0 ? (
@@ -211,7 +218,7 @@ export default function MatchReportDetail() {
                       <S.Minute>{goal.minute}&apos;</S.Minute>
                       <S.PlayerName>
                         {goal.playerName}
-                        {goal.uniformNumber != null ? ` (#${goal.uniformNumber})` : ''}
+                        {goal.uniformNumber !== null ? ` (#${goal.uniformNumber})` : ''}
                       </S.PlayerName>
                       {goal.isOwnGoal && <S.OgTag>OG</S.OgTag>}
                       <S.TeamTag $home={isHome}>{goal.teamName}</S.TeamTag>
@@ -226,6 +233,24 @@ export default function MatchReportDetail() {
           <S.SaveButton onClick={handleSave} disabled={createMutation.isLoading || updateMutation.isLoading}>
             결과 저장
           </S.SaveButton>
+
+          {isGoalDialogOpen && (
+            <AddGoalDialog
+              competitionId={competitionId}
+              matchId={selectedMatchId}
+              home={{
+                participantId: result.match.homeParticipantId,
+                teamId: findTeamId(result.match.homeParticipantId),
+                name: result.match.homeParticipantName,
+              }}
+              away={{
+                participantId: result.match.awayParticipantId,
+                teamId: findTeamId(result.match.awayParticipantId),
+                name: result.match.awayParticipantName,
+              }}
+              onClose={() => setGoalDialogOpen(false)}
+            />
+          )}
         </S.Stack>
       )}
     </D.Container>
