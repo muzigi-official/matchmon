@@ -38,7 +38,7 @@ export const useCreateGroupstageMutation = () => {
 
 export const useDeleteGroupstageMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation((groupId: number) => deleteGroupstage(groupId), {
+  return useMutation((groupId: number) => deleteGroupstage(competitionId, groupId), {
     onSuccess: () => {
       queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
       toast.success('조 삭제 성공!!!!');
@@ -71,7 +71,7 @@ export const useAddTeamToGroupMutation = (competitionId: number) => {
 export const useRemoveTeamFromGroupMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (params: { groupId: number; teamId: number }) => removeTeamFromGroup(params.groupId, params.teamId),
+    (params: { groupId: number; teamId: number }) => removeTeamFromGroup(competitionId, params.groupId, params.teamId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(groupstageQueryKeys.groupStage(competitionId));
