@@ -1,3 +1,4 @@
+import { ElementType } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -18,7 +19,7 @@ interface LinkRouterProps extends LinkProps {
 }
 
 function LinkRouter(props: LinkRouterProps) {
-  return <Link {...props} component={RouterLink as any} />;
+  return <Link {...props} component={RouterLink as ElementType} />;
 }
 
 export default function LayoutBreadcrumbs() {

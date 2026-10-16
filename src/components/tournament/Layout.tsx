@@ -70,10 +70,12 @@ export const baseHeight = new Coordinate(0, 100);
 const intervalWidth = new Coordinate(350, 0);
 const intervalHeight = new Coordinate(0, 150);
 
-const makeRelativePosition = (round: number): any => {
+type RelativePosition = Record<number, Record<number, [number, number]>>;
+
+const makeRelativePosition = (round: number): RelativePosition => {
   const centerX = logRound(round);
 
-  const relativePosition: any = { 2: {} };
+  const relativePosition: RelativePosition = { 2: {} };
 
   relativePosition[round] = {};
   for (let i = 1; i <= round / 2; i++) {
