@@ -4,22 +4,22 @@ import { Theme } from '@mui/material/styles';
 const palette = {
   light: {
     primary: {
-      light: '#4A46C3',
-      main: '#353196',
-      dark: '#2A2948',
+      light: '#60A5FA',
+      main: '#2563EB',
+      dark: '#1D4ED8',
     },
     secondary: {
-      light: '##0ABAFF',
-      main: '#0095CE',
-      dark: '##00587A',
+      light: '#CFFAFE',
+      main: '#06B6D4',
+      dark: '#0E7490',
     },
     tableColor: {
-      border: 'rgb(46, 38, 61, 0.12)',
-      body: 'rgb(46, 38, 61, 0.7)',
-      head: 'rgb(46, 38, 61)',
+      border: 'rgba(15, 23, 42, 0.10)',
+      body: 'rgba(15, 23, 42, 0.72)',
+      head: 'rgb(15, 23, 42)',
     },
     textColor: {
-      basic: 'rgb(46, 38, 61)',
+      basic: 'rgb(15, 23, 42)',
       light: common.white,
     },
   },

@@ -71,39 +71,40 @@ const GlobalStyle = createGlobalStyle`
     display: block;
     box-sizing: border-box;
     width: 100%;
-    border-radius: 4px;
-    border: 1px solid #dddddd;
-    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid ${colors.border.basic};
+    background-color: ${colors.white};
+    padding: 12px 16px;
     margin-bottom: 4px;
-    font-size: 14px;
+    font-size: 15px;
+    color: ${colors.text.basic};
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
 
+  input::placeholder {
+    color: ${colors.text.placeholder};
+  }
+
+  input:focus {
+    outline: none;
+    border-color: ${colors.primary};
+    box-shadow: 0 0 0 3px ${colors.primaryOpacity};
   }
 
   label {
-    line-height: 2;
+    line-height: 1.6;
     text-align: left;
     display: block;
     margin-top: 4px;
-    color: black;
-    font-size: 12px;
-    font-weight: 200;
-  }
-
-  button[type="submit"]:active,
-  input[type="button"]:active,
-  input[type="submit"]:active {
-    transition: 0.3s all;
-    transform: translateY(3px);
-    border: 1px solid transparent;
-    opacity: 0.8;
+    color: ${colors.text.sub};
+    font-size: 13px;
+    font-weight: 500;
   }
 
   input:disabled {
-    opacity: 0.4;
-  }
-
-  input[type="button"]:hover {
-    transition: 0.3s all;
+    opacity: 0.5;
+    background-color: ${colors.disabled.backgroundColor};
+    cursor: not-allowed;
   }
 
   button[type="submit"],
