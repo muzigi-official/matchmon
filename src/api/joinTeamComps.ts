@@ -1,22 +1,35 @@
 import requestAPI from '@/utils/api';
 
+// 참가팀/참가자는 competitions/:competitionId/participants 하위로 이동 (2026-10-16 백엔드 라우트 정리)
+// 쿼리/바디 파라미터명: joinTeamCompId → participantId
+
 export const fetchParticipateTeams = (competitionId: number | string): Promise<IListJoinTeamCompResponse[]> => {
   const params = { competitionId };
-  return requestAPI.get(`/joinTeamComp/list`, { params });
+  return requestAPI.get(`/competitions/${competitionId}/participants/list`, { params });
 };
 
-export const fetchParticipatePlayers = (joinTeamCompId: number | string): Promise<IPlayer[]> => {
-  const params = { joinTeamCompId };
-  return requestAPI.get(`/joinTeamComp/players`, { params });
+export const fetchParticipatePlayers = (
+  competitionId: number | string,
+  participantId: number | string,
+): Promise<IPlayer[]> => {
+  const params = { participantId };
+  return requestAPI.get(`/competitions/${competitionId}/participants/players`, { params });
 };
 
-export const fetchParticipateTeamInPlayers = (joinTeamCompId: number | string): Promise<ICompetitionTeam> => {
-  const params = { joinTeamCompId };
-  return requestAPI.get(`/joinTeamComp/relatedTeam`, { params });
+export const fetchParticipateTeamInPlayers = (
+  competitionId: number | string,
+  participantId: number | string,
+): Promise<ICompetitionTeam> => {
+  const params = { participantId };
+  return requestAPI.get(`/competitions/${competitionId}/participants/relatedTeam`, { params });
 };
 
-export const addJoinCompTeam = (data: IToggleJoinTeamCompDto): Promise<TDefaultReturn> =>
-  requestAPI.patch(`/joinTeamComp/addPlayers`, data);
+export const addJoinCompTeam = (
+  competitionId: number | string,
+  data: IToggleJoinTeamCompDto,
+): Promise<TDefaultReturn> => requestAPI.patch(`/competitions/${competitionId}/participants/addPlayers`, data);
 
-export const deleteJoinCompTeam = (data: IToggleJoinTeamCompDto): Promise<TDefaultReturn> =>
-  requestAPI.patch(`/joinTeamComp/removePlayer`, data);
+export const deleteJoinCompTeam = (
+  competitionId: number | string,
+  data: IToggleJoinTeamCompDto,
+): Promise<TDefaultReturn> => requestAPI.patch(`/competitions/${competitionId}/participants/removePlayer`, data);

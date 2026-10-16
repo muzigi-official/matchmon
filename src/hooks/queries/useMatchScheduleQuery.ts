@@ -3,10 +3,8 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { AxiosError } from 'axios';
 
+import { fetchMatchResultsList } from '@/api/matchResult';
 import {
-  fetchMatchSchedules,
-  createMatchSchedule,
-  createMatchSchedules,
   updateMatchSchedule,
   updateBulkMatchSchedules,
   deleteMatchSchedule,
@@ -15,91 +13,75 @@ import {
 } from '@/api/matchSchedule';
 import { matchScheduleQueryKeys } from '@/queryKeys/matchSchedule';
 
+// 일정 목록은 Match로 통합됨 → 경기+결과 목록에서 match 정보만 뽑아 기존 IMatchScheduleDto 형태로 변환.
 export const useMatchSchedulesQuery = (competitionId: number) => {
   return useQuery<IMatchScheduleDto[], AxiosError<IErrorResponse>>(
     matchScheduleQueryKeys.schedules(competitionId),
-    () => fetchMatchSchedules(competitionId),
+    async () => {
+      const results = await fetchMatchResultsList(competitionId);
+      return results.map(r => ({
+        id: r.match.id,
+        homeTeamId: r.match.homeParticipantId,
+        awayTeamId: r.match.awayParticipantId,
+        homeTeamName: r.match.homeParticipantName,
+        awayTeamName: r.match.awayParticipantName,
+        matchTime: r.match.matchTime,
+        stadium: r.match.stadium,
+      }));
+    },
+    { enabled: !!competitionId },
   );
-};
-
-export const useCreateMatchScheduleMutation = (competitionId: number) => {
-  const queryClient = useQueryClient();
-  return useMutation(createMatchSchedule, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('Match schedule created successfully!');
-    },
-    onError: (error: AxiosError<IErrorResponse>) => {
-      if (error.response?.data?.message) {
-        toast.error(error.response?.data?.message || 'Error creating match schedule');
-      }
-    },
-  });
-};
-
-export const useCreateBulkMatchSchedulesMutation = (competitionId: number) => {
-  const queryClient = useQueryClient();
-  return useMutation<IMatchSchedule[], AxiosError<IErrorResponse>, IMatchScheduleDto[]>(
-    data => createMatchSchedules(data.map(d => ({ ...d, competitionId }))), // competitionId 추가
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-        toast.success('Match schedules created successfully!');
-      },
-      onError: (error: AxiosError<IErrorResponse>) => {
-        toast.error(error.response?.data?.message || 'Error creating match schedules');
-      },
-    },
-  );
-};
-
-export const useCreateScheduleBulkMutation = (competitionId: number) => {
-  const queryClient = useQueryClient();
-  return useMutation((params: ICreateScheduleBulkDto[]) => createScheduleBulk(competitionId, params), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('Schedules created successfully!');
-    },
-    onError: (error: AxiosError<IErrorResponse>) => {
-      toast.error(error.response?.data?.message || 'Error creating schedules');
-    },
-  });
 };
 
 export const useUpdateMatchScheduleMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation(updateMatchSchedule, {
+  return useMutation((data: IMatchScheduleDto) => updateMatchSchedule(competitionId, data), {
     onSuccess: () => {
       queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('전체 시간표가 성공적으로 저장되었습니다.');
+      toast.success('경기 정보가 저장되었습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      toast.error(error.response?.data?.message || '전체 시간표 저장 중 오류가 발생했습니다.');
-    },
-  });
-};
-
-export const useUpdateBulkMatchSchedulesMutation = (competitionId: number) => {
-  const queryClient = useQueryClient();
-  return useMutation(updateBulkMatchSchedules, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['matchSchedules', competitionId]);
-    },
-    onError: (error: AxiosError<IErrorResponse>) => {
-      console.error('Error updating match schedules:', error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || '경기 정보 저장 중 오류가 발생했습니다.');
     },
   });
 };
 
 export const useDeleteMatchScheduleMutation = (competitionId: number) => {
   const queryClient = useQueryClient();
-  return useMutation(deleteMatchSchedule, {
+  return useMutation((matchId: number) => deleteMatchSchedule(competitionId, matchId), {
     onSuccess: () => {
       queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('Match schedule deleted successfully!');
+      toast.success('경기가 삭제되었습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      toast.error(error.response?.data?.message || 'Error deleting match schedule');
+      toast.error(error.response?.data?.message || '경기 삭제 중 오류가 발생했습니다.');
+    },
+  });
+};
+
+// TODO(백엔드 협의 필요): 아래 bulk 계열은 백엔드 대응 엔드포인트가 없어 현재 동작하지 않음(404).
+// 경기 생성은 건별 group-stage/tournament 엔드포인트로 대체해야 하며, bulk가 필요하면 백엔드에 요청할 것.
+export const useCreateScheduleBulkMutation = (competitionId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation((params: ICreateScheduleBulkDto[]) => createScheduleBulk(competitionId, params), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
+      toast.success('일정이 생성되었습니다.');
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      toast.error(error.response?.data?.message || '일정 생성(bulk)은 현재 백엔드 미지원입니다.');
+    },
+  });
+};
+
+export const useUpdateBulkMatchSchedulesMutation = (competitionId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation((data: IMatchScheduleDto[]) => updateBulkMatchSchedules(competitionId, data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
+    },
+    onError: (error: AxiosError<IErrorResponse>) => {
+      console.error('bulk 수정은 현재 백엔드 미지원:', error.response?.data?.message || error.message);
     },
   });
 };
@@ -109,10 +91,10 @@ export const useDeleteMatchSchedulesByCompetitionIdMutation = (competitionId: nu
   return useMutation(() => deleteMatchSchedulesByCompetitionId(competitionId), {
     onSuccess: () => {
       queryClient.invalidateQueries(matchScheduleQueryKeys.schedules(competitionId));
-      toast.success('All match schedules for the competition deleted successfully!');
+      toast.success('일정이 전체 삭제되었습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      toast.error(error.response?.data?.message || 'Error deleting match schedules for the competition');
+      toast.error(error.response?.data?.message || '전체 삭제는 현재 백엔드 미지원입니다.');
     },
   });
 };

@@ -19,10 +19,10 @@ export default function MatchReportDetail() {
 
   // NOTE: 결과 입력(ScoreBoard) / 저장 로직 연결은 경기 결과 입력 기능(P1)에서 구현한다.
   const matchSelectOption =
-    matchResults?.map(match => ({
-      value: match.matchSchedule.id ?? 0,
-      text: `${match.matchSchedule.matchTime} ${match.matchSchedule.homeTeamName ?? ''} vs ${
-        match.matchSchedule.awayTeamName ?? ''
+    matchResults?.map(matchResult => ({
+      value: matchResult.match.id ?? 0,
+      text: `${matchResult.match.matchTime} ${matchResult.match.homeParticipantName ?? ''} vs ${
+        matchResult.match.awayParticipantName ?? ''
       }`,
     })) || [];
 

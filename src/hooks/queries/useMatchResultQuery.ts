@@ -1,32 +1,65 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import { fetchMatchResult, fetchMatchResultsList, createMatchResult, updateMatchResult } from '@/api/matchResult';
-import { matchResultQueryKeys } from '@/queryKeys/matchResult'; // 쿼리 키 파일을 불러옵니다.
+import {
+  fetchMatchResult,
+  fetchMatchResultsList,
+  createMatchResult,
+  updateMatchResult,
+  createGoal,
+  deleteGoal,
+} from '@/api/matchResult';
+import { matchResultQueryKeys } from '@/queryKeys/matchResult';
 
-export const useMatchResult = (scheduleId: number) => {
-  return useQuery<IMatchResultDto>(matchResultQueryKeys.result(scheduleId), () => fetchMatchResult(scheduleId));
-};
-
-export const useMatchResultsList = (competitionId: number) => {
-  return useQuery<IMatchResultDto[]>(matchResultQueryKeys.list(competitionId), () =>
-    fetchMatchResultsList(competitionId),
+export const useMatchResult = (competitionId: number, matchId: number) => {
+  return useQuery<IMatchResultDto>(
+    matchResultQueryKeys.result(competitionId, matchId),
+    () => fetchMatchResult(competitionId, matchId),
+    { enabled: !!competitionId && !!matchId },
   );
 };
 
-export const useCreateMatchResult = () => {
+export const useMatchResultsList = (competitionId: number) => {
+  return useQuery<IMatchResultDto[]>(
+    matchResultQueryKeys.list(competitionId),
+    () => fetchMatchResultsList(competitionId),
+    { enabled: !!competitionId },
+  );
+};
+
+export const useCreateMatchResult = (competitionId: number, matchId: number) => {
   const queryClient = useQueryClient();
-  return useMutation(createMatchResult, {
-    onSuccess: data => {
-      queryClient.invalidateQueries(matchResultQueryKeys.result(data.matchSchedule?.id || 0));
+  return useMutation((data: ICreateMatchResultDto) => createMatchResult(competitionId, matchId, data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchResultQueryKeys.result(competitionId, matchId));
+      queryClient.invalidateQueries(matchResultQueryKeys.list(competitionId));
     },
   });
 };
 
-export const useUpdateMatchResult = (scheduleId: number) => {
+export const useUpdateMatchResult = (competitionId: number, matchId: number) => {
   const queryClient = useQueryClient();
-  return useMutation((data: IMatchResultDto) => updateMatchResult(scheduleId, data), {
+  return useMutation((data: ICreateMatchResultDto) => updateMatchResult(competitionId, matchId, data), {
     onSuccess: () => {
-      queryClient.invalidateQueries(matchResultQueryKeys.result(scheduleId));
+      queryClient.invalidateQueries(matchResultQueryKeys.result(competitionId, matchId));
+      queryClient.invalidateQueries(matchResultQueryKeys.list(competitionId));
+    },
+  });
+};
+
+export const useCreateGoalMutation = (competitionId: number, matchId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation((data: ICreateGoalDto) => createGoal(competitionId, matchId, data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchResultQueryKeys.result(competitionId, matchId));
+    },
+  });
+};
+
+export const useDeleteGoalMutation = (competitionId: number, matchId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation((goalId: number) => deleteGoal(competitionId, matchId, goalId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(matchResultQueryKeys.result(competitionId, matchId));
     },
   });
 };

@@ -1,4 +1,4 @@
 export const matchResultQueryKeys = {
-  result: (scheduleId: number) => ['matchResult', scheduleId],
+  result: (competitionId: number, matchId: number) => ['matchResult', competitionId, matchId],
   list: (competitionId: number) => ['matchResultList', competitionId],
 };
