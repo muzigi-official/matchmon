@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
-import {
-  useCreateMatchSettingMutation,
-  useMatchSettingQuery,
-  useUpdateMatchSettingMutation,
-  useDeleteMatchSettingMutation,
-} from '@/hooks/queries/useMatchSettingQuery';
+import { CHAR_CODE_A } from '@/constant/common';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchSchedulesQuery,
@@ -16,14 +11,20 @@ import {
   useDeleteMatchScheduleMutation,
   useDeleteMatchSchedulesByCompetitionIdMutation,
 } from '@/hooks/queries/useMatchScheduleQuery';
+import {
+  useCreateMatchSettingMutation,
+  useMatchSettingQuery,
+  useUpdateMatchSettingMutation,
+  useDeleteMatchSettingMutation,
+} from '@/hooks/queries/useMatchSettingQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 import { generateSchedule } from '@/utils/match';
 
 import DialogMatchSetting from './DialogMatchSetting';
+import * as S from './Index.style';
 import MatchInfoBox from './MatchInfoBox';
 import StadiumTabs from './StadiumTabs';
 
-import * as S from './Index.style';
 
 export interface IEvent {
   name: string;
@@ -33,7 +34,7 @@ export interface IEvent {
 const createStadiumOptions = (stadiumCount: number = 2) => {
   const stadiums = Array(stadiumCount)
     .fill('')
-    .map((_, i) => `${String.fromCharCode(65 + i)}구장`);
+    .map((_, i) => `${String.fromCharCode(CHAR_CODE_A + i)}구장`);
   return stadiums.map(stadium => ({ value: stadium, text: stadium }));
 };
 
@@ -60,6 +61,7 @@ export default function BracketPage() {
 
   const { data: joinCompTeams } = useParticipateTeamsQuery(selectedCompetition || 0);
   const { data: matchSettings, isLoading: isMatchSettingLoading } = useMatchSettingQuery(selectedCompetition || 0);
+
   const teamOptions =
     joinCompTeams?.map(item => ({
       value: item.team.id,
@@ -111,6 +113,8 @@ export default function BracketPage() {
   };
 
   const createAutoSchedule = () => {
+    // FIXME: 날짜 추가되도록 수정, groupStageid 도 추가해줘야함. list 보일때,
+    // 그러면서 팀 선택될 때 조 id가 셀렉트를 잘 나눠주게도 했으면 좋겠음.
     if (joinCompTeams) {
       const groups = joinCompTeams.reduce((acc: Record<string, ITeam[]>, item) => {
         const groupName = item.groupStage.name;

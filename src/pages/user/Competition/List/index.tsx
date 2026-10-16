@@ -2,11 +2,12 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
-import CompetitionCard from '@/components/competition/Card';
-import ApplyDialog from '@/components/competition/ApplyDialog';
-import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
 
 import { applyCompetition, listCompetition } from '@/api/competition';
+import ApplyDialog from '@/components/competition/ApplyDialog';
+import CompetitionCard from '@/components/competition/Card';
+import { useTeamListQuery } from '@/hooks/queries/useTeamQuery';
+
 
 const PAGE_SIZE = 100;
 
@@ -28,9 +29,9 @@ export default function CompetitionList() {
   const getList = async (newPage: number) => {
     setIsFetching(true);
     const response = await listCompetition(newPage);
-    const { page, last_page } = response.meta;
+    const { page: responsePage, last_page } = response.meta;
     setCompetitions(response.data);
-    setPage(Number(page));
+    setPage(Number(responsePage));
     setPageCount(last_page);
     setIsFetching(false);
   };
@@ -77,7 +78,7 @@ export default function CompetitionList() {
   };
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current) return undefined;
     const observer = new IntersectionObserver(callback, observerOptions);
     observer.observe(ref.current);
     return () => observer.disconnect();

@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
+
 import { StyledButton } from './Button.styles';
 
-type ButtonProps = {
+type TButtonProps = {
   children: ReactNode;
   type?: 'button' | 'submit' | 'reset';
   variant?: TButtonVariant;
@@ -23,7 +24,7 @@ export default function Button({
   selected,
   autoFocus = false,
   onClick,
-}: ButtonProps) {
+}: TButtonProps) {
   return (
     <StyledButton
       type={type}

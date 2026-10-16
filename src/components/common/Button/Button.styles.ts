@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+
+import { BRIGHTNESS_THRESHOLD, HOVER_DARKEN_AMOUNT, HOVER_BG_OPACITY } from '@/constant/color';
 import { colors } from '@/styles/colors';
 import { typography } from '@/styles/typography';
 import { darkenColor, getBrightness, getCustomColor, getRgbaColor } from '@/utils/color.ts';
@@ -9,7 +11,8 @@ import { darkenColor, getBrightness, getCustomColor, getRgbaColor } from '@/util
 const buttonStyles = {
   contained: css<{ $color?: string }>`
     background-color: ${({ $color }) => getCustomColor($color)};
-    color: ${({ $color }) => (getBrightness(getCustomColor($color)) > 128 ? colors.black : colors.white)};
+    color: ${({ $color }) =>
+      getBrightness(getCustomColor($color)) > BRIGHTNESS_THRESHOLD ? colors.black : colors.white};
   `,
   outlined: css<{ $color?: string }>`
     background-color: inherit;
@@ -67,8 +70,11 @@ export const StyledButton = styled.button<{
 
   &:hover:not(:disabled) {
     background-color: ${({ $variant, $color }) =>
-      $variant === 'contained' ? darkenColor(getCustomColor($color), 20) : getRgbaColor(getCustomColor($color), 0.1)};
-    border-color: ${({ $variant, $color }) => $variant === 'outlined' && darkenColor(getCustomColor($color), 20)};
+      $variant === 'contained'
+        ? darkenColor(getCustomColor($color), HOVER_DARKEN_AMOUNT)
+        : getRgbaColor(getCustomColor($color), HOVER_BG_OPACITY)};
+    border-color: ${({ $variant, $color }) =>
+      $variant === 'outlined' && darkenColor(getCustomColor($color), HOVER_DARKEN_AMOUNT)};
     color: ${({ $variant, $color }) => $variant !== 'contained' && getCustomColor($color)};
   }
 

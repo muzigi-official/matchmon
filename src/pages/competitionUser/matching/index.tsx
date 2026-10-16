@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import Loading from '@/components/common/Loading';
+import { CHAR_CODE_A } from '@/constant/common';
 import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,
@@ -8,15 +10,13 @@ import {
   useRemoveTeamFromGroupMutation,
 } from '@/hooks/queries/useGroupstageQuery';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
-
 import useCompetitionStore from '@/store/useCompetitionStore';
 
-import TeamList from './ParticipateTeamList';
-import GroupList from './GroupList';
 import DialogTeamSelect from './DialogTeamSelect';
+import GroupList from './GroupList';
 
 import * as S from './Index.style';
-import Loading from '@/components/common/Loading';
+import TeamList from './ParticipateTeamList';
 
 export default function MatchingPage() {
   const [isOpenDialog, setOpenDialog] = useState<boolean>(false);
@@ -32,7 +32,6 @@ export default function MatchingPage() {
     isLoading: teamsLoading,
   } = useParticipateTeamsQuery(selectedCompetition || 0);
 
-  // 팀 데이터를 파싱합니다.
   const teams = teamsData.map(item => {
     const { id, team, participateState, groupStage } = item;
     return {
@@ -58,8 +57,7 @@ export default function MatchingPage() {
   const handleAddGroup = () => {
     setOpenDialog(true);
 
-    // 그룹 생성하는 api 만들어져야함.
-    const newGroupName = ` ${String.fromCharCode(65 + groups.length)}`;
+    const newGroupName = ` ${String.fromCharCode(CHAR_CODE_A + groups.length)}`;
     setGroupName(newGroupName);
     if (selectedCompetition) {
       createGroupstageMutation.mutate(
@@ -73,15 +71,15 @@ export default function MatchingPage() {
     }
   };
 
-  const handleRemoveGroup = (group: IGroupStage) => {
-    deleteGroupstageMutation.mutate(group.id);
-  };
-
   const handleSelectGroup = (group: IGroupStage) => {
     setSelectedGroup(group);
     setGroupName(group.name);
     setSelectedGroupTeams(group.joinTeamComps);
     setOpenDialog(true);
+  };
+
+  const handleRemoveGroup = (group: IGroupStage) => {
+    deleteGroupstageMutation.mutate(group.id);
   };
 
   const clickTeam = (team: IJoinTeamComps) => {
@@ -110,10 +108,6 @@ export default function MatchingPage() {
     }
   };
 
-  // const randomGroup = () => {
-  //   console.log('random team');
-  // };
-
   if (groupStagesLoading || teamsLoading) return <Loading />;
   if (groupStagesError) return <div>Error: {groupStagesError?.message}</div>;
   if (teamsError) return <div>Error: {teamsError.message}</div>;
@@ -128,11 +122,6 @@ export default function MatchingPage() {
             <span>{selectedCompetition}</span>
           </S.Title>
         </S.Top>
-        <S.Actions>
-          {/* <Button color='primary' onClick={randomGroup}>
-            toast
-          </Button> */}
-        </S.Actions>
         <S.Content>
           <S.LeftPanel>
             <S.Header>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -14,7 +14,6 @@ import {
 import AddParticipatingPlayer from '@/pages/admin/competition/dialog/AddParticipatingPlayer';
 
 import * as S from './TeamDetails.styles';
-import React from 'react';
 
 export default function ParticipateTeamsDetails() {
   const { joinCompId } = useParams();

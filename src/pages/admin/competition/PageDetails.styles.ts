@@ -1,8 +1,9 @@
 import { styled } from 'styled-components';
+
 import { mediaQuery } from '@/styles/mediaQuery';
 import { containerFlexCol } from '@/styles/mixins';
 
-interface StatusBadgeProps {
+interface IStatusBadgeProps {
   $status: string;
 }
 
@@ -98,7 +99,7 @@ export const Name = styled.h3`
   font-weight: 700;
 `;
 
-export const StatusBadge = styled.span<StatusBadgeProps>`
+export const StatusBadge = styled.span<IStatusBadgeProps>`
   display: inline-block;
   padding: 5px 10px;
   border-radius: 12px;

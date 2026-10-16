@@ -1,22 +1,23 @@
 import { useState } from 'react';
+
+import AddIcon from '@mui/icons-material/Add';
+import CallIcon from '@mui/icons-material/Call';
+import RoomIcon from '@mui/icons-material/Room';
+import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
-import { Box, Typography } from '@mui/material';
-import RoomIcon from '@mui/icons-material/Room';
-import CallIcon from '@mui/icons-material/Call';
-import AddIcon from '@mui/icons-material/Add';
 
 import { diffDate } from '@/utils/date';
 
 import { FooterItem, CardFooter, CardContent, FabButton, CardActionArea, CardMedia, CardTop, Card } from './Card.style';
 
-interface Props {
+interface ICardProps {
   competition: ICompetition;
   onClick: (competition: ICompetition) => void;
   onClickApply: (id: number) => void;
 }
 //TODO: 날짜가 지난 대회는 참가신청 못하고 위에 스타일로 종료된 대회임을 알려준다.
-export default function CompetitionCard({ competition, onClick, onClickApply }: Props) {
+export default function CompetitionCard({ competition, onClick, onClickApply }: ICardProps) {
   const [imageError, setImageError] = useState(false);
   const onErrorImg = () => {
     setImageError(true);

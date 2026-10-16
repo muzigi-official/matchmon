@@ -1,5 +1,5 @@
-import RemoveIcon from '@mui/icons-material/Remove';
 import EditIcon from '@mui/icons-material/Edit';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import Button from '@/components/common/Button';
 import FormSelect from '@/components/common/Select/FormSelect';

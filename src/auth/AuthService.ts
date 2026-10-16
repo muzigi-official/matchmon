@@ -21,4 +21,4 @@ export const signIn = (data: ISignInDto): Promise<ISignInReturn> => requestAPI.p
 
 export const signUp = (data: ISignUpDto): Promise<TDefaultReturn> => requestAPI.post(`${API_URL}/signUp`, data);
 
-export const getMe = (): Promise<void> => requestAPI.get(`${API_URL}/profile`);
+export const getMe = (): Promise<IUser> => requestAPI.get(`${API_URL}/profile`);

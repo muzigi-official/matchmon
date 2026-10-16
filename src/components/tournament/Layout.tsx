@@ -1,75 +1,40 @@
-import { Box } from '@mui/material';
-import Node, { NodeInfo } from './Node';
+/* eslint-disable no-magic-numbers -- 토너먼트 대진표 좌표/라운드 계산 전용 숫자(절반·쌍·라운드수 등)는 상수화 시 가독성이 떨어져 로컬 유지 */
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import NodeV2 from './NodeV2';
-import { ceil, floor } from 'lodash';
-import Line from './Line';
+
+import { Box } from '@mui/material';
+
+import { ceil } from 'lodash';
+
+import { Coordinate, baseWidth, baseHeight } from './layoutUtils';
 import LineN2N from './LineN2N';
+import { INodeInfo } from './Node';
+import NodeV2 from './NodeV2';
 
-export class Coordinate {
-  x: number;
-  y: number;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  add(coordinate: Coordinate) {
-    const x = this.x + coordinate.x;
-    const y = this.y + coordinate.y;
-
-    return new Coordinate(x, y);
-  }
-  sub(coordinate: Coordinate) {
-    const x = this.x - coordinate.x;
-    const y = this.y - coordinate.y;
-    return new Coordinate(x, y);
-  }
-  multiply(times: number) {
-    const x = this.x * times;
-    const y = this.y * times;
-
-    return new Coordinate(x, y);
-  }
-}
-
-interface Props {
+interface ITournamentLayoutProps {
   round: number;
-  nodeInfoList: NodeInfo[];
+  nodeInfoList: INodeInfo[];
 }
-export function makeNodeProps(
-  round: number,
-  gameOrder: number,
-  date: string,
-  teamNameA: string,
-  teamNameB: string,
-  scoreA: string | number,
-  scoreB: string | number,
-) {
-  return { round, gameOrder, date, teamNameA, teamNameB, scoreA, scoreB };
-}
+
 const logRound = (round: number): number => {
-  if (round == 128) return 7;
-  if (round == 64) return 6;
-  if (round == 32) return 5;
-  if (round == 16) return 4;
-  if (round == 8) return 3;
-  if (round == 4) return 2;
-  if (round == 2) return 1;
+  if (round === 128) return 7;
+  if (round === 64) return 6;
+  if (round === 32) return 5;
+  if (round === 16) return 4;
+  if (round === 8) return 3;
+  if (round === 4) return 2;
+  if (round === 2) return 1;
   return 0;
 };
-
-export const baseWidth = new Coordinate(300, 0);
-export const baseHeight = new Coordinate(0, 100);
 
 const intervalWidth = new Coordinate(350, 0);
 const intervalHeight = new Coordinate(0, 150);
 
-const makeRelativePosition = (round: number): any => {
+type TRelativePosition = Record<number, Record<number, [number, number]>>;
+
+const makeRelativePosition = (round: number): TRelativePosition => {
   const centerX = logRound(round);
 
-  const relativePosition: any = { 2: {} };
+  const relativePosition: TRelativePosition = { 2: {} };
 
   relativePosition[round] = {};
   for (let i = 1; i <= round / 2; i++) {
@@ -103,20 +68,20 @@ const makeRelativePosition = (round: number): any => {
   return relativePosition;
 };
 
-export default function TournamentLayout(props: Props) {
-  const { round = 32, nodeInfoList } = props;
-  const RelativePosition = makeRelativePosition(round);
+export default function TournamentLayout(props: ITournamentLayoutProps) {
+  const { round: totalRound = 32, nodeInfoList } = props;
+  const relativePosition = makeRelativePosition(totalRound);
 
   const makeXY = (round: number, gameOrder: number): Coordinate => {
-    const position = RelativePosition[round][gameOrder];
+    const position = relativePosition[round][gameOrder];
     const x = position[0];
     const y = position[1];
 
     return intervalWidth.multiply(x).add(intervalHeight.multiply(y));
   };
 
-  const BoxWidth = baseWidth.add(intervalWidth.multiply((logRound(round) - 1) * 2 + 1)).x;
-  const BoxHeight = baseHeight.add(intervalHeight.multiply(round / 4)).y;
+  const BoxWidth = baseWidth.add(intervalWidth.multiply((logRound(totalRound) - 1) * 2 + 1)).x;
+  const BoxHeight = baseHeight.add(intervalHeight.multiply(totalRound / 4)).y;
 
   return (
     <TransformWrapper initialScale={1} initialPositionX={0} initialPositionY={0}>

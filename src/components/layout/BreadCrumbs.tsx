@@ -1,8 +1,9 @@
-import * as React from 'react';
+import { ElementType } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link, { LinkProps } from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 const breadcrumbNameMap: { [key: string]: string } = {
   '/inbox': 'Inbox',
@@ -12,13 +13,13 @@ const breadcrumbNameMap: { [key: string]: string } = {
   '/drafts': 'Drafts',
 };
 
-interface LinkRouterProps extends LinkProps {
+interface ILinkRouterProps extends LinkProps {
   to: string;
   replace?: boolean;
 }
 
-function LinkRouter(props: LinkRouterProps) {
-  return <Link {...props} component={RouterLink as any} />;
+function LinkRouter(props: ILinkRouterProps) {
+  return <Link {...props} component={RouterLink as ElementType} />;
 }
 
 export default function LayoutBreadcrumbs() {
@@ -30,7 +31,7 @@ export default function LayoutBreadcrumbs() {
       <LinkRouter underline='hover' color='inherit' to='/'>
         Home
       </LinkRouter>
-      {pathnames.map((value, index) => {
+      {pathnames.map((_value, index) => {
         const last = index === pathnames.length - 1;
         const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+
 import Dialog from '@mui/material/Dialog';
 
-import * as S from './DialogTeamSelect.styles';
 import { DialogHeader, DialogHeaderTitle, DialogContent } from '@/components/common/dialog/Dialog.style';
 import ListTeamItem from '@/components/team/ListItem';
+
+import * as S from './DialogTeamSelect.styles';
 
 interface IParseTeams extends IJoinTeamComps {
   disabled: boolean;
   selected: boolean;
 }
 
-interface TeamSelectPopupProps {
+interface ITeamSelectPopupProps {
   open: boolean;
   teams: IJoinTeamComps[];
   selectedGroupTeams: IJoinTeamComps[];
@@ -19,9 +21,15 @@ interface TeamSelectPopupProps {
   onClose: () => void;
 }
 
-const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick, onClose }: TeamSelectPopupProps) => {
+const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick, onClose }: ITeamSelectPopupProps) => {
   const [list, setList] = useState<IParseTeams[]>();
   const [selectedCount, setSelectedCount] = useState<number>(0);
+
+  const handleClickTeam = (team: IParseTeams) => {
+    onClick(team);
+    setList((prevList = []) => prevList.map(t => (t.id === team.teamId ? { ...t, selected: !t.selected } : t)));
+    setSelectedCount(prevCount => (team.selected ? prevCount - 1 : prevCount + 1));
+  };
 
   useEffect(() => {
     const updatedTeams = teams.map(team => ({
@@ -32,12 +40,6 @@ const DialogTeamSelect = ({ open, teams, selectedGroupTeams, groupName, onClick,
     setList(updatedTeams);
     setSelectedCount(selectedGroupTeams.length);
   }, [teams, selectedGroupTeams]);
-
-  const handleClickTeam = (team: IParseTeams) => {
-    onClick(team);
-    setList((prevList = []) => prevList.map(t => (t.id === team.teamId ? { ...t, selected: !t.selected } : t)));
-    setSelectedCount(prevCount => (team.selected ? prevCount - 1 : prevCount + 1));
-  };
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby='dialog-apply' aria-describedby='dialog-apply-description'>

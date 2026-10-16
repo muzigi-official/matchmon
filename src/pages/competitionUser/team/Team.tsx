@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
-import DataTable from '@/components/mui/table/DataTable';
 
 import Button from '@/components/common/Button';
 import Loading from '@/components/common/Loading';
+import DataTable from '@/components/mui/table/DataTable';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import useCompetitionStore from '@/store/useCompetitionStore';
 
@@ -70,9 +70,6 @@ export default function ParticipateTeams() {
           <Button variant='contained' onClick={splitGroup}>
             조짜기
           </Button>
-          {/* <Button variant='contained' onClick={() => setDialogOpen(true)}>
-            팀 추가
-          </Button> */}
         </div>
       </S.Top>
       <S.Content>

@@ -1,4 +1,5 @@
 import { ReactNode, useState, useEffect } from 'react';
+
 import { TabsWrapper, TabButtonWrapper, TabContainer, TabButton, TabContentContainer } from './Tabs.styles';
 
 interface ITab {

@@ -1,5 +1,9 @@
 import { styled } from 'styled-components';
+
 import { colors } from '@/styles/colors';
+
+// disabled 상태일 때 항목을 흐리게 표시하는 투명도
+const DISABLED_OPACITY = 0.5;
 
 export const List = styled.ul`
   flex: 1;
@@ -17,7 +21,7 @@ export const ListItem = styled.li<{ color: string; selected?: boolean; disabled?
   padding: 8px;
   font-size: 0.8125rem;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  opacity: ${props => (props.disabled ? DISABLED_OPACITY : 1)};
   pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
   border: ${props => (props.selected ? `2px solid ${colors.primary}` : '1px solid #ccc')};
 

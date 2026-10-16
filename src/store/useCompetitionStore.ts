@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 
-interface CompetitionState {
+interface ICompetitionState {
   selectedCompetition: number | undefined;
   setCompetition: (competition: number) => void;
 }
 
-const useUserStore = create<CompetitionState>()(
+const useUserStore = create<ICompetitionState>()(
   devtools(
     persist(
       set => ({

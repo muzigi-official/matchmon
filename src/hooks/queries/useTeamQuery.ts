@@ -1,7 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+
+import { AxiosError } from 'axios';
+
 import { getTeam, listTeam, addTeam, editTeam, removeTeam } from '@/api/team';
+import { HTTP_STATUS } from '@/constant/network';
 import { teamQueryKeys } from '@/queryKeys/teamQueryKeys';
 
 export const useTeamQuery = (id: number | string) => {
@@ -80,7 +83,7 @@ export const useRemoveTeamMutation = (currentPage: number, setCurrentPage: (page
       toast.success('팀이 성공적으로 삭제되었습니다.');
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      if (error.response?.status === 400) {
+      if (error.response?.status === HTTP_STATUS.BAD_REQUEST) {
         toast.error(error.response?.data?.message || '팀을 삭제할 수 없습니다.');
       } else {
         toast.error('오류가 발생했습니다. 다시 시도해 주세요.');

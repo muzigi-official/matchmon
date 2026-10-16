@@ -1,14 +1,16 @@
 import { useMemo, Suspense } from 'react';
-import { RouterProvider } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
-import { merge } from 'ts-deepmerge';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { RouterProvider } from 'react-router-dom';
 
-import { AxiosError } from 'axios';
-import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
+
 import { ThemeProvider } from '@mui/material';
+import { createTheme, responsiveFontSizes, Theme } from '@mui/material/styles';
+import { AxiosError } from 'axios';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { merge } from 'ts-deepmerge';
 
+import { MS_PER_SECOND, STALE_TIME_SECONDS } from '@/constant/time';
 import router from '@/router';
 import GlobalStyle from '@/styles/global-styles';
 import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
@@ -16,7 +18,7 @@ import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
-      if ((error as AxiosError).code == 'ERR_NETWORK') {
+      if ((error as AxiosError).code === 'ERR_NETWORK') {
         toast.error(`서버와 연결되지 않습니다`);
       }
       query.state.data;
@@ -26,7 +28,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // ✅ globally default to 600 seconds
-      staleTime: 1000 * 600,
+      staleTime: MS_PER_SECOND * STALE_TIME_SECONDS,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retry: false,

@@ -1,20 +1,22 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import Button from '@/components/common/Button';
-import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
-import Grid from '@mui/material/Unstable_Grid2';
+import Dialog from '@mui/material/Dialog';
+
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Unstable_Grid2';
 
+import Button from '@/components/common/Button';
+
+import * as S from '@/components/common/dialog/Dialog.style';
 import FormSelect from '@/components/common/Select/FormSelect';
 import { LOCATION_INFO } from '@/constant/DefaultSetting';
 
-import * as S from '@/components/common/dialog/Dialog.style';
 
-interface Props {
+interface IProps {
   team?: ITeam | null;
   open: boolean;
   onClose: () => void;
@@ -23,7 +25,7 @@ interface Props {
 
 const selectLocation = LOCATION_INFO;
 
-export default function TeamDialog({ team, open, onClose, onConfirm }: Props) {
+export default function TeamDialog({ team, open, onClose, onConfirm }: IProps) {
   const {
     register,
     formState: { errors },

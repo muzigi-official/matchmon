@@ -1,6 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+
+import { AxiosError } from 'axios';
+
 import { fetchMatchSettings, createMatchSetting, updateMatchSetting, deleteMatchSetting } from '@/api/matchSetting';
 import { matchSettingQueryKeys } from '@/queryKeys/matchSetting';
 

@@ -1,14 +1,13 @@
-import { Box } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+/* eslint-disable no-magic-numbers -- 선 좌표 계산 전용 숫자는 로컬 유지 */
+import { Coordinate } from './layoutUtils';
 import Line from './Line';
-import { Coordinate } from './Layout';
 
-interface Props {
+interface ILineN2NProps {
   start: Coordinate;
   end: Coordinate;
 }
 
-export default function LineN2N(props: Props) {
+export default function LineN2N(props: ILineN2NProps) {
   const { start, end } = props;
 
   const isLeft = start.x < end.x;
@@ -24,7 +23,7 @@ export default function LineN2N(props: Props) {
   );
 }
 
-function LineN2NA(props: Props) {
+function LineN2NA(props: ILineN2NProps) {
   const { start, end } = props;
 
   return (
@@ -35,7 +34,7 @@ function LineN2NA(props: Props) {
     </>
   );
 }
-function LineN2NB(props: Props) {
+function LineN2NB(props: ILineN2NProps) {
   const { start, end } = props;
   return (
     <>
@@ -45,7 +44,7 @@ function LineN2NB(props: Props) {
     </>
   );
 }
-function LineN2NC(props: Props) {
+function LineN2NC(props: ILineN2NProps) {
   const { start, end } = props;
 
   return (
@@ -56,7 +55,7 @@ function LineN2NC(props: Props) {
     </>
   );
 }
-function LineN2ND(props: Props) {
+function LineN2ND(props: ILineN2NProps) {
   const { start, end } = props;
 
   return (

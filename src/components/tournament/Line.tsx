@@ -1,14 +1,15 @@
+/* eslint-disable no-magic-numbers -- 선 두께/좌표 계산 전용 숫자는 로컬 유지 */
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
-interface Props {
+interface ILineProps {
   x: number;
   y: number;
   width?: number;
   height?: number;
 }
 
-export default function Line(props: Props) {
+export default function Line(props: ILineProps) {
   const { x, y, width = 2, height = 2 } = props;
   return (
     <Grid container position={'absolute'} top={y} left={x}>

@@ -1,14 +1,14 @@
-import { styled, Theme, CSSObject } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiToobar from '@mui/material/Toolbar';
 import { Avatar } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+import MuiToobar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
-interface AppBarProps extends MuiAppBarProps {
+interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
-  onClickMenu: () => void;
+  onClickMenu?: () => void;
 }
 
 const drawerWidth = 240;
@@ -53,7 +53,7 @@ export const HomeLink = styled(Typography)(({ theme }) => ({
 
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+})<IAppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -72,7 +72,7 @@ export const AppBar = styled(MuiAppBar, {
 
 export const Toolbar = styled(MuiToobar, {
   shouldForwardProp: prop => prop !== 'open',
-})<AppBarProps>(({ open }) => ({
+})<IAppBarProps>(({ open }) => ({
   display: 'flex',
   padding: 0,
   justifyContent: 'space-between',

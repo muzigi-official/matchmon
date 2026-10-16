@@ -1,6 +1,7 @@
+import React from 'react';
+
 import ListTeamItem from '@/components/team/ListItem';
 
-import React from 'react';
 import { List } from './ParticipateTeamList.styles';
 
 interface IPrps {

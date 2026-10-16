@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Coordinate } from './layoutUtils';
 import LineN2N from './LineN2N';
-import { Coordinate } from './Layout';
 
 const meta = {
   title: 'tournament/LineN2N',

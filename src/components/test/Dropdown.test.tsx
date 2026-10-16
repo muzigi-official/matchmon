@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
-import Dropdown from './Dropdown';
 import { render, screen, fireEvent } from '@testing-library/react';
+
+import Dropdown from './Dropdown';
 
 const options = ['사과', '배', '귤'];
 

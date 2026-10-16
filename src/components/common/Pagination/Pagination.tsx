@@ -1,15 +1,17 @@
 import { useEffect, useState, useMemo } from 'react';
-import { getPageList } from '@/utils/pagination';
+
 import Button from '@/components/common/Button';
+import { getPageList } from '@/utils/pagination';
+
 import { Container, PaginationUl, PaginationLi, PaginationSpan } from './Pagination.styles';
 
-type Props = {
+type TPaginationProps = {
   currentPage: number;
   totalPage: number;
   onPageChange: (page: number) => void;
 };
 
-export default function Pagination({ currentPage, totalPage, onPageChange }: Props) {
+export default function Pagination({ currentPage, totalPage, onPageChange }: TPaginationProps) {
   const [selectedPage, setSelectedPage] = useState(currentPage);
 
   const pageNumberList = useMemo(() => {

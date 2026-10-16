@@ -1,24 +1,26 @@
 import { useEffect } from 'react';
-import dayjs from 'dayjs';
+
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import Button from '@/components/common/Button';
-import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
+import Dialog from '@mui/material/Dialog';
 import Grid from '@mui/material/Unstable_Grid2';
+import dayjs from 'dayjs';
+
+import Button from '@/components/common/Button';
 
 import DateRangePicker from '@/components/common/DateTimePicker/range/DateRangePicker';
 
 import * as S from '@/components/common/dialog/Dialog.style';
 
-interface Props {
+interface IAddCompetitionProps {
   open: boolean;
   onClose: () => void;
   onConfirm: (competition: ICompetitionFormInput) => void;
 }
 
-export default function AddDialog({ open, onClose, onConfirm }: Props) {
+export default function AddDialog({ open, onClose, onConfirm }: IAddCompetitionProps) {
   const {
     register,
     reset,

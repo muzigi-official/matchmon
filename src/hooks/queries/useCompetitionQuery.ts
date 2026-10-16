@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+
 import { AxiosError } from 'axios';
+
 import { getCompetition, listCompetition, addCompetition, applyCompetition } from '@/api/competition';
 import { competitionQueryKeys } from '@/queryKeys/competitionQueryKey';
 

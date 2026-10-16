@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import Button from '@/components/common/Button';
-import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
+import Dialog from '@mui/material/Dialog';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import FormSelect from '@/components/common/Select/FormSelect';
+import Button from '@/components/common/Button';
+
 
 import {
   DialogHeader,
@@ -16,8 +16,9 @@ import {
   DialogCloseButton,
   DialogFooter,
 } from '@/components/common/dialog/Dialog.style';
+import FormSelect from '@/components/common/Select/FormSelect';
 
-interface Props {
+interface IDialogAddPlayerProps {
   player?: IParsePlayer | null;
   teams: ISelectProperty[];
   open: boolean;
@@ -25,7 +26,7 @@ interface Props {
   onConfirm: (player: IPlayerFormInput) => void;
 }
 
-export default function DialogParticipate({ player, teams, open, onClose, onConfirm }: Props) {
+export default function DialogParticipate({ player, teams, open, onClose, onConfirm }: IDialogAddPlayerProps) {
   const {
     register,
     reset,

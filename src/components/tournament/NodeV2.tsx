@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers -- 노드 레이아웃 좌표/크기 계산 전용 숫자는 로컬 유지 */
 // https://github.com/g-loot/react-tournament-brackets 디자인 참고
 
 import { Box, Paper, Typography } from '@mui/material';
@@ -8,7 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 const emblemExample =
   'https://marketplace.canva.com/EADwijeCsr8/2/0/1600w/canva-%EC%B2%AD%EB%A1%9D%EC%83%89-%EA%B3%B5-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9D%B4-%EC%9E%88%EB%8A%94-%EC%B6%95%EA%B5%AC-%EB%A1%9C%EA%B3%A0-2VqJzy6ID_o.jpg';
 
-export interface NodeInfo {
+export interface INodeInfo {
   round: number;
   gameOrder: number;
   date?: string;
@@ -20,7 +21,7 @@ export interface NodeInfo {
   scoreB?: string | number;
 }
 
-interface NodeProps extends NodeInfo {
+interface INodeProps extends INodeInfo {
   x: number;
   y: number;
   width: number;
@@ -29,7 +30,7 @@ interface NodeProps extends NodeInfo {
 
 const fontSize = 11;
 
-export default function NodeV2(props: NodeProps) {
+export default function NodeV2(props: INodeProps) {
   const {
     x,
     y,
@@ -89,13 +90,13 @@ export default function NodeV2(props: NodeProps) {
   );
 }
 
-interface PropsBlock {
+interface IPropsBlock {
   teamName: string;
   score: string | number;
   emblem?: string;
   isWin: boolean;
 }
-function TeamBlock({ teamName, emblem = emblemExample, isWin = false }: PropsBlock) {
+function TeamBlock({ teamName, emblem = emblemExample }: IPropsBlock) {
   return (
     <Box flexDirection={'column'} display={'flex'} justifyContent={'center'}>
       <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>

@@ -1,4 +1,5 @@
 import { COLOR_SET } from '@/constant/DefaultSetting';
+
 import { ListItem, Emblem, EmptyEmblem } from './ListItem.styles';
 
 interface IListItemProps {

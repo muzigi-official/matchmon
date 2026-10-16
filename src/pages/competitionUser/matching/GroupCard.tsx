@@ -1,13 +1,15 @@
-import ListTeamItem from '@/components/team/ListItem';
-import * as S from './GroupCard.styles';
 import React from 'react';
+
+import ListTeamItem from '@/components/team/ListItem';
+
+import * as S from './GroupCard.styles';
 
 interface IGroupCardProps {
   name?: string;
   teams?: IJoinTeamComps[];
   isAddButton?: boolean;
   onAddTeam?: () => void;
-  onClick?: () => void; // 그룹 카드 클릭 이벤트
+  onClick?: () => void;
   onRemove?: (event: React.MouseEvent) => void;
 }
 

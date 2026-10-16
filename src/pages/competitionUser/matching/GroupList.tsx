@@ -1,14 +1,15 @@
 import GroupCard from './GroupCard';
+
 import * as S from './GroupList.styles';
 
-interface GroupListProps {
+interface IGroupListProps {
   groups: IGroupStage[];
   onAddGroup: () => void;
   onSelectGroup: (group: IGroupStage) => void;
   onRemoveGroup: (group: IGroupStage) => void;
 }
 
-const GroupList = ({ groups, onAddGroup, onSelectGroup, onRemoveGroup }: GroupListProps) => {
+const GroupList = ({ groups, onAddGroup, onSelectGroup, onRemoveGroup }: IGroupListProps) => {
   return (
     <S.GroupListContainer>
       {groups.map(group => (
