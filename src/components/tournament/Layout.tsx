@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers -- 토너먼트 대진표 좌표/라운드 계산 전용 숫자(절반·쌍·라운드수 등)는 상수화 시 가독성이 떨어져 로컬 유지 */
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 import { Box } from '@mui/material';

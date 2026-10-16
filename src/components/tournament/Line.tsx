@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers -- 선 두께/좌표 계산 전용 숫자는 로컬 유지 */
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 

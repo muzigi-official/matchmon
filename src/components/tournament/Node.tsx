@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers -- 노드 레이아웃 좌표/크기 계산 전용 숫자는 로컬 유지 */
 // https://github.com/g-loot/react-tournament-brackets 디자인 참고
 
 import { Box, Typography } from '@mui/material';

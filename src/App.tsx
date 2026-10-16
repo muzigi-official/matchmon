@@ -10,6 +10,7 @@ import { AxiosError } from 'axios';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { merge } from 'ts-deepmerge';
 
+import { MS_PER_SECOND, STALE_TIME_SECONDS } from '@/constant/time';
 import router from '@/router';
 import GlobalStyle from '@/styles/global-styles';
 import { getDesignTokens, getThemedComponents } from '@/theme/Theme';
@@ -27,7 +28,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // ✅ globally default to 600 seconds
-      staleTime: 1000 * 600,
+      staleTime: MS_PER_SECOND * STALE_TIME_SECONDS,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retry: false,

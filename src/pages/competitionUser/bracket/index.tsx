@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
+import { CHAR_CODE_A } from '@/constant/common';
 import { useParticipateTeamsQuery } from '@/hooks/queries/useJoinCompTeamQuery';
 import {
   useMatchSchedulesQuery,
@@ -33,7 +34,7 @@ export interface IEvent {
 const createStadiumOptions = (stadiumCount: number = 2) => {
   const stadiums = Array(stadiumCount)
     .fill('')
-    .map((_, i) => `${String.fromCharCode(65 + i)}구장`);
+    .map((_, i) => `${String.fromCharCode(CHAR_CODE_A + i)}구장`);
   return stadiums.map(stadium => ({ value: stadium, text: stadium }));
 };
 

@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 import { checkLogin } from '@/api/loginChecker';
+import { REQUEST_TIMEOUT_MS } from '@/constant/network';
 
 // https://dev.to/vikirobles/how-to-create-an-auth-login-system-with-axios-interceptors-typescript-2k11
 interface IResponseData {
@@ -36,7 +37,7 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
 
 const requestAPI: AxiosInstance = axios.create({
   baseURL: SERVER_ADDRESS, // 기본 서버 주소 입력
-  timeout: 6000,
+  timeout: REQUEST_TIMEOUT_MS,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,3 +1,5 @@
+import { MINUTES_PER_HOUR } from '@/constant/time';
+
 export function generateSchedule(params: IScheduleParams): IMatchScheduleDto[] {
   const { startTime, matchDuration, breakTime, stadiums, groups } = params;
   const matchSchedules: IMatchScheduleDto[] = [];
@@ -33,10 +35,10 @@ export function generateSchedule(params: IScheduleParams): IMatchScheduleDto[] {
 
 function addMinutes(time: string, minutes: number): string {
   const [hours, mins] = time.split(':').map(Number);
-  const totalMinutes = hours * 60 + mins + minutes;
-  const newHours = Math.floor(totalMinutes / 60)
+  const totalMinutes = hours * MINUTES_PER_HOUR + mins + minutes;
+  const newHours = Math.floor(totalMinutes / MINUTES_PER_HOUR)
     .toString()
     .padStart(2, '0');
-  const newMinutes = (totalMinutes % 60).toString().padStart(2, '0');
+  const newMinutes = (totalMinutes % MINUTES_PER_HOUR).toString().padStart(2, '0');
   return `${newHours}:${newMinutes}`;
 }

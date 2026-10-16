@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers -- 선 좌표 계산 전용 숫자는 로컬 유지 */
 import { Coordinate } from './Layout';
 import Line from './Line';
 

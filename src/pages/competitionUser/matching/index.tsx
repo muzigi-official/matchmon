@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Loading from '@/components/common/Loading';
+import { CHAR_CODE_A } from '@/constant/common';
 import {
   useGroupstageWithTeamsQuery,
   useCreateGroupstageMutation,
@@ -56,7 +57,7 @@ export default function MatchingPage() {
   const handleAddGroup = () => {
     setOpenDialog(true);
 
-    const newGroupName = ` ${String.fromCharCode(65 + groups.length)}`;
+    const newGroupName = ` ${String.fromCharCode(CHAR_CODE_A + groups.length)}`;
     setGroupName(newGroupName);
     if (selectedCompetition) {
       createGroupstageMutation.mutate(

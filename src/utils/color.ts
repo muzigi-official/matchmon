@@ -1,3 +1,4 @@
+import { LUMINANCE_WEIGHT, LUMINANCE_DIVISOR } from '@/constant/color';
 import { colors } from '@/styles/colors';
 
 export const darkenColor = (color: string, amount: number) => {
@@ -7,7 +8,7 @@ export const darkenColor = (color: string, amount: number) => {
 
 export const getBrightness = (color: string) => {
   const [r, g, b] = color.match(/\w\w/g)!.map(c => parseInt(c, 16));
-  return (r * 299 + g * 587 + b * 114) / 1000;
+  return (r * LUMINANCE_WEIGHT.R + g * LUMINANCE_WEIGHT.G + b * LUMINANCE_WEIGHT.B) / LUMINANCE_DIVISOR;
 };
 
 export const getCustomColor = (color?: string) => {
