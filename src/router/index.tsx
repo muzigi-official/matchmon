@@ -32,6 +32,7 @@ const CompetitionInputMatchReport = lazy(() => import('@/pages/competitionUser/m
 const CompetitionRank = lazy(() => import('@/pages/competitionUser/rank'));
 
 const Login = lazy(() => import('@/pages/login'));
+const DesignShowcase = lazy(() => import('@/pages/design'));
 
 const routes: RouteObject[] = [
   {
@@ -125,6 +126,7 @@ const routes: RouteObject[] = [
     ],
   },
   { path: '/login', element: <Login /> },
+  { path: '/__design', element: <DesignShowcase /> },
 ];
 
 const router = createBrowserRouter(routes);
